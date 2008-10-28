@@ -1,0 +1,3 @@
+Farnell:
+
+connector RJ45: 3938426
