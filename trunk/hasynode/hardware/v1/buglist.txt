@@ -1,0 +1,4 @@
+controller canosc v 3:
+* extra ontkoppelcapaciteiten toevoegen
+* de can reset niet aan de pic hangen -> pic houdt de controller in reset.
+* misschien is het beter om de RXbuffer full pin ook aan de controller te hangen -> dan moet je niet de hele tijd pollen.
