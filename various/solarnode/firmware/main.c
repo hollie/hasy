@@ -1,21 +1,7 @@
 /*
 Hardware connections:
 
-RA0	RSSI
-RA1 SOLAR (value must be divided by 100, setup:  2x27 Ohm in series, voltage measured over 1 resistor)
-RA2 SUPPLY (value must be divided by 50, setup: 2x10K in series, voltage measured over 1 resistor)
-RA3 VREF+ (2.5V, for the master node VCC 3.3V is used as reference)
-RA4 TEMP (value represents Celsius value)
 
-RB1 soft uart transmitter
-RB2 supply voltage output
-RB3 reference enable
-
-*/
-
-/*
-1 cycle = 1/20MHz * 4 = 200ns
-10Kcycles = 2 ms
 */
 
 #include <p18cxxx.h>
@@ -30,8 +16,6 @@ RB3 reference enable
 #include "solar_node.h"
 
 #define nop(); _asm nop _endasm 
-//#define DIPSW (((~PORTD)&0xF0)>>4)
-
 
 //config settings
 #pragma config OSC = HS
@@ -46,14 +30,6 @@ RB3 reference enable
 #define delay_10ms Delay10KTCYx(5)
 #define delay_2ms Delay10KTCYx(1)
 //variables
-#define UARTBUFFERSIZE 120
-signed char rxdata[UARTBUFFERSIZE];
-unsigned char rxpointer=0;
-
-//extern char spiBuffer[BUFFERSIZE];
-unsigned long stringIndex=0x0;
-unsigned long ix;
-unsigned long sdcounter=0x0;
 
 int i;
 char dip;
@@ -62,15 +38,6 @@ char beaconID=1;
 unsigned int beaconcounter=0;
 
 char wakeup=0;
-
-char nodetemp;
-char nodeRSSI;
-char nodeSolar;
-char nodeSup;
-
-char masterRSSI;
-
-char sent=0;
 
 char seconds=0;
 char minutes=0;
@@ -84,42 +51,14 @@ char RSSI_taken=0;
 
 #define BEACONSIZE 5
 #define PACKETSIZE 105
-#define SLEEPTIME 5
-unsigned int sleepcounter=0;
+#define SLEEPTIME 300
+unsigned int sleepcounter=SLEEPTIME-1;
 
 unsigned long totalseconds=0;
 unsigned long indexCounter=0;
 
 //char test=0;
 
-
-/* soft UART delay functions */
-
-void DelayTXBitUART(void)
-{
-	//32 cycles for 115Kbaud -> adapted to 30, consistent result
-	nop();nop();nop();nop();nop();nop();nop();nop();nop();nop();
-	nop();nop();nop();nop();nop();nop();nop();nop();nop();nop();
-	nop();nop();nop();nop();nop();nop();nop();nop();nop();nop();
-	//nop();nop();
-}
-
-void DelayRXHalfBitUART(void)
-{
-	//13 cycles for 115Kbaud
-	nop();nop();nop();nop();nop();nop();nop();nop();nop();nop();
-	nop();nop();nop();
-}
-
-void DelayRXBitUART(void)
-{
-	//30 cycles for 115Kbaud
-	nop();nop();nop();nop();nop();nop();nop();nop();nop();nop();
-	nop();nop();nop();nop();nop();nop();nop();nop();nop();nop();
-	nop();nop();nop();nop();nop();nop();nop();nop();nop();nop();
-}
-
-/* radio USART functions */
 
 void sendRADIO(char d)
 {
@@ -160,6 +99,9 @@ unsigned char get_solar(void)
 	//turn off AD 
 	ADCON0=0;
 
+	// disable voltage ref
+	PORTAbits.RA2 = 0;
+
 	// return tris bits to input
 	TRISAbits.TRISA4 = 1;
 	TRISAbits.TRISA2 = 1;
@@ -192,6 +134,9 @@ unsigned char get_supply(void)
 	//turn off AD 
 	ADCON0=0;
 
+	// disable voltage ref
+	PORTAbits.RA2 = 0;
+
 	// return tris bits to input
 	TRISAbits.TRISA4 = 1;
 	TRISAbits.TRISA2 = 1;
@@ -221,15 +166,7 @@ void main()
 	RSSItris=1;
 	RADIOtris=0;
 	RADIO=1;	//turn radio off
-	//SDcard
-	PROTECTtris =1;
-	DETECTtris =1;
-	SDCARDtris =0;
-	SDItris=1;
-	SDOtris =0;
-	SCKtris =0;
-	CStris=0;
-	SDCARD=1;	//turn card off
+
 	//DIP
 	TRISEbits.PSPMODE=0;
 	DIP0tris=1;
@@ -260,12 +197,7 @@ void main()
 	//set ER400TRS ready
 	RDY=0;
 
-	//radio receive buffer@19200 baud
-	for(i=0;i<UARTBUFFERSIZE;i++)
-	{
-		rxdata[i]=0;
-	}
-	
+
 	
 	
 	OpenUSART(	USART_TX_INT_OFF &
@@ -298,7 +230,6 @@ void main()
 	//read version from ER400TRS
 	//RADIO=0;	//turn on RADIO
 	delay_100ms;
-	rxpointer=0;
 	
 
 	//read DIP switch
@@ -312,42 +243,10 @@ void main()
 	LEDGREEN=0;	//GREEN data	
 	LEDRED=0; //RED beacons
 
-	//reset rxpointer
-	rxpointer=0;
-	
 	
 	while(1)
 	{
 	
-			
-		//actions before sleep
-	/*	if(wakeup==0x0)
-		{
-			LEDRED=0;
-
-			//turn off USART interrupt to prevent spurious wake-up
-			PIE1bits.RCIE=0;
-				
-			//set all  pins as input
-			RDYtris=1;
-			TXtris=1;
-			//turn off serial port
-			RCSTAbits.SPEN=0;	
-			
-			//turn off radio
-			RADIO=1;
-				
-			// Make sure we TX next time 
-			tx = 1;
-			//go to sleep 
-			nop();nop();nop();
-			Sleep();
-			nop();nop();nop();	
-		}
-		//actions after sleep
-		else
-		{ */
-
 		//turn on USART interrupt
 		RDYtris=0;
 		TXtris=0;
@@ -390,11 +289,7 @@ void main()
 		RDYtris=1;
 		TXtris=1;
 		//turn off serial port
-		RCSTAbits.SPEN=0;	
-			
-		//turn off radio
-		RADIO=1;
-				
+		RCSTAbits.SPEN=0;					
 	
 
 		wakeup = 0;
@@ -435,7 +330,8 @@ void low_isr (void)
 	//USART interrupt
 	if(PIR1bits.RCIF)
 	{
-		rxdata[0]=ReadUSART();
+		char rxdata;
+		rxdata=ReadUSART();
 		PIR1bits.RCIF=0;
 	
 		//spit out data
@@ -462,30 +358,6 @@ void high_isr (void)
 		PIR1bits.TMR1IF=0;
 		WriteTimer1(0x7FFF);	//interrupt every second
 		
-		//local clock
-		seconds++;
-		totalseconds++;
-		if(seconds==60)
-		{
-			seconds=0;
-			minutes++;
-
-			//write stringIndex to EEPROM
-		//	writeStringIndex=1;
-		}
-		if(minutes==60)
-		{
-			minutes=0;
-			hours++;
-
-			
-		}
-		if(hours==24)
-		{
-			hours=0;
-			days++;
-		}
-
 		sleepcounter++;
 		if(sleepcounter==SLEEPTIME)
 		{

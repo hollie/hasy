@@ -1,5 +1,5 @@
 MPLINK 3.90, Linker
-Linker Map File - Created Tue Oct 28 16:31:14 2008
+Linker Map File - Created Wed Oct 29 21:10:03 2008
 
                                  Section Info
                   Section       Type    Address   Location Size(Bytes)
@@ -8,33 +8,33 @@ Linker Map File - Created Tue Oct 28 16:31:14 2008
               high_vector       code   0x000008    program   0x000006
                low_vector       code   0x000018    program   0x000006
                    .cinit    romdata   0x00002a    program   0x00000e
-             .code_main.o       code   0x000038    program   0x000420
-               _cinit_scn       code   0x000458    program   0x00009e
-            .code_uopen.o       code   0x0004f6    program   0x000068
-           .code_t1open.o       code   0x00055e    program   0x000042
-            .code_uread.o       code   0x0005a0    program   0x00003e
-          .code_t1write.o       code   0x0005de    program   0x000038
-             D10KTCYXCODE       code   0x000616    program   0x00002e
-           .code_uwrite.o       code   0x000644    program   0x00002e
-             _startup_scn       code   0x000672    program   0x000018
-        .romdata_uwrite.o    romdata   0x00068a    program   0x000000
-        .idata_uwrite.o_i    romdata   0x00068a    program   0x000000
-       .romdata_t1write.o    romdata   0x00068a    program   0x000000
-       .idata_t1write.o_i    romdata   0x00068a    program   0x000000
-        .romdata_usartd.o    romdata   0x00068a    program   0x000000
-        .idata_usartd.o_i    romdata   0x00068a    program   0x000000
-         .romdata_uread.o    romdata   0x00068a    program   0x000000
-         .idata_uread.o_i    romdata   0x00068a    program   0x000000
-         .romdata_c018i.o    romdata   0x00068a    program   0x000000
-         .romdata_uopen.o    romdata   0x00068a    program   0x000000
-         .idata_uopen.o_i    romdata   0x00068a    program   0x000000
-        .romdata_t1open.o    romdata   0x00068a    program   0x000000
-        .idata_t1open.o_i    romdata   0x00068a    program   0x000000
-          .idata_main.o_i    romdata   0x00068a    program   0x000020
-          .romdata_main.o    romdata   0x00068a    program   0x000000
-            .code_c018i.o       code   0x0006aa    program   0x000000
-           .code_usartd.o       code   0x0006aa    program   0x000000
-         .idata_c018i.o_i    romdata   0x0006aa    program   0x000000
+             .code_main.o       code   0x000038    program   0x00038a
+               _cinit_scn       code   0x0003c2    program   0x00009e
+            .code_uopen.o       code   0x000460    program   0x000068
+           .code_t1open.o       code   0x0004c8    program   0x000042
+            .code_uread.o       code   0x00050a    program   0x00003e
+          .code_t1write.o       code   0x000548    program   0x000038
+             D10KTCYXCODE       code   0x000580    program   0x00002e
+           .code_uwrite.o       code   0x0005ae    program   0x00002e
+             _startup_scn       code   0x0005dc    program   0x000018
+        .romdata_uwrite.o    romdata   0x0005f4    program   0x000000
+        .idata_uwrite.o_i    romdata   0x0005f4    program   0x000000
+       .romdata_t1write.o    romdata   0x0005f4    program   0x000000
+       .idata_t1write.o_i    romdata   0x0005f4    program   0x000000
+        .romdata_usartd.o    romdata   0x0005f4    program   0x000000
+        .idata_usartd.o_i    romdata   0x0005f4    program   0x000000
+         .romdata_uread.o    romdata   0x0005f4    program   0x000000
+         .idata_uread.o_i    romdata   0x0005f4    program   0x000000
+         .romdata_c018i.o    romdata   0x0005f4    program   0x000000
+         .romdata_uopen.o    romdata   0x0005f4    program   0x000000
+         .idata_uopen.o_i    romdata   0x0005f4    program   0x000000
+        .romdata_t1open.o    romdata   0x0005f4    program   0x000000
+        .idata_t1open.o_i    romdata   0x0005f4    program   0x000000
+          .idata_main.o_i    romdata   0x0005f4    program   0x000020
+          .romdata_main.o    romdata   0x0005f4    program   0x000000
+            .code_c018i.o       code   0x000614    program   0x000000
+           .code_usartd.o       code   0x000614    program   0x000000
+         .idata_c018i.o_i    romdata   0x000614    program   0x000000
     .config_300001_main.o    romdata   0x300001    program   0x000001
     .config_300003_main.o    romdata   0x300003    program   0x000001
     .config_300006_main.o    romdata   0x300006    program   0x000001
@@ -74,71 +74,65 @@ Linker Map File - Created Tue Oct 28 16:31:14 2008
                             0x000000    0x000005      
                             0x000008    0x00000d      
                             0x000018    0x00001d      
-                            0x00002a    0x0006a9      
+                            0x00002a    0x000613      
                             0x300001    0x300001      
                             0x300003    0x300003      
                             0x300006    0x300006      
-            1685 out of 33048 program addresses used, program memory utilization is 5%
+            1535 out of 33048 program addresses used, program memory utilization is 4%
 
 
 
                               Symbols - Sorted by Name
                      Name    Address   Location    Storage File                     
                 ---------  ---------  ---------  --------- ---------                
-                   D10K_1   0x000622    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
-                    D10Kl   0x00062e    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
-                    D10Kx   0x000620    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
-             Delay10KTCYx   0x000616    program     extern C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
-           DelayRXBitUART   0x000092    program     extern D:\Exclude\solar_node\main.c
-       DelayRXHalfBitUART   0x000076    program     extern D:\Exclude\solar_node\main.c
-           DelayTXBitUART   0x000038    program     extern D:\Exclude\solar_node\main.c
-               OpenTimer1   0x00055e    program     extern C:\mcc18\src\TRADIT~1\pmc\Timers\t1open.c
-                OpenUSART   0x0004f6    program     extern C:\mcc18\src\TRADIT~1\pmc\USART\uopen.c
-                ReadUSART   0x0005a0    program     extern C:\mcc18\src\TRADIT~1\pmc\USART\uread.c
-              WriteTimer1   0x0005de    program     extern C:\mcc18\src\TRADIT~1\pmc\Timers\t1write.c
-               WriteUSART   0x000644    program     extern C:\mcc18\src\TRADIT~1\pmc\USART\uwrite.c
-       _D10KTCYXCODE_0010   0x000626    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
-       _D10KTCYXCODE_001C   0x000632    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
-          ___for_lbl00016   0x00029c    program     static                          
-          ___for_lbl00017   0x0002a6    program     static                          
-          ___for_lbl00018   0x000276    program     static                          
-           ___if_lbl00021   0x00030a    program     static                          
-           ___if_lbl00022   0x000316    program     static                          
-       ___return_lbl00000   0x000074    program     static                          
+                   D10K_1   0x00058c    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
+                    D10Kl   0x000598    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
+                    D10Kx   0x00058a    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
+             Delay10KTCYx   0x000580    program     extern C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
+               OpenTimer1   0x0004c8    program     extern C:\mcc18\src\TRADIT~1\pmc\Timers\t1open.c
+                OpenUSART   0x000460    program     extern C:\mcc18\src\TRADIT~1\pmc\USART\uopen.c
+                ReadUSART   0x00050a    program     extern C:\mcc18\src\TRADIT~1\pmc\USART\uread.c
+              WriteTimer1   0x000548    program     extern C:\mcc18\src\TRADIT~1\pmc\Timers\t1write.c
+               WriteUSART   0x0005ae    program     extern C:\mcc18\src\TRADIT~1\pmc\USART\uwrite.c
+       _D10KTCYXCODE_0010   0x000590    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
+       _D10KTCYXCODE_001C   0x00059c    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
+          ___for_lbl00013   0x000204    program     static                          
+          ___for_lbl00014   0x00020e    program     static                          
+          ___for_lbl00015   0x0001de    program     static                          
+           ___if_lbl00018   0x000272    program     static                          
+           ___if_lbl00019   0x00027e    program     static                          
        ___return_lbl00000   0x000004    program     static                          
-       ___return_lbl00001   0x000688    program     static                          
-       ___return_lbl00001   0x000090    program     static                          
-       ___return_lbl00002   0x0004f4    program     static                          
-       ___return_lbl00002   0x0000ce    program     static                          
-       ___return_lbl00015   0x00037a    program     static                          
-       ___return_lbl00025   0x00001c    program     static                          
-       ___return_lbl00026   0x00000c    program     static                          
-        ___while_lbl00019   0x0002ec    program     static                          
-        ___while_lbl00020   0x00037a    program     static                          
-        ___while_lbl00023   0x000362    program     static                          
-        ___while_lbl00024   0x000378    program     static                          
-               __config_0   0x300001    program     static D:\Exclude\solar_node\main.c
-               __config_1   0x300003    program     static D:\Exclude\solar_node\main.c
-               __config_2   0x300006    program     static D:\Exclude\solar_node\main.c
-               __tmplbl_2   0x000282    program     static                          
-                _do_cinit   0x000458    program     extern C:\mcc18\src\traditional\startup\c018i.c
+       ___return_lbl00001   0x0005f2    program     static                          
+       ___return_lbl00002   0x00045e    program     static                          
+       ___return_lbl00012   0x0002e2    program     static                          
+       ___return_lbl00022   0x00001c    program     static                          
+       ___return_lbl00023   0x00000c    program     static                          
+        ___while_lbl00016   0x000254    program     static                          
+        ___while_lbl00017   0x0002e2    program     static                          
+        ___while_lbl00020   0x0002ca    program     static                          
+        ___while_lbl00021   0x0002e0    program     static                          
+               __config_0   0x300001    program     static D:\Exclude\hasy\various\solarnode\firmware\main.c
+               __config_1   0x300003    program     static D:\Exclude\hasy\various\solarnode\firmware\main.c
+               __config_2   0x300006    program     static D:\Exclude\hasy\various\solarnode\firmware\main.c
+               __tmplbl_2   0x0001ea    program     static                          
+                _do_cinit   0x0003c2    program     extern C:\mcc18\src\traditional\startup\c018i.c
                    _entry   0x000000    program     extern C:\mcc18\src\traditional\startup\c018i.c
-                 _startup   0x000672    program     extern C:\mcc18\src\traditional\startup\c018i.c
-                copy_loop   0x0004ca    program     static                          
-            copy_one_byte   0x0004d0    program     static                          
-                     done   0x0004f4    program     static                          
-             done_copying   0x0004de    program     static                          
-                get_solar   0x000186    program     extern D:\Exclude\solar_node\main.c
-               get_supply   0x0001ca    program     extern D:\Exclude\solar_node\main.c
-                 high_isr   0x0003b6    program     extern D:\Exclude\solar_node\main.c
- interrupt_at_high_vector   0x000008    program     extern D:\Exclude\solar_node\main.c
-  interrupt_at_low_vector   0x000018    program     extern D:\Exclude\solar_node\main.c
-                     loop   0x000682    program     static                          
-                  low_isr   0x000386    program     extern D:\Exclude\solar_node\main.c
-                     main   0x00020e    program     extern D:\Exclude\solar_node\main.c
-                sendRADIO   0x0000d0    program     extern D:\Exclude\solar_node\main.c
-              stringRADIO   0x0000f0    program     extern D:\Exclude\solar_node\main.c
-                     test   0x000472    program     static                          
+                 _startup   0x0005dc    program     extern C:\mcc18\src\traditional\startup\c018i.c
+                copy_loop   0x000434    program     static                          
+            copy_one_byte   0x00043a    program     static                          
+                     done   0x00045e    program     static                          
+             done_copying   0x000448    program     static                          
+                get_solar   0x0000ee    program     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+               get_supply   0x000132    program     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+                 high_isr   0x00031e    program     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+ interrupt_at_high_vector   0x000008    program     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+  interrupt_at_low_vector   0x000018    program     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+                     loop   0x0005ec    program     static                          
+                  low_isr   0x0002ee    program     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+                     main   0x000176    program     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+                sendRADIO   0x000038    program     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+              stringRADIO   0x000058    program     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+                     test   0x0003dc    program     static                          
                    ADCON0   0x000fc2       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f458.asm
                ADCON0bits   0x000fc2       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f458.asm
                    ADCON1   0x000fc1       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f458.asm
@@ -290,7 +284,7 @@ Linker Map File - Created Tue Oct 28 16:31:14 2008
                     RCREG   0x000fae       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f458.asm
                     RCSTA   0x000fab       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f458.asm
                 RCSTAbits   0x000fab       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f458.asm
-               RSSI_taken   0x000115       data     extern D:\Exclude\solar_node\main.c
+               RSSI_taken   0x000115       data     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
                   RXB0CON   0x000f60       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f458.asm
               RXB0CONbits   0x000f60       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f458.asm
                    RXB0D0   0x000f66       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f458.asm
@@ -555,37 +549,37 @@ Linker Map File - Created Tue Oct 28 16:31:14 2008
                    WDTCON   0x000fd1       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f458.asm
                WDTCONbits   0x000fd1       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f458.asm
                      WREG   0x000fe8       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f458.asm
-                  __tmp_0   0x000000       data     static D:\Exclude\solar_node\main.c
-                 beaconID   0x00010a       data     extern D:\Exclude\solar_node\main.c
-            beaconcounter   0x00010b       data     extern D:\Exclude\solar_node\main.c
-            button_pushed   0x000113       data     extern D:\Exclude\solar_node\main.c
+                  __tmp_0   0x000000       data     static D:\Exclude\hasy\various\solarnode\firmware\main.c
+                 beaconID   0x00010a       data     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+            beaconcounter   0x00010b       data     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+            button_pushed   0x000113       data     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
                 curr_byte   0x0000e7       data     static C:\mcc18\src\traditional\startup\c018i.c
                curr_entry   0x0000e9       data     static C:\mcc18\src\traditional\startup\c018i.c
                  data_ptr   0x0000eb       data     static C:\mcc18\src\traditional\startup\c018i.c
-                     days   0x000112       data     extern D:\Exclude\solar_node\main.c
-                      dip   0x0000de       data     extern D:\Exclude\solar_node\main.c
-                    hours   0x000111       data     extern D:\Exclude\solar_node\main.c
-                        i   0x0000dc       data     extern D:\Exclude\solar_node\main.c
-             indexCounter   0x00011c       data     extern D:\Exclude\solar_node\main.c
-                       ix   0x0000d8       data     extern D:\Exclude\solar_node\main.c
-               masterRSSI   0x0000e3       data     extern D:\Exclude\solar_node\main.c
-                  minutes   0x000110       data     extern D:\Exclude\solar_node\main.c
-                 nodeRSSI   0x0000e0       data     extern D:\Exclude\solar_node\main.c
-                nodeSolar   0x0000e1       data     extern D:\Exclude\solar_node\main.c
-                  nodeSup   0x0000e2       data     extern D:\Exclude\solar_node\main.c
-                 nodetemp   0x0000df       data     extern D:\Exclude\solar_node\main.c
+                     days   0x000112       data     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+                      dip   0x0000de       data     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+                    hours   0x000111       data     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+                        i   0x0000dc       data     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+             indexCounter   0x00011c       data     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+                       ix   0x0000d8       data     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+               masterRSSI   0x0000e3       data     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+                  minutes   0x000110       data     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+                 nodeRSSI   0x0000e0       data     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+                nodeSolar   0x0000e1       data     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+                  nodeSup   0x0000e2       data     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+                 nodetemp   0x0000df       data     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
                      prom   0x0000e4       data     static C:\mcc18\src\traditional\startup\c018i.c
-                   rxdata   0x000060       data     extern D:\Exclude\solar_node\main.c
-                rxpointer   0x000100       data     extern D:\Exclude\solar_node\main.c
-                sdcounter   0x000105       data     extern D:\Exclude\solar_node\main.c
-                  seconds   0x00010f       data     extern D:\Exclude\solar_node\main.c
-               sendbeacon   0x000109       data     extern D:\Exclude\solar_node\main.c
-                     sent   0x00010e       data     extern D:\Exclude\solar_node\main.c
-             sleepcounter   0x000116       data     extern D:\Exclude\solar_node\main.c
-              stringIndex   0x000101       data     extern D:\Exclude\solar_node\main.c
-             totalseconds   0x000118       data     extern D:\Exclude\solar_node\main.c
-                   wakeup   0x00010d       data     extern D:\Exclude\solar_node\main.c
-         writeStringIndex   0x000114       data     extern D:\Exclude\solar_node\main.c
+                   rxdata   0x000060       data     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+                rxpointer   0x000100       data     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+                sdcounter   0x000105       data     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+                  seconds   0x00010f       data     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+               sendbeacon   0x000109       data     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+                     sent   0x00010e       data     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+             sleepcounter   0x000116       data     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+              stringIndex   0x000101       data     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+             totalseconds   0x000118       data     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+                   wakeup   0x00010d       data     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+         writeStringIndex   0x000114       data     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
 
 
 
@@ -594,96 +588,90 @@ Linker Map File - Created Tue Oct 28 16:31:14 2008
                 ---------  ---------  ---------  --------- ---------                
                    _entry   0x000000    program     extern C:\mcc18\src\traditional\startup\c018i.c
        ___return_lbl00000   0x000004    program     static                          
- interrupt_at_high_vector   0x000008    program     extern D:\Exclude\solar_node\main.c
-       ___return_lbl00026   0x00000c    program     static                          
-  interrupt_at_low_vector   0x000018    program     extern D:\Exclude\solar_node\main.c
-       ___return_lbl00025   0x00001c    program     static                          
-           DelayTXBitUART   0x000038    program     extern D:\Exclude\solar_node\main.c
-       ___return_lbl00000   0x000074    program     static                          
-       DelayRXHalfBitUART   0x000076    program     extern D:\Exclude\solar_node\main.c
-       ___return_lbl00001   0x000090    program     static                          
-           DelayRXBitUART   0x000092    program     extern D:\Exclude\solar_node\main.c
-       ___return_lbl00002   0x0000ce    program     static                          
-                sendRADIO   0x0000d0    program     extern D:\Exclude\solar_node\main.c
-              stringRADIO   0x0000f0    program     extern D:\Exclude\solar_node\main.c
-                get_solar   0x000186    program     extern D:\Exclude\solar_node\main.c
-               get_supply   0x0001ca    program     extern D:\Exclude\solar_node\main.c
-                     main   0x00020e    program     extern D:\Exclude\solar_node\main.c
-          ___for_lbl00018   0x000276    program     static                          
-               __tmplbl_2   0x000282    program     static                          
-          ___for_lbl00016   0x00029c    program     static                          
-          ___for_lbl00017   0x0002a6    program     static                          
-        ___while_lbl00019   0x0002ec    program     static                          
-           ___if_lbl00021   0x00030a    program     static                          
-           ___if_lbl00022   0x000316    program     static                          
-        ___while_lbl00023   0x000362    program     static                          
-        ___while_lbl00024   0x000378    program     static                          
-       ___return_lbl00015   0x00037a    program     static                          
-        ___while_lbl00020   0x00037a    program     static                          
-                  low_isr   0x000386    program     extern D:\Exclude\solar_node\main.c
-                 high_isr   0x0003b6    program     extern D:\Exclude\solar_node\main.c
-                _do_cinit   0x000458    program     extern C:\mcc18\src\traditional\startup\c018i.c
-                     test   0x000472    program     static                          
-                copy_loop   0x0004ca    program     static                          
-            copy_one_byte   0x0004d0    program     static                          
-             done_copying   0x0004de    program     static                          
-       ___return_lbl00002   0x0004f4    program     static                          
-                     done   0x0004f4    program     static                          
-                OpenUSART   0x0004f6    program     extern C:\mcc18\src\TRADIT~1\pmc\USART\uopen.c
-               OpenTimer1   0x00055e    program     extern C:\mcc18\src\TRADIT~1\pmc\Timers\t1open.c
-                ReadUSART   0x0005a0    program     extern C:\mcc18\src\TRADIT~1\pmc\USART\uread.c
-              WriteTimer1   0x0005de    program     extern C:\mcc18\src\TRADIT~1\pmc\Timers\t1write.c
-             Delay10KTCYx   0x000616    program     extern C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
-                    D10Kx   0x000620    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
-                   D10K_1   0x000622    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
-       _D10KTCYXCODE_0010   0x000626    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
-                    D10Kl   0x00062e    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
-       _D10KTCYXCODE_001C   0x000632    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
-               WriteUSART   0x000644    program     extern C:\mcc18\src\TRADIT~1\pmc\USART\uwrite.c
-                 _startup   0x000672    program     extern C:\mcc18\src\traditional\startup\c018i.c
-                     loop   0x000682    program     static                          
-       ___return_lbl00001   0x000688    program     static                          
-               __config_0   0x300001    program     static D:\Exclude\solar_node\main.c
-               __config_1   0x300003    program     static D:\Exclude\solar_node\main.c
-               __config_2   0x300006    program     static D:\Exclude\solar_node\main.c
-                  __tmp_0   0x000000       data     static D:\Exclude\solar_node\main.c
+ interrupt_at_high_vector   0x000008    program     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+       ___return_lbl00023   0x00000c    program     static                          
+  interrupt_at_low_vector   0x000018    program     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+       ___return_lbl00022   0x00001c    program     static                          
+                sendRADIO   0x000038    program     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+              stringRADIO   0x000058    program     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+                get_solar   0x0000ee    program     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+               get_supply   0x000132    program     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+                     main   0x000176    program     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+          ___for_lbl00015   0x0001de    program     static                          
+               __tmplbl_2   0x0001ea    program     static                          
+          ___for_lbl00013   0x000204    program     static                          
+          ___for_lbl00014   0x00020e    program     static                          
+        ___while_lbl00016   0x000254    program     static                          
+           ___if_lbl00018   0x000272    program     static                          
+           ___if_lbl00019   0x00027e    program     static                          
+        ___while_lbl00020   0x0002ca    program     static                          
+        ___while_lbl00021   0x0002e0    program     static                          
+       ___return_lbl00012   0x0002e2    program     static                          
+        ___while_lbl00017   0x0002e2    program     static                          
+                  low_isr   0x0002ee    program     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+                 high_isr   0x00031e    program     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+                _do_cinit   0x0003c2    program     extern C:\mcc18\src\traditional\startup\c018i.c
+                     test   0x0003dc    program     static                          
+                copy_loop   0x000434    program     static                          
+            copy_one_byte   0x00043a    program     static                          
+             done_copying   0x000448    program     static                          
+       ___return_lbl00002   0x00045e    program     static                          
+                     done   0x00045e    program     static                          
+                OpenUSART   0x000460    program     extern C:\mcc18\src\TRADIT~1\pmc\USART\uopen.c
+               OpenTimer1   0x0004c8    program     extern C:\mcc18\src\TRADIT~1\pmc\Timers\t1open.c
+                ReadUSART   0x00050a    program     extern C:\mcc18\src\TRADIT~1\pmc\USART\uread.c
+              WriteTimer1   0x000548    program     extern C:\mcc18\src\TRADIT~1\pmc\Timers\t1write.c
+             Delay10KTCYx   0x000580    program     extern C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
+                    D10Kx   0x00058a    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
+                   D10K_1   0x00058c    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
+       _D10KTCYXCODE_0010   0x000590    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
+                    D10Kl   0x000598    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
+       _D10KTCYXCODE_001C   0x00059c    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
+               WriteUSART   0x0005ae    program     extern C:\mcc18\src\TRADIT~1\pmc\USART\uwrite.c
+                 _startup   0x0005dc    program     extern C:\mcc18\src\traditional\startup\c018i.c
+                     loop   0x0005ec    program     static                          
+       ___return_lbl00001   0x0005f2    program     static                          
+               __config_0   0x300001    program     static D:\Exclude\hasy\various\solarnode\firmware\main.c
+               __config_1   0x300003    program     static D:\Exclude\hasy\various\solarnode\firmware\main.c
+               __config_2   0x300006    program     static D:\Exclude\hasy\various\solarnode\firmware\main.c
+                  __tmp_0   0x000000       data     static D:\Exclude\hasy\various\solarnode\firmware\main.c
                      SIGN   0x000003       data     extern C:\MCC18\SRC\TRADIT~1\MATH\cmath18.asm
                   FPFLAGS   0x000004       data     extern C:\MCC18\SRC\TRADIT~1\MATH\cmath18.asm
               FPFLAGSbits   0x000004       data     extern C:\MCC18\SRC\TRADIT~1\MATH\cmath18.asm
             DelayCounter2   0x000005       data     extern C:\MCC18\SRC\TRADIT~1\DELAYS\delayd2.asm
             DelayCounter1   0x000006       data     extern C:\MCC18\SRC\TRADIT~1\DELAYS\delayd1.asm
-                   rxdata   0x000060       data     extern D:\Exclude\solar_node\main.c
-                       ix   0x0000d8       data     extern D:\Exclude\solar_node\main.c
-                        i   0x0000dc       data     extern D:\Exclude\solar_node\main.c
-                      dip   0x0000de       data     extern D:\Exclude\solar_node\main.c
-                 nodetemp   0x0000df       data     extern D:\Exclude\solar_node\main.c
-                 nodeRSSI   0x0000e0       data     extern D:\Exclude\solar_node\main.c
-                nodeSolar   0x0000e1       data     extern D:\Exclude\solar_node\main.c
-                  nodeSup   0x0000e2       data     extern D:\Exclude\solar_node\main.c
-               masterRSSI   0x0000e3       data     extern D:\Exclude\solar_node\main.c
+                   rxdata   0x000060       data     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+                       ix   0x0000d8       data     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+                        i   0x0000dc       data     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+                      dip   0x0000de       data     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+                 nodetemp   0x0000df       data     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+                 nodeRSSI   0x0000e0       data     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+                nodeSolar   0x0000e1       data     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+                  nodeSup   0x0000e2       data     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+               masterRSSI   0x0000e3       data     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
                      prom   0x0000e4       data     static C:\mcc18\src\traditional\startup\c018i.c
                 curr_byte   0x0000e7       data     static C:\mcc18\src\traditional\startup\c018i.c
                curr_entry   0x0000e9       data     static C:\mcc18\src\traditional\startup\c018i.c
                  data_ptr   0x0000eb       data     static C:\mcc18\src\traditional\startup\c018i.c
              USART_Status   0x0000ee       data     extern C:\mcc18\src\TRADIT~1\pmc\USART\usartd.c
-                rxpointer   0x000100       data     extern D:\Exclude\solar_node\main.c
-              stringIndex   0x000101       data     extern D:\Exclude\solar_node\main.c
-                sdcounter   0x000105       data     extern D:\Exclude\solar_node\main.c
-               sendbeacon   0x000109       data     extern D:\Exclude\solar_node\main.c
-                 beaconID   0x00010a       data     extern D:\Exclude\solar_node\main.c
-            beaconcounter   0x00010b       data     extern D:\Exclude\solar_node\main.c
-                   wakeup   0x00010d       data     extern D:\Exclude\solar_node\main.c
-                     sent   0x00010e       data     extern D:\Exclude\solar_node\main.c
-                  seconds   0x00010f       data     extern D:\Exclude\solar_node\main.c
-                  minutes   0x000110       data     extern D:\Exclude\solar_node\main.c
-                    hours   0x000111       data     extern D:\Exclude\solar_node\main.c
-                     days   0x000112       data     extern D:\Exclude\solar_node\main.c
-            button_pushed   0x000113       data     extern D:\Exclude\solar_node\main.c
-         writeStringIndex   0x000114       data     extern D:\Exclude\solar_node\main.c
-               RSSI_taken   0x000115       data     extern D:\Exclude\solar_node\main.c
-             sleepcounter   0x000116       data     extern D:\Exclude\solar_node\main.c
-             totalseconds   0x000118       data     extern D:\Exclude\solar_node\main.c
-             indexCounter   0x00011c       data     extern D:\Exclude\solar_node\main.c
+                rxpointer   0x000100       data     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+              stringIndex   0x000101       data     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+                sdcounter   0x000105       data     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+               sendbeacon   0x000109       data     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+                 beaconID   0x00010a       data     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+            beaconcounter   0x00010b       data     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+                   wakeup   0x00010d       data     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+                     sent   0x00010e       data     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+                  seconds   0x00010f       data     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+                  minutes   0x000110       data     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+                    hours   0x000111       data     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+                     days   0x000112       data     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+            button_pushed   0x000113       data     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+         writeStringIndex   0x000114       data     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+               RSSI_taken   0x000115       data     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+             sleepcounter   0x000116       data     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+             totalseconds   0x000118       data     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+             indexCounter   0x00011c       data     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
              RXF0SIDHbits   0x000f00       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f458.asm
                  RXF0SIDH   0x000f00       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f458.asm
                  RXF0SIDL   0x000f01       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f458.asm
