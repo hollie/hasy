@@ -1,16 +1,12 @@
 /*
 Hardware connections:
 
-
+ to be completed
 */
 
 #include <p18cxxx.h>
 #include <delays.h>
 #include <usart.h>
-#include <spi.h>
-#include <sw_uart.h>
-#include <math.h>
-#include <stdio.h>
 #include <timers.h>
 #include <adc.h>
 #include "solar_node.h"
@@ -24,42 +20,20 @@ Hardware connections:
 #pragma config DEBUG = OFF
 
 //delay functions
-#define delay_500ms Delay10KTCYx(250)
-#define delay_100ms Delay10KTCYx(50)
 #define delay_20ms Delay10KTCYx(10)
 #define delay_10ms Delay10KTCYx(5)
 #define delay_2ms Delay10KTCYx(1)
-//variables
+#define delay_1ms Delay1KTCYx(5)
+#define delay_50us Delay10TCYx(25)
 
-int i;
-char dip;
-char sendbeacon=0;
-char beaconID=1;
-unsigned int beaconcounter=0;
+//variables
 
 char wakeup=0;
 
-char seconds=0;
-char minutes=0;
-char hours=0;
-char days=0;
+#define SLEEPTIME 4*5    				// A single sleeptime represents a 15-second interval (4 = one minute)
+unsigned int sleepcounter=SLEEPTIME-1; 	// Make sure to perform a first transmission after 15 seconds
 
-char button_pushed=0;
-char writeStringIndex=0;
-
-char RSSI_taken=0;
-
-#define BEACONSIZE 5
-#define PACKETSIZE 105
-#define SLEEPTIME 300
-unsigned int sleepcounter=SLEEPTIME-1;
-
-unsigned long totalseconds=0;
-unsigned long indexCounter=0;
-
-//char test=0;
-
-
+// UART helper functions
 void sendRADIO(char d)
 {
 	while(BusyUSART());
@@ -73,7 +47,7 @@ void stringRADIO(const far rom char* str)
 		sendRADIO(str[i++]);
 }
 
-
+// Measure solar panel voltage
 unsigned char get_solar(void)
 {
 	unsigned char adc_val = 0;
@@ -88,7 +62,7 @@ unsigned char get_solar(void)
 	ADCON0=0x89;	
 	ADCON1=0x05;
 		
-	delay_2ms;	//acquisition time
+	delay_50us;	//acquisition time
 
 	ADCON0bits.GO=1;
 	while(ADCON0bits.GO)
@@ -102,13 +76,10 @@ unsigned char get_solar(void)
 	// disable voltage ref
 	PORTAbits.RA2 = 0;
 
-	// return tris bits to input
-	TRISAbits.TRISA4 = 1;
-	TRISAbits.TRISA2 = 1;
-	
 	return adc_val;
 }
 
+// Measure the own vcc
 unsigned char get_supply(void)
 {
 	unsigned char adc_val = 0;
@@ -123,7 +94,7 @@ unsigned char get_supply(void)
 	ADCON0=0x99;	
 	ADCON1=0x04;
 		
-	delay_2ms;	//acquisition time
+	delay_50us;	//acquisition time
 
 	ADCON0bits.GO=1;
 	while(ADCON0bits.GO)
@@ -137,125 +108,105 @@ unsigned char get_supply(void)
 	// disable voltage ref
 	PORTAbits.RA2 = 0;
 
-	// return tris bits to input
-	TRISAbits.TRISA4 = 1;
-	TRISAbits.TRISA2 = 1;
-	
+
 	return adc_val;
 }
-void main()
-{
-	unsigned char solar_value = 0;
-	unsigned char supply_value = 0;
-	unsigned char tx          = 0;
 
-	//init
-	//switch
-	SWITCHtris=1;
-	//LED
-	LED0tris=0;
-	LED1tris=0;
+// Hardware initialisation
+void init(void) {
+
+	// First some power management related stuff: make sure no pins are leaking when we're asleep
+	//////////////////////////////////////////////////////////////////////////////////////////////
+
+	// Set all ports that are not required to be input as output to be low-power (see PIC datasheet, section 'sleep mode')
+	TRISA = 0x2B; // RA0, 1, 3, 5 are inputs
+	TRISB = 0xF1; // Portb connected to progger, SDCARD and switch
+	TRISC = 0x83; // Serial port RX pin on RC7, crystal on RC0/RC1
+	TRISD = 0x00;
+	TRISE = 0x02; // Radio busy pin on RE1
+
+    // Drive IO's to known low-power state
 	LED0=0;
 	LED1=0;
-	
-	//wireless	
-	BSYtris=1;
-	RDYtris=0;
-	TXtris=0;
-	RXtris=1;
-	RSSItris=1;
-	RADIOtris=0;
-	RADIO=1;	//turn radio off
-
-	//DIP
-	TRISEbits.PSPMODE=0;
-	DIP0tris=1;
-	DIP1tris=1;
-	DIP2tris=1;
-	DIP3tris=1;
-	//turn off internal pull-ups
-	INTCON2bits.RBPU=1;		
-	//turn off WDT
-	WDTCONbits.SWDTEN=0;
-	//turn off AD
-	ADCON0bits.ADON=0;
-	//comparator off
-	CMCON=0x7;
-	//temp sensor	
-	VCCTEMPtris=0;
-	TEMPtris=1;
-	VCCTEMP=0;	//turn temp sensor off
-
-	//ADC reference 2.5V
-	REFtris=0;
-	REF=0;
-
-	//Supply measurement 
-	SUPtris=0;
-	SUP=0;
-
-	//set ER400TRS ready
 	RDY=0;
+	SDI = 1; // Pull-up resistor, make sure to drive this line high to avoid leakage
+	SDO = 1; // Pull-up resistor, make sure to drive this line high to avoid leakage
+
+	// Power of subsections of the system
+	RADIO=1;	//turn radio off
+	VCCTEMP=0;	//turn temp sensor off
+	SDCARD=1;	//turn card off
+
+	// Turn off internal pull-ups
+	INTCON2bits.RBPU=1;		
+	// Turn off WDT
+	WDTCONbits.SWDTEN=0;
+	// Turn off AD
+	ADCON0bits.ADON=0;
+	// Comparator off
+	CMCON=0x7;
 
 
-	
-	
+
+	// Then follow the regular subsystem init routines
+	/////////////////////////////////////////////
 	OpenUSART(	USART_TX_INT_OFF &
-				USART_RX_INT_ON &		
+				USART_RX_INT_OFF &		
 				USART_ASYNCH_MODE &
 				USART_EIGHT_BIT &
 				USART_CONT_RX &
 				USART_BRGH_HIGH,64);
 
-
-	IPR1bits.RCIP=0;	//set low priority
+	IPR1bits.RCIP=0;	//set low priority for RX interrupt, will not be used anyway
 
 	//timer1 32kHz sleep timer
 	OpenTimer1(		TIMER_INT_ON	&
 					T1_16BIT_RW		&
 					T1_SOURCE_EXT	&
-					T1_PS_1_1		&
+					T1_PS_1_8		&
 					T1_OSC1EN_ON	&
 					T1_SYNC_EXT_OFF);
 	
 	IPR1bits.TMR1IP=1;		//set high priority
 
-	INTCONbits.INT0IE=1;
+	INTCONbits.INT0IE=0;	// no external interrupt
 
 	//global interrupt activation
 	RCONbits.IPEN = 1;	//enable priority
 	INTCONbits.GIEH=1;	//enable hi priority
-	INTCONbits.GIEL=1;	//enable lo priority
+	INTCONbits.GIEL=0;	//enable lo priority
 	
-	//read version from ER400TRS
-	//RADIO=0;	//turn on RADIO
-	delay_100ms;
-	
+	return;
+}
 
-	//read DIP switch
-	//////////////////////// define board type here 0: central node 1:node1 2:node2 ////////////////////
-	dip=0x1;
-	///////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	//if(dip!=0x0)
-	//	RADIO=1;	//turn off radio
+// Main program function
+void main()
+{
+	unsigned char solar_value  = 0;
+	unsigned char supply_value = 0;
+	unsigned char tx           = 0;
+	unsigned char do_transmit  = 0;
 
-	LEDGREEN=0;	//GREEN data	
-	LEDRED=0; //RED beacons
+	// Hardware init
+	init();
 
-	
+
+
+	// Main loop	
 	while(1)
 	{
-	
-		//turn on USART interrupt
-		RDYtris=0;
-		TXtris=0;
-		RCSTAbits.SPEN=1;	
-		PIE1bits.RCIE=1;
+		// Normally, we do transmit
+		do_transmit = 1;
+		
 		// Get solar valuel
 		solar_value = get_solar();
 		supply_value = get_supply();
 
+		// If the supply voltage is too low, we do not enable the radio to save power.
+		// The radio works if VCC > 2.5V, the pic if VCC > 2 V. No need to drain the ultracap
+		// when the radio is not working correctly.
+		if (supply_value >= 0xFC) { do_transmit = 0; }
+		
 		// Make sure the value does not equal our end of line character '*'
 		if (solar_value == '*'){
 			solar_value+=1;
@@ -264,36 +215,39 @@ void main()
 			supply_value+=1;
 		}
 
-		//turn on radio
-		RADIO=0;
-		delay_20ms;
+		if (do_transmit) {
 
-		//LEDRED=1;
+			//turn on USART interrupt
+			//RDYtris=0;
+			//TXtris=0;
+			RCSTAbits.SPEN=1;	
+			//PIE1bits.RCIE=1;
 
-		sendRADIO(0x01);
-		sendRADIO(solar_value);
-		sendRADIO(supply_value);
-		sendRADIO('*');
-		delay_20ms;
+			//turn on radio
+			RADIO=0;
+			delay_10ms;
+			delay_2ms;
+			delay_2ms;
+
+			//LEDRED=1;
+
+			sendRADIO(0x01);
+			sendRADIO(solar_value);
+			sendRADIO(supply_value);
+			sendRADIO('*');
+			delay_20ms;
+			delay_2ms;
 			
-		//turn off radio
-		RADIO=1;
-		//LEDRED=0;
-		tx = 0;
-
-		//}	
-		//turn off USART interrupt to prevent spurious wake-up
-		PIE1bits.RCIE=0;
-				
-		//set all  pins as input
-		RDYtris=1;
-		TXtris=1;
-		//turn off serial port
-		RCSTAbits.SPEN=0;					
+			//turn off radio
+			RADIO=1;
+			//LEDRED=0;
+			tx = 0;
+			// Turn off serial port.
+			RCSTAbits.SPEN=0;					
 	
+		}
 
 		wakeup = 0;
-
 		while (wakeup==0){
 			//go to sleep 
 			nop();nop();nop();
@@ -348,7 +302,6 @@ void high_isr (void)
 	if(INTCONbits.INT0IF)
 	{
 		INTCONbits.INT0IF=0;
-		button_pushed=1;
 	}
 
 
@@ -356,7 +309,7 @@ void high_isr (void)
 	if(PIR1bits.TMR1IF)
 	{
 		PIR1bits.TMR1IF=0;
-		WriteTimer1(0x7FFF);	//interrupt every second
+		WriteTimer1(0x1000);	//interrupt every 15 seconds when prescaler is 8
 		
 		sleepcounter++;
 		if(sleepcounter==SLEEPTIME)
