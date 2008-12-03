@@ -1,7 +1,17 @@
 /*
-Hardware connections:
+Firmware for autonomous wireless ambient light sensor.
 
- to be completed
+Based on:
+ * PIC18LF485
+ * Easyradio 433 MHz transmitter
+ * Sparkfun solar panel (http://www.sparkfun.com/commerce/product_info.php?products_id=7845)
+ * Maxwell PC5-S ultracapacitor
+ 
+Hardware connections:
+ * 2.5V reference between RA4 and RA3
+ * current limiting resistor between RA2 and RA2 (for 2.5V reference)
+ * solar panel output divided by 2 to RA1
+
 */
 
 #include <p18cxxx.h>
@@ -112,6 +122,7 @@ unsigned char get_supply(void)
 	return adc_val;
 }
 
+// Measure temperature on LM60
 unsigned char get_temp()
 {
 	unsigned char temp_val = 0;
@@ -246,15 +257,19 @@ void main()
 		supply_value = get_supply();
 
 		// If we should transmit temperature and supply level is above 2.7V, measure temperature
-		if (tx_mode == 1){
+		if (tx_mode == 1 && supply_value <= 0xEC){
 			temperature = get_temp();
-		}
+		} else {
+			// If it is below 2.7V, the temperature sensor is not working, hence we fallback to tx_mode 0 
+			tx_mode = 0;
+		}	
 
 		// If the supply voltage is too low, we do not enable the radio to save power.
 		// The radio works if VCC > 2.5V, the pic if VCC > 2 V. No need to drain the ultracap
 		// when the radio is not working correctly.
 		if (supply_value >= 0xFC) { do_transmit = 0; }
 		
+
 		// Make sure the value does not equal our end of line character '*'
 		if (solar_value == '*'){
 			solar_value+=1;
