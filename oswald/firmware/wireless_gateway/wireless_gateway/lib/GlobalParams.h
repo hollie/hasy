@@ -33,9 +33,9 @@
 #define CLOCK_DIV_VC2          0x0     // VC2 clock divider 
 #define CLOCK_DIV_VC2_MASK     0xf     // VC2 clock divider mask
 #define CLOCK_DIV_VC2_JUST     0x0     // VC2 clock divider justified
-#define CLOCK_INPUT_VC3        0x0     // VC3 clock source
+#define CLOCK_INPUT_VC3        0x1     // VC3 clock source
 #define CLOCK_INPUT_VC3_MASK   0x3     // VC3 clock source mask
-#define CLOCK_INPUT_VC3_JUST   0x0     // VC3 clock source justified
+#define CLOCK_INPUT_VC3_JUST   0x1     // VC3 clock source justified
 #define CLOCK_DIV_VC3          0x0     // VC3 clock divider
 #define CLOCK_DIV_VC3_MASK     0xff    // VC3 clock divider mask
 #define CLOCK_DIV_VC3_JUST     0x0     // VC3 clock divider justified
@@ -86,9 +86,9 @@
 #define PORT_2_INTCTRL_0       0x0     //Port 2 interrupt control 0 register (PRT2IC0)
 #define PORT_2_INTCTRL_1       0x0     //Port 2 interrupt control 1 register (PRT2IC1)
 #define PORT_3_GLOBAL_SELECT   0x0     //Port 3 global select register (PRT3GS)
-#define PORT_3_DRIVE_0         0x0     //Port 3 drive mode 0 register (PRT3DM0)
-#define PORT_3_DRIVE_1         0xff    //Port 3 drive mode 1 register (PRT3DM1)
-#define PORT_3_DRIVE_2         0xff    //Port 3 drive mode 2 register (PRT3DM2)
+#define PORT_3_DRIVE_0         0x80    //Port 3 drive mode 0 register (PRT3DM0)
+#define PORT_3_DRIVE_1         0x7f    //Port 3 drive mode 1 register (PRT3DM1)
+#define PORT_3_DRIVE_2         0x7f    //Port 3 drive mode 2 register (PRT3DM2)
 #define PORT_3_INTENABLE       0x0     //Port 3 interrupt enable register (PRT3IE)
 #define PORT_3_INTCTRL_0       0x0     //Port 3 interrupt control 0 register (PRT3IC0)
 #define PORT_3_INTCTRL_1       0x0     //Port 3 interrupt control 1 register (PRT3IC1)

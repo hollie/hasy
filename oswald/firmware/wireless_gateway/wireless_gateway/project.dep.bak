@@ -1,6 +1,6 @@
 # DO NOT DELETE
-./obj/main.p1 :  ./lib/Counter8.h ./lib/COUNTE~1.H ./lib/LTRX.h\
-   ./lib/PSoCAPI.h ./lib/UART_IN.h\
+./obj/main.p1 :  ./lib/Counter8.h ./lib/COUNTE~1.H ./lib/LED1.h\
+   ./lib/LTRX.h ./lib/PSoCAPI.h ./lib/Ticker.h ./lib/UART_IN.h\
    C:/PROGRA~1/Cypress/Common/CYPRES~2/tools/include/CY8C29~1/m8c.h
 ./obj/boot.obj : \
    C:/PROGRA~1/Cypress/Common/CYPRES~2/tools/include/CY8C29~1/m8c.inc\
