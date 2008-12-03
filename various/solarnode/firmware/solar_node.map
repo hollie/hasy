@@ -1,5 +1,5 @@
 MPLINK 3.90, Linker
-Linker Map File - Created Thu Oct 30 15:08:29 2008
+Linker Map File - Created Wed Dec 03 15:31:00 2008
 
                                  Section Info
                   Section       Type    Address   Location Size(Bytes)
@@ -8,34 +8,34 @@ Linker Map File - Created Thu Oct 30 15:08:29 2008
               high_vector       code   0x000008    program   0x000006
                low_vector       code   0x000018    program   0x000006
                    .cinit    romdata   0x00002a    program   0x00000e
-             .code_main.o       code   0x000038    program   0x000316
-               _cinit_scn       code   0x00034e    program   0x00009e
-            .code_uopen.o       code   0x0003ec    program   0x000068
-           .code_t1open.o       code   0x000454    program   0x000042
-            .code_uread.o       code   0x000496    program   0x00003e
-          .code_t1write.o       code   0x0004d4    program   0x000038
-             D10KTCYXCODE       code   0x00050c    program   0x00002e
-           .code_uwrite.o       code   0x00053a    program   0x00002e
-             _startup_scn       code   0x000568    program   0x000018
-              D10TCYXCODE       code   0x000580    program   0x000016
-        .idata_uwrite.o_i    romdata   0x000596    program   0x000000
-        .romdata_uwrite.o    romdata   0x000596    program   0x000000
-       .romdata_t1write.o    romdata   0x000596    program   0x000000
-       .idata_t1write.o_i    romdata   0x000596    program   0x000000
-        .romdata_usartd.o    romdata   0x000596    program   0x000000
-        .idata_usartd.o_i    romdata   0x000596    program   0x000000
-         .romdata_uread.o    romdata   0x000596    program   0x000000
-         .idata_uread.o_i    romdata   0x000596    program   0x000000
-         .romdata_uopen.o    romdata   0x000596    program   0x000000
-         .idata_uopen.o_i    romdata   0x000596    program   0x000000
-        .romdata_t1open.o    romdata   0x000596    program   0x000000
-        .idata_t1open.o_i    romdata   0x000596    program   0x000000
-          .romdata_main.o    romdata   0x000596    program   0x000000
-          .idata_main.o_i    romdata   0x000596    program   0x000003
-         .romdata_c018i.o    romdata   0x000596    program   0x000000
-         .idata_c018i.o_i    romdata   0x000599    program   0x000000
-           .code_usartd.o       code   0x00059a    program   0x000000
-            .code_c018i.o       code   0x00059a    program   0x000000
+             .code_main.o       code   0x000038    program   0x0003ac
+               _cinit_scn       code   0x0003e4    program   0x00009e
+            .code_uopen.o       code   0x000482    program   0x000068
+           .code_t1open.o       code   0x0004ea    program   0x000042
+            .code_uread.o       code   0x00052c    program   0x00003e
+          .code_t1write.o       code   0x00056a    program   0x000038
+             D10KTCYXCODE       code   0x0005a2    program   0x00002e
+           .code_uwrite.o       code   0x0005d0    program   0x00002e
+             _startup_scn       code   0x0005fe    program   0x000018
+              D10TCYXCODE       code   0x000616    program   0x000016
+        .idata_uwrite.o_i    romdata   0x00062c    program   0x000000
+        .romdata_uwrite.o    romdata   0x00062c    program   0x000000
+       .romdata_t1write.o    romdata   0x00062c    program   0x000000
+       .idata_t1write.o_i    romdata   0x00062c    program   0x000000
+        .romdata_usartd.o    romdata   0x00062c    program   0x000000
+        .idata_usartd.o_i    romdata   0x00062c    program   0x000000
+         .romdata_uread.o    romdata   0x00062c    program   0x000000
+         .idata_uread.o_i    romdata   0x00062c    program   0x000000
+         .romdata_uopen.o    romdata   0x00062c    program   0x000000
+         .idata_uopen.o_i    romdata   0x00062c    program   0x000000
+        .romdata_t1open.o    romdata   0x00062c    program   0x000000
+        .idata_t1open.o_i    romdata   0x00062c    program   0x000000
+          .romdata_main.o    romdata   0x00062c    program   0x000000
+          .idata_main.o_i    romdata   0x00062c    program   0x000003
+         .romdata_c018i.o    romdata   0x00062c    program   0x000000
+         .idata_c018i.o_i    romdata   0x00062f    program   0x000000
+           .code_usartd.o       code   0x000630    program   0x000000
+            .code_c018i.o       code   0x000630    program   0x000000
     .config_300001_main.o    romdata   0x300001    program   0x000001
     .config_300003_main.o    romdata   0x300003    program   0x000001
     .config_300006_main.o    romdata   0x300006    program   0x000001
@@ -75,70 +75,77 @@ Linker Map File - Created Thu Oct 30 15:08:29 2008
                             0x000000    0x000005      
                             0x000008    0x00000d      
                             0x000018    0x00001d      
-                            0x00002a    0x000598      
+                            0x00002a    0x00062e      
                             0x300001    0x300001      
                             0x300003    0x300003      
                             0x300006    0x300006      
-            1412 out of 33048 program addresses used, program memory utilization is 4%
+            1562 out of 33048 program addresses used, program memory utilization is 4%
 
 
 
                               Symbols - Sorted by Name
                      Name    Address   Location    Storage File                     
                 ---------  ---------  ---------  --------- ---------                
-                   D10K_1   0x000518    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
-                    D10Kl   0x000524    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
-                    D10Kx   0x000516    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
-                    D10_1   0x000590    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10tcyx.asm
-                     D10x   0x000588    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10tcyx.asm
-             Delay10KTCYx   0x00050c    program     extern C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
-              Delay10TCYx   0x000580    program     extern C:\MCC18\SRC\TRADIT~1\DELAYS\d10tcyx.asm
-               OpenTimer1   0x000454    program     extern C:\mcc18\src\TRADIT~1\pmc\Timers\t1open.c
-                OpenUSART   0x0003ec    program     extern C:\mcc18\src\TRADIT~1\pmc\USART\uopen.c
-                ReadUSART   0x000496    program     extern C:\mcc18\src\TRADIT~1\pmc\USART\uread.c
-              WriteTimer1   0x0004d4    program     extern C:\mcc18\src\TRADIT~1\pmc\Timers\t1write.c
-               WriteUSART   0x00053a    program     extern C:\mcc18\src\TRADIT~1\pmc\USART\uwrite.c
-       _D10KTCYXCODE_0010   0x00051c    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
-       _D10KTCYXCODE_001C   0x000528    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
-        _D10TCYXCODE_000A   0x00058a    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10tcyx.asm
-        _D10TCYXCODE_000C   0x00058c    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10tcyx.asm
-        _D10TCYXCODE_000E   0x00058e    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10tcyx.asm
-           ___if_lbl00016   0x000212    program     static                          
-           ___if_lbl00017   0x00021a    program     static                          
-           ___if_lbl00018   0x000226    program     static                          
-           ___if_lbl00019   0x00028c    program     static                          
+                   D10K_1   0x0005ae    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
+                    D10Kl   0x0005ba    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
+                    D10Kx   0x0005ac    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
+                    D10_1   0x000626    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10tcyx.asm
+                     D10x   0x00061e    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10tcyx.asm
+             Delay10KTCYx   0x0005a2    program     extern C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
+              Delay10TCYx   0x000616    program     extern C:\MCC18\SRC\TRADIT~1\DELAYS\d10tcyx.asm
+               OpenTimer1   0x0004ea    program     extern C:\mcc18\src\TRADIT~1\pmc\Timers\t1open.c
+                OpenUSART   0x000482    program     extern C:\mcc18\src\TRADIT~1\pmc\USART\uopen.c
+                ReadUSART   0x00052c    program     extern C:\mcc18\src\TRADIT~1\pmc\USART\uread.c
+              WriteTimer1   0x00056a    program     extern C:\mcc18\src\TRADIT~1\pmc\Timers\t1write.c
+               WriteUSART   0x0005d0    program     extern C:\mcc18\src\TRADIT~1\pmc\USART\uwrite.c
+       _D10KTCYXCODE_0010   0x0005b2    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
+       _D10KTCYXCODE_001C   0x0005be    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
+        _D10TCYXCODE_000A   0x000620    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10tcyx.asm
+        _D10TCYXCODE_000C   0x000622    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10tcyx.asm
+        _D10TCYXCODE_000E   0x000624    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10tcyx.asm
+         ___else_lbl00025   0x0002de    program     static                          
+         ___else_lbl00028   0x00031e    program     static                          
+           ___if_lbl00019   0x00025e    program     static                          
+           ___if_lbl00020   0x000272    program     static                          
+           ___if_lbl00021   0x00027a    program     static                          
+           ___if_lbl00022   0x000286    program     static                          
+           ___if_lbl00023   0x000292    program     static                          
+           ___if_lbl00024   0x0002e8    program     static                          
+           ___if_lbl00026   0x00030c    program     static                          
+           ___if_lbl00027   0x000322    program     static                          
        ___return_lbl00000   0x000004    program     static                          
-       ___return_lbl00001   0x00057e    program     static                          
-       ___return_lbl00002   0x0003ea    program     static                          
-       ___return_lbl00013   0x0002a8    program     static                          
-       ___return_lbl00022   0x00001c    program     static                          
-       ___return_lbl00023   0x00000c    program     static                          
-        ___while_lbl00014   0x0001e6    program     static                          
-        ___while_lbl00015   0x0002a8    program     static                          
-        ___while_lbl00020   0x000290    program     static                          
-        ___while_lbl00021   0x0002a6    program     static                          
+       ___return_lbl00001   0x000614    program     static                          
+       ___return_lbl00002   0x000480    program     static                          
+       ___return_lbl00016   0x00033e    program     static                          
+       ___return_lbl00031   0x00001c    program     static                          
+       ___return_lbl00032   0x00000c    program     static                          
+        ___while_lbl00017   0x000236    program     static                          
+        ___while_lbl00018   0x00033e    program     static                          
+        ___while_lbl00029   0x000326    program     static                          
+        ___while_lbl00030   0x00033c    program     static                          
                __config_0   0x300001    program     static D:\Exclude\hasy\various\solarnode\firmware\main.c
                __config_1   0x300003    program     static D:\Exclude\hasy\various\solarnode\firmware\main.c
                __config_2   0x300006    program     static D:\Exclude\hasy\various\solarnode\firmware\main.c
-                _do_cinit   0x00034e    program     extern C:\mcc18\src\traditional\startup\c018i.c
+                _do_cinit   0x0003e4    program     extern C:\mcc18\src\traditional\startup\c018i.c
                    _entry   0x000000    program     extern C:\mcc18\src\traditional\startup\c018i.c
-                 _startup   0x000568    program     extern C:\mcc18\src\traditional\startup\c018i.c
-                copy_loop   0x0003c0    program     static                          
-            copy_one_byte   0x0003c6    program     static                          
-                     done   0x0003ea    program     static                          
-             done_copying   0x0003d4    program     static                          
+                 _startup   0x0005fe    program     extern C:\mcc18\src\traditional\startup\c018i.c
+                copy_loop   0x000456    program     static                          
+            copy_one_byte   0x00045c    program     static                          
+                     done   0x000480    program     static                          
+             done_copying   0x00046a    program     static                          
                 get_solar   0x0000ee    program     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
                get_supply   0x000130    program     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
-                 high_isr   0x0002f4    program     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
-                     init   0x000172    program     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+                 get_temp   0x000172    program     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+                 high_isr   0x00038a    program     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+                     init   0x0001ba    program     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
  interrupt_at_high_vector   0x000008    program     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
   interrupt_at_low_vector   0x000018    program     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
-                     loop   0x000578    program     static                          
-                  low_isr   0x0002b4    program     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
-                     main   0x0001ca    program     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+                     loop   0x00060e    program     static                          
+                  low_isr   0x00034a    program     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+                     main   0x000212    program     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
                 sendRADIO   0x000038    program     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
               stringRADIO   0x000058    program     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
-                     test   0x000368    program     static                          
+                     test   0x0003fe    program     static                          
                    ADCON0   0x000fc2       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f458.asm
                ADCON0bits   0x000fc2       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f458.asm
                    ADCON1   0x000fc1       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f458.asm
@@ -570,53 +577,60 @@ Linker Map File - Created Thu Oct 30 15:08:29 2008
                    _entry   0x000000    program     extern C:\mcc18\src\traditional\startup\c018i.c
        ___return_lbl00000   0x000004    program     static                          
  interrupt_at_high_vector   0x000008    program     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
-       ___return_lbl00023   0x00000c    program     static                          
+       ___return_lbl00032   0x00000c    program     static                          
   interrupt_at_low_vector   0x000018    program     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
-       ___return_lbl00022   0x00001c    program     static                          
+       ___return_lbl00031   0x00001c    program     static                          
                 sendRADIO   0x000038    program     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
               stringRADIO   0x000058    program     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
                 get_solar   0x0000ee    program     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
                get_supply   0x000130    program     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
-                     init   0x000172    program     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
-                     main   0x0001ca    program     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
-        ___while_lbl00014   0x0001e6    program     static                          
-           ___if_lbl00016   0x000212    program     static                          
-           ___if_lbl00017   0x00021a    program     static                          
-           ___if_lbl00018   0x000226    program     static                          
-           ___if_lbl00019   0x00028c    program     static                          
-        ___while_lbl00020   0x000290    program     static                          
-        ___while_lbl00021   0x0002a6    program     static                          
-       ___return_lbl00013   0x0002a8    program     static                          
-        ___while_lbl00015   0x0002a8    program     static                          
-                  low_isr   0x0002b4    program     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
-                 high_isr   0x0002f4    program     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
-                _do_cinit   0x00034e    program     extern C:\mcc18\src\traditional\startup\c018i.c
-                     test   0x000368    program     static                          
-                copy_loop   0x0003c0    program     static                          
-            copy_one_byte   0x0003c6    program     static                          
-             done_copying   0x0003d4    program     static                          
-                     done   0x0003ea    program     static                          
-       ___return_lbl00002   0x0003ea    program     static                          
-                OpenUSART   0x0003ec    program     extern C:\mcc18\src\TRADIT~1\pmc\USART\uopen.c
-               OpenTimer1   0x000454    program     extern C:\mcc18\src\TRADIT~1\pmc\Timers\t1open.c
-                ReadUSART   0x000496    program     extern C:\mcc18\src\TRADIT~1\pmc\USART\uread.c
-              WriteTimer1   0x0004d4    program     extern C:\mcc18\src\TRADIT~1\pmc\Timers\t1write.c
-             Delay10KTCYx   0x00050c    program     extern C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
-                    D10Kx   0x000516    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
-                   D10K_1   0x000518    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
-       _D10KTCYXCODE_0010   0x00051c    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
-                    D10Kl   0x000524    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
-       _D10KTCYXCODE_001C   0x000528    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
-               WriteUSART   0x00053a    program     extern C:\mcc18\src\TRADIT~1\pmc\USART\uwrite.c
-                 _startup   0x000568    program     extern C:\mcc18\src\traditional\startup\c018i.c
-                     loop   0x000578    program     static                          
-       ___return_lbl00001   0x00057e    program     static                          
-              Delay10TCYx   0x000580    program     extern C:\MCC18\SRC\TRADIT~1\DELAYS\d10tcyx.asm
-                     D10x   0x000588    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10tcyx.asm
-        _D10TCYXCODE_000A   0x00058a    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10tcyx.asm
-        _D10TCYXCODE_000C   0x00058c    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10tcyx.asm
-        _D10TCYXCODE_000E   0x00058e    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10tcyx.asm
-                    D10_1   0x000590    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10tcyx.asm
+                 get_temp   0x000172    program     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+                     init   0x0001ba    program     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+                     main   0x000212    program     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+        ___while_lbl00017   0x000236    program     static                          
+           ___if_lbl00019   0x00025e    program     static                          
+           ___if_lbl00020   0x000272    program     static                          
+           ___if_lbl00021   0x00027a    program     static                          
+           ___if_lbl00022   0x000286    program     static                          
+           ___if_lbl00023   0x000292    program     static                          
+         ___else_lbl00025   0x0002de    program     static                          
+           ___if_lbl00024   0x0002e8    program     static                          
+           ___if_lbl00026   0x00030c    program     static                          
+         ___else_lbl00028   0x00031e    program     static                          
+           ___if_lbl00027   0x000322    program     static                          
+        ___while_lbl00029   0x000326    program     static                          
+        ___while_lbl00030   0x00033c    program     static                          
+       ___return_lbl00016   0x00033e    program     static                          
+        ___while_lbl00018   0x00033e    program     static                          
+                  low_isr   0x00034a    program     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+                 high_isr   0x00038a    program     extern D:\Exclude\hasy\various\solarnode\firmware\main.c
+                _do_cinit   0x0003e4    program     extern C:\mcc18\src\traditional\startup\c018i.c
+                     test   0x0003fe    program     static                          
+                copy_loop   0x000456    program     static                          
+            copy_one_byte   0x00045c    program     static                          
+             done_copying   0x00046a    program     static                          
+                     done   0x000480    program     static                          
+       ___return_lbl00002   0x000480    program     static                          
+                OpenUSART   0x000482    program     extern C:\mcc18\src\TRADIT~1\pmc\USART\uopen.c
+               OpenTimer1   0x0004ea    program     extern C:\mcc18\src\TRADIT~1\pmc\Timers\t1open.c
+                ReadUSART   0x00052c    program     extern C:\mcc18\src\TRADIT~1\pmc\USART\uread.c
+              WriteTimer1   0x00056a    program     extern C:\mcc18\src\TRADIT~1\pmc\Timers\t1write.c
+             Delay10KTCYx   0x0005a2    program     extern C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
+                    D10Kx   0x0005ac    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
+                   D10K_1   0x0005ae    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
+       _D10KTCYXCODE_0010   0x0005b2    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
+                    D10Kl   0x0005ba    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
+       _D10KTCYXCODE_001C   0x0005be    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
+               WriteUSART   0x0005d0    program     extern C:\mcc18\src\TRADIT~1\pmc\USART\uwrite.c
+                 _startup   0x0005fe    program     extern C:\mcc18\src\traditional\startup\c018i.c
+                     loop   0x00060e    program     static                          
+       ___return_lbl00001   0x000614    program     static                          
+              Delay10TCYx   0x000616    program     extern C:\MCC18\SRC\TRADIT~1\DELAYS\d10tcyx.asm
+                     D10x   0x00061e    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10tcyx.asm
+        _D10TCYXCODE_000A   0x000620    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10tcyx.asm
+        _D10TCYXCODE_000C   0x000622    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10tcyx.asm
+        _D10TCYXCODE_000E   0x000624    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10tcyx.asm
+                    D10_1   0x000626    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10tcyx.asm
                __config_0   0x300001    program     static D:\Exclude\hasy\various\solarnode\firmware\main.c
                __config_1   0x300003    program     static D:\Exclude\hasy\various\solarnode\firmware\main.c
                __config_2   0x300006    program     static D:\Exclude\hasy\various\solarnode\firmware\main.c

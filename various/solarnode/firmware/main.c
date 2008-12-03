@@ -112,6 +112,45 @@ unsigned char get_supply(void)
 	return adc_val;
 }
 
+unsigned char get_temp()
+{
+	unsigned char temp_val = 0;
+
+	// turn on voltage ref
+	TRISAbits.TRISA4 = 0;
+	TRISAbits.TRISA2 = 0;
+	PORTAbits.RA4 = 0;
+	PORTAbits.RA2 = 1;
+
+	//turn on AD, using 2.5V as reference for MAX_ADC, AN4 as temp input
+    // note: the config 0x03 for ADCON1 configures the RA2 bit as analog, but since the tris bit is cleared, they behave as digital output 
+	ADCON0=0xA1;	
+	ADCON1=0x03;
+		
+	// turn on the temperature sensor
+	TRISEbits.TRISE2 = 0;
+	PORTEbits.RE2    = 1;
+
+	delay_50us;	//acquisition time
+
+	ADCON0bits.GO=1;
+	while(ADCON0bits.GO)
+		;
+	
+	temp_val = ADRESH;
+
+	//turn off AD 
+	ADCON0=0;
+
+	// disable voltage ref
+	PORTAbits.RA2 = 0;
+	
+	// disable temperature sensor
+	PORTEbits.RE2    = 0;
+	
+	return temp_val;
+
+}
 // Hardware initialisation
 void init(void) {
 
@@ -184,8 +223,10 @@ void main()
 {
 	unsigned char solar_value  = 0;
 	unsigned char supply_value = 0;
+	unsigned char temperature  = 0;
 	unsigned char tx           = 0;
 	unsigned char do_transmit  = 0;
+	unsigned char tx_mode      = 0; // Selects if we transmit lightlevel/supply level or lightlevel/temperature
 
 	// Hardware init
 	init();
@@ -200,7 +241,14 @@ void main()
 		
 		// Get solar valuel
 		solar_value = get_solar();
+
+		// Get supply value
 		supply_value = get_supply();
+
+		// If we should transmit temperature and supply level is above 2.7V, measure temperature
+		if (tx_mode == 1){
+			temperature = get_temp();
+		}
 
 		// If the supply voltage is too low, we do not enable the radio to save power.
 		// The radio works if VCC > 2.5V, the pic if VCC > 2 V. No need to drain the ultracap
@@ -213,6 +261,9 @@ void main()
 		}
 		if (supply_value == '*'){
 			supply_value+=1;
+		}
+		if (temperature == '*'){
+			temperature+=1;
 		}
 
 		if (do_transmit) {
@@ -231,9 +282,9 @@ void main()
 
 			//LEDRED=1;
 
-			sendRADIO(0x01);
+			sendRADIO(0x01 + tx_mode);
 			sendRADIO(solar_value);
-			sendRADIO(supply_value);
+			if (tx_mode == 0) { sendRADIO(supply_value); } else { sendRADIO(temperature); }
 			sendRADIO('*');
 			delay_20ms;
 			delay_2ms;
@@ -246,6 +297,9 @@ void main()
 			RCSTAbits.SPEN=0;					
 	
 		}
+
+		// Switch TX mode (see tx_mode definition above)
+		if (tx_mode == 0) { tx_mode = 1; } else {tx_mode = 0;}
 
 		wakeup = 0;
 		while (wakeup==0){
