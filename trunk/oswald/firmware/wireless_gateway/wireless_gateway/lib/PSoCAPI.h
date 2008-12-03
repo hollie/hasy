@@ -3,5 +3,7 @@
 ******************************************************************************/
 #include "Counter8.h"
 #include "Counter8_ltrx.h"
+#include "LED1.h"
 #include "LTRX.h"
+#include "Ticker.h"
 #include "UART_IN.h"

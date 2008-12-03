@@ -1,8 +1,6 @@
 <?xml version="1.0"?>
 <PSOC_WND_PERSIST>
   <APP_EDITOR_SETTINGS>
-    <OPEN_FILE PATH="D:\hollevo\projects\personal\hasy\oswald\firmware\wireless_gateway\wireless_gateway\wireless_gateway.soc" />
-    <OPEN_FILE PATH="D:\hollevo\projects\personal\hasy\oswald\firmware\wireless_gateway\wireless_gateway.cmx" />
   </APP_EDITOR_SETTINGS>
   <DEBUGGER_SETTINGS>
     <TRACE_MODE VALUE="PCOnly" />
