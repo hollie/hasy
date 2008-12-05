@@ -1,0 +1,79 @@
+Starting MAKE...
+creating project.mk 
+
+lib/counter8.asm
+
+lib/counter8_ltrx.asm
+
+lib/counter8_ltrxint.asm
+
+lib/counter8int.asm
+
+lib/led1.asm
+
+lib/ltrx.asm
+
+lib/ltrxint.asm
+
+lib/ltrxplus.asm
+
+lib/psocconfig.asm
+
+lib/psocconfigtbl.asm
+
+lib/ticker.asm
+
+lib/tickerint.asm
+
+lib/uart_in.asm
+
+lib/uart_inint.asm
+
+lib/uart_inplus.asm
+
+module lib/obj/ltrxplus.obj defines no symbols (warning)
+
+module lib/obj/uart_inplus.obj defines no symbols (warning)
+
+./boot.asm
+
+./main.c
+
+sed: can't read HTlinkOpts.lkp: No such file or directory
+
+expanded_libs = 
+
+Linking..
+
+HI-TECH C COMPILER (Cypress PSOC) Lite  V9.61PL1
+
+Copyright (C) 1984-2008 HI-TECH SOFTWARE
+
+(1273) Omniscient Code Generation not available in Lite mode (warning)
+
+!W ./main.c(15):(690) interrupt function requires address (warning)
+
+
+
+Memory Summary:
+
+    Program space        used   C2Dh (  3117) of  8000h bytes   (  9.5%)
+
+    Data space           used    40h (    64) of   800h bytes   (  3.1%)
+
+
+
+Comparative memory usage (excludes absolute areas and stack variables)
+
+    ROM used:  2750 bytes
+
+    RAM used:    43 bytes
+
+HI-TECH C PRO compiler averages 40% less code than this Lite mode
+
+PRO may reduce your program size by 288 bytes
+
+To evaluate HI-TECH C PRO please visit http://cypress.htsoft.com/portal/convert
+
+ 
+wireless_gateway - 0 error(s) 1 warning(s) 14:04:37

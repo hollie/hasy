@@ -1,0 +1,49 @@
+# DO NOT DELETE
+./obj/main.p1 :  ./lib/Counter8.h ./lib/COUNTE~1.H ./lib/LED1.h\
+   ./lib/LTRX.h ./lib/PSoCAPI.h ./lib/Ticker.h ./lib/UART_IN.h\
+   C:/PROGRA~1/Cypress/Common/CYPRES~2/tools/include/CY8C29~1/m8c.h
+./obj/boot.obj : \
+   C:/PROGRA~1/Cypress/Common/CYPRES~2/tools/include/CY8C29~1/m8c.inc\
+   C:/PROGRA~1/Cypress/Common/CYPRES~2/tools/include/CY8C29~1/m8ssc.inc\
+   D:\hollevo\projects\personal\hasy\oswald\firmware\WIRELE~1\WIRELE~1\lib\GLOBAL~1.INC\
+   D:\hollevo\projects\personal\hasy\oswald\firmware\WIRELE~1\WIRELE~1\memory.inc
+./lib/obj/counter8.obj :  ./lib/Counter8.inc\
+   C:/PROGRA~1/Cypress/Common/CYPRES~2/tools/include/CY8C29~1/m8c.inc\
+   D:\hollevo\projects\personal\hasy\oswald\firmware\WIRELE~1\WIRELE~1\memory.inc
+./lib/obj/counter8_ltrx.obj :  ./lib/COUNTE~1.INC\
+   C:/PROGRA~1/Cypress/Common/CYPRES~2/tools/include/CY8C29~1/m8c.inc\
+   D:\hollevo\projects\personal\hasy\oswald\firmware\WIRELE~1\WIRELE~1\memory.inc
+./lib/obj/counter8_ltrxint.obj :  ./lib/COUNTE~1.INC\
+   C:/PROGRA~1/Cypress/Common/CYPRES~2/tools/include/CY8C29~1/m8c.inc\
+   D:\hollevo\projects\personal\hasy\oswald\firmware\WIRELE~1\WIRELE~1\memory.inc
+./lib/obj/counter8int.obj :  ./lib/Counter8.inc\
+   C:/PROGRA~1/Cypress/Common/CYPRES~2/tools/include/CY8C29~1/m8c.inc\
+   D:\hollevo\projects\personal\hasy\oswald\firmware\WIRELE~1\WIRELE~1\memory.inc
+./lib/obj/led1.obj :  ./lib/LED1.inc\
+   C:/PROGRA~1/Cypress/Common/CYPRES~2/tools/include/CY8C29~1/m8c.inc\
+   D:\hollevo\projects\personal\hasy\oswald\firmware\WIRELE~1\WIRELE~1\memory.inc
+./lib/obj/ltrx.obj :  ./lib/LTRX.inc\
+   C:/PROGRA~1/Cypress/Common/CYPRES~2/tools/include/CY8C29~1/m8c.inc\
+   D:\hollevo\projects\personal\hasy\oswald\firmware\WIRELE~1\WIRELE~1\memory.inc
+./lib/obj/ltrxint.obj :  ./lib/LTRX.inc\
+   C:/PROGRA~1/Cypress/Common/CYPRES~2/tools/include/CY8C29~1/m8c.inc\
+   D:\hollevo\projects\personal\hasy\oswald\firmware\WIRELE~1\WIRELE~1\memory.inc
+./lib/obj/ltrxplus.obj : 
+./lib/obj/psocconfig.obj :  ./lib/GLOBAL~1.INC\
+   C:/PROGRA~1/Cypress/Common/CYPRES~2/tools/include/CY8C29~1/m8c.inc\
+   D:\hollevo\projects\personal\hasy\oswald\firmware\WIRELE~1\WIRELE~1\memory.inc
+./lib/obj/psocconfigtbl.obj : \
+   C:/PROGRA~1/Cypress/Common/CYPRES~2/tools/include/CY8C29~1/m8c.inc
+./lib/obj/ticker.obj :  ./lib/Ticker.inc\
+   C:/PROGRA~1/Cypress/Common/CYPRES~2/tools/include/CY8C29~1/m8c.inc\
+   D:\hollevo\projects\personal\hasy\oswald\firmware\WIRELE~1\WIRELE~1\memory.inc
+./lib/obj/tickerint.obj :  ./lib/Ticker.inc\
+   C:/PROGRA~1/Cypress/Common/CYPRES~2/tools/include/CY8C29~1/m8c.inc\
+   D:\hollevo\projects\personal\hasy\oswald\firmware\WIRELE~1\WIRELE~1\memory.inc
+./lib/obj/uart_in.obj :  ./lib/UART_IN.inc\
+   C:/PROGRA~1/Cypress/Common/CYPRES~2/tools/include/CY8C29~1/m8c.inc\
+   D:\hollevo\projects\personal\hasy\oswald\firmware\WIRELE~1\WIRELE~1\memory.inc
+./lib/obj/uart_inint.obj :  ./lib/UART_IN.inc\
+   C:/PROGRA~1/Cypress/Common/CYPRES~2/tools/include/CY8C29~1/m8c.inc\
+   D:\hollevo\projects\personal\hasy\oswald\firmware\WIRELE~1\WIRELE~1\memory.inc
+./lib/obj/uart_inplus.obj : 

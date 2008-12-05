@@ -1,0 +1,22 @@
+PROJNAME=wireless_gateway
+DEVICE=CY8C29566
+BASEDEVICE=CY8C29000
+PROJPATH=D:/hollevo/projects/personal/hasy/oswald/firmware/WIRELE~1/WIRELE~1
+PSOCDIR=C:/PROGRA~1/Cypress/Common/CYPRES~2
+INCLUDE_PATH=C:/PROGRA~1/Cypress/Common/CYPRES~2/tools/include/CY8C29~1
+CSRCS= main.c
+LIBCSRCS=
+ASMSRCS=
+LIBASMSRCS= counter8.asm counter8_ltrx.asm counter8_ltrxint.asm counter8int.asm led1.asm ltrx.asm ltrxint.asm ltrxplus.asm psocconfig.asm psocconfigtbl.asm ticker.asm tickerint.asm uart_in.asm uart_inint.asm uart_inplus.asm
+OBJECT_SOURCES= main.c
+FILLVALUE=0x30
+LASTROM=0x7fff
+HI-TECHDIR=C:\PROGRA~1\HI-TEC~1\HCPSOC\PRO\9.61
+LASTRAM=0x7ff
+MORE_CFLAGS=--WARN=0  --OPT=asm,9 
+CDEFINES=
+LIBS=
+LIB_PATH=
+SYS_INC_CONTENTS:=IMAGECRAFT:_equ_1 HITECH:_equ_2 TOOLCHAIN:_equ_HITECH SYSTEM_LARGE_MEMORY_MODEL:_equ_1 SYSTEM_SMALL_MEMORY_MODEL:_equ_0 SYSTEM_STACK_PAGE:_equ_7 SYSTEM_STACK_PAGE_OFFSET:_equ_0 
+SYSTEM_TOOLS=2
+CONFIG_NAMES=wireless_gateway wireless_gateway 
