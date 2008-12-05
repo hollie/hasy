@@ -11,6 +11,7 @@ Hardware connections:
  * 2.5V reference between RA4 and RA3
  * current limiting resistor between RA2 and RA2 (for 2.5V reference)
  * solar panel output divided by 2 to RA1
+ * LM61 temperature sensor connected to AN4
 
 */
 
@@ -122,8 +123,8 @@ unsigned char get_supply(void)
 	return adc_val;
 }
 
-// Measure temperature on LM60
-unsigned char get_temp()
+// Measure temperature on LM61
+unsigned char get_temp(void)
 {
 	unsigned char temp_val = 0;
 
@@ -139,8 +140,8 @@ unsigned char get_temp()
 	ADCON1=0x03;
 		
 	// turn on the temperature sensor
-	TRISEbits.TRISE2 = 0;
-	PORTEbits.RE2    = 1;
+	VCCTEMPtris = 0;
+	VCCTEMP     = 1;
 
 	delay_50us;	//acquisition time
 
@@ -157,7 +158,7 @@ unsigned char get_temp()
 	PORTAbits.RA2 = 0;
 	
 	// disable temperature sensor
-	PORTEbits.RE2    = 0;
+	VCCTEMP = 0;
 	
 	return temp_val;
 
