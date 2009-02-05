@@ -1,0 +1,3 @@
+-H+./output/onewire_gateway.sym -M./output/onewire_gateway.map -O./output/onewire_gateway.obj 
+ ./obj/main.p1 ./obj/oo.p1   
+ D:/hollevo/projects/personal/hasy/oswald/firmware/ONEWIR~1/ONEWIR~1/lib/libpsoc.lib D:/hollevo/projects/personal/hasy/oswald/firmware/ONEWIR~1/ONEWIR~1/lib/libpsoc.lpp C:\PROGRA~1\HI-TEC~1\HCPSOC\PRO\9.61/lib/psoc-c.lib  
