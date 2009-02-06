@@ -73,7 +73,7 @@ char oo_rx_byte(){
 
 	char data = 0;
 	
-	OneWire_bReadByte();
+	data = OneWire_bReadByte();
 
 #ifdef OO_CRC_CHECKING
 	oo_crc_shuffle_byte(data);
@@ -98,13 +98,10 @@ char oo_read_scratchpad(){
 	// Reset the CRC register, CRC is updated in the oo_rx_byte() function.
 	oo_crc_init();
 #endif
-	LTRX_CPutString("Scratchpad: ");
 	while (counter < 9){
 		oo_scratchpad[counter] = oo_rx_byte();
-		LTRX_PutSHexByte(oo_scratchpad[counter]);
 		counter++;
 	}
-	LTRX_PutCRLF();	
 
 #ifdef OO_CRC_CHECKING
 	// Verify the CRC
@@ -150,7 +147,7 @@ short oo_get_count(){
 //         0 if all sensors are done
 ////////////////////////////////////////////////////////////
 char oo_conversion_busy(){
-	if (oo_rx_byte() == 0xFF){
+	if (oo_rx_byte() == 0x00){
 		return 1;
 	} else {
 		return 0;
@@ -177,7 +174,7 @@ void oo_start_conversion(){
 void delay_10ms(){
 	short counter;
 	
-	for (counter = 0; counter<15000; counter++){
+	for (counter = 0; counter<430; counter++){
 		asm("nop");
 	}
 }
@@ -261,7 +258,7 @@ oo_tdata oo_read_device(){
 	data.t_lsb    = oo_scratchpad[0];
 	data.remain   = oo_scratchpad[6];
 	data.nr_count = oo_scratchpad[7];
-	if (crc == oo_scratchpad[8]) {	data.valid = 1; }
+	if (crc == 0x00) {	data.valid = 1; } 
 	
 	return data;
 	
@@ -281,13 +278,6 @@ void oo_print_data(oo_tdata data){
 	// print temperature in hex
 	LTRX_PutSHexByte(data.t_msb);
 	LTRX_PutSHexByte(data.t_lsb);
-	
-	LTRX_CPutString(" - ");
-	
-	// print counter/reminder
-	LTRX_PutSHexByte(data.nr_count);
-	LTRX_CPutString("/");
-	LTRX_PutSHexByte(data.remain);
 	
 	LTRX_CPutString(" - ");
 	LTRX_PutChar(data.valid+0x30);	
@@ -311,7 +301,7 @@ void oo_report(){
 	unsigned char id[8];
 	
 	// Reset
-	if (!oo_busreset()){
+	if (!OneWire_fReset()){
 		LTRX_CPutString("No OneWire devices found on the bus!");
 		LTRX_PutCRLF();
 		return;
@@ -322,6 +312,7 @@ void oo_report(){
 	
 	// Wait for completion
 	if (!oo_wait_for_completion()){
+
 		LTRX_CPutString("Timed out while waiting for conversion!");
 		LTRX_PutCRLF();
 		return;
@@ -329,18 +320,18 @@ void oo_report(){
 	
 	// Find the first device on the bus
 	if (OneWire_fFindFirst()){
-		OneWire_GetROM(id);
+		//OneWire_GetROM(id);
 	} else {
 		LTRX_CPutString("Problem detecting first device on the bus");
 		LTRX_PutCRLF();		
 		return;
 	}
 	
-	
-	data = oo_read_device();
-	
-	oo_print_data(data);
-	
+	do {	
+		//OneWire_GetROM(id);
+		data = oo_read_device();
+		oo_print_data(data);
+	} while (OneWire_fFindNext());
 	
 	
 }

@@ -1,7 +1,7 @@
 
 
 HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
-                                                                                                           Thu Feb 05 17:14:16 2009
+                                                                                                           Fri Feb 06 16:23:19 2009
 
 
      1                          ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -811,22 +811,22 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    805                          ;----------------------------------------------------
    806                              macro M8C_SetBank0
    807                              and   F, ~FLAG_XIO_MASK
-   808  7C6B                        endm
+   808  7D3C                        endm
    809                          
    810                              macro M8C_SetBank1
    811                              or    F, FLAG_XIO_MASK
-   812  7C6B                        endm
+   812  7D3C                        endm
    813                          
    814                          ;----------------------------------------------------
    815                          ;  Global Interrupt Enable/Disable
    816                          ;----------------------------------------------------
    817                              macro M8C_EnableGInt
    818                              or    F, FLAG_GLOBAL_IE
-   819  7C6B                        endm
+   819  7D3C                        endm
    820                          
    821                              macro M8C_DisableGInt
    822                              and   F, ~FLAG_GLOBAL_IE
-   823  7C6B                        endm
+   823  7D3C                        endm
    824                          
    825                          ;----------------------------------------------------
    826                          ;  Enable/Disable Interrupt Mask
@@ -844,12 +844,12 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    838                          ; Disable Interrupt Bit Mask(s)
    839                              macro M8C_DisableIntMask
    840                              and   reg[@0], ~@1              ; disable specified interrupt enable bit
-   841  7C6B                        endm
+   841  7D3C                        endm
    842                          
    843                          ; Enable Interrupt Bit Mask(s)
    844                              macro M8C_EnableIntMask
    845                              or    reg[@0], @1               ; enable specified interrupt enable bit
-   846  7C6B                        endm
+   846  7D3C                        endm
    847                          
    848                          ;----------------------------------------------------
    849                          ;  Clear Posted Interrupt Flag Mask
@@ -864,33 +864,33 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    858                          ;----------------------------------------------------
    859                              macro M8C_ClearIntFlag
    860                              mov   reg[@0], ~@1              ; clear specified interrupt enable bit
-   861  7C6B                        endm
+   861  7D3C                        endm
    862                          
    863                          ;----------------------------------------------------
    864                          ;  Power-On Reset & WatchDog Timer Functions
    865                          ;----------------------------------------------------
    866                              macro M8C_EnableWatchDog
    867                              and   reg[CPU_SCR0], ~CPU_SCR0_PORS_MASK
-   868  7C6B                        endm
+   868  7D3C                        endm
    869                          
    870                              macro M8C_ClearWDT
    871                              mov   reg[RES_WDT], 00h
-   872  7C6B                        endm
+   872  7D3C                        endm
    873                          
    874                              macro M8C_ClearWDTAndSleep
    875                              mov   reg[RES_WDT], 38h
-   876  7C6B                        endm
+   876  7D3C                        endm
    877                          
    878                          ;----------------------------------------------------
    879                          ;  CPU Stall for Analog PSoC Block Writes
    880                          ;----------------------------------------------------
    881                              macro M8C_Stall
    882                              or    reg[ASY_CR], ASY_CR_SYNCEN
-   883  7C6B                        endm
+   883  7D3C                        endm
    884                          
    885                              macro M8C_Unstall
    886                              and   reg[ASY_CR], ~ASY_CR_SYNCEN
-   887  7C6B                        endm
+   887  7D3C                        endm
    888                          
    889                          ;----------------------------------------------------
    890                          ;  Sleep, CPU Stop & Software Reset
@@ -904,21 +904,21 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    898                              ; interrupts are also enabled then the next instruction will be
    899                              ; from the interrupt vector table. If no interrupts are enabled
    900                              ; then the CPU sleeps forever.
-   901  7C6B                        endm
+   901  7D3C                        endm
    902                          
    903                              macro M8C_Stop
    904                              ; In general, you probably don't want to do this, but here's how:
    905                              or    reg[CPU_SCR0], CPU_SCR0_STOP_MASK
    906                              ; Next instruction to be executed is located in the interrupt
    907                              ; vector table entry for Power-On Reset.
-   908  7C6B                        endm
+   908  7D3C                        endm
    909                          
    910                              macro M8C_Reset
    911                              ; Restore CPU to the power-on reset state.
    912                              mov A, 0
    913                              SSC
    914                              ; Next non-supervisor instruction will be at interrupt vector 0.
-   915  7C6B                        endm
+   915  7D3C                        endm
    916                          
    917                          ;----------------------------------------------------
    918                          ; ImageCraft Code Compressor Actions
@@ -928,12 +928,12 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    922                              ; without resuming code compression
    923                              macro Suspend_CodeCompressor
    924                              or   F, 0
-   925  7C6B                        endm
+   925  7D3C                        endm
    926                          
    927                              ; Resume Code Compression
    928                              macro Resume_CodeCompressor
    929                              add  SP, 0
-   930  7C6B                        endm
+   930  7D3C                        endm
      1                          ;;*****************************************************************************
      2                          ;;*****************************************************************************
      3                          ;;
@@ -999,7 +999,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
     63                             IF ( SYSTEM_LARGE_MEMORY_MODEL )
     64                                mov reg[STK_PP], @PG_NUMBER
     65                             ENDIF
-    66  7C6B                       endm
+    66  7D3C                       endm
     67                          
     68                             ;-----------------------------------------------
     69                             ;  Set Current Page Macro
@@ -1016,7 +1016,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
     80                             IF ( SYSTEM_LARGE_MEMORY_MODEL )
     81                                mov reg[CUR_PP], @PG_NUMBER
     82                             ENDIF
-    83  7C6B                       endm
+    83  7D3C                       endm
     84                          
     85                             ;-----------------------------------------------
     86                             ;  Set Index Page Macro
@@ -1033,7 +1033,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
     97                             IF ( SYSTEM_LARGE_MEMORY_MODEL )
     98                                mov reg[IDX_PP], @PG_NUMBER
     99                             ENDIF
-   100  7C6B                       endm
+   100  7D3C                       endm
    101                          
    102                             ;-----------------------------------------------
    103                             ;  Set MVI Read Page Macro
@@ -1051,7 +1051,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    115                             IF ( SYSTEM_LARGE_MEMORY_MODEL )
    116                                mov reg[MVR_PP], @PG_NUMBER
    117                             ENDIF
-   118  7C6B                       endm
+   118  7D3C                       endm
    119                          
    120                             ;-----------------------------------------------
    121                             ;  Set MVI Write Page Macro
@@ -1069,7 +1069,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    133                             IF ( SYSTEM_LARGE_MEMORY_MODEL )
    134                                mov reg[MVW_PP], @PG_NUMBER
    135                             ENDIF
-   136  7C6B                       endm
+   136  7D3C                       endm
    137                          
    138                             ;-----------------------------------------------
    139                             ;  Force Index Page Pointer to Stack Page
@@ -1091,7 +1091,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    155                                   RAM_SETPAGE_IDX SYSTEM_STACK_PAGE
    156                                ENDIF
    157                             ENDIF
-   158  7C6B                       endm
+   158  7D3C                       endm
    159                          
    160                             ;-----------------------------------------------
    161                             ;  Change Memory Mode
@@ -1109,7 +1109,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    173                                and   F, ~FLAG_PGMODE_MASK        ; NOTE: transition thru 00b state
    174                                or    F,  FLAG_PGMODE_MASK & @MODE
    175                             ENDIF
-   176  7C6B                       endm
+   176  7D3C                       endm
    177                          
    178                             ;-----------------------------------------------
    179                             ;  Set Large Memory Model Native Paging Mode
@@ -1134,7 +1134,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    198                                or    F,  FLAG_PGMODE_10b            ; LMM with independent IndexPage
    199                             ENDIF ; PGMODE FREE
    200                             ENDIF ; SYSTEM_LARGE_MEMORY_MODEL
-   201  7C6B                       endm
+   201  7D3C                       endm
    202                          
    203                             ;-----------------------------------------------
    204                             ; Restore Large Memory Model Native Paging Mode
@@ -1158,7 +1158,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    222                                RAM_CHANGE_PAGE_MODE FLAG_PGMODE_10b ; LMM with independent IndexPage
    223                             ENDIF ; PGMODE FREE
    224                             ENDIF ; SYSTEM_LARGE_MEMORY_MODEL
-   225  7C6B                       endm
+   225  7D3C                       endm
    226                          
    227                             ;-----------------------------------------------
    228                             ; Force indexed addr mode operands to Stack Pg
@@ -1177,7 +1177,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    241                             IF ( SYSTEM_LARGE_MEMORY_MODEL )
    242                                or   F, FLAG_PGMODE_01b
    243                             ENDIF ;  SYSTEM_LARGE_MEMORY_MODEL
-   244  7C6B                       endm
+   244  7D3C                       endm
    245                          
    246                             ;-----------------------------------------------
    247                             ;  Force indexed addr mode operands to Index Pg
@@ -1196,7 +1196,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    260                             IF ( SYSTEM_LARGE_MEMORY_MODEL )
    261                                and  F, ~FLAG_PGMODE_01b
    262                             ENDIF ;  SYSTEM_LARGE_MEMORY_MODEL
-   263  7C6B                       endm
+   263  7D3C                       endm
    264                          
    265                             ;-----------------------------------------------
    266                             ;  Function Prologue
@@ -1227,7 +1227,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    291                             ; Nothing to do
    292                             ENDIF ; RAM_USE_CLASS_4
    293                          
-   294  7C6B                       endm
+   294  7D3C                       endm
    295                          
    296                             ;-----------------------------------------------
    297                             ;  Function Epilogue
@@ -1254,7 +1254,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    318                             ; Nothing to do
    319                             ENDIF ; RAM_USE_CLASS_4
    320                          
-   321  7C6B                       endm
+   321  7D3C                       endm
    322                          
    323                             ;-----------------------------------------------
    324                             ;  Preserve Register
@@ -1273,7 +1273,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    337                             macro REG_PRESERVE( IOReg )
    338                             mov   A, reg[ @IOReg ]
    339                             push  A
-   340  7C6B                       endm
+   340  7D3C                       endm
    341                          
    342                             ;-----------------------------------------------
    343                             ;  Restore Register
@@ -1292,7 +1292,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    356                             macro REG_RESTORE( IOReg )
    357                             pop   A
    358                             mov   reg[ @IOReg ], A
-   359  7C6B                       endm
+   359  7D3C                       endm
    360                          
    361                             ;-----------------------------------------------
    362                             ;  Preserve Volatile Page Pointer Registers
@@ -1314,7 +1314,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    378                                REG_PRESERVE MVR_PP
    379                                REG_PRESERVE MVW_PP
    380                             ENDIF
-   381  7C6B                       endm
+   381  7D3C                       endm
    382                          
    383                             ;-----------------------------------------------
    384                             ;  Restore Volatile Page Pointer Registers
@@ -1337,7 +1337,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    401                                REG_RESTORE IDX_PP
    402                                REG_RESTORE CUR_PP
    403                             ENDIF
-   404  7C6B                       endm
+   404  7D3C                       endm
      1                          ;;*****************************************************************************
      2                          ;;*****************************************************************************
      3                          ;;  FILENAME: OneWire.inc
@@ -1485,8 +1485,8 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
     88                          
     89                          AREA bss
     90                          
-    91  005B                    _OneWire_bCRC8Value:
-    92  005B                     OneWire_bCRC8Value:                             blk   1
+    91  0053                    _OneWire_bCRC8Value:
+    92  0053                     OneWire_bCRC8Value:                             blk   1
     93                          
     94                          IF (OneWire_CRC16_ENABLE)
     95                          _OneWire_wCRC16Value:
@@ -1494,10 +1494,10 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
     97                          ENDIF
     98                          
     99                          IF (OneWire_SEARCH_ENABLE)
-   100  005C                    OneWire_ROM:                                     blk   8
-   101  0064                    OneWire_LastDiscrepancy:                         blk   1
-   102  0065                    OneWire_LastFamilyDiscrepancy:                   blk   1
-   103  0066                    OneWire_LastDeviceFlag:                          blk   1
+   100  0054                    OneWire_ROM:                                     blk   8
+   101  005C                    OneWire_LastDiscrepancy:                         blk   1
+   102  005D                    OneWire_LastFamilyDiscrepancy:                   blk   1
+   103  005E                    OneWire_LastDeviceFlag:                          blk   1
    104                          ENDIF
    105                          
    106                          IF (OneWire_OVERDRIVE_ENABLE )
@@ -1548,24 +1548,24 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    151                          ;  THEORY of OPERATION:
    152                          ;     Set the start bit in the Control register.
    153                          ;-----------------------------------------------------------------------------
-   154  7125                     OneWire_Start:
-   155  7125                    _OneWire_Start:
+   154  756A                     OneWire_Start:
+   155  756A                    _OneWire_Start:
    156                             RAM_PROLOGUE RAM_USE_CLASS_4
    157                          
    158                          IF (OneWire_OVERDRIVE_ENABLE | OneWire_PARASITE_ENABLE)
    159                              RAM_SETPAGE_CUR >OneWire_bMode
    160                              mov   [OneWire_bMode], 00h
    161                          ENDIF
-   162  7125  62 55 0F              mov   reg[OneWire_BITCLK_PERIOD_REG], INIT_PERIOD        ; Set divider period to initialize OneW
+   162  756A  62 55 0F              mov   reg[OneWire_BITCLK_PERIOD_REG], INIT_PERIOD        ; Set divider period to initialize OneW
                                 ireOut
-   163  7128  43 57 01              or    reg[OneWire_BITCLK_CONTROL_REG], CONTROL_REG_START_BIT  ; Start the clock divider
-   164  712B  62 5B 81              mov   reg[OneWire_XCVR_CONTROL_REG], SPIM_MODE_0|SPIM_LSB_FIRST|CONTROL_REG_START_BIT
-   165  712E  50 FF                 mov   A, FFh                                 ; Initialize OneWireOut to high
-   166  7130  92EF                  call  OneWire_SendTxDataWait
-   167  7132  62 55 0D              mov   reg[OneWire_BITCLK_PERIOD_REG], BIT_PERIOD
+   163  756D  43 57 01              or    reg[OneWire_BITCLK_CONTROL_REG], CONTROL_REG_START_BIT  ; Start the clock divider
+   164  7570  62 5B 81              mov   reg[OneWire_XCVR_CONTROL_REG], SPIM_MODE_0|SPIM_LSB_FIRST|CONTROL_REG_START_BIT
+   165  7573  50 FF                 mov   A, FFh                                 ; Initialize OneWireOut to high
+   166  7575  92EF                  call  OneWire_SendTxDataWait
+   167  7577  62 55 0D              mov   reg[OneWire_BITCLK_PERIOD_REG], BIT_PERIOD
    168                          
    169                              RAM_EPILOGUE RAM_USE_CLASS_4
-   170  7135  7F                    ret
+   170  757A  7F                    ret
    171                          .ENDSECTION
    172                          
    173                          .SECTION
@@ -1591,15 +1591,15 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    193                          ;  THEORY of OPERATION:
    194                          ;     Clear the start bits in the Control registers.
    195                          ;-----------------------------------------------------------------------------
-   196  7136                     OneWire_Stop:
-   197  7136                    _OneWire_Stop:
+   196  757B                     OneWire_Stop:
+   197  757B                    _OneWire_Stop:
    198                              RAM_PROLOGUE RAM_USE_CLASS_1
    199                          
-   200  7136  41 57 FE              and   reg[OneWire_BITCLK_CONTROL_REG], ~CONTROL_REG_START_BIT
-   201  7139  41 5B FE              and   reg[OneWire_XCVR_CONTROL_REG], ~CONTROL_REG_START_BIT
+   200  757B  41 57 FE              and   reg[OneWire_BITCLK_CONTROL_REG], ~CONTROL_REG_START_BIT
+   201  757E  41 5B FE              and   reg[OneWire_XCVR_CONTROL_REG], ~CONTROL_REG_START_BIT
    202                          
    203                              RAM_EPILOGUE RAM_USE_CLASS_1
-   204  713C  7F                    ret
+   204  7581  7F                    ret
    205                          .ENDSECTION
    206                          
    207                          .SECTION
@@ -1625,14 +1625,14 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    227                          ;    are modified: CUR_PP
    228                          ;
    229                          ;-----------------------------------------------------------------------------
-   230  713D                     OneWire_fReset:
-   231  713D                    _OneWire_fReset:
+   230  7582                     OneWire_fReset:
+   231  7582                    _OneWire_fReset:
    232                              RAM_PROLOGUE RAM_USE_CLASS_4
    233                          
    234                          IF (OneWire_OVERDRIVE_ENABLE)
    235                              RAM_SETPAGE_CUR >OneWire_bMode
    236                          ENDIF
-   237  713D  50 F9                 mov   A, RESET_PERIOD                        ; Reset period
+   237  7582  50 F9                 mov   A, RESET_PERIOD                        ; Reset period
    238                          IF (OneWire_OVERDRIVE_ENABLE)
    239                              tst   [OneWire_bMode],OD_MODE                ; Test for OverDrive mode
    240                              jz    .Reset_Normal
@@ -1642,24 +1642,24 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    244                              mov   A, OD_BIT_PERIOD                       ; OverDrive Bit period
    245                              jmp   .Reset_WriteBitPeriod
    246                          ENDIF
-   247  713F                    .Reset_Normal:
-   248  713F  60 55                 mov   reg[OneWire_BITCLK_PERIOD_REG], A
-   249  7141  50 F1                 mov   A, RESET_PATTERN                       ; Reset bit pattern
-   250  7143  92DC                  call  OneWire_SendTxDataWait
-   251  7145  50 0D                 mov   A, BIT_PERIOD                          ; Bit period
-   252  7147                    .Reset_WriteBitPeriod:
-   253  7147  60 55                 mov   reg[OneWire_BITCLK_PERIOD_REG], A
-   254  7149  5D 5A                 mov   A, reg[OneWire_XCVR_RX_BUFFER_REG]
-   255  714B  39 F1                 cmp   A, RESET_PATTERN
-   256  714D  D005                  jnc   .Reset_NoResponse
-   257  714F  50 01                 mov   A,01h
-   258  7151  8003                  jmp   .Reset_done
-   259  7153                    .Reset_NoResponse:
-   260  7153  50 00                 mov   A,00h
-   261  7155                    .Reset_done:
+   247  7584                    .Reset_Normal:
+   248  7584  60 55                 mov   reg[OneWire_BITCLK_PERIOD_REG], A
+   249  7586  50 F1                 mov   A, RESET_PATTERN                       ; Reset bit pattern
+   250  7588  92DC                  call  OneWire_SendTxDataWait
+   251  758A  50 0D                 mov   A, BIT_PERIOD                          ; Bit period
+   252  758C                    .Reset_WriteBitPeriod:
+   253  758C  60 55                 mov   reg[OneWire_BITCLK_PERIOD_REG], A
+   254  758E  5D 5A                 mov   A, reg[OneWire_XCVR_RX_BUFFER_REG]
+   255  7590  39 F1                 cmp   A, RESET_PATTERN
+   256  7592  D005                  jnc   .Reset_NoResponse
+   257  7594  50 01                 mov   A,01h
+   258  7596  8003                  jmp   .Reset_done
+   259  7598                    .Reset_NoResponse:
+   260  7598  50 00                 mov   A,00h
+   261  759A                    .Reset_done:
    262                          
    263                              RAM_EPILOGUE RAM_USE_CLASS_4
-   264  7155  7F                    ret
+   264  759A  7F                    ret
    265                          .ENDSECTION
    266                          
    267                          .SECTION
@@ -1683,21 +1683,21 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    285                          ;    functions.
    286                          ;
    287                          ;-----------------------------------------------------------------------------
-   288  7156                     OneWire_WriteBit:
-   289  7156                    _OneWire_WriteBit:
+   288  759B                     OneWire_WriteBit:
+   289  759B                    _OneWire_WriteBit:
    290                              RAM_PROLOGUE RAM_USE_CLASS_1
    291                          
-   292  7156  6D                    rrc   A                                      ; Rotate LSB into CF to test
-   293  7157  C005                  jc    .WriteBit_1                            ; LSB is 1
-   294  7159  50 01                 mov   A, ZERO_PATTERN                        ; "0" bit pattern
-   295  715B  8003                  jmp   .WriteBit_Send
-   296  715D                    .WriteBit_1:
-   297  715D  50 FD                 mov   A, ONE_PATTERN                         ; "1" bit pattern
-   298  715F                    .WriteBit_Send:
-   299  715F  92C0                  call  OneWire_SendTxDataWait
+   292  759B  6D                    rrc   A                                      ; Rotate LSB into CF to test
+   293  759C  C005                  jc    .WriteBit_1                            ; LSB is 1
+   294  759E  50 01                 mov   A, ZERO_PATTERN                        ; "0" bit pattern
+   295  75A0  8003                  jmp   .WriteBit_Send
+   296  75A2                    .WriteBit_1:
+   297  75A2  50 FD                 mov   A, ONE_PATTERN                         ; "1" bit pattern
+   298  75A4                    .WriteBit_Send:
+   299  75A4  92C0                  call  OneWire_SendTxDataWait
    300                          
    301                              RAM_EPILOGUE RAM_USE_CLASS_1
-   302  7161  7F                    ret
+   302  75A6  7F                    ret
    303                          .ENDSECTION
    304                          
    305                          
@@ -1723,23 +1723,23 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    325                          ;    functions.
    326                          ;
    327                          ;-----------------------------------------------------------------------------
-   328  7162                     OneWire_bReadBit:
-   329  7162                    _OneWire_bReadBit:
+   328  75A7                     OneWire_bReadBit:
+   329  75A7                    _OneWire_bReadBit:
    330                              RAM_PROLOGUE RAM_USE_CLASS_1
    331                          
-   332  7162  50 FD                 mov    A, ONE_PATTERN
-   333  7164  92BB                  call   OneWire_SendTxDataWait
-   334  7166  5D 5A                 mov    A, reg[OneWire_XCVR_RX_BUFFER_REG]
-   335  7168  39 FD                 cmp    A, ONE_PATTERN
-   336  716A  D005                  jnc    .ReadBit_One
-   337  716C  50 00                 mov    A, 00h
-   338  716E  8003                  jmp    .Done
-   339  7170                    .ReadBit_One:
-   340  7170  50 01                 mov    A, 01h
-   341  7172                    .Done:
+   332  75A7  50 FD                 mov    A, ONE_PATTERN
+   333  75A9  92BB                  call   OneWire_SendTxDataWait
+   334  75AB  5D 5A                 mov    A, reg[OneWire_XCVR_RX_BUFFER_REG]
+   335  75AD  39 FD                 cmp    A, ONE_PATTERN
+   336  75AF  D005                  jnc    .ReadBit_One
+   337  75B1  50 00                 mov    A, 00h
+   338  75B3  8003                  jmp    .Done
+   339  75B5                    .ReadBit_One:
+   340  75B5  50 01                 mov    A, 01h
+   341  75B7                    .Done:
    342                          
    343                              RAM_EPILOGUE RAM_USE_CLASS_1
-   344  7172  7F                    ret
+   344  75B7  7F                    ret
    345                          .ENDSECTION
    346                          
    347                          .SECTION
@@ -1764,33 +1764,33 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    366                          ;    functions.
    367                          ;
    368                          ;-----------------------------------------------------------------------------
-   369  7173                     OneWire_WriteByte:
-   370  7173                    _OneWire_WriteByte:
+   369  75B8                     OneWire_WriteByte:
+   370  75B8                    _OneWire_WriteByte:
    371                              RAM_PROLOGUE RAM_USE_CLASS_1
    372                              
-   373  7173  08                    push   A
-   374  7174  57 08                 mov    X, 08h
-   375  7176                    .ByteLoop:
-   376  7176  18                    pop    A
-   377  7177  6D                    rrc    A
-   378  7178  08                    push   A
-   379  7179  C005                  jc     .LoadPattern_1
-   380  717B  50 01                 mov    A, ZERO_PATTERN
-   381  717D  8003                  jmp    .SendPattern
-   382  717F                    .LoadPattern_1:
-   383  717F  50 FD                 mov    A, ONE_PATTERN
-   384  7181                    .SendPattern:
-   385  7181  60 59             	mov    reg[OneWire_XCVR_TX_BUFFER_REG], A
-   386  7183                    .WaitForEmptyBuf:
-   387  7183  5D 5B                 mov    A, reg[OneWire_XCVR_CONTROL_REG]
-   388  7185  21 20                 and    A, SPIM_SPI_COMPLETE
-   389  7187  AFFB                  jz     .WaitForEmptyBuf
-   390  7189  79                    dec    X
-   391  718A  BFEB                  jnz    .ByteLoop
-   392  718C  18                    pop    A
+   373  75B8  08                    push   A
+   374  75B9  57 08                 mov    X, 08h
+   375  75BB                    .ByteLoop:
+   376  75BB  18                    pop    A
+   377  75BC  6D                    rrc    A
+   378  75BD  08                    push   A
+   379  75BE  C005                  jc     .LoadPattern_1
+   380  75C0  50 01                 mov    A, ZERO_PATTERN
+   381  75C2  8003                  jmp    .SendPattern
+   382  75C4                    .LoadPattern_1:
+   383  75C4  50 FD                 mov    A, ONE_PATTERN
+   384  75C6                    .SendPattern:
+   385  75C6  60 59             	mov    reg[OneWire_XCVR_TX_BUFFER_REG], A
+   386  75C8                    .WaitForEmptyBuf:
+   387  75C8  5D 5B                 mov    A, reg[OneWire_XCVR_CONTROL_REG]
+   388  75CA  21 20                 and    A, SPIM_SPI_COMPLETE
+   389  75CC  AFFB                  jz     .WaitForEmptyBuf
+   390  75CE  79                    dec    X
+   391  75CF  BFEB                  jnz    .ByteLoop
+   392  75D1  18                    pop    A
    393                          
    394                              RAM_EPILOGUE RAM_USE_CLASS_1
-   395  718D  7F                    ret
+   395  75D2  7F                    ret
    396                          .ENDSECTION
    397                          
    398                          .SECTION
@@ -1815,27 +1815,27 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    417                          ;    functions.
    418                          ;
    419                          ;-----------------------------------------------------------------------------
-   420  718E                     OneWire_bReadByte:
-   421  718E                    _OneWire_bReadByte:
+   420  75D3                     OneWire_bReadByte:
+   421  75D3                    _OneWire_bReadByte:
    422                              RAM_PROLOGUE RAM_USE_CLASS_1
    423                              
-   424  718E  08                    push   A
-   425  718F  57 08                 mov    X,08h
-   426  7191                    .ByteLoop:
-   427  7191  50 FD                 mov    A, ONE_PATTERN
-   428  7193  928C                  call   OneWire_SendTxDataWait
-   429  7195  5D 5A                 mov    A, reg[OneWire_XCVR_RX_BUFFER_REG]
-   430  7197  39 FD                 cmp    A, ONE_PATTERN
-   431  7199  18                    pop    A
-   432  719A  6D                    rrc    A
-   433  719B  08                    push   A
-   434  719C  79                    dec    X
-   435  719D  BFF3                  jnz    .ByteLoop
-   436  719F  18                    pop    A
-   437  71A0  73                	cpl    A
+   424  75D3  08                    push   A
+   425  75D4  57 08                 mov    X,08h
+   426  75D6                    .ByteLoop:
+   427  75D6  50 FD                 mov    A, ONE_PATTERN
+   428  75D8  928C                  call   OneWire_SendTxDataWait
+   429  75DA  5D 5A                 mov    A, reg[OneWire_XCVR_RX_BUFFER_REG]
+   430  75DC  39 FD                 cmp    A, ONE_PATTERN
+   431  75DE  18                    pop    A
+   432  75DF  6D                    rrc    A
+   433  75E0  08                    push   A
+   434  75E1  79                    dec    X
+   435  75E2  BFF3                  jnz    .ByteLoop
+   436  75E4  18                    pop    A
+   437  75E5  73                	cpl    A
    438                              RAM_EPILOGUE RAM_USE_CLASS_1
    439                              
-   440  71A1  7F                    ret
+   440  75E6  7F                    ret
    441                          .ENDSECTION
    442                          
    443                          .SECTION
@@ -1861,15 +1861,15 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    463                          ;    CUR_PP
    464                          ;
    465                          ;-----------------------------------------------------------------------------
-   466  71A2                     OneWire_ClearCRC8:
-   467  71A2                    _OneWire_ClearCRC8:
+   466  75E7                     OneWire_ClearCRC8:
+   467  75E7                    _OneWire_ClearCRC8:
    468                              RAM_PROLOGUE RAM_USE_CLASS_4
-   469  71A2  62 D0 00              RAM_SETPAGE_CUR >OneWire_bCRC8Value
+   469  75E7  62 D0 00              RAM_SETPAGE_CUR >OneWire_bCRC8Value
    470                              
-   471  71A5  55 5B  00             mov   [OneWire_bCRC8Value], 00h
+   471  75EA  55 53  00             mov   [OneWire_bCRC8Value], 00h
    472                              
    473                              RAM_EPILOGUE RAM_USE_CLASS_4
-   474  71A8  7F                    ret
+   474  75ED  7F                    ret
    475                          .ENDSECTION
    476                          
    477                          .SECTION
@@ -1894,30 +1894,30 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    496                          ;    functions. Currently only the page pointer registers listed below are modified:
    497                          ;     CUR_PP
    498                          ;-----------------------------------------------------------------------------
-   499  71A9                     OneWire_bCRC8:
-   500  71A9                    _OneWire_bCRC8:
+   499  75EE                     OneWire_bCRC8:
+   500  75EE                    _OneWire_bCRC8:
    501                              RAM_PROLOGUE RAM_USE_CLASS_4
-   502  71A9  62 D0 00              RAM_SETPAGE_CUR >OneWire_bCRC8Value
+   502  75EE  62 D0 00              RAM_SETPAGE_CUR >OneWire_bCRC8Value
    503                              
-   504  71AC  08                    push  A                                      ; Save the bits to shift
-   505  71AD  57 08                 mov   X, 08h                                 ; Set up to shift one byte
-   506  71AF                    .OW_crc8_loop:
-   507  71AF  32 5B                 xor   A, [OneWire_bCRC8Value]                ; Determine feedback
-   508  71B1  6D                    rrc   A                                      ; Move it into CF
-   509  71B2  D004                  jnc   .OW_crc8_FB_zero                       ; If feedback is 0, no XOR of the byte needed
-   510  71B4  36 5B  18             xor   [OneWire_bCRC8Value],18h               ; XOR the CRC byte
-   511  71B7                    .OW_crc8_FB_zero:
-   512  71B7  6E 5B                 rrc   [OneWire_bCRC8Value]                   ; Rotate CF into the CRC byte
-   513  71B9  18                    pop   A                                      ; Restore the remaining bits
-   514  71BA  6D                    rrc   A                                      ; Rotate for the next bit
-   515  71BB  08                    push  A                                      ; Save the remaining bits
-   516  71BC  79                    dec   X                                      
-   517  71BD  BFF1                  jnz   .OW_crc8_loop                          ; Loop until whole input byte is shifted
-   518  71BF  18                    pop   A                                      ; Clean up stack
-   519  71C0  51 5B                 mov   A, [OneWire_bCRC8Value]                ; Load computed CRC byte into A
+   504  75F1  08                    push  A                                      ; Save the bits to shift
+   505  75F2  57 08                 mov   X, 08h                                 ; Set up to shift one byte
+   506  75F4                    .OW_crc8_loop:
+   507  75F4  32 53                 xor   A, [OneWire_bCRC8Value]                ; Determine feedback
+   508  75F6  6D                    rrc   A                                      ; Move it into CF
+   509  75F7  D004                  jnc   .OW_crc8_FB_zero                       ; If feedback is 0, no XOR of the byte needed
+   510  75F9  36 53  18             xor   [OneWire_bCRC8Value],18h               ; XOR the CRC byte
+   511  75FC                    .OW_crc8_FB_zero:
+   512  75FC  6E 53                 rrc   [OneWire_bCRC8Value]                   ; Rotate CF into the CRC byte
+   513  75FE  18                    pop   A                                      ; Restore the remaining bits
+   514  75FF  6D                    rrc   A                                      ; Rotate for the next bit
+   515  7600  08                    push  A                                      ; Save the remaining bits
+   516  7601  79                    dec   X                                      
+   517  7602  BFF1                  jnz   .OW_crc8_loop                          ; Loop until whole input byte is shifted
+   518  7604  18                    pop   A                                      ; Clean up stack
+   519  7605  51 53                 mov   A, [OneWire_bCRC8Value]                ; Load computed CRC byte into A
    520                              
    521                              RAM_EPILOGUE RAM_USE_CLASS_4
-   522  71C2  7F                    ret
+   522  7607  7F                    ret
    523                          .ENDSECTION
    524                          
    525                          IF (OneWire_CRC16_ENABLE)
@@ -2039,33 +2039,33 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    641                          ;     CUR_PP
    642                          ;     IDX_PP
    643                          ;-----------------------------------------------------------------------------
-   644  71C3                     OneWire_GetROM:
-   645  71C3                    _OneWire_GetROM:
+   644  7608                     OneWire_GetROM:
+   645  7608                    _OneWire_GetROM:
    646                              RAM_PROLOGUE RAM_USE_CLASS_4
    647                              RAM_PROLOGUE RAM_USE_CLASS_3
-   648  71C3  60 D3                 RAM_SETPAGE_IDX A
-   649  71C5  62 D0 00              RAM_SETPAGE_CUR >OneWire_ROM
+   648  7608  60 D3                 RAM_SETPAGE_IDX A
+   649  760A  62 D0 00              RAM_SETPAGE_CUR >OneWire_ROM
    650                              
-   651  71C8  51 5C                 mov    A,[OneWire_ROM+0]
-   652  71CA  54 00                 mov    [X+0],A
-   653  71CC  51 5D                 mov    A,[OneWire_ROM+1]
-   654  71CE  54 01                 mov    [X+1],A
-   655  71D0  51 5E                 mov    A,[OneWire_ROM+2]
-   656  71D2  54 02                 mov    [X+2],A
-   657  71D4  51 5F                 mov    A,[OneWire_ROM+3]
-   658  71D6  54 03                 mov    [X+3],A
-   659  71D8  51 60                 mov    A,[OneWire_ROM+4]
-   660  71DA  54 04                 mov    [X+4],A
-   661  71DC  51 61                 mov    A,[OneWire_ROM+5]
-   662  71DE  54 05                 mov    [X+5],A
-   663  71E0  51 62                 mov    A,[OneWire_ROM+6]
-   664  71E2  54 06                 mov    [X+6],A
-   665  71E4  51 63                 mov    A,[OneWire_ROM+7]
-   666  71E6  54 07                 mov    [X+7],A
+   651  760D  51 54                 mov    A,[OneWire_ROM+0]
+   652  760F  54 00                 mov    [X+0],A
+   653  7611  51 55                 mov    A,[OneWire_ROM+1]
+   654  7613  54 01                 mov    [X+1],A
+   655  7615  51 56                 mov    A,[OneWire_ROM+2]
+   656  7617  54 02                 mov    [X+2],A
+   657  7619  51 57                 mov    A,[OneWire_ROM+3]
+   658  761B  54 03                 mov    [X+3],A
+   659  761D  51 58                 mov    A,[OneWire_ROM+4]
+   660  761F  54 04                 mov    [X+4],A
+   661  7621  51 59                 mov    A,[OneWire_ROM+5]
+   662  7623  54 05                 mov    [X+5],A
+   663  7625  51 5A                 mov    A,[OneWire_ROM+6]
+   664  7627  54 06                 mov    [X+6],A
+   665  7629  51 5B                 mov    A,[OneWire_ROM+7]
+   666  762B  54 07                 mov    [X+7],A
    667                              
-   668  71E8  70 3F                 RAM_EPILOGUE RAM_USE_CLASS_3
+   668  762D  70 3F                 RAM_EPILOGUE RAM_USE_CLASS_3
    669                              RAM_EPILOGUE RAM_USE_CLASS_4
-   670  71EC  7F                    ret
+   670  7631  7F                    ret
    671                          .ENDSECTION
    672                          
    673                          
@@ -2097,33 +2097,33 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    699                          ;     CUR_PP
    700                          ;     IDX_PP
    701                          ;-----------------------------------------------------------------------------
-   702  71ED                     OneWire_SetROM:
-   703  71ED                    _OneWire_SetROM:
+   702  7632                     OneWire_SetROM:
+   703  7632                    _OneWire_SetROM:
    704                              RAM_PROLOGUE RAM_USE_CLASS_4
    705                              RAM_PROLOGUE RAM_USE_CLASS_3
-   706  71ED  60 D3                 RAM_SETPAGE_IDX A
-   707  71EF  62 D0 00              RAM_SETPAGE_CUR >OneWire_ROM
+   706  7632  60 D3                 RAM_SETPAGE_IDX A
+   707  7634  62 D0 00              RAM_SETPAGE_CUR >OneWire_ROM
    708                              
-   709  71F2  52 00                 mov    A,[X+0]
-   710  71F4  53 5C                 mov    [OneWire_ROM+0], A
-   711  71F6  52 01                 mov    A,[X+1]
-   712  71F8  53 5D                 mov    [OneWire_ROM+1], A
-   713  71FA  52 02                 mov    A,[X+2]
-   714  71FC  53 5E                 mov    [OneWire_ROM+2], A
-   715  71FE  52 03                 mov    A,[X+3]
-   716  7200  53 5F                 mov    [OneWire_ROM+3], A
-   717  7202  52 04                 mov    A,[X+4]
-   718  7204  53 60                 mov    [OneWire_ROM+4], A
-   719  7206  52 05                 mov    A,[X+5]
-   720  7208  53 61                 mov    [OneWire_ROM+5], A
-   721  720A  52 06                 mov    A,[X+6]
-   722  720C  53 62                 mov    [OneWire_ROM+6], A
-   723  720E  52 07                 mov    A,[X+7]
-   724  7210  53 63                 mov    [OneWire_ROM+7], A
+   709  7637  52 00                 mov    A,[X+0]
+   710  7639  53 54                 mov    [OneWire_ROM+0], A
+   711  763B  52 01                 mov    A,[X+1]
+   712  763D  53 55                 mov    [OneWire_ROM+1], A
+   713  763F  52 02                 mov    A,[X+2]
+   714  7641  53 56                 mov    [OneWire_ROM+2], A
+   715  7643  52 03                 mov    A,[X+3]
+   716  7645  53 57                 mov    [OneWire_ROM+3], A
+   717  7647  52 04                 mov    A,[X+4]
+   718  7649  53 58                 mov    [OneWire_ROM+4], A
+   719  764B  52 05                 mov    A,[X+5]
+   720  764D  53 59                 mov    [OneWire_ROM+5], A
+   721  764F  52 06                 mov    A,[X+6]
+   722  7651  53 5A                 mov    [OneWire_ROM+6], A
+   723  7653  52 07                 mov    A,[X+7]
+   724  7655  53 5B                 mov    [OneWire_ROM+7], A
    725                              
-   726  7212  70 3F                 RAM_EPILOGUE RAM_USE_CLASS_3
+   726  7657  70 3F                 RAM_EPILOGUE RAM_USE_CLASS_3
    727                              RAM_EPILOGUE RAM_USE_CLASS_4
-   728  7216  7F                    ret
+   728  765B  7F                    ret
    729                          .ENDSECTION
    730                          
    731                          .SECTION
@@ -2152,20 +2152,20 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    754                          ;    CUR_PP
    755                          ;    IDX_PP
    756                          ;-----------------------------------------------------------------------------
-   757  7217                     OneWire_fFindFirst:
-   758  7217                    _OneWire_fFindFirst:
+   757  765C                     OneWire_fFindFirst:
+   758  765C                    _OneWire_fFindFirst:
    759                              RAM_PROLOGUE RAM_USE_CLASS_4
    760                              
-   761  7217  62 D0 00              RAM_SETPAGE_CUR >OneWire_LastDiscrepancy
-   762  721A  55 64  00             mov   [OneWire_LastDiscrepancy], 00h
-   763  721D  62 D0 00              RAM_SETPAGE_CUR >OneWire_LastDeviceFlag
-   764  7220  55 66  00             mov   [OneWire_LastDeviceFlag], 00h
-   765  7223  62 D0 00              RAM_SETPAGE_CUR >OneWire_LastFamilyDiscrepancy
-   766  7226  55 65  00             mov   [OneWire_LastFamilyDiscrepancy], 00h
-   767  7229  9004                  call  OneWire_Search
+   761  765C  62 D0 00              RAM_SETPAGE_CUR >OneWire_LastDiscrepancy
+   762  765F  55 5C  00             mov   [OneWire_LastDiscrepancy], 00h
+   763  7662  62 D0 00              RAM_SETPAGE_CUR >OneWire_LastDeviceFlag
+   764  7665  55 5E  00             mov   [OneWire_LastDeviceFlag], 00h
+   765  7668  62 D0 00              RAM_SETPAGE_CUR >OneWire_LastFamilyDiscrepancy
+   766  766B  55 5D  00             mov   [OneWire_LastFamilyDiscrepancy], 00h
+   767  766E  9004                  call  OneWire_Search
    768                          
    769                              RAM_EPILOGUE RAM_USE_CLASS_4
-   770  722B  7F                    ret
+   770  7670  7F                    ret
    771                          .ENDSECTION
    772                          
    773                          .SECTION
@@ -2195,14 +2195,14 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    797                          ;    CUR_PP
    798                          ;    IDX_PP
    799                          ;-----------------------------------------------------------------------------
-   800  722C                     OneWire_fFindNext:
-   801  722C                    _OneWire_fFindNext:
+   800  7671                     OneWire_fFindNext:
+   801  7671                    _OneWire_fFindNext:
    802                              RAM_PROLOGUE RAM_USE_CLASS_4
    803                              
-   804  722C  9001                  call  OneWire_Search
+   804  7671  9001                  call  OneWire_Search
    805                              
    806                              RAM_EPILOGUE RAM_USE_CLASS_4
-   807  722E  7F                    ret
+   807  7673  7F                    ret
    808                          .ENDSECTION
    809                          
    810                          .SECTION
@@ -2240,163 +2240,163 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    842  0006                    ROM_BYTE_MASK:              equ   6
    843  0007                    SEARCH_DIRECTION:           equ   7
    844                          
-   845  722F                     OneWire_Search:
-   846  722F                    _OneWire_Search:
+   845  7674                     OneWire_Search:
+   846  7674                    _OneWire_Search:
    847                              RAM_PROLOGUE RAM_USE_CLASS_4
    848                              RAM_PROLOGUE RAM_USE_CLASS_3
    849                              
-   850  722F  4F                    mov   X,SP                                   ; Get location of stack
-   851  7230  38 08                 add   SP,08h                                 ; Make locations for local variables
-   852  7232  62 D3 07              RAM_SETPAGE_IDX2STK
-   853  7235  56 00 01              mov   [X+ID_BIT_NUMBER],01h                  ; Initialize for search
-   854  7238  56 01 00              mov   [X+LAST_ZERO],00h
-   855  723B  56 02 00              mov   [X+ROM_BYTE_NUMBER],00h
-   856  723E  56 06 01              mov   [X+ROM_BYTE_MASK],01h
-   857  7241  56 03 00              mov   [X+SEARCH_RESULT],00h
-   858  7244  62 D0 00              RAM_SETPAGE_CUR >OneWire_bCRC8Value
-   859  7247  55 5B  00             mov   [OneWire_bCRC8Value],00h
-   860  724A  62 D0 00              RAM_SETPAGE_CUR >OneWire_LastDeviceFlag
-   861  724D  51 66                 mov   A,[OneWire_LastDeviceFlag]
-   862  724F  B0D4                  jnz   .check_result
-   863  7251  9EEA                  call  OneWire_fReset
-   864  7253  A0DF                  jz    .search_return_false
+   850  7674  4F                    mov   X,SP                                   ; Get location of stack
+   851  7675  38 08                 add   SP,08h                                 ; Make locations for local variables
+   852  7677  62 D3 07              RAM_SETPAGE_IDX2STK
+   853  767A  56 00 01              mov   [X+ID_BIT_NUMBER],01h                  ; Initialize for search
+   854  767D  56 01 00              mov   [X+LAST_ZERO],00h
+   855  7680  56 02 00              mov   [X+ROM_BYTE_NUMBER],00h
+   856  7683  56 06 01              mov   [X+ROM_BYTE_MASK],01h
+   857  7686  56 03 00              mov   [X+SEARCH_RESULT],00h
+   858  7689  62 D0 00              RAM_SETPAGE_CUR >OneWire_bCRC8Value
+   859  768C  55 53  00             mov   [OneWire_bCRC8Value],00h
+   860  768F  62 D0 00              RAM_SETPAGE_CUR >OneWire_LastDeviceFlag
+   861  7692  51 5E                 mov   A,[OneWire_LastDeviceFlag]
+   862  7694  B0D4                  jnz   .check_result
+   863  7696  9EEA                  call  OneWire_fReset
+   864  7698  A0DF                  jz    .search_return_false
    865                          
-   866  7255  50 F0                 mov   A,F0h                                  ; Search command
-   867  7257  10                    push  X
-   868  7258  9F19                  call  OneWire_WriteByte
-   869  725A  20                    pop   X
-   870  725B                    .search_loop:
-   871  725B  9F05                  call  OneWire_bReadBit
-   872  725D  54 04                 mov   [X+ID_BIT],A
-   873  725F  9F01                  call  OneWire_bReadBit
-   874  7261  54 05                 mov   [X+CMP_ID_BIT],A
-   875  7263  21 01                 and   A,01h
-   876  7265  23 04                 and   A,[X+ID_BIT]
-   877  7267  B09D                  jnz   .check_search
+   866  769A  50 F0                 mov   A,F0h                                  ; Search command
+   867  769C  10                    push  X
+   868  769D  9F19                  call  OneWire_WriteByte
+   869  769F  20                    pop   X
+   870  76A0                    .search_loop:
+   871  76A0  9F05                  call  OneWire_bReadBit
+   872  76A2  54 04                 mov   [X+ID_BIT],A
+   873  76A4  9F01                  call  OneWire_bReadBit
+   874  76A6  54 05                 mov   [X+CMP_ID_BIT],A
+   875  76A8  21 01                 and   A,01h
+   876  76AA  23 04                 and   A,[X+ID_BIT]
+   877  76AC  B09D                  jnz   .check_search
    878                          
-   879  7269                    .search_else_1:
-   880  7269  52 04                 mov   A,[X+ID_BIT]                           ; If ID_BIT != CMP_ID_BIT
-   881  726B  3B 05                 cmp   A,[X+CMP_ID_BIT]
-   882  726D  A007                  jz    .search_else_2
-   883  726F  52 04                 mov   A,[X+ID_BIT]
-   884  7271  54 07                 mov   [X+SEARCH_DIRECTION],A
-   885  7273  8048                  jmp   .search_set_or_clear
-   886  7275                    .search_else_2:
-   887  7275  52 00                 mov   A,[X+ID_BIT_NUMBER]
-   888  7277  62 D0 00              RAM_SETPAGE_CUR >OneWire_LastDiscrepancy
-   889  727A  3A 64                 cmp   A,[OneWire_LastDiscrepancy]
-   890  727C  D01B                  jnc   .search_else_3
-   891  727E  10                    push  X
-   892  727F  59 02                 mov   X,[X+ROM_BYTE_NUMBER]
-   893  7281  62 D3 00              RAM_SETPAGE_IDX >OneWire_ROM
-   894  7284  52 5C                 mov   A,[X+OneWire_ROM]
-   895  7286  62 D3 07              RAM_SETPAGE_IDX2STK
-   896  7289  20                    pop   X
-   897  728A  23 06                 and   A,[X+ROM_BYTE_MASK]
-   898  728C  B006                  jnz   .search_dir_1
-   899  728E  56 07 00              mov   [X+SEARCH_DIRECTION],00h
-   900  7291  8017                  jmp   .search_is_dir_0
-   901  7293                    .search_dir_1:
-   902  7293  56 07 01              mov   [X+SEARCH_DIRECTION],01h
-   903  7296  8012                  jmp   .search_is_dir_0
-   904  7298                    .search_else_3:
-   905  7298  52 00                 mov   A,[X+ID_BIT_NUMBER]
-   906  729A  62 D0 00              RAM_SETPAGE_CUR >OneWire_LastDiscrepancy
-   907  729D  3A 64                 cmp   A,[OneWire_LastDiscrepancy]            ;SEARCH_DIRECTION = (ID_BIT_NUMBER == LastDiscrepan
+   879  76AE                    .search_else_1:
+   880  76AE  52 04                 mov   A,[X+ID_BIT]                           ; If ID_BIT != CMP_ID_BIT
+   881  76B0  3B 05                 cmp   A,[X+CMP_ID_BIT]
+   882  76B2  A007                  jz    .search_else_2
+   883  76B4  52 04                 mov   A,[X+ID_BIT]
+   884  76B6  54 07                 mov   [X+SEARCH_DIRECTION],A
+   885  76B8  8048                  jmp   .search_set_or_clear
+   886  76BA                    .search_else_2:
+   887  76BA  52 00                 mov   A,[X+ID_BIT_NUMBER]
+   888  76BC  62 D0 00              RAM_SETPAGE_CUR >OneWire_LastDiscrepancy
+   889  76BF  3A 5C                 cmp   A,[OneWire_LastDiscrepancy]
+   890  76C1  D01B                  jnc   .search_else_3
+   891  76C3  10                    push  X
+   892  76C4  59 02                 mov   X,[X+ROM_BYTE_NUMBER]
+   893  76C6  62 D3 00              RAM_SETPAGE_IDX >OneWire_ROM
+   894  76C9  52 54                 mov   A,[X+OneWire_ROM]
+   895  76CB  62 D3 07              RAM_SETPAGE_IDX2STK
+   896  76CE  20                    pop   X
+   897  76CF  23 06                 and   A,[X+ROM_BYTE_MASK]
+   898  76D1  B006                  jnz   .search_dir_1
+   899  76D3  56 07 00              mov   [X+SEARCH_DIRECTION],00h
+   900  76D6  8017                  jmp   .search_is_dir_0
+   901  76D8                    .search_dir_1:
+   902  76D8  56 07 01              mov   [X+SEARCH_DIRECTION],01h
+   903  76DB  8012                  jmp   .search_is_dir_0
+   904  76DD                    .search_else_3:
+   905  76DD  52 00                 mov   A,[X+ID_BIT_NUMBER]
+   906  76DF  62 D0 00              RAM_SETPAGE_CUR >OneWire_LastDiscrepancy
+   907  76E2  3A 5C                 cmp   A,[OneWire_LastDiscrepancy]            ;SEARCH_DIRECTION = (ID_BIT_NUMBER == LastDiscrepan
                                 cy search_direction)
-   908  729F  B006                  jnz   .search_dir_1_2
-   909  72A1  56 07 01              mov   [X+SEARCH_DIRECTION],01h
-   910  72A4  8004                  jmp   .search_is_dir_0
-   911  72A6                    .search_dir_1_2:
-   912  72A6  56 07 00              mov   [X+SEARCH_DIRECTION],00h
-   913  72A9                    .search_is_dir_0:
-   914  72A9  52 07                 mov   A,[X+SEARCH_DIRECTION]
-   915  72AB  B010                  jnz   .search_set_or_clear
-   916  72AD  52 00                 mov   A,[X+ID_BIT_NUMBER]
-   917  72AF  54 01                 mov   [X+LAST_ZERO],A
-   918  72B1  39 09                 cmp   A,09h
-   919  72B3  D008                  jnc   .search_set_or_clear
-   920  72B5  52 01                 mov   A,[X+LAST_ZERO]
-   921  72B7  62 D0 00              RAM_SETPAGE_CUR >OneWire_LastFamilyDiscrepancy
-   922  72BA  53 65                 mov   [OneWire_LastFamilyDiscrepancy],A
-   923  72BC                    .search_set_or_clear:
-   924  72BC  3D 07 01              cmp   [X+SEARCH_DIRECTION],01h
-   925  72BF  B011                  jnz   .search_else_4
-   926  72C1  52 06                 mov   A,[X+ROM_BYTE_MASK]
-   927  72C3  10                    push  X
-   928  72C4  59 02                 mov   X,[X+ROM_BYTE_NUMBER]
-   929  72C6  62 D3 00              RAM_SETPAGE_IDX >OneWire_ROM
-   930  72C9  2D 5C                 or    [X+OneWire_ROM],A
-   931  72CB  62 D3 07              RAM_SETPAGE_IDX2STK
-   932  72CE  20                    pop   X
-   933  72CF  8010                  jmp   .search_write_direction
-   934  72D1                    .search_else_4:
-   935  72D1  52 06                 mov   A,[X+ROM_BYTE_MASK]
-   936  72D3  10                    push  X
-   937  72D4  59 02                 mov   X,[X+ROM_BYTE_NUMBER]
-   938  72D6  73                    cpl   A
-   939  72D7  62 D3 00              RAM_SETPAGE_IDX >OneWire_ROM
-   940  72DA  25 5C                 and   [X+OneWire_ROM],A
-   941  72DC  62 D3 07              RAM_SETPAGE_IDX2STK
-   942  72DF  20                    pop   X
-   943  72E0                    .search_write_direction:
-   944  72E0  52 07                 mov   A,[X+SEARCH_DIRECTION]
-   945  72E2  9E72                  call  OneWire_WriteBit
-   946  72E4  77 00                 inc   [X+ID_BIT_NUMBER]
-   947  72E6  66 06                 asl   [X+ROM_BYTE_MASK]
-   948  72E8  3D 06 00              cmp   [X+ROM_BYTE_MASK],00h
-   949  72EB  B014                  jnz   .check_if_loop
-   950  72ED  10                    push  X
-   951  72EE  59 02                 mov   X,[X+ROM_BYTE_NUMBER]
-   952  72F0  62 D3 00              RAM_SETPAGE_IDX >OneWire_ROM
-   953  72F3  52 5C                 mov   A,[X+OneWire_ROM]
-   954  72F5  62 D3 07              RAM_SETPAGE_IDX2STK
-   955  72F8  9EAF                  call  OneWire_bCRC8
+   908  76E4  B006                  jnz   .search_dir_1_2
+   909  76E6  56 07 01              mov   [X+SEARCH_DIRECTION],01h
+   910  76E9  8004                  jmp   .search_is_dir_0
+   911  76EB                    .search_dir_1_2:
+   912  76EB  56 07 00              mov   [X+SEARCH_DIRECTION],00h
+   913  76EE                    .search_is_dir_0:
+   914  76EE  52 07                 mov   A,[X+SEARCH_DIRECTION]
+   915  76F0  B010                  jnz   .search_set_or_clear
+   916  76F2  52 00                 mov   A,[X+ID_BIT_NUMBER]
+   917  76F4  54 01                 mov   [X+LAST_ZERO],A
+   918  76F6  39 09                 cmp   A,09h
+   919  76F8  D008                  jnc   .search_set_or_clear
+   920  76FA  52 01                 mov   A,[X+LAST_ZERO]
+   921  76FC  62 D0 00              RAM_SETPAGE_CUR >OneWire_LastFamilyDiscrepancy
+   922  76FF  53 5D                 mov   [OneWire_LastFamilyDiscrepancy],A
+   923  7701                    .search_set_or_clear:
+   924  7701  3D 07 01              cmp   [X+SEARCH_DIRECTION],01h
+   925  7704  B011                  jnz   .search_else_4
+   926  7706  52 06                 mov   A,[X+ROM_BYTE_MASK]
+   927  7708  10                    push  X
+   928  7709  59 02                 mov   X,[X+ROM_BYTE_NUMBER]
+   929  770B  62 D3 00              RAM_SETPAGE_IDX >OneWire_ROM
+   930  770E  2D 54                 or    [X+OneWire_ROM],A
+   931  7710  62 D3 07              RAM_SETPAGE_IDX2STK
+   932  7713  20                    pop   X
+   933  7714  8010                  jmp   .search_write_direction
+   934  7716                    .search_else_4:
+   935  7716  52 06                 mov   A,[X+ROM_BYTE_MASK]
+   936  7718  10                    push  X
+   937  7719  59 02                 mov   X,[X+ROM_BYTE_NUMBER]
+   938  771B  73                    cpl   A
+   939  771C  62 D3 00              RAM_SETPAGE_IDX >OneWire_ROM
+   940  771F  25 54                 and   [X+OneWire_ROM],A
+   941  7721  62 D3 07              RAM_SETPAGE_IDX2STK
+   942  7724  20                    pop   X
+   943  7725                    .search_write_direction:
+   944  7725  52 07                 mov   A,[X+SEARCH_DIRECTION]
+   945  7727  9E72                  call  OneWire_WriteBit
+   946  7729  77 00                 inc   [X+ID_BIT_NUMBER]
+   947  772B  66 06                 asl   [X+ROM_BYTE_MASK]
+   948  772D  3D 06 00              cmp   [X+ROM_BYTE_MASK],00h
+   949  7730  B014                  jnz   .check_if_loop
+   950  7732  10                    push  X
+   951  7733  59 02                 mov   X,[X+ROM_BYTE_NUMBER]
+   952  7735  62 D3 00              RAM_SETPAGE_IDX >OneWire_ROM
+   953  7738  52 54                 mov   A,[X+OneWire_ROM]
+   954  773A  62 D3 07              RAM_SETPAGE_IDX2STK
+   955  773D  9EAF                  call  OneWire_bCRC8
    956                              RAM_PROLOGUE RAM_USE_CLASS_4
-   957  72FA  20                    pop   X
-   958  72FB  77 02                 inc   [X+ROM_BYTE_NUMBER]
-   959  72FD  56 06 01              mov   [X+ROM_BYTE_MASK],01h
-   960  7300                    .check_if_loop:
-   961  7300  3D 02 08              cmp   [X+ROM_BYTE_NUMBER],08h
-   962  7303  CF57                  jc    .search_loop
-   963  7305                    .check_search:
-   964  7305  3D 00 41              cmp   [X+ID_BIT_NUMBER],41h
-   965  7308  C01B                  jc    .check_result
-   966  730A  62 D0 00              RAM_SETPAGE_CUR >OneWire_bCRC8Value
-   967  730D  3C 5B  00             cmp   [OneWire_bCRC8Value],00h
-   968  7310  B013                  jnz   .check_result
-   969  7312  52 01                 mov   A,[X+LAST_ZERO]
-   970  7314  62 D0 00              RAM_SETPAGE_CUR >OneWire_LastDiscrepancy
-   971  7317  53 64                 mov   [OneWire_LastDiscrepancy],A
-   972  7319  B007                  jnz   .search_not_last
-   973  731B  62 D0 00              RAM_SETPAGE_CUR >OneWire_LastDeviceFlag
-   974  731E  55 66  01             mov   [OneWire_LastDeviceFlag],01h
-   975  7321                    .search_not_last:
-   976  7321  56 03 01              mov   [X+SEARCH_RESULT],01h
+   957  773F  20                    pop   X
+   958  7740  77 02                 inc   [X+ROM_BYTE_NUMBER]
+   959  7742  56 06 01              mov   [X+ROM_BYTE_MASK],01h
+   960  7745                    .check_if_loop:
+   961  7745  3D 02 08              cmp   [X+ROM_BYTE_NUMBER],08h
+   962  7748  CF57                  jc    .search_loop
+   963  774A                    .check_search:
+   964  774A  3D 00 41              cmp   [X+ID_BIT_NUMBER],41h
+   965  774D  C01B                  jc    .check_result
+   966  774F  62 D0 00              RAM_SETPAGE_CUR >OneWire_bCRC8Value
+   967  7752  3C 53  00             cmp   [OneWire_bCRC8Value],00h
+   968  7755  B013                  jnz   .check_result
+   969  7757  52 01                 mov   A,[X+LAST_ZERO]
+   970  7759  62 D0 00              RAM_SETPAGE_CUR >OneWire_LastDiscrepancy
+   971  775C  53 5C                 mov   [OneWire_LastDiscrepancy],A
+   972  775E  B007                  jnz   .search_not_last
+   973  7760  62 D0 00              RAM_SETPAGE_CUR >OneWire_LastDeviceFlag
+   974  7763  55 5E  01             mov   [OneWire_LastDeviceFlag],01h
+   975  7766                    .search_not_last:
+   976  7766  56 03 01              mov   [X+SEARCH_RESULT],01h
    977                          ; If no device found then reset counter so next search will be like a first
-   978  7324                    .check_result:
-   979  7324  52 03                 mov   A,[X+SEARCH_RESULT]
-   980  7326  A00C                  jz    .search_return_false
-   981  7328  62 D0 00              RAM_SETPAGE_CUR >OneWire_ROM
-   982  732B  51 5C                 mov   A,[OneWire_ROM+0]
-   983  732D  A005                  jz    .search_return_false
-   984  732F                    .search_return_true:
-   985  732F  50 01                 mov   A,01h
-   986  7331  8015                  jmp   .search_clean_up
-   987  7333                    .search_return_false:
-   988  7333  62 D0 00              RAM_SETPAGE_CUR >OneWire_LastDiscrepancy
-   989  7336  55 64  00             mov   [OneWire_LastDiscrepancy],00h
-   990  7339  62 D0 00              RAM_SETPAGE_CUR >OneWire_LastDeviceFlag
-   991  733C  55 66  00             mov   [OneWire_LastDeviceFlag],00h
-   992  733F  62 D0 00              RAM_SETPAGE_CUR >OneWire_LastFamilyDiscrepancy
-   993  7342  55 65  00             mov   [OneWire_LastFamilyDiscrepancy],00h
-   994  7345  50 00                 mov   A,00h
-   995  7347                    .search_clean_up:
-   996  7347  38 F8                 add   SP,-08h                                ; Restore SP
+   978  7769                    .check_result:
+   979  7769  52 03                 mov   A,[X+SEARCH_RESULT]
+   980  776B  A00C                  jz    .search_return_false
+   981  776D  62 D0 00              RAM_SETPAGE_CUR >OneWire_ROM
+   982  7770  51 54                 mov   A,[OneWire_ROM+0]
+   983  7772  A005                  jz    .search_return_false
+   984  7774                    .search_return_true:
+   985  7774  50 01                 mov   A,01h
+   986  7776  8015                  jmp   .search_clean_up
+   987  7778                    .search_return_false:
+   988  7778  62 D0 00              RAM_SETPAGE_CUR >OneWire_LastDiscrepancy
+   989  777B  55 5C  00             mov   [OneWire_LastDiscrepancy],00h
+   990  777E  62 D0 00              RAM_SETPAGE_CUR >OneWire_LastDeviceFlag
+   991  7781  55 5E  00             mov   [OneWire_LastDeviceFlag],00h
+   992  7784  62 D0 00              RAM_SETPAGE_CUR >OneWire_LastFamilyDiscrepancy
+   993  7787  55 5D  00             mov   [OneWire_LastFamilyDiscrepancy],00h
+   994  778A  50 00                 mov   A,00h
+   995  778C                    .search_clean_up:
+   996  778C  38 F8                 add   SP,-08h                                ; Restore SP
    997                          
-   998  7349  70 3F                 RAM_EPILOGUE RAM_USE_CLASS_3
+   998  778E  70 3F                 RAM_EPILOGUE RAM_USE_CLASS_3
    999                              RAM_EPILOGUE RAM_USE_CLASS_4
-  1000  734D  7F                    ret
+  1000  7792  7F                    ret
   1001                          .ENDSECTION
   1002                          
   1003                          .SECTION
@@ -2429,95 +2429,95 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
   1030  0009                    LDF_BACKUP:                 equ   9
   1031  000A                    LFD_BACKUP:                 equ   0x0A
   1032                          
-  1033  734E                     OneWire_fVerify:
-  1034  734E                    _OneWire_fVerify:
+  1033  7793                     OneWire_fVerify:
+  1034  7793                    _OneWire_fVerify:
   1035                              RAM_PROLOGUE RAM_USE_CLASS_4
   1036                              RAM_PROLOGUE RAM_USE_CLASS_3
   1037                              
-  1038  734E  4F                    mov   X, SP                                  ; Get location of stack
-  1039  734F  38 0B                 add   SP, 0Bh                                ; Make locations for local variables
+  1038  7793  4F                    mov   X, SP                                  ; Get location of stack
+  1039  7794  38 0B                 add   SP, 0Bh                                ; Make locations for local variables
   1040                          IF ( SYSTEM_LARGE_MEMORY_MODEL )
-  1041  7351  5D D1                 mov   A, reg[STK_PP]                         ; Set A to right page to back up ROM to stack
+  1041  7796  5D D1                 mov   A, reg[STK_PP]                         ; Set A to right page to back up ROM to stack
   1042                          ELSE
   1043                              mov   A, 00h
   1044                          ENDIF
-  1045  7353  9E6E                  call  OneWire_GetROM
+  1045  7798  9E6E                  call  OneWire_GetROM
   1046                              RAM_PROLOGUE RAM_USE_CLASS_4
   1047                              RAM_PROLOGUE RAM_USE_CLASS_3
-  1048  7355  62 D3 07              RAM_SETPAGE_IDX2STK
-  1049  7358  62 D0 00              RAM_SETPAGE_CUR >OneWire_LastDiscrepancy
-  1050  735B  51 64                 mov   A,[OneWire_LastDiscrepancy]
-  1051  735D  54 08                 mov   [X+LD_BACKUP],A
-  1052  735F  62 D0 00              RAM_SETPAGE_CUR >OneWire_LastDeviceFlag
-  1053  7362  51 66                 mov   A,[OneWire_LastDeviceFlag]
-  1054  7364  54 09                 mov   [X+LDF_BACKUP],A
-  1055  7366  62 D0 00              RAM_SETPAGE_CUR >OneWire_LastFamilyDiscrepancy
-  1056  7369  51 65                 mov   A,[OneWire_LastFamilyDiscrepancy]
-  1057  736B  54 0A                 mov   [X+LFD_BACKUP],A
-  1058  736D  62 D0 00              RAM_SETPAGE_CUR >OneWire_LastDiscrepancy
-  1059  7370  55 64  40             mov   [OneWire_LastDiscrepancy],40h
-  1060  7373  62 D0 00              RAM_SETPAGE_CUR >OneWire_LastDeviceFlag
-  1061  7376  55 66  00             mov   [OneWire_LastDeviceFlag],00h
-  1062  7379  10                    push  X                                      ; Search does not preserve X
-  1063  737A  9EB3                  call  OneWire_Search
-  1064  737C  20                    pop   X
-  1065  737D  08                    push  A                                      ; Save result
-  1066  737E  70 BF                 RAM_X_POINTS_TO_INDEXPAGE
-  1067  7380  A03B                  jz    .Verify_End
-  1068  7382  62 D3 07              RAM_SETPAGE_IDX2STK
-  1069  7385  62 D0 00              RAM_SETPAGE_CUR >OneWire_ROM
-  1070  7388  51 5C                 mov   A,[OneWire_ROM+0]
-  1071  738A  3B 00                 cmp   A,[X+ROM_BACKUP]
-  1072  738C  B02B                  jnz   .Verify_Fail
-  1073  738E  51 5D                 mov   A,[OneWire_ROM+1]
-  1074  7390  3B 01                 cmp   A,[X+ROM_BACKUP+1]
-  1075  7392  B025                  jnz   .Verify_Fail
-  1076  7394  51 5E                 mov   A,[OneWire_ROM+2]
-  1077  7396  3B 02                 cmp   A,[X+ROM_BACKUP+2]
-  1078  7398  B01F                  jnz   .Verify_Fail
-  1079  739A  51 5F                 mov   A,[OneWire_ROM+3]
-  1080  739C  3B 03                 cmp   A,[X+ROM_BACKUP+3]
-  1081  739E  B019                  jnz   .Verify_Fail
-  1082  73A0  51 60                 mov   A,[OneWire_ROM+4]
-  1083  73A2  3B 04                 cmp   A,[X+ROM_BACKUP+4]
-  1084  73A4  B013                  jnz   .Verify_Fail
-  1085  73A6  51 61                 mov   A,[OneWire_ROM+5]
-  1086  73A8  3B 05                 cmp   A,[X+ROM_BACKUP+5]
-  1087  73AA  B00D                  jnz   .Verify_Fail
-  1088  73AC  51 62                 mov   A,[OneWire_ROM+6]
-  1089  73AE  3B 06                 cmp   A,[X+ROM_BACKUP+6]
-  1090  73B0  B007                  jnz   .Verify_Fail
-  1091  73B2  51 63                 mov   A,[OneWire_ROM+7]
-  1092  73B4  3B 07                 cmp   A,[X+ROM_BACKUP+7]
-  1093  73B6  A005                  jz    .Verify_End
-  1094  73B8                    .Verify_Fail:
-  1095  73B8  18                    pop   A                                      ; Replace result
-  1096  73B9  50 00                 mov   A,00h
-  1097  73BB  08                    push  A
-  1098  73BC                    .Verify_End:
+  1048  779A  62 D3 07              RAM_SETPAGE_IDX2STK
+  1049  779D  62 D0 00              RAM_SETPAGE_CUR >OneWire_LastDiscrepancy
+  1050  77A0  51 5C                 mov   A,[OneWire_LastDiscrepancy]
+  1051  77A2  54 08                 mov   [X+LD_BACKUP],A
+  1052  77A4  62 D0 00              RAM_SETPAGE_CUR >OneWire_LastDeviceFlag
+  1053  77A7  51 5E                 mov   A,[OneWire_LastDeviceFlag]
+  1054  77A9  54 09                 mov   [X+LDF_BACKUP],A
+  1055  77AB  62 D0 00              RAM_SETPAGE_CUR >OneWire_LastFamilyDiscrepancy
+  1056  77AE  51 5D                 mov   A,[OneWire_LastFamilyDiscrepancy]
+  1057  77B0  54 0A                 mov   [X+LFD_BACKUP],A
+  1058  77B2  62 D0 00              RAM_SETPAGE_CUR >OneWire_LastDiscrepancy
+  1059  77B5  55 5C  40             mov   [OneWire_LastDiscrepancy],40h
+  1060  77B8  62 D0 00              RAM_SETPAGE_CUR >OneWire_LastDeviceFlag
+  1061  77BB  55 5E  00             mov   [OneWire_LastDeviceFlag],00h
+  1062  77BE  10                    push  X                                      ; Search does not preserve X
+  1063  77BF  9EB3                  call  OneWire_Search
+  1064  77C1  20                    pop   X
+  1065  77C2  08                    push  A                                      ; Save result
+  1066  77C3  70 BF                 RAM_X_POINTS_TO_INDEXPAGE
+  1067  77C5  A03B                  jz    .Verify_End
+  1068  77C7  62 D3 07              RAM_SETPAGE_IDX2STK
+  1069  77CA  62 D0 00              RAM_SETPAGE_CUR >OneWire_ROM
+  1070  77CD  51 54                 mov   A,[OneWire_ROM+0]
+  1071  77CF  3B 00                 cmp   A,[X+ROM_BACKUP]
+  1072  77D1  B02B                  jnz   .Verify_Fail
+  1073  77D3  51 55                 mov   A,[OneWire_ROM+1]
+  1074  77D5  3B 01                 cmp   A,[X+ROM_BACKUP+1]
+  1075  77D7  B025                  jnz   .Verify_Fail
+  1076  77D9  51 56                 mov   A,[OneWire_ROM+2]
+  1077  77DB  3B 02                 cmp   A,[X+ROM_BACKUP+2]
+  1078  77DD  B01F                  jnz   .Verify_Fail
+  1079  77DF  51 57                 mov   A,[OneWire_ROM+3]
+  1080  77E1  3B 03                 cmp   A,[X+ROM_BACKUP+3]
+  1081  77E3  B019                  jnz   .Verify_Fail
+  1082  77E5  51 58                 mov   A,[OneWire_ROM+4]
+  1083  77E7  3B 04                 cmp   A,[X+ROM_BACKUP+4]
+  1084  77E9  B013                  jnz   .Verify_Fail
+  1085  77EB  51 59                 mov   A,[OneWire_ROM+5]
+  1086  77ED  3B 05                 cmp   A,[X+ROM_BACKUP+5]
+  1087  77EF  B00D                  jnz   .Verify_Fail
+  1088  77F1  51 5A                 mov   A,[OneWire_ROM+6]
+  1089  77F3  3B 06                 cmp   A,[X+ROM_BACKUP+6]
+  1090  77F5  B007                  jnz   .Verify_Fail
+  1091  77F7  51 5B                 mov   A,[OneWire_ROM+7]
+  1092  77F9  3B 07                 cmp   A,[X+ROM_BACKUP+7]
+  1093  77FB  A005                  jz    .Verify_End
+  1094  77FD                    .Verify_Fail:
+  1095  77FD  18                    pop   A                                      ; Replace result
+  1096  77FE  50 00                 mov   A,00h
+  1097  7800  08                    push  A
+  1098  7801                    .Verify_End:
   1099                          IF ( SYSTEM_LARGE_MEMORY_MODEL )
-  1100  73BC  5D D1                 mov   A, reg[STK_PP]                         ; Set A to right page to recover ROM from stack
+  1100  7801  5D D1                 mov   A, reg[STK_PP]                         ; Set A to right page to recover ROM from stack
   1101                          ELSE
   1102                              mov   A, 00h
   1103                          ENDIF
-  1104  73BE  9E2D                  call  OneWire_SetROM
-  1105  73C0  70 BF                 RAM_X_POINTS_TO_INDEXPAGE
-  1106  73C2  62 D3 07              RAM_SETPAGE_IDX2STK
-  1107  73C5  52 08                 mov   A, [X+LD_BACKUP]
-  1108  73C7  62 D0 00              RAM_SETPAGE_CUR >OneWire_LastDiscrepancy
-  1109  73CA  53 64                 mov   [OneWire_LastDiscrepancy], A
-  1110  73CC  52 09                 mov   A, [X+LDF_BACKUP]
-  1111  73CE  62 D0 00              RAM_SETPAGE_CUR >OneWire_LastDeviceFlag
-  1112  73D1  53 66                 mov   [OneWire_LastDeviceFlag], A
-  1113  73D3  52 0A                 mov   A, [X+LFD_BACKUP]
-  1114  73D5  62 D0 00              RAM_SETPAGE_CUR >OneWire_LastFamilyDiscrepancy
-  1115  73D8  53 65                 mov   [OneWire_LastFamilyDiscrepancy], A
-  1116  73DA  18                    pop   A                                      ; Restore result
-  1117  73DB  38 F5                 add   SP, -0Bh                               ; Restore SP
+  1104  7803  9E2D                  call  OneWire_SetROM
+  1105  7805  70 BF                 RAM_X_POINTS_TO_INDEXPAGE
+  1106  7807  62 D3 07              RAM_SETPAGE_IDX2STK
+  1107  780A  52 08                 mov   A, [X+LD_BACKUP]
+  1108  780C  62 D0 00              RAM_SETPAGE_CUR >OneWire_LastDiscrepancy
+  1109  780F  53 5C                 mov   [OneWire_LastDiscrepancy], A
+  1110  7811  52 09                 mov   A, [X+LDF_BACKUP]
+  1111  7813  62 D0 00              RAM_SETPAGE_CUR >OneWire_LastDeviceFlag
+  1112  7816  53 5E                 mov   [OneWire_LastDeviceFlag], A
+  1113  7818  52 0A                 mov   A, [X+LFD_BACKUP]
+  1114  781A  62 D0 00              RAM_SETPAGE_CUR >OneWire_LastFamilyDiscrepancy
+  1115  781D  53 5D                 mov   [OneWire_LastFamilyDiscrepancy], A
+  1116  781F  18                    pop   A                                      ; Restore result
+  1117  7820  38 F5                 add   SP, -0Bh                               ; Restore SP
   1118                          
-  1119  73DD  70 3F                 RAM_EPILOGUE RAM_USE_CLASS_3
+  1119  7822  70 3F                 RAM_EPILOGUE RAM_USE_CLASS_3
   1120                              RAM_EPILOGUE RAM_USE_CLASS_4
-  1121  73E1  7F                    ret
+  1121  7826  7F                    ret
   1122                          .ENDSECTION
   1123                          
   1124                          .SECTION
@@ -2546,31 +2546,31 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
   1147                          ;    CUR_PP
   1148                          ;    IDX_PP
   1149                          ;-----------------------------------------------------------------------------
-  1150  73E2                     OneWire_FamilyTargetSetup:
-  1151  73E2                    _OneWire_FamilyTargetSetup:
+  1150  7827                     OneWire_FamilyTargetSetup:
+  1151  7827                    _OneWire_FamilyTargetSetup:
   1152                              RAM_PROLOGUE RAM_USE_CLASS_4
   1153                              RAM_PROLOGUE RAM_USE_CLASS_3
-  1154  73E2  62 D0 00              RAM_SETPAGE_CUR >OneWire_ROM
-  1155  73E5  62 D3 00              RAM_SETPAGE_IDX >OneWire_ROM
+  1154  7827  62 D0 00              RAM_SETPAGE_CUR >OneWire_ROM
+  1155  782A  62 D3 00              RAM_SETPAGE_IDX >OneWire_ROM
   1156                              
-  1157  73E8  53 5C                 mov   [OneWire_ROM+0], A
-  1158  73EA  10                    push  X
-  1159  73EB  57 07                 mov   X, 07h
-  1160  73ED                    .loop:
-  1161  73ED  56 5C  00             mov   [X+OneWire_ROM], 00h
-  1162  73F0  79                    dec   X
-  1163  73F1  BFFB                  jnz   .loop
-  1164  73F3  20                    pop   X
-  1165  73F4  62 D0 00              RAM_SETPAGE_CUR >OneWire_LastDiscrepancy
-  1166  73F7  55 64  40             mov   [OneWire_LastDiscrepancy], 40h
-  1167  73FA  62 D0 00              RAM_SETPAGE_CUR >OneWire_LastFamilyDiscrepancy
-  1168  73FD  55 65  00             mov   [OneWire_LastFamilyDiscrepancy], 00h
-  1169  7400  62 D0 00              RAM_SETPAGE_CUR >OneWire_LastDeviceFlag
-  1170  7403  55 66  00             mov   [OneWire_LastDeviceFlag], 00h
+  1157  782D  53 54                 mov   [OneWire_ROM+0], A
+  1158  782F  10                    push  X
+  1159  7830  57 07                 mov   X, 07h
+  1160  7832                    .loop:
+  1161  7832  56 54  00             mov   [X+OneWire_ROM], 00h
+  1162  7835  79                    dec   X
+  1163  7836  BFFB                  jnz   .loop
+  1164  7838  20                    pop   X
+  1165  7839  62 D0 00              RAM_SETPAGE_CUR >OneWire_LastDiscrepancy
+  1166  783C  55 5C  40             mov   [OneWire_LastDiscrepancy], 40h
+  1167  783F  62 D0 00              RAM_SETPAGE_CUR >OneWire_LastFamilyDiscrepancy
+  1168  7842  55 5D  00             mov   [OneWire_LastFamilyDiscrepancy], 00h
+  1169  7845  62 D0 00              RAM_SETPAGE_CUR >OneWire_LastDeviceFlag
+  1170  7848  55 5E  00             mov   [OneWire_LastDeviceFlag], 00h
   1171                              
-  1172  7406  70 3F                 RAM_EPILOGUE RAM_USE_CLASS_3
+  1172  784B  70 3F                 RAM_EPILOGUE RAM_USE_CLASS_3
   1173                              RAM_EPILOGUE RAM_USE_CLASS_4
-  1174  740A  7F                    ret
+  1174  784F  7F                    ret
   1175                          .ENDSECTION
   1176                          
   1177                          .SECTION
@@ -2598,22 +2598,22 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
   1199                          ;    functions.  Currently only the page pointer registers listed below are modified:
   1200                          ;     CUR_PP
   1201                          ;-----------------------------------------------------------------------------
-  1202  740B                     OneWire_FamilySkipSetup:
-  1203  740B                    _OneWire_FamilySkipSetup:
+  1202  7850                     OneWire_FamilySkipSetup:
+  1203  7850                    _OneWire_FamilySkipSetup:
   1204                              RAM_PROLOGUE RAM_USE_CLASS_4
   1205                              
-  1206  740B  62 D0 00              RAM_SETPAGE_CUR >OneWire_LastFamilyDiscrepancy
-  1207  740E  51 65                 mov   A,[OneWire_LastFamilyDiscrepancy]
-  1208  7410  55 65  00             mov   [OneWire_LastFamilyDiscrepancy],00h
-  1209  7413  62 D0 00              RAM_SETPAGE_CUR >OneWire_LastDiscrepancy
-  1210  7416  53 64                 mov   [OneWire_LastDiscrepancy],A
-  1211  7418  B007                  jnz   .EndOfList
-  1212  741A  62 D0 00              RAM_SETPAGE_CUR >OneWire_LastDeviceFlag
-  1213  741D  55 66  01             mov   [OneWire_LastDeviceFlag],01h
-  1214  7420                    .EndOfList:
+  1206  7850  62 D0 00              RAM_SETPAGE_CUR >OneWire_LastFamilyDiscrepancy
+  1207  7853  51 5D                 mov   A,[OneWire_LastFamilyDiscrepancy]
+  1208  7855  55 5D  00             mov   [OneWire_LastFamilyDiscrepancy],00h
+  1209  7858  62 D0 00              RAM_SETPAGE_CUR >OneWire_LastDiscrepancy
+  1210  785B  53 5C                 mov   [OneWire_LastDiscrepancy],A
+  1211  785D  B007                  jnz   .EndOfList
+  1212  785F  62 D0 00              RAM_SETPAGE_CUR >OneWire_LastDeviceFlag
+  1213  7862  55 5E  01             mov   [OneWire_LastDeviceFlag],01h
+  1214  7865                    .EndOfList:
   1215                          
   1216                              RAM_EPILOGUE RAM_USE_CLASS_4
-  1217  7420  7F                    ret
+  1217  7865  7F                    ret
   1218                          .ENDSECTION
   1219                          ENDIF
   1220                          
@@ -2642,55 +2642,55 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
   1243                          ;  THEORY of OPERATION:
   1244                          ;     Writes data to the TX buffer register.
   1245                          ;-----------------------------------------------------------------------------
-  1246  7421                     OneWire_SendTxDataWait:
-  1247  7421                    _OneWire_SendTxDataWait:
+  1246  7866                     OneWire_SendTxDataWait:
+  1247  7866                    _OneWire_SendTxDataWait:
   1248                              RAM_PROLOGUE RAM_USE_CLASS_1
   1249                          
-  1250  7421  60 59                 mov    reg[OneWire_XCVR_TX_BUFFER_REG], A
-  1251  7423                    .WaitForTxComplete:
-  1252  7423  5D 5B                 mov    A,  reg[OneWire_XCVR_CONTROL_REG]
-  1253  7425  21 20                 and    A, SPIM_SPI_COMPLETE
-  1254  7427  AFFB                  jz     .WaitForTxComplete
+  1250  7866  60 59                 mov    reg[OneWire_XCVR_TX_BUFFER_REG], A
+  1251  7868                    .WaitForTxComplete:
+  1252  7868  5D 5B                 mov    A,  reg[OneWire_XCVR_CONTROL_REG]
+  1253  786A  21 20                 and    A, SPIM_SPI_COMPLETE
+  1254  786C  AFFB                  jz     .WaitForTxComplete
   1255                          
   1256                              RAM_EPILOGUE RAM_USE_CLASS_1
-  1257  7429  7F                    ret
+  1257  786E  7F                    ret
 
 
 HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
-Symbol Table                                                                                               Thu Feb 05 17:14:16 2009
+Symbol Table                                                                                               Fri Feb 06 16:23:19 2009
 
    OneWire_XCVR_RX_BUFFER_REG 005A              SPIM_SPI_COMPLETE 0020                    ONE_PATTERN 00FD  
                  RESET_PERIOD 00F9                  RESET_PATTERN 00F1      OneWire_BITCLK_PERIOD_REG 0055  
-              _OneWire_GetROM 71C3             _OneWire_WriteByte 7173                _OneWire_SetROM 71ED  
-              _OneWire_Search 722F                  ID_BIT_NUMBER 0000                _OneWire_fReset 713D  
+              _OneWire_GetROM 7608             _OneWire_WriteByte 75B8                _OneWire_SetROM 7632  
+              _OneWire_Search 7674                  ID_BIT_NUMBER 0000                _OneWire_fReset 7582  
                      MAC0_CL0 00EE                       MAC0_CL1 00EF                       MAC1_CL0 00AE  
-                     MAC1_CL1 00AF                          MAC_X 00EC         OneWire_SendTxDataWait 7421  
+                     MAC1_CL1 00AF                          MAC_X 00EC         OneWire_SendTxDataWait 7866  
                         MAC_Y 00ED                     ROM_BACKUP 0000          CONTROL_REG_START_BIT 0001  
-                 ZERO_PATTERN 0001        OneWire_FamilySkipSetup 740B                  SEARCH_RESULT 0003  
-                     INT_CLR2 00DC                       INT_MSK1 00E1        _OneWire_SendTxDataWait 7421  
-             _OneWire_fVerify 734E                         MAC0_X 00EC                         MAC0_Y 00ED  
+                 ZERO_PATTERN 0001        OneWire_FamilySkipSetup 7850                  SEARCH_RESULT 0003  
+                     INT_CLR2 00DC                       INT_MSK1 00E1        _OneWire_SendTxDataWait 7866  
+             _OneWire_fVerify 7793                         MAC0_X 00EC                         MAC0_Y 00ED  
                        MAC1_X 00AC                         MAC1_Y 00AD                         HITECH 0002  
                        ID_BIT 0004                FLAG_PGMODE_01b 0040                FLAG_PGMODE_10b 0080  
                        IDX_PP 00D3                         CUR_PP 00D0            OneWire_BIT_INT_REG 00DF  
-                       STK_PP 00D1            _OneWire_bCRC8Value 005B                    SPIM_MODE_0 0000  
-        OneWire_SEARCH_ENABLE 0001               OneWire_bReadBit 7162               SEARCH_DIRECTION 0007  
+                       STK_PP 00D1            _OneWire_bCRC8Value 0053                    SPIM_MODE_0 0000  
+        OneWire_SEARCH_ENABLE 0001               OneWire_bReadBit 75A7               SEARCH_DIRECTION 0007  
                     LD_BACKUP 0008                      LAST_ZERO 0001        OneWire_PARASITE_ENABLE 0000  
-     _OneWire_FamilySkipSetup 740B               OneWire_WriteBit 7156                   OneWire_Stop 7136  
-     OneWire_OVERDRIVE_ENABLE 0000              _OneWire_bReadBit 7162              OneWire_ClearCRC8 71A2  
+     _OneWire_FamilySkipSetup 7850               OneWire_WriteBit 759B                   OneWire_Stop 757B  
+     OneWire_OVERDRIVE_ENABLE 0000              _OneWire_bReadBit 75A7              OneWire_ClearCRC8 75E7  
                 ROM_BYTE_MASK 0006      SYSTEM_LARGE_MEMORY_MODEL 0001     OneWire_XCVR_TX_BUFFER_REG 0059  
-               _OneWire_bCRC8 71A9         SYSTEM_MULTIPAGE_STACK 0000              _OneWire_WriteBit 7156  
-           OneWire_fFindFirst 7217                 _OneWire_Start 7125                        MAC_CL0 00EE  
+               _OneWire_bCRC8 75EE         SYSTEM_MULTIPAGE_STACK 0000              _OneWire_WriteBit 759B  
+           OneWire_fFindFirst 765C                 _OneWire_Start 756A                        MAC_CL0 00EE  
                       MAC_CL1 00EF               FLAG_PGMODE_MASK 00C0                        PRT0DM1 0001  
               RAM_USE_CLASS_1 0001                RAM_USE_CLASS_2 0002                RAM_USE_CLASS_3 0004  
-              RAM_USE_CLASS_4 0008                     BIT_PERIOD 000D             _OneWire_ClearCRC8 71A2  
-    OneWire_FamilyTargetSetup 73E2                     CMP_ID_BIT 0005                    INIT_PERIOD 000F  
-OneWire_LastFamilyDiscrepancy 0065        OneWire_LastDiscrepancy 0064                    OneWire_ROM 005C  
-                   LDF_BACKUP 0009                OneWire_fVerify 734E                     LFD_BACKUP 000A  
-               SPIM_LSB_FIRST 0080              OneWire_bReadByte 718E                  _OneWire_Stop 7136  
-       OneWire_LastDeviceFlag 0066              OneWire_fFindNext 722C                 OneWire_GetROM 71C3  
-     OneWire_XCVR_CONTROL_REG 005B                 OneWire_SetROM 71ED                 OneWire_Search 722F  
-               OneWire_fReset 713D                  OneWire_bCRC8 71A9              SYSTEM_STACK_PAGE 0007  
-            OneWire_WriteByte 7173                  OneWire_Start 7125     SYSTEM_IDXPG_TRACKS_IDX_PP 0001  
-         OneWire_CRC16_ENABLE 0000                ROM_BYTE_NUMBER 0002            _OneWire_fFindFirst 7217  
-           OneWire_bCRC8Value 005B             _OneWire_bReadByte 718E     SYSTEM_IDXPG_TRACKS_STK_PP 0000  
-           _OneWire_fFindNext 722C     _OneWire_FamilyTargetSetup 73E2     OneWire_BITCLK_CONTROL_REG 0057  
+              RAM_USE_CLASS_4 0008                     BIT_PERIOD 000D             _OneWire_ClearCRC8 75E7  
+    OneWire_FamilyTargetSetup 7827                     CMP_ID_BIT 0005                    INIT_PERIOD 000F  
+OneWire_LastFamilyDiscrepancy 005D        OneWire_LastDiscrepancy 005C                    OneWire_ROM 0054  
+                   LDF_BACKUP 0009                OneWire_fVerify 7793                     LFD_BACKUP 000A  
+               SPIM_LSB_FIRST 0080              OneWire_bReadByte 75D3                  _OneWire_Stop 757B  
+       OneWire_LastDeviceFlag 005E              OneWire_fFindNext 7671                 OneWire_GetROM 7608  
+     OneWire_XCVR_CONTROL_REG 005B                 OneWire_SetROM 7632                 OneWire_Search 7674  
+               OneWire_fReset 7582                  OneWire_bCRC8 75EE              SYSTEM_STACK_PAGE 0007  
+            OneWire_WriteByte 75B8                  OneWire_Start 756A     SYSTEM_IDXPG_TRACKS_IDX_PP 0001  
+         OneWire_CRC16_ENABLE 0000                ROM_BYTE_NUMBER 0002            _OneWire_fFindFirst 765C  
+           OneWire_bCRC8Value 0053             _OneWire_bReadByte 75D3     SYSTEM_IDXPG_TRACKS_STK_PP 0000  
+           _OneWire_fFindNext 7671     _OneWire_FamilyTargetSetup 7827     OneWire_BITCLK_CONTROL_REG 0057  

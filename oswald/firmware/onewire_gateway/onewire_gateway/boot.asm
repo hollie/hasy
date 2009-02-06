@@ -143,7 +143,7 @@ ENDIF
     reti
 
     org   20h                      ;PSoC Block DBB00 Interrupt Vector
-    ljmp	_Counter8_ISR
+    // call	void_handler
     reti
 
     org   24h                      ;PSoC Block DBB01 Interrupt Vector

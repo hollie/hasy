@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <PSOC_WND_PERSIST>
   <APP_EDITOR_SETTINGS>
-    <OPEN_FILE PATH="D:\hollevo\projects\personal\hasy\oswald\firmware\onewire_gateway\onewire_gateway.cmx" />
     <OPEN_FILE PATH="D:\hollevo\projects\personal\hasy\oswald\firmware\onewire_gateway\onewire_gateway\onewire_gateway.soc" />
+    <OPEN_FILE PATH="D:\hollevo\projects\personal\hasy\oswald\firmware\onewire_gateway\onewire_gateway.cmx" />
     <OPEN_FILE PATH="d:\hollevo\projects\personal\hasy\oswald\firmware\onewire_gateway\onewire_gateway\main.c" />
     <OPEN_FILE PATH="d:\hollevo\projects\personal\hasy\oswald\firmware\onewire_gateway\onewire_gateway\oo.h" />
-    <OPEN_FILE PATH="d:\hollevo\projects\personal\hasy\oswald\firmware\onewire_gateway\onewire_gateway\oo.c" ACTIVE="true" />
+    <OPEN_FILE PATH="d:\hollevo\projects\personal\hasy\oswald\firmware\onewire_gateway\onewire_gateway\oo.c" />
   </APP_EDITOR_SETTINGS>
   <DEBUGGER_SETTINGS>
     <TRACE_MODE VALUE="PCOnly" />

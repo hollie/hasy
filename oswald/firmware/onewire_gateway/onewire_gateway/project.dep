@@ -1,10 +1,10 @@
 # DO NOT DELETE
-./obj/main.p1 :  ./lib/Counter8.h ./lib/COUNTE~1.H ./lib/LED1.h\
-   ./lib/LTRX.h ./lib/OneWire.h ./lib/PSoCAPI.h ./lib/Ticker.h\
+./obj/main.p1 :  ./lib/COUNTE~1.H ./lib/LED1.h ./lib/LTRX.h\
+   ./lib/OneWire.h ./lib/PSoCAPI.h ./lib/Ticker.h\
    C:/PROGRA~1/Cypress/Common/CYPRES~2/tools/include/CY8C29~1/m8c.h\
    D:\hollevo\projects\personal\hasy\oswald\firmware\ONEWIR~1\ONEWIR~1\oo.h
-./obj/oo.p1 :  ./lib/Counter8.h ./lib/COUNTE~1.H ./lib/LED1.h\
-   ./lib/LTRX.h ./lib/OneWire.h ./lib/PSoCAPI.h ./lib/Ticker.h\
+./obj/oo.p1 :  ./lib/COUNTE~1.H ./lib/LED1.h ./lib/LTRX.h\
+   ./lib/OneWire.h ./lib/PSoCAPI.h ./lib/Ticker.h\
    C:/PROGRA~1/Cypress/Common/CYPRES~2/tools/include/CY8C29~1/m8c.h\
    D:\hollevo\projects\personal\hasy\oswald\firmware\ONEWIR~1\ONEWIR~1\oo.h
 ./obj/boot.obj : \
@@ -12,16 +12,10 @@
    C:/PROGRA~1/Cypress/Common/CYPRES~2/tools/include/CY8C29~1/m8ssc.inc\
    D:\hollevo\projects\personal\hasy\oswald\firmware\ONEWIR~1\ONEWIR~1\lib\GLOBAL~1.INC\
    D:\hollevo\projects\personal\hasy\oswald\firmware\ONEWIR~1\ONEWIR~1\memory.inc
-./lib/obj/counter8.obj :  ./lib/Counter8.inc\
-   C:/PROGRA~1/Cypress/Common/CYPRES~2/tools/include/CY8C29~1/m8c.inc\
-   D:\hollevo\projects\personal\hasy\oswald\firmware\ONEWIR~1\ONEWIR~1\memory.inc
 ./lib/obj/counter8_ltrx.obj :  ./lib/COUNTE~1.INC\
    C:/PROGRA~1/Cypress/Common/CYPRES~2/tools/include/CY8C29~1/m8c.inc\
    D:\hollevo\projects\personal\hasy\oswald\firmware\ONEWIR~1\ONEWIR~1\memory.inc
 ./lib/obj/counter8_ltrxint.obj :  ./lib/COUNTE~1.INC\
-   C:/PROGRA~1/Cypress/Common/CYPRES~2/tools/include/CY8C29~1/m8c.inc\
-   D:\hollevo\projects\personal\hasy\oswald\firmware\ONEWIR~1\ONEWIR~1\memory.inc
-./lib/obj/counter8int.obj :  ./lib/Counter8.inc\
    C:/PROGRA~1/Cypress/Common/CYPRES~2/tools/include/CY8C29~1/m8c.inc\
    D:\hollevo\projects\personal\hasy\oswald\firmware\ONEWIR~1\ONEWIR~1\memory.inc
 ./lib/obj/led1.obj :  ./lib/LED1.inc\

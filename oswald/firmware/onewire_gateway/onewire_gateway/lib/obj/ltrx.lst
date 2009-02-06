@@ -1,7 +1,7 @@
 
 
 HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
-                                                                                                           Thu Feb 05 17:14:14 2009
+                                                                                                           Fri Feb 06 16:23:18 2009
 
 
      1                          ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -205,7 +205,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    199                          ;-------------------------------------
    200  0060                    AMX_IN:       equ 60h          ; Analog Input Multiplexor Control         (RW)
    201  00C0                    AMX_IN_ACI3:          equ 0C0h    ; MASK: column 3 input mux
-   202+ 0030                    AMX_IN_ACI2:          equ 30h    ; MASK: column 2 input mux
+   202  0030                    AMX_IN_ACI2:          equ 30h    ; MASK: column 2 input mux
    203  000C                    AMX_IN_ACI1:          equ 0Ch    ; MASK: column 1 input mux
    204  0003                    AMX_IN_ACI0:          equ 03h    ; MASK: column 0 input mux
    205                          
@@ -811,22 +811,22 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    805                          ;----------------------------------------------------
    806                              macro M8C_SetBank0
    807                              and   F, ~FLAG_XIO_MASK
-   808  7C6B                        endm
+   808  7D3C                        endm
    809                          
    810                              macro M8C_SetBank1
    811                              or    F, FLAG_XIO_MASK
-   812  7C6B                        endm
+   812  7D3C                        endm
    813                          
    814                          ;----------------------------------------------------
    815                          ;  Global Interrupt Enable/Disable
    816                          ;----------------------------------------------------
    817                              macro M8C_EnableGInt
    818                              or    F, FLAG_GLOBAL_IE
-   819  7C6B                        endm
+   819  7D3C                        endm
    820                          
    821                              macro M8C_DisableGInt
    822                              and   F, ~FLAG_GLOBAL_IE
-   823  7C6B                        endm
+   823  7D3C                        endm
    824                          
    825                          ;----------------------------------------------------
    826                          ;  Enable/Disable Interrupt Mask
@@ -844,12 +844,12 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    838                          ; Disable Interrupt Bit Mask(s)
    839                              macro M8C_DisableIntMask
    840                              and   reg[@0], ~@1              ; disable specified interrupt enable bit
-   841  7C6B                        endm
+   841  7D3C                        endm
    842                          
    843                          ; Enable Interrupt Bit Mask(s)
    844                              macro M8C_EnableIntMask
    845                              or    reg[@0], @1               ; enable specified interrupt enable bit
-   846  7C6B                        endm
+   846  7D3C                        endm
    847                          
    848                          ;----------------------------------------------------
    849                          ;  Clear Posted Interrupt Flag Mask
@@ -864,33 +864,33 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    858                          ;----------------------------------------------------
    859                              macro M8C_ClearIntFlag
    860                              mov   reg[@0], ~@1              ; clear specified interrupt enable bit
-   861  7C6B                        endm
+   861  7D3C                        endm
    862                          
    863                          ;----------------------------------------------------
    864                          ;  Power-On Reset & WatchDog Timer Functions
    865                          ;----------------------------------------------------
    866                              macro M8C_EnableWatchDog
    867                              and   reg[CPU_SCR0], ~CPU_SCR0_PORS_MASK
-   868  7C6B                        endm
+   868  7D3C                        endm
    869                          
    870                              macro M8C_ClearWDT
    871                              mov   reg[RES_WDT], 00h
-   872  7C6B                        endm
+   872  7D3C                        endm
    873                          
    874                              macro M8C_ClearWDTAndSleep
    875                              mov   reg[RES_WDT], 38h
-   876  7C6B                        endm
+   876  7D3C                        endm
    877                          
    878                          ;----------------------------------------------------
    879                          ;  CPU Stall for Analog PSoC Block Writes
    880                          ;----------------------------------------------------
    881                              macro M8C_Stall
    882                              or    reg[ASY_CR], ASY_CR_SYNCEN
-   883  7C6B                        endm
+   883  7D3C                        endm
    884                          
    885                              macro M8C_Unstall
    886                              and   reg[ASY_CR], ~ASY_CR_SYNCEN
-   887  7C6B                        endm
+   887  7D3C                        endm
    888                          
    889                          ;----------------------------------------------------
    890                          ;  Sleep, CPU Stop & Software Reset
@@ -904,21 +904,21 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    898                              ; interrupts are also enabled then the next instruction will be
    899                              ; from the interrupt vector table. If no interrupts are enabled
    900                              ; then the CPU sleeps forever.
-   901  7C6B                        endm
+   901  7D3C                        endm
    902                          
    903                              macro M8C_Stop
    904                              ; In general, you probably don't want to do this, but here's how:
    905                              or    reg[CPU_SCR0], CPU_SCR0_STOP_MASK
    906                              ; Next instruction to be executed is located in the interrupt
    907                              ; vector table entry for Power-On Reset.
-   908  7C6B                        endm
+   908  7D3C                        endm
    909                          
    910                              macro M8C_Reset
    911                              ; Restore CPU to the power-on reset state.
    912                              mov A, 0
    913                              SSC
    914                              ; Next non-supervisor instruction will be at interrupt vector 0.
-   915  7C6B                        endm
+   915  7D3C                        endm
    916                          
    917                          ;----------------------------------------------------
    918                          ; ImageCraft Code Compressor Actions
@@ -928,12 +928,12 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    922                              ; without resuming code compression
    923                              macro Suspend_CodeCompressor
    924                              or   F, 0
-   925  7C6B                        endm
+   925  7D3C                        endm
    926                          
    927                              ; Resume Code Compression
    928                              macro Resume_CodeCompressor
    929                              add  SP, 0
-   930  7C6B                        endm
+   930  7D3C                        endm
      1                          ;;*****************************************************************************
      2                          ;;*****************************************************************************
      3                          ;;
@@ -999,7 +999,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
     63                             IF ( SYSTEM_LARGE_MEMORY_MODEL )
     64                                mov reg[STK_PP], @PG_NUMBER
     65                             ENDIF
-    66  7C6B                       endm
+    66  7D3C                       endm
     67                          
     68                             ;-----------------------------------------------
     69                             ;  Set Current Page Macro
@@ -1016,7 +1016,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
     80                             IF ( SYSTEM_LARGE_MEMORY_MODEL )
     81                                mov reg[CUR_PP], @PG_NUMBER
     82                             ENDIF
-    83  7C6B                       endm
+    83  7D3C                       endm
     84                          
     85                             ;-----------------------------------------------
     86                             ;  Set Index Page Macro
@@ -1033,7 +1033,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
     97                             IF ( SYSTEM_LARGE_MEMORY_MODEL )
     98                                mov reg[IDX_PP], @PG_NUMBER
     99                             ENDIF
-   100  7C6B                       endm
+   100  7D3C                       endm
    101                          
    102                             ;-----------------------------------------------
    103                             ;  Set MVI Read Page Macro
@@ -1051,7 +1051,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    115                             IF ( SYSTEM_LARGE_MEMORY_MODEL )
    116                                mov reg[MVR_PP], @PG_NUMBER
    117                             ENDIF
-   118  7C6B                       endm
+   118  7D3C                       endm
    119                          
    120                             ;-----------------------------------------------
    121                             ;  Set MVI Write Page Macro
@@ -1069,7 +1069,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    133                             IF ( SYSTEM_LARGE_MEMORY_MODEL )
    134                                mov reg[MVW_PP], @PG_NUMBER
    135                             ENDIF
-   136  7C6B                       endm
+   136  7D3C                       endm
    137                          
    138                             ;-----------------------------------------------
    139                             ;  Force Index Page Pointer to Stack Page
@@ -1091,7 +1091,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    155                                   RAM_SETPAGE_IDX SYSTEM_STACK_PAGE
    156                                ENDIF
    157                             ENDIF
-   158  7C6B                       endm
+   158  7D3C                       endm
    159                          
    160                             ;-----------------------------------------------
    161                             ;  Change Memory Mode
@@ -1109,7 +1109,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    173                                and   F, ~FLAG_PGMODE_MASK        ; NOTE: transition thru 00b state
    174                                or    F,  FLAG_PGMODE_MASK & @MODE
    175                             ENDIF
-   176  7C6B                       endm
+   176  7D3C                       endm
    177                          
    178                             ;-----------------------------------------------
    179                             ;  Set Large Memory Model Native Paging Mode
@@ -1134,7 +1134,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    198                                or    F,  FLAG_PGMODE_10b            ; LMM with independent IndexPage
    199                             ENDIF ; PGMODE FREE
    200                             ENDIF ; SYSTEM_LARGE_MEMORY_MODEL
-   201  7C6B                       endm
+   201  7D3C                       endm
    202                          
    203                             ;-----------------------------------------------
    204                             ; Restore Large Memory Model Native Paging Mode
@@ -1158,7 +1158,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    222                                RAM_CHANGE_PAGE_MODE FLAG_PGMODE_10b ; LMM with independent IndexPage
    223                             ENDIF ; PGMODE FREE
    224                             ENDIF ; SYSTEM_LARGE_MEMORY_MODEL
-   225  7C6B                       endm
+   225  7D3C                       endm
    226                          
    227                             ;-----------------------------------------------
    228                             ; Force indexed addr mode operands to Stack Pg
@@ -1177,7 +1177,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    241                             IF ( SYSTEM_LARGE_MEMORY_MODEL )
    242                                or   F, FLAG_PGMODE_01b
    243                             ENDIF ;  SYSTEM_LARGE_MEMORY_MODEL
-   244  7C6B                       endm
+   244  7D3C                       endm
    245                          
    246                             ;-----------------------------------------------
    247                             ;  Force indexed addr mode operands to Index Pg
@@ -1196,7 +1196,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    260                             IF ( SYSTEM_LARGE_MEMORY_MODEL )
    261                                and  F, ~FLAG_PGMODE_01b
    262                             ENDIF ;  SYSTEM_LARGE_MEMORY_MODEL
-   263  7C6B                       endm
+   263  7D3C                       endm
    264                          
    265                             ;-----------------------------------------------
    266                             ;  Function Prologue
@@ -1227,7 +1227,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    291                             ; Nothing to do
    292                             ENDIF ; RAM_USE_CLASS_4
    293                          
-   294  7C6B                       endm
+   294  7D3C                       endm
    295                          
    296                             ;-----------------------------------------------
    297                             ;  Function Epilogue
@@ -1254,7 +1254,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    318                             ; Nothing to do
    319                             ENDIF ; RAM_USE_CLASS_4
    320                          
-   321  7C6B                       endm
+   321  7D3C                       endm
    322                          
    323                             ;-----------------------------------------------
    324                             ;  Preserve Register
@@ -1273,7 +1273,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    337                             macro REG_PRESERVE( IOReg )
    338                             mov   A, reg[ @IOReg ]
    339                             push  A
-   340  7C6B                       endm
+   340  7D3C                       endm
    341                          
    342                             ;-----------------------------------------------
    343                             ;  Restore Register
@@ -1292,7 +1292,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    356                             macro REG_RESTORE( IOReg )
    357                             pop   A
    358                             mov   reg[ @IOReg ], A
-   359  7C6B                       endm
+   359  7D3C                       endm
    360                          
    361                             ;-----------------------------------------------
    362                             ;  Preserve Volatile Page Pointer Registers
@@ -1314,7 +1314,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    378                                REG_PRESERVE MVR_PP
    379                                REG_PRESERVE MVW_PP
    380                             ENDIF
-   381  7C6B                       endm
+   381  7D3C                       endm
    382                          
    383                             ;-----------------------------------------------
    384                             ;  Restore Volatile Page Pointer Registers
@@ -1337,7 +1337,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    401                                REG_RESTORE IDX_PP
    402                                REG_RESTORE CUR_PP
    403                             ENDIF
-   404  7C6B                       endm
+   404  7D3C                       endm
      1                          ;;*****************************************************************************
      2                          ;;*****************************************************************************
      3                          ;;  FILENAME:   LTRX.inc
@@ -1645,13 +1645,13 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    173                          ;    responsibility to perserve their values across calls to fastcall16 
    174                          ;    functions.
    175                          ;
-   176  6EC9                     LTRX_EnableInt:
-   177  6EC9                    _LTRX_EnableInt:
+   176  730E                     LTRX_EnableInt:
+   177  730E                    _LTRX_EnableInt:
    178                             RAM_PROLOGUE RAM_USE_CLASS_1
-   179  6EC9  43 E1 40             M8C_EnableIntMask LTRX_TX_INT_REG, LTRX_TX_INT_MASK
-   180  6ECC  43 E1 80             M8C_EnableIntMask LTRX_RX_INT_REG, LTRX_RX_INT_MASK
+   179  730E  43 E1 40             M8C_EnableIntMask LTRX_TX_INT_REG, LTRX_TX_INT_MASK
+   180  7311  43 E1 80             M8C_EnableIntMask LTRX_RX_INT_REG, LTRX_RX_INT_MASK
    181                             RAM_EPILOGUE RAM_USE_CLASS_1
-   182  6ECF  7F                   ret
+   182  7314  7F                   ret
    183                          .ENDSECTION
    184                          
    185                              
@@ -1677,13 +1677,13 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    205                          ;    responsibility to perserve their values across calls to fastcall16 
    206                          ;    functions.
    207                          ;
-   208  6ED0                     LTRX_DisableInt:
-   209  6ED0                    _LTRX_DisableInt:
+   208  7315                     LTRX_DisableInt:
+   209  7315                    _LTRX_DisableInt:
    210                             RAM_PROLOGUE RAM_USE_CLASS_1
-   211  6ED0  41 E1 BF             M8C_DisableIntMask LTRX_TX_INT_REG, LTRX_TX_INT_MASK
-   212  6ED3  41 E1 7F             M8C_DisableIntMask LTRX_RX_INT_REG, LTRX_RX_INT_MASK
+   211  7315  41 E1 BF             M8C_DisableIntMask LTRX_TX_INT_REG, LTRX_TX_INT_MASK
+   212  7318  41 E1 7F             M8C_DisableIntMask LTRX_RX_INT_REG, LTRX_RX_INT_MASK
    213                             RAM_EPILOGUE RAM_USE_CLASS_1
-   214  6ED6  7F                   ret
+   214  731B  7F                   ret
    215                          .ENDSECTION
    216                          
    217                          
@@ -1713,22 +1713,22 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    241                          ;     Sets the TX interrupt mode bit to define whether the interrupt occurs
    242                          ;     on TX register empty or TX transmit complete
    243                          ;
-   244  6ED7                     LTRX_SetTxIntMode:
-   245  6ED7                    _LTRX_SetTxIntMode:
+   244  731C                     LTRX_SetTxIntMode:
+   245  731C                    _LTRX_SetTxIntMode:
    246                             RAM_PROLOGUE RAM_USE_CLASS_1
-   247  6ED7  71 10                M8C_SetBank1
-   248  6ED9  21 01                and   A, LTRX_INT_MODE_TX_COMPLETE
-   249  6EDB  A007                 jz    .SetModeRegEmpty
-   250  6EDD  43 38 10             or    REG[LTRX_TX_FUNC_REG], bfFUNCTION_REG_TX_INT_MODE_BIT
-   251  6EE0  70 EF                M8C_SetBank0
+   247  731C  71 10                M8C_SetBank1
+   248  731E  21 01                and   A, LTRX_INT_MODE_TX_COMPLETE
+   249  7320  A007                 jz    .SetModeRegEmpty
+   250  7322  43 38 10             or    REG[LTRX_TX_FUNC_REG], bfFUNCTION_REG_TX_INT_MODE_BIT
+   251  7325  70 EF                M8C_SetBank0
    252                             RAM_EPILOGUE RAM_USE_CLASS_1
-   253  6EE2  7F                   ret
+   253  7327  7F                   ret
    254                          
-   255  6EE3                    .SetModeRegEmpty:
-   256  6EE3  41 38 EF             and   REG[LTRX_TX_FUNC_REG], ~bfFUNCTION_REG_TX_INT_MODE_BIT
-   257  6EE6  70 EF                M8C_SetBank0
+   255  7328                    .SetModeRegEmpty:
+   256  7328  41 38 EF             and   REG[LTRX_TX_FUNC_REG], ~bfFUNCTION_REG_TX_INT_MODE_BIT
+   257  732B  70 EF                M8C_SetBank0
    258                             RAM_EPILOGUE RAM_USE_CLASS_1
-   259  6EE8  7F                   ret
+   259  732D  7F                   ret
    260                          .ENDSECTION
    261                          
    262                          
@@ -1754,19 +1754,19 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    282                          ;    responsibility to perserve their values across calls to fastcall16 
    283                          ;    functions.
    284                          ;
-   285  6EE9                     LTRX_Start:
-   286  6EE9                    _LTRX_Start:
+   285  732E                     LTRX_Start:
+   286  732E                    _LTRX_Start:
    287                             RAM_PROLOGUE RAM_USE_CLASS_1
    288                             ; Note, Proxy Class 4 only if receive buffer used; otherwise Proxy Class 1.
    289                          
-   290  6EE9  29 01                or    A, bfCONTROL_REG_START_BIT
-   291  6EEB  60 3B                mov   REG[LTRX_TX_CONTROL_REG], A
-   292  6EED  60 3F                mov   REG[LTRX_RX_CONTROL_REG], A
+   290  732E  29 01                or    A, bfCONTROL_REG_START_BIT
+   291  7330  60 3B                mov   REG[LTRX_TX_CONTROL_REG], A
+   292  7332  60 3F                mov   REG[LTRX_RX_CONTROL_REG], A
    293                          IF ( LTRX_RXBUF_ENABLE )
-   294  6EEF  9128                 call  _LTRX_CmdReset
+   294  7334  9128                 call  _LTRX_CmdReset
    295                          ENDIF
    296                             RAM_EPILOGUE RAM_USE_CLASS_1
-   297  6EF1  7F                   ret
+   297  7336  7F                   ret
    298                          .ENDSECTION
    299                          
    300                          
@@ -1791,13 +1791,13 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    319                          ;    responsibility to perserve their values across calls to fastcall16 
    320                          ;    functions.
    321                          ;
-   322  6EF2                     LTRX_Stop:
-   323  6EF2                    _LTRX_Stop:
+   322  7337                     LTRX_Stop:
+   323  7337                    _LTRX_Stop:
    324                             RAM_PROLOGUE RAM_USE_CLASS_1
-   325  6EF2  41 3B FE             and   REG[LTRX_TX_CONTROL_REG], ~bfCONTROL_REG_START_BIT
-   326  6EF5  41 3F FE             and   REG[LTRX_RX_CONTROL_REG], ~bfCONTROL_REG_START_BIT
+   325  7337  41 3B FE             and   REG[LTRX_TX_CONTROL_REG], ~bfCONTROL_REG_START_BIT
+   326  733A  41 3F FE             and   REG[LTRX_RX_CONTROL_REG], ~bfCONTROL_REG_START_BIT
    327                             RAM_EPILOGUE RAM_USE_CLASS_1
-   328  6EF8  7F                   ret
+   328  733D  7F                   ret
    329                          .ENDSECTION
    330                          
    331                          
@@ -1822,12 +1822,12 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    350                          ;    responsibility to perserve their values across calls to fastcall16 
    351                          ;    functions.
    352                          ;
-   353  6EF9                     LTRX_SendData:
-   354  6EF9                    _LTRX_SendData:
+   353  733E                     LTRX_SendData:
+   354  733E                    _LTRX_SendData:
    355                             RAM_PROLOGUE RAM_USE_CLASS_1
-   356  6EF9  60 39                mov REG[LTRX_TX_BUFFER_REG], A
+   356  733E  60 39                mov REG[LTRX_TX_BUFFER_REG], A
    357                             RAM_EPILOGUE RAM_USE_CLASS_1
-   358  6EFB  7F                   ret
+   358  7340  7F                   ret
    359                          .ENDSECTION
    360                          
    361                          
@@ -1853,14 +1853,14 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    381                          ;    responsibility to perserve their values across calls to fastcall16 
    382                          ;    functions.
    383                          ;
-   384  6EFC                     LTRX_bReadTxStatus:
-   385  6EFC                    _LTRX_bReadTxStatus:
-   386  6EFC                     bLTRX_ReadTxStatus:                             ; For backwards compatibility only
-   387  6EFC                    _bLTRX_ReadTxStatus:                             ; For backwards compatibility only
+   384  7341                     LTRX_bReadTxStatus:
+   385  7341                    _LTRX_bReadTxStatus:
+   386  7341                     bLTRX_ReadTxStatus:                             ; For backwards compatibility only
+   387  7341                    _bLTRX_ReadTxStatus:                             ; For backwards compatibility only
    388                             RAM_PROLOGUE RAM_USE_CLASS_1
-   389  6EFC  5D 3B                mov A,  REG[LTRX_TX_CONTROL_REG]
+   389  7341  5D 3B                mov A,  REG[LTRX_TX_CONTROL_REG]
    390                             RAM_EPILOGUE RAM_USE_CLASS_1
-   391  6EFE  7F                   ret
+   391  7343  7F                   ret
    392                          .ENDSECTION
    393                          
    394                          
@@ -1886,14 +1886,14 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    414                          ;    responsibility to perserve their values across calls to fastcall16 
    415                          ;    functions.
    416                          ;
-   417  6EFF                     LTRX_bReadRxData:
-   418  6EFF                    _LTRX_bReadRxData:
-   419  6EFF                     bLTRX_ReadRxData:                               ; For backwards compatibility only
-   420  6EFF                    _bLTRX_ReadRxData:                               ; For backwards compatibility only
+   417  7344                     LTRX_bReadRxData:
+   418  7344                    _LTRX_bReadRxData:
+   419  7344                     bLTRX_ReadRxData:                               ; For backwards compatibility only
+   420  7344                    _bLTRX_ReadRxData:                               ; For backwards compatibility only
    421                             RAM_PROLOGUE RAM_USE_CLASS_1
-   422  6EFF  5D 3E                mov A, REG[LTRX_RX_BUFFER_REG]
+   422  7344  5D 3E                mov A, REG[LTRX_RX_BUFFER_REG]
    423                             RAM_EPILOGUE RAM_USE_CLASS_1
-   424  6F01  7F                   ret
+   424  7346  7F                   ret
    425                          .ENDSECTION
    426                          
    427                          
@@ -1920,14 +1920,14 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    448                          ;    responsibility to perserve their values across calls to fastcall16 
    449                          ;    functions.
    450                          ;
-   451  6F02                     LTRX_bReadRxStatus:
-   452  6F02                    _LTRX_bReadRxStatus:
-   453  6F02                     bLTRX_ReadRxStatus:                             ; For backwards compatibility only
-   454  6F02                    _bLTRX_ReadRxStatus:                             ; For backwards compatibility only
+   451  7347                     LTRX_bReadRxStatus:
+   452  7347                    _LTRX_bReadRxStatus:
+   453  7347                     bLTRX_ReadRxStatus:                             ; For backwards compatibility only
+   454  7347                    _bLTRX_ReadRxStatus:                             ; For backwards compatibility only
    455                             RAM_PROLOGUE RAM_USE_CLASS_1
-   456  6F02  5D 3F                mov A,  REG[LTRX_RX_CONTROL_REG]
+   456  7347  5D 3F                mov A,  REG[LTRX_RX_CONTROL_REG]
    457                             RAM_EPILOGUE RAM_USE_CLASS_1
-   458  6F04  7F                   ret
+   458  7349  7F                   ret
    459                          .ENDSECTION
    460                          
    461                          
@@ -1954,25 +1954,25 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    482                          ;    responsibility to perserve their values across calls to fastcall16 
    483                          ;    functions.
    484                          ;
-   485  6F05                     LTRX_TxIntMode:
-   486  6F05                    _LTRX_TxIntMode:
+   485  734A                     LTRX_TxIntMode:
+   486  734A                    _LTRX_TxIntMode:
    487                             RAM_PROLOGUE RAM_USE_CLASS_1
    488                          
-   489  6F05  21 01                and  A,LTRX_INT_MODE_TX_COMPLETE
-   490  6F07  71 10                M8C_SetBank1
-   491  6F09  39 01                cmp  A,LTRX_INT_MODE_TX_COMPLETE
-   492  6F0B  A006                 jz   .SetTxCmpMode
+   489  734A  21 01                and  A,LTRX_INT_MODE_TX_COMPLETE
+   490  734C  71 10                M8C_SetBank1
+   491  734E  39 01                cmp  A,LTRX_INT_MODE_TX_COMPLETE
+   492  7350  A006                 jz   .SetTxCmpMode
    493                          
-   494  6F0D  41 38 EF             and  reg[LTRX_TX_FUNC_REG],0xEF               ; Set Interrupt on Tx_Reg_Empty
-   495  6F10  8004                 jmp  .TxIntMode_End
+   494  7352  41 38 EF             and  reg[LTRX_TX_FUNC_REG],0xEF               ; Set Interrupt on Tx_Reg_Empty
+   495  7355  8004                 jmp  .TxIntMode_End
    496                          
-   497  6F12                    .SetTxCmpMode:                                       ; Set Interrupt on TX Complete
-   498  6F12  43 38 10             or   reg[LTRX_TX_FUNC_REG],0x10
+   497  7357                    .SetTxCmpMode:                                       ; Set Interrupt on TX Complete
+   498  7357  43 38 10             or   reg[LTRX_TX_FUNC_REG],0x10
    499                          
-   500  6F15                    .TxIntMode_End:
-   501  6F15  70 EF                M8C_SetBank0
+   500  735A                    .TxIntMode_End:
+   501  735A  70 EF                M8C_SetBank0
    502                             RAM_EPILOGUE RAM_USE_CLASS_1
-   503  6F17  7F                   ret
+   503  735C  7F                   ret
    504                          .ENDSECTION
    505                          
    506                              
@@ -2001,34 +2001,34 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    529                          ;     Set or Clears the Tx/Rx user module interrupt enable mask bit in the TX
    530                          ;     and RX block.
    531                          ;
-   532  6F18                     LTRX_IntCntl:
-   533  6F18                    _LTRX_IntCntl:
+   532  735D                     LTRX_IntCntl:
+   533  735D                    _LTRX_IntCntl:
    534                             RAM_PROLOGUE RAM_USE_CLASS_1
    535                          
-   536  6F18  08                   push A
-   537  6F19  21 01                and  A,LTRX_ENABLE_RX_INT
-   538  6F1B  A006                 jz   .DisRxInt
+   536  735D  08                   push A
+   537  735E  21 01                and  A,LTRX_ENABLE_RX_INT
+   538  7360  A006                 jz   .DisRxInt
    539                               ; Enable Rx Interrupt
-   540  6F1D  43 E1 80             M8C_EnableIntMask LTRX_RX_INT_REG, LTRX_RX_INT_MASK
-   541  6F20  8004                 jmp  .CheckTxInt
-   542  6F22                    .DisRxInt:
+   540  7362  43 E1 80             M8C_EnableIntMask LTRX_RX_INT_REG, LTRX_RX_INT_MASK
+   541  7365  8004                 jmp  .CheckTxInt
+   542  7367                    .DisRxInt:
    543                               ; Disable Rx Interrupt
-   544  6F22  41 E1 7F             M8C_DisableIntMask LTRX_RX_INT_REG, LTRX_RX_INT_MASK
+   544  7367  41 E1 7F             M8C_DisableIntMask LTRX_RX_INT_REG, LTRX_RX_INT_MASK
    545                          
-   546  6F25                    .CheckTxInt:
-   547  6F25  18                   pop  A
-   548  6F26  21 02                and  A,LTRX_ENABLE_TX_INT
-   549  6F28  A006                 jz   .DisTxInt
+   546  736A                    .CheckTxInt:
+   547  736A  18                   pop  A
+   548  736B  21 02                and  A,LTRX_ENABLE_TX_INT
+   549  736D  A006                 jz   .DisTxInt
    550                               ; Enable Tx Interrupt
-   551  6F2A  43 E1 40             M8C_EnableIntMask LTRX_TX_INT_REG, LTRX_TX_INT_MASK
-   552  6F2D  8004                 jmp  .End_IntCntl
-   553  6F2F                    .DisTxInt:
+   551  736F  43 E1 40             M8C_EnableIntMask LTRX_TX_INT_REG, LTRX_TX_INT_MASK
+   552  7372  8004                 jmp  .End_IntCntl
+   553  7374                    .DisTxInt:
    554                               ; Disable Tx Interrupt
-   555  6F2F  41 E1 BF             M8C_DisableIntMask LTRX_TX_INT_REG, LTRX_TX_INT_MASK
+   555  7374  41 E1 BF             M8C_DisableIntMask LTRX_TX_INT_REG, LTRX_TX_INT_MASK
    556                          
-   557  6F32                    .End_IntCntl:
+   557  7377                    .End_IntCntl:
    558                             RAM_EPILOGUE RAM_USE_CLASS_1
-   559  6F32  7F                   ret
+   559  7377  7F                   ret
    560                          .ENDSECTION
    561                          
    562                          
@@ -2062,30 +2062,30 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    590                          ;    functions.
    591                          ;
    592                          .LITERAL
-   593  6F33                    LTRX_HEX_STR:
-   594  6F33  30 31 32 33 34 35      DS    "0123456789ABCDEF"
+   593  7378                    LTRX_HEX_STR:
+   594  7378  30 31 32 33 34 35      DS    "0123456789ABCDEF"
               36 37 38 39 41 42 
               43 44 45 46       
    595                          .ENDLITERAL
    596                          
    597                          .SECTION
-   598  6F43                     LTRX_PutSHexByte:
-   599  6F43                    _LTRX_PutSHexByte:
+   598  7388                     LTRX_PutSHexByte:
+   599  7388                    _LTRX_PutSHexByte:
    600                             RAM_PROLOGUE RAM_USE_CLASS_1
-   601  6F43  08                   push  A                             ; Save lower nibble
-   602  6F44  67                   asr   A                             ; Shift high nibble to right
-   603  6F45  67                   asr   A
-   604  6F46  67                   asr   A
-   605  6F47  67                   asr   A
-   606  6F48  21 0F                and   A,0Fh                         ; Mask off nibble
-   607  6F4A  FFE7                 index LTRX_HEX_STR                  ; Get Hex value
-   608  6F4C  900F                 call  LTRX_PutChar                  ; Write data to screen
-   609  6F4E  18                   pop   A                             ; Restore value
-   610  6F4F  21 0F                and   A,0Fh                         ; Mask off lower nibble
-   611  6F51  FFE0                 index LTRX_HEX_STR                  ; Get Hex value
-   612  6F53  9008                 call  LTRX_PutChar                  ; Write data to screen
+   601  7388  08                   push  A                             ; Save lower nibble
+   602  7389  67                   asr   A                             ; Shift high nibble to right
+   603  738A  67                   asr   A
+   604  738B  67                   asr   A
+   605  738C  67                   asr   A
+   606  738D  21 0F                and   A,0Fh                         ; Mask off nibble
+   607  738F  FFE7                 index LTRX_HEX_STR                  ; Get Hex value
+   608  7391  900F                 call  LTRX_PutChar                  ; Write data to screen
+   609  7393  18                   pop   A                             ; Restore value
+   610  7394  21 0F                and   A,0Fh                         ; Mask off lower nibble
+   611  7396  FFE0                 index LTRX_HEX_STR                  ; Get Hex value
+   612  7398  9008                 call  LTRX_PutChar                  ; Write data to screen
    613                             RAM_EPILOGUE RAM_USE_CLASS_1
-   614  6F55  7F                   ret
+   614  739A  7F                   ret
    615                          .ENDSECTION
    616                          
    617                          
@@ -2113,15 +2113,15 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    639                          ;    functions.
    640                          ;
    641                          
-   642  6F56                     LTRX_PutSHexInt:
-   643  6F56                    _LTRX_PutSHexInt:
+   642  739B                     LTRX_PutSHexInt:
+   643  739B                    _LTRX_PutSHexInt:
    644                             RAM_PROLOGUE RAM_USE_CLASS_1
-   645  6F56  4B                   swap  A,X
-   646  6F57  9FEA                 call  LTRX_PutSHexByte              ; Print MSB
-   647  6F59  5B                   mov   A,X                           ; Move LSB into position
-   648  6F5A  9FE7                 call  LTRX_PutSHexByte              ; Print LSB
+   645  739B  4B                   swap  A,X
+   646  739C  9FEA                 call  LTRX_PutSHexByte              ; Print MSB
+   647  739E  5B                   mov   A,X                           ; Move LSB into position
+   648  739F  9FE7                 call  LTRX_PutSHexByte              ; Print LSB
    649                             RAM_EPILOGUE RAM_USE_CLASS_1
-   650  6F5C  7F                   ret
+   650  73A1  7F                   ret
    651                          .ENDSECTION
    652                          
    653                          
@@ -2152,14 +2152,14 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    678                             tst REG[LTRX_TX_CONTROL_REG], LTRX_TX_BUFFER_EMPTY     ; Check Tx Status
    679                             jz  .BufEmptyWaitLoop
    680                             mov REG[LTRX_TX_BUFFER_REG], @Source          ; Write data to Tx Port
-   681  6F5D                       endm
+   681  73A2                       endm
    682                          
-   683  6F5D                     LTRX_PutChar:
-   684  6F5D                    _LTRX_PutChar:
+   683  73A2                     LTRX_PutChar:
+   684  73A2                    _LTRX_PutChar:
    685                             RAM_PROLOGUE RAM_USE_CLASS_1
-   686  6F5D                       InLinePutChar A
+   686  73A2                       InLinePutChar A
    687                             RAM_EPILOGUE RAM_USE_CLASS_1
-   688  6F64  7F                   ret
+   688  73A9  7F                   ret
    689                          .ENDSECTION
    690                          
    691                          
@@ -2188,14 +2188,14 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    714                          ;    If the watchdog timer is used, care must be taken to make sure that
    715                          ;    the delay between characters is less than the watchdog timeout.
    716                          ;
-   717  6F65                     LTRX_cGetChar:
-   718  6F65                    _LTRX_cGetChar:
+   717  73AA                     LTRX_cGetChar:
+   718  73AA                    _LTRX_cGetChar:
    719                             RAM_PROLOGUE RAM_USE_CLASS_1
-   720  6F65  49 3F 08             tst REG[LTRX_RX_CONTROL_REG],LTRX_RX_REG_FULL    ; Check if a character is ready
-   721  6F68  AFFC                 jz  LTRX_cGetChar                             ; If not loop
-   722  6F6A  5D 3E                mov A, REG[LTRX_RX_BUFFER_REG]                ; Get character
+   720  73AA  49 3F 08             tst REG[LTRX_RX_CONTROL_REG],LTRX_RX_REG_FULL    ; Check if a character is ready
+   721  73AD  AFFC                 jz  LTRX_cGetChar                             ; If not loop
+   722  73AF  5D 3E                mov A, REG[LTRX_RX_BUFFER_REG]                ; Get character
    723                             RAM_EPILOGUE RAM_USE_CLASS_1
-   724  6F6C  7F                   ret
+   724  73B1  7F                   ret
    725                          .ENDSECTION
    726                          
    727                          
@@ -2223,33 +2223,33 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    749                          ;    A valid 0x00 character will be ignored, since a 0x00 return value
    750                          ;    implies a valid character or an error condition occured.
    751                          ;
-   752  6F6D                     LTRX_cReadChar:
-   753  6F6D                    _LTRX_cReadChar:
+   752  73B2                     LTRX_cReadChar:
+   753  73B2                    _LTRX_cReadChar:
    754                             RAM_PROLOGUE RAM_USE_CLASS_1
-   755  6F6D  5D 3F                mov  A,REG[LTRX_RX_CONTROL_REG]                         ; Get Status of RX
-   756  6F6F  08                   push A
-   757  6F70  21 08                and  A,LTRX_RX_COMPLETE                                 ; Check if a character is ready
-   758  6F72  B004                 jnz  .RX_DATA_RDY                                       ; Data Ready go read it.
-   759  6F74  18                   pop  A
-   760  6F75  800B                 jmp  .RX_NO_VALID_CHAR
+   755  73B2  5D 3F                mov  A,REG[LTRX_RX_CONTROL_REG]                         ; Get Status of RX
+   756  73B4  08                   push A
+   757  73B5  21 08                and  A,LTRX_RX_COMPLETE                                 ; Check if a character is ready
+   758  73B7  B004                 jnz  .RX_DATA_RDY                                       ; Data Ready go read it.
+   759  73B9  18                   pop  A
+   760  73BA  800B                 jmp  .RX_NO_VALID_CHAR
    761                          
-   762  6F77                    .RX_DATA_RDY:
-   763  6F77  5D 3E                mov  A,REG[LTRX_RX_BUFFER_REG ]          
-   764  6F79  4B                   swap A,X                                                ; determine if data is valid
+   762  73BC                    .RX_DATA_RDY:
+   763  73BC  5D 3E                mov  A,REG[LTRX_RX_BUFFER_REG ]          
+   764  73BE  4B                   swap A,X                                                ; determine if data is valid
    765                          
-   766  6F7A  18                   pop  A                                                  ; Check for errors
-   767  6F7B  21 A0                and  A,(LTRX_RX_PARITY_ERROR | LTRX_RX_FRAMING_ERROR)
-   768  6F7D  B003                 jnz  .RX_NO_VALID_CHAR                                  ; No character, exit
-   769  6F7F  4B                   swap A,X                                                ; Put data in A and exit
+   766  73BF  18                   pop  A                                                  ; Check for errors
+   767  73C0  21 A0                and  A,(LTRX_RX_PARITY_ERROR | LTRX_RX_FRAMING_ERROR)
+   768  73C2  B003                 jnz  .RX_NO_VALID_CHAR                                  ; No character, exit
+   769  73C4  4B                   swap A,X                                                ; Put data in A and exit
    770                             RAM_EPILOGUE RAM_USE_CLASS_1
-   771  6F80  7F                   ret
+   771  73C5  7F                   ret
    772                          
-   773  6F81                    .RX_NO_VALID_CHAR:
-   774  6F81  50 00                mov A,0x00                                              ; Zero out character
+   773  73C6                    .RX_NO_VALID_CHAR:
+   774  73C6  50 00                mov A,0x00                                              ; Zero out character
    775                          
-   776  6F83                     End_LTRX_cReadChar:
+   776  73C8                     End_LTRX_cReadChar:
    777                             RAM_EPILOGUE RAM_USE_CLASS_1
-   778  6F83  7F                   ret
+   778  73C8  7F                   ret
    779                          .ENDSECTION
    780                          
    781                          
@@ -2284,30 +2284,30 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    810                          ;    responsibility to perserve their values across calls to fastcall16 
    811                          ;    functions.
    812                          ;
-   813  6F84                     LTRX_iReadChar:
-   814  6F84                    _LTRX_iReadChar:
+   813  73C9                     LTRX_iReadChar:
+   814  73C9                    _LTRX_iReadChar:
    815                             RAM_PROLOGUE RAM_USE_CLASS_1
-   816  6F84  5D 3F                mov  A,REG[LTRX_RX_CONTROL_REG]                         ; Get Status of RX
+   816  73C9  5D 3F                mov  A,REG[LTRX_RX_CONTROL_REG]                         ; Get Status of RX
    817                                                                                     ; Mask only errors and data ready
-   818  6F86  21 E8                and  A,(LTRX_RX_ERROR|LTRX_RX_REG_FULL)
-   819  6F88  08                   push A
-   820  6F89  21 08                and  A,LTRX_RX_COMPLETE                                 ; Check if a character is ready
-   821  6F8B  B007                 jnz  .RX_GET_DATA                                       ; Data Ready go read it.
-   822  6F8D  18                   pop  A
-   823  6F8E  29 01                or   A,LTRX_RX_NO_DATA                                  ; Add no data flag
-   824  6F90  4B                   swap A,X
-   825  6F91  8007                 jmp  End_LTRX_iReadChar
+   818  73CB  21 E8                and  A,(LTRX_RX_ERROR|LTRX_RX_REG_FULL)
+   819  73CD  08                   push A
+   820  73CE  21 08                and  A,LTRX_RX_COMPLETE                                 ; Check if a character is ready
+   821  73D0  B007                 jnz  .RX_GET_DATA                                       ; Data Ready go read it.
+   822  73D2  18                   pop  A
+   823  73D3  29 01                or   A,LTRX_RX_NO_DATA                                  ; Add no data flag
+   824  73D5  4B                   swap A,X
+   825  73D6  8007                 jmp  End_LTRX_iReadChar
    826                          
-   827  6F93                    .RX_GET_DATA:
-   828  6F93  18                   pop  A
-   829  6F94  21 E0                and  A,LTRX_RX_ERROR
-   830  6F96  4B                   swap A,X
-   831  6F97  5D 3E                mov  A,REG[LTRX_RX_BUFFER_REG ]                         ; Read data first, then
+   827  73D8                    .RX_GET_DATA:
+   828  73D8  18                   pop  A
+   829  73D9  21 E0                and  A,LTRX_RX_ERROR
+   830  73DB  4B                   swap A,X
+   831  73DC  5D 3E                mov  A,REG[LTRX_RX_BUFFER_REG ]                         ; Read data first, then
    832                                                                                     ; determine if data is valid
    833                          
-   834  6F99                     End_LTRX_iReadChar:
+   834  73DE                     End_LTRX_iReadChar:
    835                             RAM_EPILOGUE RAM_USE_CLASS_1
-   836  6F99  7F                   ret
+   836  73DE  7F                   ret
    837                          .ENDSECTION
    838                          
    839                          
@@ -2337,20 +2337,20 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    863                          ;    Currently only the page pointer registers listed below are modified: 
    864                          ;          IDX_PP
    865                          ;
-   866  6F9A                     LTRX_PutString:
-   867  6F9A                    _LTRX_PutString:
+   866  73DF                     LTRX_PutString:
+   867  73DF                    _LTRX_PutString:
    868                             RAM_PROLOGUE RAM_USE_CLASS_3
-   869  6F9A  60 D3                RAM_SETPAGE_IDX A
-   870  6F9C                    .PutStringLoop:
-   871  6F9C  52 00                mov   A,[X]                                   ; Get value pointed to by X
-   872  6F9E  A006                 jz    End_PutString                           ; Check for end of string
-   873  6FA0  9FBB                 call  LTRX_PutChar                            ; Send character to Tx port
-   874  6FA2  75                   inc   X                                       ; Advance pointer to next character
-   875  6FA3  8FF8                 jmp   .PutStringLoop                          ; Get next character
+   869  73DF  60 D3                RAM_SETPAGE_IDX A
+   870  73E1                    .PutStringLoop:
+   871  73E1  52 00                mov   A,[X]                                   ; Get value pointed to by X
+   872  73E3  A006                 jz    End_PutString                           ; Check for end of string
+   873  73E5  9FBB                 call  LTRX_PutChar                            ; Send character to Tx port
+   874  73E7  75                   inc   X                                       ; Advance pointer to next character
+   875  73E8  8FF8                 jmp   .PutStringLoop                          ; Get next character
    876                          
-   877  6FA5                    End_PutString:
-   878  6FA5  70 3F                RAM_EPILOGUE RAM_USE_CLASS_3
-   879  6FA9  7F                   ret
+   877  73EA                    End_PutString:
+   878  73EA  70 3F                RAM_EPILOGUE RAM_USE_CLASS_3
+   879  73EE  7F                   ret
    880                          .ENDSECTION
    881                              
    882                          .SECTION
@@ -2384,33 +2384,33 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    910  FFFFFFFC                    STR_MSB:    equ -4                               ; MSB pointer of string 
    911  FFFFFFFD                    STR_LSB:    equ -3                               ; LSB pointer of string 
    912                          
-   913  6FAA                     LTRX_Write:
-   914  6FAA                    _LTRX_Write:
+   913  73EF                     LTRX_Write:
+   914  73EF                    _LTRX_Write:
    915                             RAM_PROLOGUE RAM_USE_CLASS_3
-   916  6FAA  62 D3 07             RAM_SETPAGE_IDX2STK                           ; Refer indexed addrs to the stack
-   917  6FAD  4F                   mov   X, SP                                   ; Establish the frame pointer 
+   916  73EF  62 D3 07             RAM_SETPAGE_IDX2STK                           ; Refer indexed addrs to the stack
+   917  73F2  4F                   mov   X, SP                                   ; Establish the frame pointer 
    918                          
-   919  6FAE                    .NextByteLoop:
-   920  6FAE  52 FB                mov   A, [X+CNT_LEN]                          ; End of the string?
-   921  6FB0  A01A                 jz    .End_Write                              ;   Yes, prepare to exit
-   922  6FB2  7B FB                dec   [X+CNT_LEN]                             ; Decrement counter
+   919  73F3                    .NextByteLoop:
+   920  73F3  52 FB                mov   A, [X+CNT_LEN]                          ; End of the string?
+   921  73F5  A01A                 jz    .End_Write                              ;   Yes, prepare to exit
+   922  73F7  7B FB                dec   [X+CNT_LEN]                             ; Decrement counter
    923                          
    924                             IF SYSTEM_LARGE_MEMORY_MODEL
-   925  6FB4  52 FC                mov   A, [X+STR_MSB]                          ; Load pointer to char to send
+   925  73F9  52 FC                mov   A, [X+STR_MSB]                          ; Load pointer to char to send
    926                             ENDIF
    927                          
-   928  6FB6  59 FD                mov   X, [X+STR_LSB]                          ; Load pointer to char to send
-   929  6FB8  60 D3                RAM_SETPAGE_IDX A                             ; switch index pages
-   930  6FBA  52 00                mov   A, [X]                                  ; Grab the data
-   931  6FBC                       InLinePutChar A                               ; Put data in empty TX buf reg
-   932  6FC3  4F                   mov   X, SP                                   ; Recover frame pointer
-   933  6FC4  62 D3 07             RAM_SETPAGE_IDX2STK                           ; Prepare for stack access
-   934  6FC7  77 FD                inc   [X+STR_LSB]                             ; Point to next byte, but do not
-   935  6FC9  8FE4                 jmp   .NextByteLoop                           ;    cross RAM page boundary!
+   928  73FB  59 FD                mov   X, [X+STR_LSB]                          ; Load pointer to char to send
+   929  73FD  60 D3                RAM_SETPAGE_IDX A                             ; switch index pages
+   930  73FF  52 00                mov   A, [X]                                  ; Grab the data
+   931  7401                       InLinePutChar A                               ; Put data in empty TX buf reg
+   932  7408  4F                   mov   X, SP                                   ; Recover frame pointer
+   933  7409  62 D3 07             RAM_SETPAGE_IDX2STK                           ; Prepare for stack access
+   934  740C  77 FD                inc   [X+STR_LSB]                             ; Point to next byte, but do not
+   935  740E  8FE4                 jmp   .NextByteLoop                           ;    cross RAM page boundary!
    936                          
-   937  6FCB                    .End_Write:
-   938  6FCB  70 3F                RAM_EPILOGUE RAM_USE_CLASS_3
-   939  6FCF  7F                   ret
+   937  7410                    .End_Write:
+   938  7410  70 3F                RAM_EPILOGUE RAM_USE_CLASS_3
+   939  7414  7F                   ret
    940                          .ENDSECTION
    941                              
    942                          
@@ -2445,32 +2445,32 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    971  FFFFFFFC                    CSTR_MSB:   equ -4           ; MSB pointer of string
    972  FFFFFFFD                    CSTR_LSB:   equ -3           ; LSB pointer of string
    973                          
-   974  6FD0                     LTRX_CWrite:
-   975  6FD0                    _LTRX_CWrite:
-   976  6FD0  71 40                RAM_PROLOGUE RAM_USE_CLASS_2
-   977  6FD2  4F                   mov   X,SP
-   978  6FD3                    .CW_Loop:
-   979  6FD3  3D FA 00             cmp   [X+CLEN_MSB],0x00                  ; Check for zero counter
-   980  6FD6  B006                 jnz   .CW_WRITEIT
-   981  6FD8  3D FB 00             cmp   [X+CLEN_LSB],0x00
-   982  6FDB  A01D                 jz    .End_CWrite                        ; Leave if done
+   974  7415                     LTRX_CWrite:
+   975  7415                    _LTRX_CWrite:
+   976  7415  71 40                RAM_PROLOGUE RAM_USE_CLASS_2
+   977  7417  4F                   mov   X,SP
+   978  7418                    .CW_Loop:
+   979  7418  3D FA 00             cmp   [X+CLEN_MSB],0x00                  ; Check for zero counter
+   980  741B  B006                 jnz   .CW_WRITEIT
+   981  741D  3D FB 00             cmp   [X+CLEN_LSB],0x00
+   982  7420  A01D                 jz    .End_CWrite                        ; Leave if done
    983                          
-   984  6FDD                    .CW_WRITEIT:                                
-   985  6FDD  10                   push  X                                  ; Save frame pointer
-   986  6FDE  52 FC                mov   A,[X+CSTR_MSB]
-   987  6FE0  59 FD                mov   X,[X+CSTR_LSB]
-   988  6FE2  28                   romx                                     ; Get character from ROM
-   989  6FE3                       InLinePutChar A                          ; Put data in empty TX buf reg
-   990  6FEA  20                   pop   X                                  ; Restore frame pointer
-   991  6FEB  07 FD 01             add   [X+CSTR_LSB],1                     ; Increment the string pointer
-   992  6FEE  0F FC 00             adc   [X+CSTR_MSB],0
-   993  6FF1  17 FB 01             sub   [X+CLEN_LSB],0x01                  ; Dec the counter
-   994  6FF4  1F FA 00             sbb   [X+CLEN_MSB],0x00
-   995  6FF7  8FDB                 jmp   .CW_Loop
+   984  7422                    .CW_WRITEIT:                                
+   985  7422  10                   push  X                                  ; Save frame pointer
+   986  7423  52 FC                mov   A,[X+CSTR_MSB]
+   987  7425  59 FD                mov   X,[X+CSTR_LSB]
+   988  7427  28                   romx                                     ; Get character from ROM
+   989  7428                       InLinePutChar A                          ; Put data in empty TX buf reg
+   990  742F  20                   pop   X                                  ; Restore frame pointer
+   991  7430  07 FD 01             add   [X+CSTR_LSB],1                     ; Increment the string pointer
+   992  7433  0F FC 00             adc   [X+CSTR_MSB],0
+   993  7436  17 FB 01             sub   [X+CLEN_LSB],0x01                  ; Dec the counter
+   994  7439  1F FA 00             sbb   [X+CLEN_MSB],0x00
+   995  743C  8FDB                 jmp   .CW_Loop
    996                          
-   997  6FF9                    .End_CWrite:
-   998  6FF9  70 3F                RAM_EPILOGUE RAM_USE_CLASS_2
-   999  6FFD  7F                   ret
+   997  743E                    .End_CWrite:
+   998  743E  70 3F                RAM_EPILOGUE RAM_USE_CLASS_2
+   999  7442  7F                   ret
   1000                          .ENDSECTION
   1001                          
   1002                          
@@ -2497,26 +2497,26 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
   1023                          ;    responsibility to perserve their values across calls to fastcall16 
   1024                          ;    functions.
   1025                          ;
-  1026  6FFE                     LTRX_CPutString:
-  1027  6FFE                    _LTRX_CPutString:
+  1026  7443                     LTRX_CPutString:
+  1027  7443                    _LTRX_CPutString:
   1028                             RAM_PROLOGUE RAM_USE_CLASS_1
-  1029  6FFE  08                   push  A                                       ; Store ROM pointer
-  1030  6FFF  10                   push  X
-  1031  7000  28                   romx                                          ; Get character from ROM
-  1032  7001  A00B                 jz    .End_CPutString
-  1033  7003  9F58                 call  LTRX_PutChar                            ; Print character
-  1034  7005  20                   pop   X
-  1035  7006  18                   pop   A
-  1036  7007  75                   inc   X                                       ; Inc LSB of pointer
-  1037  7008  DFF5                 jnc   LTRX_CPutString                         ; Check for carry
-  1038  700A  74                   inc   A                                       ; Inc MSB of pointer
-  1039  700B  8FF2                 jmp   LTRX_CPutString
+  1029  7443  08                   push  A                                       ; Store ROM pointer
+  1030  7444  10                   push  X
+  1031  7445  28                   romx                                          ; Get character from ROM
+  1032  7446  A00B                 jz    .End_CPutString
+  1033  7448  9F58                 call  LTRX_PutChar                            ; Print character
+  1034  744A  20                   pop   X
+  1035  744B  18                   pop   A
+  1036  744C  75                   inc   X                                       ; Inc LSB of pointer
+  1037  744D  DFF5                 jnc   LTRX_CPutString                         ; Check for carry
+  1038  744F  74                   inc   A                                       ; Inc MSB of pointer
+  1039  7450  8FF2                 jmp   LTRX_CPutString
   1040                          
   1041                          
-  1042  700D                    .End_CPutString:
-  1043  700D  38 FE                add   SP, -2
+  1042  7452                    .End_CPutString:
+  1043  7452  38 FE                add   SP, -2
   1044                             RAM_EPILOGUE RAM_USE_CLASS_1
-  1045  700F  7F                   ret
+  1045  7454  7F                   ret
   1046                          .ENDSECTION
   1047                          
   1048                          
@@ -2541,15 +2541,15 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
   1067                          ;    responsibility to perserve their values across calls to fastcall16 
   1068                          ;    functions.
   1069                          ;
-  1070  7010                     LTRX_PutCRLF:
-  1071  7010                    _LTRX_PutCRLF:
+  1070  7455                     LTRX_PutCRLF:
+  1071  7455                    _LTRX_PutCRLF:
   1072                             RAM_PROLOGUE RAM_USE_CLASS_1
-  1073  7010  50 0D                mov  A,0x0D                        ; Send CR
-  1074  7012  9F49                 call LTRX_PutChar
-  1075  7014  50 0A                mov  A,0x0A                        ; Send LF
-  1076  7016  9F45                 call LTRX_PutChar
+  1073  7455  50 0D                mov  A,0x0D                        ; Send CR
+  1074  7457  9F49                 call LTRX_PutChar
+  1075  7459  50 0A                mov  A,0x0A                        ; Send LF
+  1076  745B  9F45                 call LTRX_PutChar
   1077                             RAM_EPILOGUE RAM_USE_CLASS_1
-  1078  7018  7F                   ret
+  1078  745D  7F                   ret
   1079                          .ENDSECTION
   1080                          
   1081                          
@@ -2589,18 +2589,18 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
   1115                          ;  THEORY of OPERATION or PROCEDURE:
   1116                          ;     Clear the command buffer, command counter, and flag.
   1117                          ;
-  1118  7019                     LTRX_CmdReset:
-  1119  7019                    _LTRX_CmdReset:
+  1118  745E                     LTRX_CmdReset:
+  1119  745E                    _LTRX_CmdReset:
   1120                             RAM_PROLOGUE RAM_USE_CLASS_4
-  1121  7019  62 D0 00             RAM_SETPAGE_CUR >LTRX_aRxBuffer
-  1122  701C  55 4B  00            mov [LTRX_aRxBuffer], 0x00
-  1123  701F  62 D0 00             RAM_SETPAGE_CUR >LTRX_bRxCnt
-  1124  7022  55 49  00            mov [LTRX_bRxCnt], 0x00
-  1125  7025  26 48  00            and [LTRX_fStatus], 0x00
-  1126  7028  62 D0 00             RAM_SETPAGE_CUR >ptrParam
-  1127  702B  55 67  00            mov [ptrParam],0x00
+  1121  745E  62 D0 00             RAM_SETPAGE_CUR >LTRX_aRxBuffer
+  1122  7461  55 43  00            mov [LTRX_aRxBuffer], 0x00
+  1123  7464  62 D0 00             RAM_SETPAGE_CUR >LTRX_bRxCnt
+  1124  7467  55 41  00            mov [LTRX_bRxCnt], 0x00
+  1125  746A  26 40  00            and [LTRX_fStatus], 0x00
+  1126  746D  62 D0 00             RAM_SETPAGE_CUR >ptrParam
+  1127  7470  55 5F  00            mov [ptrParam],0x00
   1128                             RAM_EPILOGUE RAM_USE_CLASS_4
-  1129  702E  7F                   ret
+  1129  7473  7F                   ret
   1130                          .ENDSECTION
   1131                          
   1132                          
@@ -2632,14 +2632,14 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
   1158                          ;  THEORY of OPERATION or PROCEDURE:
   1159                          ;     Read the status and control register.
   1160                          ;
-  1161  702F                     LTRX_bCmdCheck:
-  1162  702F                    _LTRX_bCmdCheck:
+  1161  7474                     LTRX_bCmdCheck:
+  1162  7474                    _LTRX_bCmdCheck:
   1163                             RAM_PROLOGUE RAM_USE_CLASS_4
-  1164  702F  62 D0 00             RAM_SETPAGE_CUR >LTRX_fStatus
-  1165  7032  51 48                mov A,  [LTRX_fStatus]
-  1166  7034  21 01                and A, LTRX_RX_BUF_CMDTERM                    ; Mask off Command status
+  1164  7474  62 D0 00             RAM_SETPAGE_CUR >LTRX_fStatus
+  1165  7477  51 40                mov A,  [LTRX_fStatus]
+  1166  7479  21 01                and A, LTRX_RX_BUF_CMDTERM                    ; Mask off Command status
   1167                             RAM_EPILOGUE RAM_USE_CLASS_4
-  1168  7036  7F                   ret
+  1168  747B  7F                   ret
   1169                          .ENDSECTION
   1170                              
   1171                          
@@ -2676,15 +2676,15 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
   1202                          ;  THEORY of OPERATION or PROCEDURE:
   1203                          ;     Read RX buffer error status and clear status
   1204                          ;
-  1205  7037                     LTRX_bErrCheck:
-  1206  7037                    _LTRX_bErrCheck:
+  1205  747C                     LTRX_bErrCheck:
+  1206  747C                    _LTRX_bErrCheck:
   1207                             RAM_PROLOGUE RAM_USE_CLASS_4
-  1208  7037  62 D0 00             RAM_SETPAGE_CUR >LTRX_fStatus
-  1209  703A  51 48                mov A,  [LTRX_fStatus]
-  1210  703C  21 F0                and A, LTRX_RX_BUF_ERROR                      ; Mask off Error status
-  1211  703E  26 48  0F            and [LTRX_fStatus], ~LTRX_RX_BUF_ERROR
+  1208  747C  62 D0 00             RAM_SETPAGE_CUR >LTRX_fStatus
+  1209  747F  51 40                mov A,  [LTRX_fStatus]
+  1210  7481  21 F0                and A, LTRX_RX_BUF_ERROR                      ; Mask off Error status
+  1211  7483  26 40  0F            and [LTRX_fStatus], ~LTRX_RX_BUF_ERROR
   1212                             RAM_EPILOGUE RAM_USE_CLASS_4
-  1213  7041  7F                   ret
+  1213  7486  7F                   ret
   1214                          .ENDSECTION
   1215                          
   1216                          .SECTION
@@ -2711,13 +2711,13 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
   1237                          ;    Currently only the page pointer registers listed below are modified: 
   1238                          ;          CUR_PP
   1239                          ;
-  1240  7042                     LTRX_bCmdLength:
-  1241  7042                    _LTRX_bCmdLength:
+  1240  7487                     LTRX_bCmdLength:
+  1241  7487                    _LTRX_bCmdLength:
   1242                             RAM_PROLOGUE RAM_USE_CLASS_4
-  1243  7042  62 D0 00             RAM_SETPAGE_CUR >LTRX_bRxCnt
-  1244  7045  51 49                mov A,  [LTRX_bRxCnt]
+  1243  7487  62 D0 00             RAM_SETPAGE_CUR >LTRX_bRxCnt
+  1244  748A  51 41                mov A,  [LTRX_bRxCnt]
   1245                             RAM_EPILOGUE RAM_USE_CLASS_4
-  1246  7047  7F                   ret
+  1246  748C  7F                   ret
   1247                          .ENDSECTION
   1248                          
   1249                          
@@ -2769,73 +2769,73 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
   1295                          ;     The value of a delimiter (commonly an ascii space, 0x20 and decimal 32)
   1296                          ;     is determined at configuration time by a user module parameter.
   1297                          ;
-  1298  7048                     LTRX_szGetParam:
-  1299  7048                    _LTRX_szGetParam:
+  1298  748D                     LTRX_szGetParam:
+  1299  748D                    _LTRX_szGetParam:
   1300                             RAM_PROLOGUE RAM_USE_CLASS_4
   1301                             RAM_PROLOGUE RAM_USE_CLASS_3
   1302                              
-  1303  7048  62 D0 00             RAM_SETPAGE_CUR >ptrParam
-  1304  704B  50 4B                mov   A, <LTRX_aRxBuffer                 ; Get address to receive buffer
-  1305  704D  02 67                add   A, [ptrParam]                      ; Add string offset
-  1306  704F  5C                   mov   X, A
-  1307  7050  62 D3 00             RAM_SETPAGE_IDX >LTRX_aRxBuffer
-  1308  7053  52 00                mov   A, [X]                             ; Get character pointed by X
-  1309  7055  B004                 jnz   .SkipOverDelimitersLoop            ; Null? No,  continue...
-  1310  7057  10                   push  X                                  ;       Yes, Save LSB of current pointer
-  1311  7058  8033                 jmp   .End_GetNextParam
+  1303  748D  62 D0 00             RAM_SETPAGE_CUR >ptrParam
+  1304  7490  50 43                mov   A, <LTRX_aRxBuffer                 ; Get address to receive buffer
+  1305  7492  02 5F                add   A, [ptrParam]                      ; Add string offset
+  1306  7494  5C                   mov   X, A
+  1307  7495  62 D3 00             RAM_SETPAGE_IDX >LTRX_aRxBuffer
+  1308  7498  52 00                mov   A, [X]                             ; Get character pointed by X
+  1309  749A  B004                 jnz   .SkipOverDelimitersLoop            ; Null? No,  continue...
+  1310  749C  10                   push  X                                  ;       Yes, Save LSB of current pointer
+  1311  749D  8033                 jmp   .End_GetNextParam
   1312                                                                      ; Check for delimiter and keep looping until
   1313                                                                      ; all leading delimiters have been found.
-  1314  705A                    .SkipOverDelimitersLoop:
-  1315  705A  39 20                cmp   A, LTRX_DELIMITER                  ; Do we have a delimiter?
-  1316  705C  B011                 jnz   .ParamStartFound                   ;   No,  Bingo! found a parameter
-  1317  705E  75                   inc   X                                  ;   Yes, Increment both index and...
-  1318  705F  76 67                inc   [ptrParam]                         ;          the stored pointer.
-  1319  7061  52 00                mov   A, [X]                             ; Get character pointed by X
-  1320  7063  3C 67  0F            cmp   [ptrParam], (LTRX_RX_BUFFER_SIZE -1)   ; End of buffer?
-  1321  7066  BFF3                 jnz   .SkipOverDelimitersLoop            ;   No,  continue the scan
+  1314  749F                    .SkipOverDelimitersLoop:
+  1315  749F  39 20                cmp   A, LTRX_DELIMITER                  ; Do we have a delimiter?
+  1316  74A1  B011                 jnz   .ParamStartFound                   ;   No,  Bingo! found a parameter
+  1317  74A3  75                   inc   X                                  ;   Yes, Increment both index and...
+  1318  74A4  76 5F                inc   [ptrParam]                         ;          the stored pointer.
+  1319  74A6  52 00                mov   A, [X]                             ; Get character pointed by X
+  1320  74A8  3C 5F  0F            cmp   [ptrParam], (LTRX_RX_BUFFER_SIZE -1)   ; End of buffer?
+  1321  74AB  BFF3                 jnz   .SkipOverDelimitersLoop            ;   No,  continue the scan
   1322                          
-  1323  7068                    .EndOfString:                               ;   Yes, end of string found...
-  1324  7068  10                   push  X                                  ;        Save ptr
-  1325  7069                    .TerminateString:
-  1326  7069  56 00 00             mov   [X], 0x00                          ; Make sure string is zero
-  1327  706C  801F                 jmp   .End_GetNextParam
+  1323  74AD                    .EndOfString:                               ;   Yes, end of string found...
+  1324  74AD  10                   push  X                                  ;        Save ptr
+  1325  74AE                    .TerminateString:
+  1326  74AE  56 00 00             mov   [X], 0x00                          ; Make sure string is zero
+  1327  74B1  801F                 jmp   .End_GetNextParam
   1328                          
-  1329  706E                    .ParamStartFound:
-  1330  706E  10                   push  X                                  ; Beginning of parameter found, save pointer
+  1329  74B3                    .ParamStartFound:
+  1330  74B3  10                   push  X                                  ; Beginning of parameter found, save pointer
   1331                          
-  1332  706F                    .ParamLoop:                                 ; Now loop until end of parameter found.
-  1333  706F  75                   inc   X                                  ; Advance pointers.
-  1334  7070  76 67                inc   [ptrParam]
-  1335  7072  3C 67  0F            cmp   [ptrParam], (LTRX_RX_BUFFER_SIZE -1)   ; Check if we are at the end of buffer
-  1336  7075  AFF3                 jz    .TerminateString
-  1337  7077  52 00                mov   A, [X]                             ; Get next character
-  1338  7079  A012                 jz    .End_GetNextParam
-  1339  707B  39 20                cmp   A, LTRX_DELIMITER                  ; Check if we have a delimiter
-  1340  707D  BFF1                 jnz   .ParamLoop                         ; Still no delimiter, loop again
-  1341  707F  56 00 00             mov   [X], 0x00                          ; Replace delimiter with null for end of substring
-  1342  7082  76 67                inc   [ptrParam]
-  1343  7084  3C 67  0F            cmp   [ptrParam], (LTRX_RX_BUFFER_SIZE -1)   ; Check if we are at the end of buffer
-  1344  7087  B004                 jnz   .End_GetNextParam                  ; If not end of string leave
-  1345  7089  55 67  0F            mov   [ptrParam], (LTRX_RX_BUFFER_SIZE -1)   ; Reset pointer to end of string.
+  1332  74B4                    .ParamLoop:                                 ; Now loop until end of parameter found.
+  1333  74B4  75                   inc   X                                  ; Advance pointers.
+  1334  74B5  76 5F                inc   [ptrParam]
+  1335  74B7  3C 5F  0F            cmp   [ptrParam], (LTRX_RX_BUFFER_SIZE -1)   ; Check if we are at the end of buffer
+  1336  74BA  AFF3                 jz    .TerminateString
+  1337  74BC  52 00                mov   A, [X]                             ; Get next character
+  1338  74BE  A012                 jz    .End_GetNextParam
+  1339  74C0  39 20                cmp   A, LTRX_DELIMITER                  ; Check if we have a delimiter
+  1340  74C2  BFF1                 jnz   .ParamLoop                         ; Still no delimiter, loop again
+  1341  74C4  56 00 00             mov   [X], 0x00                          ; Replace delimiter with null for end of substring
+  1342  74C7  76 5F                inc   [ptrParam]
+  1343  74C9  3C 5F  0F            cmp   [ptrParam], (LTRX_RX_BUFFER_SIZE -1)   ; Check if we are at the end of buffer
+  1344  74CC  B004                 jnz   .End_GetNextParam                  ; If not end of string leave
+  1345  74CE  55 5F  0F            mov   [ptrParam], (LTRX_RX_BUFFER_SIZE -1)   ; Reset pointer to end of string.
   1346                          
-  1347  708C                    .End_GetNextParam:
-  1348  708C  20                   pop   X
-  1349  708D  10                   push  X
-  1350  708E  3D 00 00             cmp   [X], 0x00
-  1351  7091  B00B                 jnz   .NotNullString
-  1352  7093  20                   pop   X
-  1353  7094  57 00                mov   X, 0x00
-  1354  7096  50 00                mov   A, >LTRX_aRxBuffer
-  1355  7098  70 3F                RAM_EPILOGUE RAM_USE_CLASS_3
+  1347  74D1                    .End_GetNextParam:
+  1348  74D1  20                   pop   X
+  1349  74D2  10                   push  X
+  1350  74D3  3D 00 00             cmp   [X], 0x00
+  1351  74D6  B00B                 jnz   .NotNullString
+  1352  74D8  20                   pop   X
+  1353  74D9  57 00                mov   X, 0x00
+  1354  74DB  50 00                mov   A, >LTRX_aRxBuffer
+  1355  74DD  70 3F                RAM_EPILOGUE RAM_USE_CLASS_3
   1356                             RAM_EPILOGUE RAM_USE_CLASS_4
-  1357  709C  7F                   ret
+  1357  74E1  7F                   ret
   1358                          
-  1359  709D                    .NotNullString:
-  1360  709D  20                   pop  X
-  1361  709E  50 00                mov  A, >LTRX_aRxBuffer                  ; Return pointer
-  1362  70A0  70 3F                RAM_EPILOGUE RAM_USE_CLASS_3
+  1359  74E2                    .NotNullString:
+  1360  74E2  20                   pop  X
+  1361  74E3  50 00                mov  A, >LTRX_aRxBuffer                  ; Return pointer
+  1362  74E5  70 3F                RAM_EPILOGUE RAM_USE_CLASS_3
   1363                             RAM_EPILOGUE RAM_USE_CLASS_4
-  1364  70A4  7F                   ret
+  1364  74E9  7F                   ret
   1365                          .ENDSECTION
   1366                          
   1367                          
@@ -2863,63 +2863,63 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
   1389                          ;    Currently only the page pointer registers listed below are modified: 
   1390                          ;          CUR_PP
   1391                          ;
-  1392  70A5                     LTRX_szGetRestOfParams:
-  1393  70A5                    _LTRX_szGetRestOfParams:
+  1392  74EA                     LTRX_szGetRestOfParams:
+  1393  74EA                    _LTRX_szGetRestOfParams:
   1394                             RAM_PROLOGUE RAM_USE_CLASS_4
-  1395  70A5  62 D0 00             RAM_SETPAGE_CUR >ptrParam
-  1396  70A8  50 4B                mov  A, <LTRX_aRxBuffer                  ; Get address to receive buffer
-  1397  70AA  02 67                add  A, [ptrParam]                       ; Add string offset
-  1398  70AC  5C                   mov  X,A
-  1399  70AD  50 00                mov  A,>LTRX_aRxBuffer                   ; Return pointer
+  1395  74EA  62 D0 00             RAM_SETPAGE_CUR >ptrParam
+  1396  74ED  50 43                mov  A, <LTRX_aRxBuffer                  ; Get address to receive buffer
+  1397  74EF  02 5F                add  A, [ptrParam]                       ; Add string offset
+  1398  74F1  5C                   mov  X,A
+  1399  74F2  50 00                mov  A,>LTRX_aRxBuffer                   ; Return pointer
   1400                             RAM_EPILOGUE RAM_USE_CLASS_4
-  1401  70AF  7F                   ret
+  1401  74F4  7F                   ret
 
 
 HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
-Symbol Table                                                                                               Thu Feb 05 17:14:14 2009
+Symbol Table                                                                                               Fri Feb 06 16:23:18 2009
 
-              LTRX_RX_COMPLETE 0008          LTRX_szGetRestOfParams 70A5                LTRX_RX_INT_MASK 0080  
+              LTRX_RX_COMPLETE 0008          LTRX_szGetRestOfParams 74EA                LTRX_RX_INT_MASK 0080  
                  LTRX_RX_ERROR 00E0                        MAC0_CL0 00EE                        MAC0_CL1 00EF  
                       MAC1_CL0 00AE                        MAC1_CL1 00AF                        CLEN_LSB FFFFFFFB  
-                      CLEN_MSB FFFFFFFA                LTRX_RX_REG_FULL 0008                   LTRX_CmdReset 7019  
+                      CLEN_MSB FFFFFFFA                LTRX_RX_REG_FULL 0008                   LTRX_CmdReset 745E  
                          MAC_X 00EC                           MAC_Y 00ED               LTRX_RX_BUF_ERROR 00F0  
-                    LTRX_Start 6EE9                      LTRX_Write 6FAA                 LTRX_szGetParam 7048  
-               LTRX_PutSHexInt 6F56                        CSTR_LSB FFFFFFFD                        CSTR_MSB FFFFFFFC  
-       bfCONTROL_REG_START_BIT 0001         _LTRX_szGetRestOfParams 70A5              LTRX_RX_BUFFER_REG 003E  
-              LTRX_TX_FUNC_REG 0038           LTRX_RX_FRAMING_ERROR 0020                          ??0000 6F5D  
-                        ??0001 6FBC                          ??0002 6FE3                     _LTRX_Start 6EE9  
-                   _LTRX_Write 6FAA                   End_PutString 6FA5                   LTRX_SendData 6EF9  
-              LTRX_TX_INT_MASK 0040                   LTRX_cGetChar 6F65                _LTRX_DisableInt 6ED0  
-                   LTRX_CWrite 6FD0                          MAC0_X 00EC                          MAC0_Y 00ED  
+                    LTRX_Start 732E                      LTRX_Write 73EF                 LTRX_szGetParam 748D  
+               LTRX_PutSHexInt 739B                        CSTR_LSB FFFFFFFD                        CSTR_MSB FFFFFFFC  
+       bfCONTROL_REG_START_BIT 0001         _LTRX_szGetRestOfParams 74EA              LTRX_RX_BUFFER_REG 003E  
+              LTRX_TX_FUNC_REG 0038           LTRX_RX_FRAMING_ERROR 0020                          ??0000 73A2  
+                        ??0001 7401                          ??0002 7428                     _LTRX_Start 732E  
+                   _LTRX_Write 73EF                   End_PutString 73EA                   LTRX_SendData 733E  
+              LTRX_TX_INT_MASK 0040                   LTRX_cGetChar 73AA                _LTRX_DisableInt 7315  
+                   LTRX_CWrite 7415                          MAC0_X 00EC                          MAC0_Y 00ED  
                         MAC1_X 00AC                          MAC1_Y 00AD                          HITECH 0002  
                FLAG_PGMODE_01b 0040                 FLAG_PGMODE_10b 0080                          IDX_PP 00D3  
-                        CUR_PP 00D0                     LTRX_bRxCnt 0049                  LTRX_EnableInt 6EC9  
-              LTRX_bReadRxData 6EFF                 LTRX_CPutString 6FFE                LTRX_PutSHexByte 6F43  
-            End_LTRX_cReadChar 6F83             LTRX_RX_BUFFER_SIZE 0010                    _LTRX_CWrite 6FD0  
-             LTRX_SetTxIntMode 6ED7               LTRX_RXBUF_ENABLE 0001               _LTRX_bReadRxData 6EFF  
-                LTRX_bCmdCheck 702F               _LTRX_PutSHexByte 6F43                    LTRX_HEX_STR 6F33  
-     SYSTEM_LARGE_MEMORY_MODEL 0001              End_LTRX_iReadChar 6F99              LTRX_bReadRxStatus 6F02  
-        SYSTEM_MULTIPAGE_STACK 0000                _LTRX_bCmdLength 7042                  LTRX_bErrCheck 7037  
-            LTRX_bReadTxStatus 6EFC                 LTRX_RX_INT_REG 00E1             LTRX_RX_CONTROL_REG 003F  
-            bLTRX_ReadRxStatus 6F02                       LTRX_Stop 6EF2                 LTRX_RX_NO_DATA 0001  
+                        CUR_PP 00D0                     LTRX_bRxCnt 0041                  LTRX_EnableInt 730E  
+              LTRX_bReadRxData 7344                 LTRX_CPutString 7443                LTRX_PutSHexByte 7388  
+            End_LTRX_cReadChar 73C8             LTRX_RX_BUFFER_SIZE 0010                    _LTRX_CWrite 7415  
+             LTRX_SetTxIntMode 731C               LTRX_RXBUF_ENABLE 0001               _LTRX_bReadRxData 7344  
+                LTRX_bCmdCheck 7474               _LTRX_PutSHexByte 7388                    LTRX_HEX_STR 7378  
+     SYSTEM_LARGE_MEMORY_MODEL 0001              End_LTRX_iReadChar 73DE              LTRX_bReadRxStatus 7347  
+        SYSTEM_MULTIPAGE_STACK 0000                _LTRX_bCmdLength 7487                  LTRX_bErrCheck 747C  
+            LTRX_bReadTxStatus 7341                 LTRX_RX_INT_REG 00E1             LTRX_RX_CONTROL_REG 003F  
+            bLTRX_ReadRxStatus 7347                       LTRX_Stop 7337                 LTRX_RX_NO_DATA 0001  
                        MAC_CL0 00EE                         MAC_CL1 00EF             LTRX_RX_BUF_CMDTERM 0001  
-                       CNT_LEN FFFFFFFB              bLTRX_ReadTxStatus 6EFC                  LTRX_cReadChar 6F6D  
-                LTRX_TxIntMode 6F05             LTRX_TX_CONTROL_REG 003B                    LTRX_IntCntl 6F18  
-                LTRX_aRxBuffer 004B                FLAG_PGMODE_MASK 00C0                      _LTRX_Stop 6EF2  
-               _LTRX_EnableInt 6EC9                 LTRX_TX_INT_REG 00E1                bLTRX_ReadRxData 6EFF  
+                       CNT_LEN FFFFFFFB              bLTRX_ReadTxStatus 7341                  LTRX_cReadChar 73B2  
+                LTRX_TxIntMode 734A             LTRX_TX_CONTROL_REG 003B                    LTRX_IntCntl 735D  
+                LTRX_aRxBuffer 0043                FLAG_PGMODE_MASK 00C0                      _LTRX_Stop 7337  
+               _LTRX_EnableInt 730E                 LTRX_TX_INT_REG 00E1                bLTRX_ReadRxData 7344  
                RAM_USE_CLASS_1 0001                 RAM_USE_CLASS_2 0002                 RAM_USE_CLASS_3 0004  
-               RAM_USE_CLASS_4 0008                    LTRX_PutCRLF 7010              _LTRX_SetTxIntMode 6ED7  
-                  LTRX_PutChar 6F5D                  LTRX_PutString 6F9A              LTRX_ENABLE_RX_INT 0001  
+               RAM_USE_CLASS_4 0008                    LTRX_PutCRLF 7455              _LTRX_SetTxIntMode 731C  
+                  LTRX_PutChar 73A2                  LTRX_PutString 73DF              LTRX_ENABLE_RX_INT 0001  
                        STR_LSB FFFFFFFD                         STR_MSB FFFFFFFC              LTRX_ENABLE_TX_INT 0002  
-                  LTRX_fStatus 0048  bfFUNCTION_REG_TX_INT_MODE_BIT 0010                  LTRX_iReadChar 6F84  
-               LTRX_DisableInt 6ED0                _LTRX_szGetParam 7048              LTRX_TX_BUFFER_REG 0039  
-             _bLTRX_ReadRxData 6EFF                _LTRX_PutSHexInt 6F56                 _LTRX_bCmdCheck 702F  
-                      ptrParam 0067                  _LTRX_CmdReset 7019                  LTRX_DELIMITER 0020  
-               _LTRX_bErrCheck 7037                 _LTRX_cReadChar 6F6D                 _LTRX_TxIntMode 6F05  
-                _LTRX_SendData 6EF9       LTRX_INT_MODE_TX_COMPLETE 0001                  _LTRX_cGetChar 6F65  
-             SYSTEM_STACK_PAGE 0007            LTRX_TX_BUFFER_EMPTY 0010             _LTRX_bReadRxStatus 6F02  
-              _LTRX_CPutString 6FFE                   FLAG_XIO_MASK 0010                 _LTRX_PutString 6F9A  
-                 _LTRX_IntCntl 6F18             _LTRX_bReadTxStatus 6EFC      SYSTEM_IDXPG_TRACKS_IDX_PP 0001  
-          LTRX_RX_PARITY_ERROR 0080                   _LTRX_PutCRLF 7010      SYSTEM_IDXPG_TRACKS_STK_PP 0000  
-           _bLTRX_ReadRxStatus 6F02                   _LTRX_PutChar 6F5D                 _LTRX_iReadChar 6F84  
-           _bLTRX_ReadTxStatus 6EFC                 LTRX_bCmdLength 7042  
+                  LTRX_fStatus 0040  bfFUNCTION_REG_TX_INT_MODE_BIT 0010                  LTRX_iReadChar 73C9  
+               LTRX_DisableInt 7315                _LTRX_szGetParam 748D              LTRX_TX_BUFFER_REG 0039  
+             _bLTRX_ReadRxData 7344                _LTRX_PutSHexInt 739B                 _LTRX_bCmdCheck 7474  
+                      ptrParam 005F                  _LTRX_CmdReset 745E                  LTRX_DELIMITER 0020  
+               _LTRX_bErrCheck 747C                 _LTRX_cReadChar 73B2                 _LTRX_TxIntMode 734A  
+                _LTRX_SendData 733E       LTRX_INT_MODE_TX_COMPLETE 0001                  _LTRX_cGetChar 73AA  
+             SYSTEM_STACK_PAGE 0007            LTRX_TX_BUFFER_EMPTY 0010             _LTRX_bReadRxStatus 7347  
+              _LTRX_CPutString 7443                   FLAG_XIO_MASK 0010                 _LTRX_PutString 73DF  
+                 _LTRX_IntCntl 735D             _LTRX_bReadTxStatus 7341      SYSTEM_IDXPG_TRACKS_IDX_PP 0001  
+          LTRX_RX_PARITY_ERROR 0080                   _LTRX_PutCRLF 7455      SYSTEM_IDXPG_TRACKS_STK_PP 0000  
+           _bLTRX_ReadRxStatus 7347                   _LTRX_PutChar 73A2                 _LTRX_iReadChar 73C9  
+           _bLTRX_ReadTxStatus 7341                 LTRX_bCmdLength 7487  

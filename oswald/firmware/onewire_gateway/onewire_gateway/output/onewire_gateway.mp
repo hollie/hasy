@@ -38,400 +38,369 @@ Call graph: (short form)
          _LTRX_EnableInt size 0,0 offset 3
          _LTRX_Start size 0,0 offset 3
          _Ticker_EnableInt size 0,0 offset 3
-     _get_sensors size 0,1 offset 3
-         _OneWire_fReset size 0,0 offset 57
-         _LTRX_CPutString size 0,0 offset 58
-         _LTRX_PutCRLF size 0,0 offset 58
-         _OneWire_fFindFirst size 0,0 offset 27
-         _OneWire_GetROM size 0,0 offset 57
-         _OneWire_fFindNext size 0,0 offset 4
-     _get_temp size 0,2 offset 3
-         _OneWire_fReset size 0,0 offset 57
-         _LTRX_CPutString size 0,0 offset 58
-         _LTRX_PutCRLF size 0,0 offset 58
-         _OneWire_WriteByte size 0,0 offset 59
-         _OneWire_bReadByte size 0,0 offset 59
-         _OneWire_SetROM size 0,0 offset 57
-         _OneWire_fVerify size 0,0 offset 57
-     _print_data size 0,0 offset 3
-         _LTRX_PutCRLF size 0,0 offset 58
-         _LTRX_CPutString size 0,0 offset 58
-         _print_id size 2,1 offset 3
-             _LTRX_PutSHexByte size 0,0 offset 58
-         _LTRX_PutSHexInt size 0,0 offset 3
-     _LTRX_bCmdCheck size 0,0 offset 3
-     _LTRX_szGetParam size 0,0 offset 3
-*    _oo_report size 0,24 offset 3
-         _oo_busreset size 0,0 offset 57
-             _OneWire_fReset size 0,0 offset 57
-         _LTRX_CPutString size 0,0 offset 58
-         _LTRX_PutCRLF size 0,0 offset 58
-         _oo_start_conversion size 0,0 offset 27
-             _oo_tx_byte size 1,0 offset 58
-                 _OneWire_WriteByte size 0,0 offset 59
-         _oo_wait_for_completion size 0,1 offset 27
-             _delay_10ms size 0,2 offset 28
-             _oo_conversion_busy size 0,0 offset 28
-                 _oo_rx_byte size 0,1 offset 58
-                     _OneWire_bReadByte size 0,0 offset 59
-                     _oo_crc_shuffle_byte size 1,1 offset 59
-         _OneWire_fFindFirst size 0,0 offset 27
-         _OneWire_GetROM size 0,0 offset 57
-*        _oo_read_device size 13,17 offset 27
-             _OneWire_GetROM size 0,0 offset 57
-             _oo_busreset size 0,0 offset 57
-             _OneWire_fReset size 0,0 offset 57
-             _OneWire_SetROM size 0,0 offset 57
-             _OneWire_fVerify size 0,0 offset 57
-*            _oo_read_scratchpad size 0,1 offset 57
-                 _oo_tx_byte size 1,0 offset 58
-                 _oo_crc_init size 0,0 offset 58
-                 _LTRX_CPutString size 0,0 offset 58
-*                _oo_rx_byte size 0,1 offset 58
-                 _LTRX_PutSHexByte size 0,0 offset 58
-                 _LTRX_PutCRLF size 0,0 offset 58
-         _oo_print_data size 13,1 offset 27
-             _LTRX_PutSHexByte size 0,0 offset 58
-             _LTRX_CPutString size 0,0 offset 58
-             _LTRX_PutChar size 0,0 offset 41
-             _LTRX_PutCRLF size 0,0 offset 58
      _print_help size 0,0 offset 3
          _print_header size 0,0 offset 3
-             _LTRX_PutCRLF size 0,0 offset 58
-             _LTRX_CPutString size 0,0 offset 58
-         _LTRX_PutCRLF size 0,0 offset 58
-         _LTRX_CPutString size 0,0 offset 58
+             _LTRX_PutCRLF size 0,0 offset 33
+             _LTRX_CPutString size 0,0 offset 33
+         _LTRX_CPutString size 0,0 offset 33
+         _LTRX_PutCRLF size 0,0 offset 33
+     _LTRX_bCmdCheck size 0,0 offset 3
+     _LTRX_szGetParam size 0,0 offset 3
+*    _oo_report size 0,16 offset 3
+         _OneWire_fReset size 0,0 offset 49
+         _LTRX_CPutString size 0,0 offset 33
+         _LTRX_PutCRLF size 0,0 offset 33
+         _oo_start_conversion size 0,0 offset 19
+             _oo_tx_byte size 1,0 offset 50
+                 _OneWire_WriteByte size 0,0 offset 51
+         _oo_wait_for_completion size 0,1 offset 19
+             _delay_10ms size 0,2 offset 20
+             _oo_conversion_busy size 0,0 offset 20
+                 _oo_rx_byte size 0,1 offset 50
+                     _OneWire_bReadByte size 0,0 offset 51
+                     _oo_crc_shuffle_byte size 1,1 offset 51
+         _OneWire_fFindFirst size 0,0 offset 19
+*        _oo_read_device size 13,17 offset 19
+             _OneWire_GetROM size 0,0 offset 49
+             _oo_busreset size 0,0 offset 49
+                 _OneWire_fReset size 0,0 offset 49
+             _OneWire_SetROM size 0,0 offset 49
+             _OneWire_fVerify size 0,0 offset 49
+*            _oo_read_scratchpad size 0,1 offset 49
+                 _oo_tx_byte size 1,0 offset 50
+                 _oo_crc_init size 0,0 offset 50
+*                _oo_rx_byte size 0,1 offset 50
+         _oo_print_data size 13,1 offset 19
+             _LTRX_PutSHexByte size 0,0 offset 33
+             _LTRX_CPutString size 0,0 offset 33
+             _LTRX_PutChar size 0,0 offset 33
+             _LTRX_PutCRLF size 0,0 offset 33
+         _OneWire_fFindNext size 0,0 offset 19
+     _LTRX_CPutString size 0,0 offset 33
+     _LTRX_PutCRLF size 0,0 offset 33
      _LTRX_CmdReset size 0,0 offset 3
 
 Estimated maximum call depth: 5
 
-*intlevel1 size 0,0 offset 61
-*    _Ticker_ISR size 0,10 offset 61
-*        _LED1_Invert size 0,0 offset 71
+*intlevel1 size 0,0 offset 53
+*    _Ticker_ISR size 0,10 offset 53
+*        _LED1_Invert size 0,0 offset 63
 
 Estimated maximum call depth: 2
 
 
                 Name          Link     Load   Length Selector Space Scale
 output\startup.obj
-                init          7F7B     7F7B       37    7F7B     0
+                init          7E8E     7E8E       37    7E04     0
                 vectors          0        0        3       0     0
                 SSCParmBl       F8       F8        8       0     1
                 TOP              4        4       61       0     0
 output\onewire_gateway.obj
-                intrtext      7FB2     7FB2       41    7F7B     0
-                strings       7E00     7E00      17B      7E     0
-                cdata         7D00     7D00        4      7D     0
-                text          748D     748D      7DE    748D     0
-                maintext      7C6B     7C6B       95    7C6B     0
+                intrtext      7DBF     7DBF       41    7DBF     0
+                strings       7F00     7F00       EE      7F     0
+                cdata         7E00     7E00        4      7E     0
+                text          78D2     78D2      46A    78D2     0
+                maintext      7D3C     7D3C       83    7D3C     0
                 ramdata1       100      100      100     100     1
                 romdata1       100      100      100     100     0
                 bss2           200      200       27     200     1
                 rbit0            0        0        1       0     1    8
-./obj/boot.obj  PD_startu     7D04     7D04       8A    7D04     0
+./obj/boot.obj  PD_startu     7E04     7E04       8A    7E04     0
                 TOP              4        4       61       0     0
 
 lib/libpsoc.lib
 lib/obj/counter8.obj
-                UserModul     6DEB     6DEB       4C    6DEB     0
+                UserModul     7231     7231       4C    7231     0
 lib/obj/counter8_ltrx.obj
-                UserModul     6E37     6E37       4C    6DEB     0
+                UserModul     727D     727D       4C    7231     0
 lib/obj/counter8_ltrxint.obj
-                UserModul     6E83     6E83        1    6DEB     0
-lib/obj/counter8int.obj
-                UserModul     6E84     6E84        1    6DEB     0
+                UserModul     72C9     72C9        1    7231     0
 lib/obj/led1.obj
-                UserModul     6E85     6E85       44    6DEB     0
+                UserModul     72CA     72CA       44    7231     0
 lib/obj/ltrx.obj
-                UserModul     6EC9     6EC9      1E7    6DEB     0
-                LTRX_RAM        67       67        1       0     1
+                UserModul     730E     730E      1E7    7231     0
+                LTRX_RAM        5F       5F        1       0     1
 lib/obj/ltrxint.obj
-                Interrupt       48       48        2       0     1
-                UserModul     70B0     70B0       75    6DEB     0
-                LTRX_RAM        4B       4B       10       0     1
+                Interrupt       40       40        2       0     1
+                UserModul     74F5     74F5       75    7231     0
+                LTRX_RAM        43       43       10       0     1
 lib/obj/onewire.obj
-                UserModul     7125     7125      305    6DEB     0
-                bss             5B       5B        C       0     1
+                UserModul     756A     756A      305    7231     0
+                bss             53       53        C       0     1
 lib/obj/onewireint.obj
-                UserModul     742A     742A        1    6DEB     0
+                UserModul     786F     786F        1    7231     0
 lib/obj/psocconfig.obj
-                Interrupt       4A       4A        1       0     1
-                psoc_conf     7D8E     7D8E       67    7D8E     0
+                Interrupt       42       42        1       0     1
+                psoc_conf      3B1      3B1       67     200     0
 lib/obj/psocconfigtbl.obj
-                lit            200      200      1BD     200     0
+                lit            200      200      1B1     200     0
 lib/obj/ticker.obj
-                UserModul     742B     742B       62    6DEB     0
+                UserModul     7870     7870       62    7231     0
 
 C:/PROGRA~1/Cypress/Common/CYPRES~2/tools/lib/CY8C29000/cms.lib
 
-COMMON          fnauto           1        1       47       0     1
+COMMON          fnauto           1        1       3F       0     1
 
 TOTAL           Name          Link     Load   Length  Space
         CLASS   CODE           
-                intrtext      7FB2     7FB2       41     0
-                PD_startu     7D04     7D04       8A     0
-                init          7F7B     7F7B       37     0
-                text          748D     748D      7DE     0
+                intrtext      7DBF     7DBF       41     0
+                PD_startu     7E04     7E04       8A     0
+                init          7E8E     7E8E       37     0
+                text          78D2     78D2      46A     0
                 vectors          0        0        3     0
-                maintext      7C6B     7C6B       95     0
+                maintext      7D3C     7D3C       83     0
 
         CLASS   BANKROM        
                 romdata1       100      100      100     0
 
         CLASS   ROM            
-                UserModul     6DEB     6DEB      6A2     0
-                strings       7E00     7E00      17B     0
-                cdata         7D00     7D00        4     0
+                UserModul     7231     7231      6A1     0
+                strings       7F00     7F00       EE     0
+                cdata         7E00     7E00        4     0
                 TOP              4        4       61     0
-                psoc_conf     7D8E     7D8E       67     0
-                lit            200      200      1BD     0
+                psoc_conf      3B1      3B1       67     0
+                lit            200      200      1B1     0
 
         CLASS   RAM            
-                Interrupt       48       48        3     1
-                fnauto           1        1       47     1
+                Interrupt       40       40        3     1
+                fnauto           1        1       3F     1
                 SSCParmBl       F8       F8        8     1
                 ramdata1       100      100      100     1
                 bss2           200      200       27     1
                 rbit0            0        0        1     1
-                LTRX_RAM        67       67        1     1
-                LTRX_RAM        4B       4B       10     1
-                bss             5B       5B        C     1
+                LTRX_RAM        5F       5F        1     1
+                LTRX_RAM        43       43       10     1
+                bss             53       53        C     1
 
 
 
 SEGMENTS        Name           Load    Length   Top     Selector    Space Class
 
-                bss0            000000  000068  000068         0       1  RAM     
+                bss0            000000  000060  000060         0       1  RAM     
                 vectors         000000  000003  000003         0       0  CODE    
                 romdata1        000100  000100  000200       100       0  BANKROM 
                 bss1            000100  000100  000200       100       1  RAM     
                 bss2            000200  000027  000227       200       1  RAM     
-                lit             000200  0001BD  0003BD       200       0  ROM     
-                UserModules     006DEB  0006A2  00748D      6DEB       0  CODE    
-                text            00748D  0007DE  007C6B      748D       0  CODE    
-                maintext        007C6B  000095  007D00      7C6B       0  CODE    
-                cdata           007D00  000004  007D04        7D       0  ROM     
-                PD_startup      007D04  00008A  007D8E      7D04       0  CODE    
-                psoc_config     007D8E  000067  007DF5      7D8E       0  ROM     
-                strings         007E00  00017B  007F7B        7E       0  ROM     
-                init            007F7B  000078  007FF3      7F7B       0  CODE    
+                lit             000200  000218  000418       200       0  ROM     
+                UserModules     007231  0006A1  0078D2      7231       0  CODE    
+                text            0078D2  00046A  007D3C      78D2       0  CODE    
+                maintext        007D3C  000083  007DBF      7D3C       0  CODE    
+                intrtext        007DBF  000041  007E00      7DBF       0  CODE    
+                cdata           007E00  000004  007E04        7E       0  ROM     
+                PD_startup      007E04  0000C1  007EC5      7E04       0  CODE    
+                strings         007F00  0000EE  007FEE        7F       0  ROM     
 
 
 UNUSED ADDRESS RANGES
 
         BANKROM          0003-0003
                          0065-00FF
-                         03BD-6DEA
-                         7DF5-7DFF
-                         7FF3-7FFF
+                         0418-7230
+                         7EC5-7EFF
+                         7FEE-7FFF
         CODE             0003-0003
                          0065-00FF
-                         03BD-6DEA
-                         7DF5-7DFF
-                         7FF3-7FFF
-        RAM              0068-00F7
+                         0418-7230
+                         7EC5-7EFF
+                         7FEE-7FFF
+        RAM              0060-00F7
                          0227-07FF
         ROM              0003-0003
                          0065-00FF
-                         03BD-6DEA
-                         7DF5-7DFF
-                         7FF3-7FFF
+                         0418-7230
+                         7EC5-7EFF
+                         7FEE-7FFF
 
                                   Symbol Table
 
-??_delay_10ms                         fnauto              001D
-??_get_sensors                        fnauto              0004
-??_get_temp                           fnauto              0004
+??_delay_10ms                         fnauto              0015
 ??_main                               fnauto              0001
-??_oo_crc_shuffle_byte                fnauto              003D
-??_oo_print_data                      fnauto              0029
-??_oo_read_device                     fnauto              0029
-??_oo_read_scratchpad                 fnauto              003A
+??_oo_crc_shuffle_byte                fnauto              0035
+??_oo_print_data                      fnauto              0021
+??_oo_read_device                     fnauto              0021
+??_oo_read_scratchpad                 fnauto              0032
 ??_oo_report                          fnauto              0004
-??_oo_rx_byte                         fnauto              003B
-??_oo_wait_for_completion             fnauto              001C
-??_print_id                           fnauto              0006
-?_oo_crc_shuffle_byte                 fnauto              003C
-?_oo_print_data                       fnauto              001C
-?_oo_read_device                      fnauto              001C
-?_oo_tx_byte                          fnauto              003B
-?_print_id                            fnauto              0004
-Counter8_DisableInt                   UserModules         6DEF
-Counter8_EnableInt                    UserModules         6DEB
-Counter8_Start                        UserModules         6DF3
-Counter8_Stop                         UserModules         6DF7
-Counter8_WriteCompareValue            UserModules         6DFE
-Counter8_WritePeriod                  UserModules         6DFB
-Counter8_bReadCompareValue            UserModules         6E01
-Counter8_bReadCounter                 UserModules         6E04
-Counter8_ltrx_DisableInt              UserModules         6E3B
-Counter8_ltrx_EnableInt               UserModules         6E37
-Counter8_ltrx_Start                   UserModules         6E3F
-Counter8_ltrx_Stop                    UserModules         6E43
-Counter8_ltrx_WriteCompareValue       UserModules         6E4A
-Counter8_ltrx_WritePeriod             UserModules         6E47
-Counter8_ltrx_bReadCompareValue       UserModules         6E4D
-Counter8_ltrx_bReadCounter            UserModules         6E50
-LED1_GetState                         UserModules         6EB6
-LED1_Invert                           UserModules         6EA5
-LED1_Off                              UserModules         6E89
-LED1_On                               UserModules         6E85
-LED1_Start                            UserModules         6E89
-LED1_Stop                             UserModules         6E89
-LED1_Switch                           UserModules         6E8B
-LTRX_CPutString                       UserModules         6FFE
-LTRX_CWrite                           UserModules         6FD0
-LTRX_CmdReset                         UserModules         7019
-LTRX_DisableInt                       UserModules         6ED0
-LTRX_EnableInt                        UserModules         6EC9
-LTRX_IntCntl                          UserModules         6F18
-LTRX_PutCRLF                          UserModules         7010
-LTRX_PutChar                          UserModules         6F5D
-LTRX_PutSHexByte                      UserModules         6F43
-LTRX_PutSHexInt                       UserModules         6F56
-LTRX_PutString                        UserModules         6F9A
-LTRX_SendData                         UserModules         6EF9
-LTRX_SetTxIntMode                     UserModules         6ED7
-LTRX_Start                            UserModules         6EE9
-LTRX_Stop                             UserModules         6EF2
-LTRX_TxIntMode                        UserModules         6F05
-LTRX_Write                            UserModules         6FAA
-LTRX_aRxBuffer                        LTRX_RAM            004B
-LTRX_bCmdCheck                        UserModules         702F
-LTRX_bCmdLength                       UserModules         7042
-LTRX_bErrCheck                        UserModules         7037
-LTRX_bReadRxData                      UserModules         6EFF
-LTRX_bReadRxStatus                    UserModules         6F02
-LTRX_bReadTxStatus                    UserModules         6EFC
-LTRX_bRxCnt                           InterruptRAM        0049
-LTRX_cGetChar                         UserModules         6F65
-LTRX_cReadChar                        UserModules         6F6D
-LTRX_fStatus                          InterruptRAM        0048
-LTRX_iReadChar                        UserModules         6F84
-LTRX_szGetParam                       UserModules         7048
-LTRX_szGetRestOfParams                UserModules         70A5
-LoadConfigInit                        psoc_config         7D8E
+??_oo_rx_byte                         fnauto              0033
+??_oo_wait_for_completion             fnauto              0014
+?_oo_crc_shuffle_byte                 fnauto              0034
+?_oo_print_data                       fnauto              0014
+?_oo_read_device                      fnauto              0014
+?_oo_tx_byte                          fnauto              0033
+Counter8_DisableInt                   UserModules         7235
+Counter8_EnableInt                    UserModules         7231
+Counter8_Start                        UserModules         7239
+Counter8_Stop                         UserModules         723D
+Counter8_WriteCompareValue            UserModules         7244
+Counter8_WritePeriod                  UserModules         7241
+Counter8_bReadCompareValue            UserModules         7247
+Counter8_bReadCounter                 UserModules         724A
+Counter8_ltrx_DisableInt              UserModules         7281
+Counter8_ltrx_EnableInt               UserModules         727D
+Counter8_ltrx_Start                   UserModules         7285
+Counter8_ltrx_Stop                    UserModules         7289
+Counter8_ltrx_WriteCompareValue       UserModules         7290
+Counter8_ltrx_WritePeriod             UserModules         728D
+Counter8_ltrx_bReadCompareValue       UserModules         7293
+Counter8_ltrx_bReadCounter            UserModules         7296
+LED1_GetState                         UserModules         72FB
+LED1_Invert                           UserModules         72EA
+LED1_Off                              UserModules         72CE
+LED1_On                               UserModules         72CA
+LED1_Start                            UserModules         72CE
+LED1_Stop                             UserModules         72CE
+LED1_Switch                           UserModules         72D0
+LTRX_CPutString                       UserModules         7443
+LTRX_CWrite                           UserModules         7415
+LTRX_CmdReset                         UserModules         745E
+LTRX_DisableInt                       UserModules         7315
+LTRX_EnableInt                        UserModules         730E
+LTRX_IntCntl                          UserModules         735D
+LTRX_PutCRLF                          UserModules         7455
+LTRX_PutChar                          UserModules         73A2
+LTRX_PutSHexByte                      UserModules         7388
+LTRX_PutSHexInt                       UserModules         739B
+LTRX_PutString                        UserModules         73DF
+LTRX_SendData                         UserModules         733E
+LTRX_SetTxIntMode                     UserModules         731C
+LTRX_Start                            UserModules         732E
+LTRX_Stop                             UserModules         7337
+LTRX_TxIntMode                        UserModules         734A
+LTRX_Write                            UserModules         73EF
+LTRX_aRxBuffer                        LTRX_RAM            0043
+LTRX_bCmdCheck                        UserModules         7474
+LTRX_bCmdLength                       UserModules         7487
+LTRX_bErrCheck                        UserModules         747C
+LTRX_bReadRxData                      UserModules         7344
+LTRX_bReadRxStatus                    UserModules         7347
+LTRX_bReadTxStatus                    UserModules         7341
+LTRX_bRxCnt                           InterruptRAM        0041
+LTRX_cGetChar                         UserModules         73AA
+LTRX_cReadChar                        UserModules         73B2
+LTRX_fStatus                          InterruptRAM        0040
+LTRX_iReadChar                        UserModules         73C9
+LTRX_szGetParam                       UserModules         748D
+LTRX_szGetRestOfParams                UserModules         74EA
+LoadConfigInit                        psoc_config         03B1
 LoadConfigTBL_onewire_gateway_Bank0   lit                 02E9
-LoadConfigTBL_onewire_gateway_Bank1   lit                 0368
+LoadConfigTBL_onewire_gateway_Bank1   lit                 0362
 LoadConfigTBL_onewire_gateway_Ordered lit                 0200
-LoadConfig_onewire_gateway            psoc_config         7D98
-NO_SHADOW                             InterruptRAM        004A
-OneWire_ClearCRC8                     UserModules         71A2
-OneWire_FamilySkipSetup               UserModules         740B
-OneWire_FamilyTargetSetup             UserModules         73E2
-OneWire_GetROM                        UserModules         71C3
-OneWire_SetROM                        UserModules         71ED
-OneWire_Start                         UserModules         7125
-OneWire_Stop                          UserModules         7136
-OneWire_WriteBit                      UserModules         7156
-OneWire_WriteByte                     UserModules         7173
-OneWire_bCRC8                         UserModules         71A9
-OneWire_bCRC8Value                    bss                 005B
-OneWire_bReadBit                      UserModules         7162
-OneWire_bReadByte                     UserModules         718E
-OneWire_fFindFirst                    UserModules         7217
-OneWire_fFindNext                     UserModules         722C
-OneWire_fReset                        UserModules         713D
-OneWire_fVerify                       UserModules         734E
-Port_3_Data_SHADE                     InterruptRAM        004A
-Ticker_DisableInt                     UserModules         742F
-Ticker_EnableInt                      UserModules         742B
-Ticker_ISR                            intrtext            7FB2
-Ticker_Start                          UserModules         7433
-Ticker_Stop                           UserModules         7437
-Ticker_WriteCompareValue              UserModules         7441
-Ticker_WritePeriod                    UserModules         743B
-Ticker_wReadCompareValue              UserModules         7447
-Ticker_wReadCounter                   UserModules         744D
-_Counter8_DisableInt                  UserModules         6DEF
-_Counter8_EnableInt                   UserModules         6DEB
-_Counter8_ISR                         UserModules         6E84
-_Counter8_Start                       UserModules         6DF3
-_Counter8_Stop                        UserModules         6DF7
-_Counter8_WriteCompareValue           UserModules         6DFE
-_Counter8_WritePeriod                 UserModules         6DFB
-_Counter8_bReadCompareValue           UserModules         6E01
-_Counter8_bReadCounter                UserModules         6E04
-_Counter8_ltrx_DisableInt             UserModules         6E3B
-_Counter8_ltrx_EnableInt              UserModules         6E37
-_Counter8_ltrx_ISR                    UserModules         6E83
-_Counter8_ltrx_Start                  UserModules         6E3F
-_Counter8_ltrx_Stop                   UserModules         6E43
-_Counter8_ltrx_WriteCompareValue      UserModules         6E4A
-_Counter8_ltrx_WritePeriod            UserModules         6E47
-_Counter8_ltrx_bReadCompareValue      UserModules         6E4D
-_Counter8_ltrx_bReadCounter           UserModules         6E50
-_LED1_GetState                        UserModules         6EB6
-_LED1_Invert                          UserModules         6EA5
-_LED1_Off                             UserModules         6E89
-_LED1_On                              UserModules         6E85
-_LED1_Start                           UserModules         6E89
-_LED1_Stop                            UserModules         6E89
-_LED1_Switch                          UserModules         6E8B
-_LTRX_CPutString                      UserModules         6FFE
-_LTRX_CWrite                          UserModules         6FD0
-_LTRX_CmdReset                        UserModules         7019
-_LTRX_DisableInt                      UserModules         6ED0
-_LTRX_EnableInt                       UserModules         6EC9
-_LTRX_IntCntl                         UserModules         6F18
-_LTRX_PutCRLF                         UserModules         7010
-_LTRX_PutChar                         UserModules         6F5D
-_LTRX_PutSHexByte                     UserModules         6F43
-_LTRX_PutSHexInt                      UserModules         6F56
-_LTRX_PutString                       UserModules         6F9A
-_LTRX_RX_ISR                          UserModules         70B1
-_LTRX_SendData                        UserModules         6EF9
-_LTRX_SetTxIntMode                    UserModules         6ED7
-_LTRX_Start                           UserModules         6EE9
-_LTRX_Stop                            UserModules         6EF2
-_LTRX_TX_ISR                          UserModules         70B0
-_LTRX_TxIntMode                       UserModules         6F05
-_LTRX_Write                           UserModules         6FAA
-_LTRX_aRxBuffer                       LTRX_RAM            004B
-_LTRX_bCmdCheck                       UserModules         702F
-_LTRX_bCmdLength                      UserModules         7042
-_LTRX_bErrCheck                       UserModules         7037
-_LTRX_bReadRxData                     UserModules         6EFF
-_LTRX_bReadRxStatus                   UserModules         6F02
-_LTRX_bReadTxStatus                   UserModules         6EFC
-_LTRX_bRxCnt                          InterruptRAM        0049
-_LTRX_cGetChar                        UserModules         6F65
-_LTRX_cReadChar                       UserModules         6F6D
-_LTRX_fStatus                         InterruptRAM        0048
-_LTRX_iReadChar                       UserModules         6F84
-_LTRX_szGetParam                      UserModules         7048
-_LTRX_szGetRestOfParams               UserModules         70A5
-_LoadConfigInit                       psoc_config         7D8E
-_LoadConfig_onewire_gateway           psoc_config         7D98
-_NO_SHADOW                            InterruptRAM        004A
-_OneWire_ClearCRC8                    UserModules         71A2
-_OneWire_FamilySkipSetup              UserModules         740B
-_OneWire_FamilyTargetSetup            UserModules         73E2
-_OneWire_GetROM                       UserModules         71C3
-_OneWire_ISR                          UserModules         742A
-_OneWire_SetROM                       UserModules         71ED
-_OneWire_Start                        UserModules         7125
-_OneWire_Stop                         UserModules         7136
-_OneWire_WriteBit                     UserModules         7156
-_OneWire_WriteByte                    UserModules         7173
-_OneWire_bCRC8                        UserModules         71A9
-_OneWire_bCRC8Value                   bss                 005B
-_OneWire_bReadBit                     UserModules         7162
-_OneWire_bReadByte                    UserModules         718E
-_OneWire_fFindFirst                   UserModules         7217
-_OneWire_fFindNext                    UserModules         722C
-_OneWire_fReset                       UserModules         713D
-_OneWire_fVerify                      UserModules         734E
-_Port_3_Data_SHADE                    InterruptRAM        004A
-_Ticker_DisableInt                    UserModules         742F
-_Ticker_EnableInt                     UserModules         742B
-_Ticker_ISR                           intrtext            7FB2
-_Ticker_Start                         UserModules         7433
-_Ticker_Stop                          UserModules         7437
-_Ticker_WriteCompareValue             UserModules         7441
-_Ticker_WritePeriod                   UserModules         743B
-_Ticker_wReadCompareValue             UserModules         7447
-_Ticker_wReadCounter                  UserModules         744D
+LoadConfig_onewire_gateway            psoc_config         03BB
+NO_SHADOW                             InterruptRAM        0042
+OneWire_ClearCRC8                     UserModules         75E7
+OneWire_FamilySkipSetup               UserModules         7850
+OneWire_FamilyTargetSetup             UserModules         7827
+OneWire_GetROM                        UserModules         7608
+OneWire_SetROM                        UserModules         7632
+OneWire_Start                         UserModules         756A
+OneWire_Stop                          UserModules         757B
+OneWire_WriteBit                      UserModules         759B
+OneWire_WriteByte                     UserModules         75B8
+OneWire_bCRC8                         UserModules         75EE
+OneWire_bCRC8Value                    bss                 0053
+OneWire_bReadBit                      UserModules         75A7
+OneWire_bReadByte                     UserModules         75D3
+OneWire_fFindFirst                    UserModules         765C
+OneWire_fFindNext                     UserModules         7671
+OneWire_fReset                        UserModules         7582
+OneWire_fVerify                       UserModules         7793
+Port_3_Data_SHADE                     InterruptRAM        0042
+Ticker_DisableInt                     UserModules         7874
+Ticker_EnableInt                      UserModules         7870
+Ticker_ISR                            intrtext            7DBF
+Ticker_Start                          UserModules         7878
+Ticker_Stop                           UserModules         787C
+Ticker_WriteCompareValue              UserModules         7886
+Ticker_WritePeriod                    UserModules         7880
+Ticker_wReadCompareValue              UserModules         788C
+Ticker_wReadCounter                   UserModules         7892
+_Counter8_DisableInt                  UserModules         7235
+_Counter8_EnableInt                   UserModules         7231
+_Counter8_Start                       UserModules         7239
+_Counter8_Stop                        UserModules         723D
+_Counter8_WriteCompareValue           UserModules         7244
+_Counter8_WritePeriod                 UserModules         7241
+_Counter8_bReadCompareValue           UserModules         7247
+_Counter8_bReadCounter                UserModules         724A
+_Counter8_ltrx_DisableInt             UserModules         7281
+_Counter8_ltrx_EnableInt              UserModules         727D
+_Counter8_ltrx_ISR                    UserModules         72C9
+_Counter8_ltrx_Start                  UserModules         7285
+_Counter8_ltrx_Stop                   UserModules         7289
+_Counter8_ltrx_WriteCompareValue      UserModules         7290
+_Counter8_ltrx_WritePeriod            UserModules         728D
+_Counter8_ltrx_bReadCompareValue      UserModules         7293
+_Counter8_ltrx_bReadCounter           UserModules         7296
+_LED1_GetState                        UserModules         72FB
+_LED1_Invert                          UserModules         72EA
+_LED1_Off                             UserModules         72CE
+_LED1_On                              UserModules         72CA
+_LED1_Start                           UserModules         72CE
+_LED1_Stop                            UserModules         72CE
+_LED1_Switch                          UserModules         72D0
+_LTRX_CPutString                      UserModules         7443
+_LTRX_CWrite                          UserModules         7415
+_LTRX_CmdReset                        UserModules         745E
+_LTRX_DisableInt                      UserModules         7315
+_LTRX_EnableInt                       UserModules         730E
+_LTRX_IntCntl                         UserModules         735D
+_LTRX_PutCRLF                         UserModules         7455
+_LTRX_PutChar                         UserModules         73A2
+_LTRX_PutSHexByte                     UserModules         7388
+_LTRX_PutSHexInt                      UserModules         739B
+_LTRX_PutString                       UserModules         73DF
+_LTRX_RX_ISR                          UserModules         74F6
+_LTRX_SendData                        UserModules         733E
+_LTRX_SetTxIntMode                    UserModules         731C
+_LTRX_Start                           UserModules         732E
+_LTRX_Stop                            UserModules         7337
+_LTRX_TX_ISR                          UserModules         74F5
+_LTRX_TxIntMode                       UserModules         734A
+_LTRX_Write                           UserModules         73EF
+_LTRX_aRxBuffer                       LTRX_RAM            0043
+_LTRX_bCmdCheck                       UserModules         7474
+_LTRX_bCmdLength                      UserModules         7487
+_LTRX_bErrCheck                       UserModules         747C
+_LTRX_bReadRxData                     UserModules         7344
+_LTRX_bReadRxStatus                   UserModules         7347
+_LTRX_bReadTxStatus                   UserModules         7341
+_LTRX_bRxCnt                          InterruptRAM        0041
+_LTRX_cGetChar                        UserModules         73AA
+_LTRX_cReadChar                       UserModules         73B2
+_LTRX_fStatus                         InterruptRAM        0040
+_LTRX_iReadChar                       UserModules         73C9
+_LTRX_szGetParam                      UserModules         748D
+_LTRX_szGetRestOfParams               UserModules         74EA
+_LoadConfigInit                       psoc_config         03B1
+_LoadConfig_onewire_gateway           psoc_config         03BB
+_NO_SHADOW                            InterruptRAM        0042
+_OneWire_ClearCRC8                    UserModules         75E7
+_OneWire_FamilySkipSetup              UserModules         7850
+_OneWire_FamilyTargetSetup            UserModules         7827
+_OneWire_GetROM                       UserModules         7608
+_OneWire_ISR                          UserModules         786F
+_OneWire_SetROM                       UserModules         7632
+_OneWire_Start                        UserModules         756A
+_OneWire_Stop                         UserModules         757B
+_OneWire_WriteBit                     UserModules         759B
+_OneWire_WriteByte                    UserModules         75B8
+_OneWire_bCRC8                        UserModules         75EE
+_OneWire_bCRC8Value                   bss                 0053
+_OneWire_bReadBit                     UserModules         75A7
+_OneWire_bReadByte                    UserModules         75D3
+_OneWire_fFindFirst                   UserModules         765C
+_OneWire_fFindNext                    UserModules         7671
+_OneWire_fReset                       UserModules         7582
+_OneWire_fVerify                      UserModules         7793
+_Port_3_Data_SHADE                    InterruptRAM        0042
+_Ticker_DisableInt                    UserModules         7874
+_Ticker_EnableInt                     UserModules         7870
+_Ticker_ISR                           intrtext            7DBF
+_Ticker_Start                         UserModules         7878
+_Ticker_Stop                          UserModules         787C
+_Ticker_WriteCompareValue             UserModules         7886
+_Ticker_WritePeriod                   UserModules         7880
+_Ticker_wReadCompareValue             UserModules         788C
+_Ticker_wReadCounter                  UserModules         7892
 __Bnvbit0                             nvbit0              0001
 __Bnvbit1                             nvbit1              0200
 __Bnvbit2                             nvbit2              0227
@@ -448,12 +417,12 @@ __Brbit5                              rbit5               0500
 __Brbit6                              rbit6               0600
 __Brbit7                              rbit7               0700
 __Bstackps                            stackps             0700
-__HInterruptRAM                       InterruptRAM        004B
+__HInterruptRAM                       InterruptRAM        0043
 __HLTRX_RAM                           LTRX_RAM            0700
-__HPD_startup                         PD_startup          7D8E
+__HPD_startup                         PD_startup          7E8E
 __HSSCParmBlk                         SSCParmBlk          0100
 __HTOP                                TOP                 0065
-__HUserModules                        UserModules         748D
+__HUserModules                        UserModules         78D2
 __Hbss                                bss                 0700
 __Hbss0                               bss0                0000
 __Hbss1                               bss1                0100
@@ -463,13 +432,13 @@ __Hbss4                               bss4                0400
 __Hbss5                               bss5                0500
 __Hbss6                               bss6                0600
 __Hbss7                               bss7                0700
-__Hcdata                              cdata               7D04
+__Hcdata                              cdata               7E04
 __Hend_init                           end_init            0003
-__Hfnauto                             fnauto              0048
-__Hinit                               init                7FB2
-__Hintrtext                           intrtext            7FF3
+__Hfnauto                             fnauto              0040
+__Hinit                               init                7EC5
+__Hintrtext                           intrtext            7E00
 __Hlit                                lit                 0700
-__Hmaintext                           maintext            7D00
+__Hmaintext                           maintext            7DBF
 __Hnvbit0                             nvbit0              0008
 __Hnvbit1                             nvbit1              1000
 __Hnvbit2                             nvbit2              1138
@@ -514,15 +483,15 @@ __Hromdata5                           romdata5            0003
 __Hromdata6                           romdata6            0003
 __Hromdata7                           romdata7            0003
 __Hstackps                            stackps             0700
-__Hstrings                            strings             7F7B
-__Htext                               text                7C6B
+__Hstrings                            strings             7FEE
+__Htext                               text                7D3C
 __Hvectors                            vectors             0003
-__LInterruptRAM                       InterruptRAM        0048
+__LInterruptRAM                       InterruptRAM        0040
 __LLTRX_RAM                           LTRX_RAM            0700
-__LPD_startup                         PD_startup          7D04
+__LPD_startup                         PD_startup          7E04
 __LSSCParmBlk                         SSCParmBlk          0000
 __LTOP                                TOP                 0000
-__LUserModules                        UserModules         6DEB
+__LUserModules                        UserModules         7231
 __Lbss                                bss                 0700
 __Lbss0                               bss0                0000
 __Lbss1                               bss1                0100
@@ -532,13 +501,13 @@ __Lbss4                               bss4                0400
 __Lbss5                               bss5                0500
 __Lbss6                               bss6                0600
 __Lbss7                               bss7                0700
-__Lcdata                              cdata               7D00
+__Lcdata                              cdata               7E00
 __Lend_init                           end_init            0003
 __Lfnauto                             fnauto              0001
-__Linit                               init                7F7B
-__Lintrtext                           intrtext            7FB2
+__Linit                               init                7E8E
+__Lintrtext                           intrtext            7DBF
 __Llit                                lit                 0700
-__Lmaintext                           maintext            7C6B
+__Lmaintext                           maintext            7D3C
 __Lnvbit0                             nvbit0              0008
 __Lnvbit1                             nvbit1              1000
 __Lnvbit2                             nvbit2              1138
@@ -583,110 +552,98 @@ __Lromdata5                           romdata5            0003
 __Lromdata6                           romdata6            0003
 __Lromdata7                           romdata7            0003
 __Lstackps                            stackps             0700
-__Lstrings                            strings             7E00
-__Ltext                               text                748D
+__Lstrings                            strings             7F00
+__Ltext                               text                78D2
 __Lvectors                            vectors             0000
-__S0                                  (abs)               7FF3
-__S1                                  (abs)               0068
-__Start                               PD_startup          7D04
-___end_of_c_program_code              text                7C6B
-___start_of_c_program_code            text                748D
-__end_of_Ticker_ISR                   intrtext            7FF3
-__end_of_delay_10ms                   text                7B5E
-__end_of_get_sensors                  text                76BD
-__end_of_get_temp                     text                75E8
-__end_of_hardware_init                text                78A0
-__end_of_main                         maintext            7D00
-__end_of_oo_busreset                  text                7BF9
-__end_of_oo_conversion_busy           text                7B74
-__end_of_oo_crc_init                  text                7C07
-__end_of_oo_crc_shuffle_byte          text                7C6B
-__end_of_oo_print_data                text                7963
-__end_of_oo_read_device               text                7AA9
-__end_of_oo_read_scratchpad           text                7BEA
-__end_of_oo_report                    text                7848
-__end_of_oo_rx_byte                   text                7C48
-__end_of_oo_start_conversion          text                7985
-__end_of_oo_tx_byte                   text                7C1B
-__end_of_oo_wait_for_completion       text                79BD
-__end_of_print_data                   text                778F
-__end_of_print_header                 text                7B21
-__end_of_print_help                   text                760F
-__end_of_print_id                     text                7AEF
-__flash_banks                         cdata               7D02
-__flash_blocksize                     cdata               7D03
-__flash_size                          cdata               7D00
+__S0                                  (abs)               7FEE
+__S1                                  (abs)               0060
+__Start                               PD_startup          7E04
+___end_of_c_program_code              text                7D3C
+___start_of_c_program_code            text                78D2
+__end_of_Ticker_ISR                   intrtext            7E00
+__end_of_delay_10ms                   text                7CAD
+__end_of_hardware_init                text                79E3
+__end_of_main                         maintext            7DBF
+__end_of_oo_busreset                  text                7C70
+__end_of_oo_conversion_busy           text                7CC3
+__end_of_oo_crc_init                  text                7CD1
+__end_of_oo_crc_shuffle_byte          text                7D3C
+__end_of_oo_print_data                text                7AB0
+__end_of_oo_read_device               text                7B8A
+__end_of_oo_read_scratchpad           text                7C61
+__end_of_oo_report                    text                798F
+__end_of_oo_rx_byte                   text                7D05
+__end_of_oo_start_conversion          text                7A23
+__end_of_oo_tx_byte                   text                7D19
+__end_of_oo_wait_for_completion       text                7BC2
+__end_of_print_header                 text                7C0A
+__end_of_print_help                   text                7A01
+__flash_banks                         cdata               7E02
+__flash_blocksize                     cdata               7E03
+__flash_size                          cdata               7E00
 __stack_start__                       stackps             0700
-_bCounter8_ReadCompareValue           UserModules         6E01
-_bCounter8_ReadCounter                UserModules         6E04
-_bCounter8_ltrx_ReadCompareValue      UserModules         6E4D
-_bCounter8_ltrx_ReadCounter           UserModules         6E50
-_bGetPowerSetting                     PD_startup          7D8B
-_bLTRX_ReadRxData                     UserModules         6EFF
-_bLTRX_ReadRxStatus                   UserModules         6F02
-_bLTRX_ReadTxStatus                   UserModules         6EFC
-_conflict                             bss2                0215
-_crc                                  bss2                0216
+_bCounter8_ReadCompareValue           UserModules         7247
+_bCounter8_ReadCounter                UserModules         724A
+_bCounter8_ltrx_ReadCompareValue      UserModules         7293
+_bCounter8_ltrx_ReadCounter           UserModules         7296
+_bGetPowerSetting                     PD_startup          7E8B
+_bLTRX_ReadRxData                     UserModules         7344
+_bLTRX_ReadRxStatus                   UserModules         7347
+_bLTRX_ReadTxStatus                   UserModules         7341
+_conflict                             bss2                0225
+_crc                                  bss2                0226
 _crc_rom                              ramdata1            0100
-_delay_10ms                           text                7B21
-_get_sensors                          text                760F
-_get_temp                             text                748D
-_hardware_init                        text                7848
+_delay_10ms                           text                7C70
+_hardware_init                        text                798F
 _id                                   bss2                0209
-_id0                                  bss2                0217
-_id1                                  bss2                021F
-_main                                 maintext            7C6B
+_id0                                  bss2                0211
+_id1                                  bss2                0219
+_main                                 maintext            7D3C
 _new_conflict                         rbit0               0000
-_oo_busreset                          text                7BEA
-_oo_conversion_busy                   text                7B5E
-_oo_crc_init                          text                7BF9
-_oo_crc_shuffle_byte                  text                7C48
-_oo_print_data                        text                78A0
-_oo_read_device                       text                79BD
-_oo_read_scratchpad                   text                7B74
-_oo_report                            text                778F
-_oo_rx_byte                           text                7C1B
+_oo_busreset                          text                7C61
+_oo_conversion_busy                   text                7CAD
+_oo_crc_init                          text                7CC3
+_oo_crc_shuffle_byte                  text                7D19
+_oo_print_data                        text                7A23
+_oo_read_device                       text                7AB0
+_oo_read_scratchpad                   text                7C0A
+_oo_report                            text                78D2
+_oo_rx_byte                           text                7CD1
 _oo_scratchpad                        bss2                0200
-_oo_start_conversion                  text                7963
-_oo_tx_byte                           text                7C07
-_oo_wait_for_completion               text                7985
-_print_data                           text                76BD
-_print_header                         text                7AEF
-_print_help                           text                75E8
-_print_id                             text                7AA9
-_temp0                                bss2                0211
-_temp1                                bss2                0213
-_wTicker_ReadCompareValue             UserModules         7447
-_wTicker_ReadCounter                  UserModules         744D
-bCounter8_ReadCompareValue            UserModules         6E01
-bCounter8_ReadCounter                 UserModules         6E04
-bCounter8_ltrx_ReadCompareValue       UserModules         6E4D
-bCounter8_ltrx_ReadCounter            UserModules         6E50
-bGetPowerSetting                      PD_startup          7D8B
-bLTRX_ReadRxData                      UserModules         6EFF
-bLTRX_ReadRxStatus                    UserModules         6F02
-bLTRX_ReadTxStatus                    UserModules         6EFC
-delay_10ms@counter                    fnauto              001D
-get_sensors@next_found                fnauto              0004
-intlevel0                             bss                 0068
-intlevel1                             bss                 0068
-intlevel2                             bss                 0068
-main@strPtr                           fnauto              0001
-oo_crc_shuffle_byte@input             fnauto              003C
-oo_print_data@cntr                    fnauto              0029
-oo_print_data@data                    fnauto              001C
-oo_read_device@crc                    fnauto              0036
-oo_read_device@data                   fnauto              0029
-oo_read_scratchpad@counter            fnauto              003A
+_oo_start_conversion                  text                7A01
+_oo_tx_byte                           text                7D05
+_oo_wait_for_completion               text                7B8A
+_print_header                         text                7BC2
+_print_help                           text                79E3
+_temp0                                bss2                0221
+_temp1                                bss2                0223
+_wTicker_ReadCompareValue             UserModules         788C
+_wTicker_ReadCounter                  UserModules         7892
+bCounter8_ReadCompareValue            UserModules         7247
+bCounter8_ReadCounter                 UserModules         724A
+bCounter8_ltrx_ReadCompareValue       UserModules         7293
+bCounter8_ltrx_ReadCounter            UserModules         7296
+bGetPowerSetting                      PD_startup          7E8B
+bLTRX_ReadRxData                      UserModules         7344
+bLTRX_ReadRxStatus                    UserModules         7347
+bLTRX_ReadTxStatus                    UserModules         7341
+delay_10ms@counter                    fnauto              0015
+intlevel0                             bss                 0060
+intlevel1                             bss                 0060
+intlevel2                             bss                 0060
+main@UART_bfr                         fnauto              0001
+oo_crc_shuffle_byte@input             fnauto              0034
+oo_print_data@cntr                    fnauto              0021
+oo_print_data@data                    fnauto              0014
+oo_read_device@crc                    fnauto              002E
+oo_read_device@data                   fnauto              0021
+oo_read_scratchpad@counter            fnauto              0032
 oo_report@data                        fnauto              0004
-oo_report@id                          fnauto              0011
-oo_rx_byte@data                       fnauto              003B
-oo_tx_byte@data                       fnauto              003B
-oo_wait_for_completion@counter        fnauto              001C
-print_id@cntr                         fnauto              0006
-print_id@id                           fnauto              0004
+oo_rx_byte@data                       fnauto              0033
+oo_tx_byte@data                       fnauto              0033
+oo_wait_for_completion@counter        fnauto              0014
 reset_vec                             vectors             0000
 start                                 vectors             0000
-startup                               init                7F7B
-wTicker_ReadCompareValue              UserModules         7447
-wTicker_ReadCounter                   UserModules         744D
+startup                               init                7E8E
+wTicker_ReadCompareValue              UserModules         788C
+wTicker_ReadCounter                   UserModules         7892

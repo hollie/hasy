@@ -138,11 +138,6 @@ LoadConfigTBL_onewire_gateway_Bank0:
 	db		6dh, 00h		; TMP_DR1 register (TMP_DR1)
 	db		6eh, 00h		; TMP_DR2 register (TMP_DR2)
 	db		6fh, 00h		; TMP_DR3 register (TMP_DR3)
-;  Instance name Counter8, User Module Counter8
-;       Instance name Counter8, Block Name CNTR8(DBB00)
-	db		23h, 00h		;Counter8_CONTROL_REG(DBB00CR0)
-	db		21h, 27h		;Counter8_PERIOD_REG(DBB00DR1)
-	db		22h, 13h		;Counter8_COMPARE_REG(DBB00DR2)
 ;  Instance name Counter8_ltrx, User Module Counter8
 ;       Instance name Counter8_ltrx, Block Name CNTR8(DBB10)
 	db		33h, 00h		;Counter8_ltrx_CONTROL_REG(DBB10CR0)
@@ -197,11 +192,6 @@ LoadConfigTBL_onewire_gateway_Bank1:
 	db		deh, 01h		; OscillatorControl_4 register (OSC_CR4)
 	db		ddh, 00h		; OscillatorGlobalBusEnableControl register (OSC_GO_EN)
 	db		e7h, 00h		; Type2Decimator_Control register (DEC_CR2)
-;  Instance name Counter8, User Module Counter8
-;       Instance name Counter8, Block Name CNTR8(DBB00)
-	db		20h, 61h		;Counter8_FUNC_REG(DBB00FN)
-	db		21h, 15h		;Counter8_INPUT_REG(DBB00IN)
-	db		22h, 40h		;Counter8_OUTPUT_REG(DBB00OU)
 ;  Instance name Counter8_ltrx, User Module Counter8
 ;       Instance name Counter8_ltrx, Block Name CNTR8(DBB10)
 	db		30h, 61h		;Counter8_ltrx_FUNC_REG(DBB10FN)

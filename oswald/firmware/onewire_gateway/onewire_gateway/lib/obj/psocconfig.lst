@@ -1,7 +1,7 @@
 
 
 HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
-                                                                                                           Thu Feb 05 17:14:16 2009
+                                                                                                           Fri Feb 06 16:23:21 2009
 
 
      1                          ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -811,22 +811,22 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    805                          ;----------------------------------------------------
    806                              macro M8C_SetBank0
    807                              and   F, ~FLAG_XIO_MASK
-   808  7C6B                        endm
+   808  7D3C                        endm
    809                          
    810                              macro M8C_SetBank1
    811                              or    F, FLAG_XIO_MASK
-   812  7C6B                        endm
+   812  7D3C                        endm
    813                          
    814                          ;----------------------------------------------------
    815                          ;  Global Interrupt Enable/Disable
    816                          ;----------------------------------------------------
    817                              macro M8C_EnableGInt
    818                              or    F, FLAG_GLOBAL_IE
-   819  7C6B                        endm
+   819  7D3C                        endm
    820                          
    821                              macro M8C_DisableGInt
    822                              and   F, ~FLAG_GLOBAL_IE
-   823  7C6B                        endm
+   823  7D3C                        endm
    824                          
    825                          ;----------------------------------------------------
    826                          ;  Enable/Disable Interrupt Mask
@@ -844,12 +844,12 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    838                          ; Disable Interrupt Bit Mask(s)
    839                              macro M8C_DisableIntMask
    840                              and   reg[@0], ~@1              ; disable specified interrupt enable bit
-   841  7C6B                        endm
+   841  7D3C                        endm
    842                          
    843                          ; Enable Interrupt Bit Mask(s)
    844                              macro M8C_EnableIntMask
    845                              or    reg[@0], @1               ; enable specified interrupt enable bit
-   846  7C6B                        endm
+   846  7D3C                        endm
    847                          
    848                          ;----------------------------------------------------
    849                          ;  Clear Posted Interrupt Flag Mask
@@ -864,33 +864,33 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    858                          ;----------------------------------------------------
    859                              macro M8C_ClearIntFlag
    860                              mov   reg[@0], ~@1              ; clear specified interrupt enable bit
-   861  7C6B                        endm
+   861  7D3C                        endm
    862                          
    863                          ;----------------------------------------------------
    864                          ;  Power-On Reset & WatchDog Timer Functions
    865                          ;----------------------------------------------------
    866                              macro M8C_EnableWatchDog
    867                              and   reg[CPU_SCR0], ~CPU_SCR0_PORS_MASK
-   868  7C6B                        endm
+   868  7D3C                        endm
    869                          
    870                              macro M8C_ClearWDT
    871                              mov   reg[RES_WDT], 00h
-   872  7C6B                        endm
+   872  7D3C                        endm
    873                          
    874                              macro M8C_ClearWDTAndSleep
    875                              mov   reg[RES_WDT], 38h
-   876  7C6B                        endm
+   876  7D3C                        endm
    877                          
    878                          ;----------------------------------------------------
    879                          ;  CPU Stall for Analog PSoC Block Writes
    880                          ;----------------------------------------------------
    881                              macro M8C_Stall
    882                              or    reg[ASY_CR], ASY_CR_SYNCEN
-   883  7C6B                        endm
+   883  7D3C                        endm
    884                          
    885                              macro M8C_Unstall
    886                              and   reg[ASY_CR], ~ASY_CR_SYNCEN
-   887  7C6B                        endm
+   887  7D3C                        endm
    888                          
    889                          ;----------------------------------------------------
    890                          ;  Sleep, CPU Stop & Software Reset
@@ -904,21 +904,21 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    898                              ; interrupts are also enabled then the next instruction will be
    899                              ; from the interrupt vector table. If no interrupts are enabled
    900                              ; then the CPU sleeps forever.
-   901  7C6B                        endm
+   901  7D3C                        endm
    902                          
    903                              macro M8C_Stop
    904                              ; In general, you probably don't want to do this, but here's how:
    905                              or    reg[CPU_SCR0], CPU_SCR0_STOP_MASK
    906                              ; Next instruction to be executed is located in the interrupt
    907                              ; vector table entry for Power-On Reset.
-   908  7C6B                        endm
+   908  7D3C                        endm
    909                          
    910                              macro M8C_Reset
    911                              ; Restore CPU to the power-on reset state.
    912                              mov A, 0
    913                              SSC
    914                              ; Next non-supervisor instruction will be at interrupt vector 0.
-   915  7C6B                        endm
+   915  7D3C                        endm
    916                          
    917                          ;----------------------------------------------------
    918                          ; ImageCraft Code Compressor Actions
@@ -928,12 +928,12 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    922                              ; without resuming code compression
    923                              macro Suspend_CodeCompressor
    924                              or   F, 0
-   925  7C6B                        endm
+   925  7D3C                        endm
    926                          
    927                              ; Resume Code Compression
    928                              macro Resume_CodeCompressor
    929                              add  SP, 0
-   930  7C6B                        endm
+   930  7D3C                        endm
      1                          ;;*****************************************************************************
      2                          ;;*****************************************************************************
      3                          ;;
@@ -999,7 +999,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
     63                             IF ( SYSTEM_LARGE_MEMORY_MODEL )
     64                                mov reg[STK_PP], @PG_NUMBER
     65                             ENDIF
-    66  7C6B                       endm
+    66  7D3C                       endm
     67                          
     68                             ;-----------------------------------------------
     69                             ;  Set Current Page Macro
@@ -1016,7 +1016,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
     80                             IF ( SYSTEM_LARGE_MEMORY_MODEL )
     81                                mov reg[CUR_PP], @PG_NUMBER
     82                             ENDIF
-    83  7C6B                       endm
+    83  7D3C                       endm
     84                          
     85                             ;-----------------------------------------------
     86                             ;  Set Index Page Macro
@@ -1033,7 +1033,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
     97                             IF ( SYSTEM_LARGE_MEMORY_MODEL )
     98                                mov reg[IDX_PP], @PG_NUMBER
     99                             ENDIF
-   100  7C6B                       endm
+   100  7D3C                       endm
    101                          
    102                             ;-----------------------------------------------
    103                             ;  Set MVI Read Page Macro
@@ -1051,7 +1051,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    115                             IF ( SYSTEM_LARGE_MEMORY_MODEL )
    116                                mov reg[MVR_PP], @PG_NUMBER
    117                             ENDIF
-   118  7C6B                       endm
+   118  7D3C                       endm
    119                          
    120                             ;-----------------------------------------------
    121                             ;  Set MVI Write Page Macro
@@ -1069,7 +1069,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    133                             IF ( SYSTEM_LARGE_MEMORY_MODEL )
    134                                mov reg[MVW_PP], @PG_NUMBER
    135                             ENDIF
-   136  7C6B                       endm
+   136  7D3C                       endm
    137                          
    138                             ;-----------------------------------------------
    139                             ;  Force Index Page Pointer to Stack Page
@@ -1091,7 +1091,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    155                                   RAM_SETPAGE_IDX SYSTEM_STACK_PAGE
    156                                ENDIF
    157                             ENDIF
-   158  7C6B                       endm
+   158  7D3C                       endm
    159                          
    160                             ;-----------------------------------------------
    161                             ;  Change Memory Mode
@@ -1109,7 +1109,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    173                                and   F, ~FLAG_PGMODE_MASK        ; NOTE: transition thru 00b state
    174                                or    F,  FLAG_PGMODE_MASK & @MODE
    175                             ENDIF
-   176  7C6B                       endm
+   176  7D3C                       endm
    177                          
    178                             ;-----------------------------------------------
    179                             ;  Set Large Memory Model Native Paging Mode
@@ -1134,7 +1134,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    198                                or    F,  FLAG_PGMODE_10b            ; LMM with independent IndexPage
    199                             ENDIF ; PGMODE FREE
    200                             ENDIF ; SYSTEM_LARGE_MEMORY_MODEL
-   201  7C6B                       endm
+   201  7D3C                       endm
    202                          
    203                             ;-----------------------------------------------
    204                             ; Restore Large Memory Model Native Paging Mode
@@ -1158,7 +1158,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    222                                RAM_CHANGE_PAGE_MODE FLAG_PGMODE_10b ; LMM with independent IndexPage
    223                             ENDIF ; PGMODE FREE
    224                             ENDIF ; SYSTEM_LARGE_MEMORY_MODEL
-   225  7C6B                       endm
+   225  7D3C                       endm
    226                          
    227                             ;-----------------------------------------------
    228                             ; Force indexed addr mode operands to Stack Pg
@@ -1177,7 +1177,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    241                             IF ( SYSTEM_LARGE_MEMORY_MODEL )
    242                                or   F, FLAG_PGMODE_01b
    243                             ENDIF ;  SYSTEM_LARGE_MEMORY_MODEL
-   244  7C6B                       endm
+   244  7D3C                       endm
    245                          
    246                             ;-----------------------------------------------
    247                             ;  Force indexed addr mode operands to Index Pg
@@ -1196,7 +1196,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    260                             IF ( SYSTEM_LARGE_MEMORY_MODEL )
    261                                and  F, ~FLAG_PGMODE_01b
    262                             ENDIF ;  SYSTEM_LARGE_MEMORY_MODEL
-   263  7C6B                       endm
+   263  7D3C                       endm
    264                          
    265                             ;-----------------------------------------------
    266                             ;  Function Prologue
@@ -1227,7 +1227,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    291                             ; Nothing to do
    292                             ENDIF ; RAM_USE_CLASS_4
    293                          
-   294  7C6B                       endm
+   294  7D3C                       endm
    295                          
    296                             ;-----------------------------------------------
    297                             ;  Function Epilogue
@@ -1254,7 +1254,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    318                             ; Nothing to do
    319                             ENDIF ; RAM_USE_CLASS_4
    320                          
-   321  7C6B                       endm
+   321  7D3C                       endm
    322                          
    323                             ;-----------------------------------------------
    324                             ;  Preserve Register
@@ -1273,7 +1273,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    337                             macro REG_PRESERVE( IOReg )
    338                             mov   A, reg[ @IOReg ]
    339                             push  A
-   340  7C6B                       endm
+   340  7D3C                       endm
    341                          
    342                             ;-----------------------------------------------
    343                             ;  Restore Register
@@ -1292,7 +1292,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    356                             macro REG_RESTORE( IOReg )
    357                             pop   A
    358                             mov   reg[ @IOReg ], A
-   359  7C6B                       endm
+   359  7D3C                       endm
    360                          
    361                             ;-----------------------------------------------
    362                             ;  Preserve Volatile Page Pointer Registers
@@ -1314,7 +1314,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    378                                REG_PRESERVE MVR_PP
    379                                REG_PRESERVE MVW_PP
    380                             ENDIF
-   381  7C6B                       endm
+   381  7D3C                       endm
    382                          
    383                             ;-----------------------------------------------
    384                             ;  Restore Volatile Page Pointer Registers
@@ -1337,7 +1337,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    401                                REG_RESTORE IDX_PP
    402                                REG_RESTORE CUR_PP
    403                             ENDIF
-   404  7C6B                       endm
+   404  7D3C                       endm
      1                          ; Generated by PSoC Designer ???
      2                          ;
      3                          ;=============================================================================
@@ -1545,18 +1545,18 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
     54                          ;               Page Pointer Registers Modified: 
     55                          ;               CUR_PP
     56                          ;
-    57  7D8E                    _LoadConfigInit:
-    58  7D8E                     LoadConfigInit:
+    57  03B1                    _LoadConfigInit:
+    58  03B1                     LoadConfigInit:
     59                              RAM_PROLOGUE RAM_USE_CLASS_4
     60                              
-    61  7D8E  55 4A  00         	mov		[Port_3_Data_SHADE], 0h
+    61  03B1  55 42  00         	mov		[Port_3_Data_SHADE], 0h
     62                          
-    63  7D91  7C 0200           	lcall	LoadConfigTBL_onewire_gateway_Ordered
-    64  7D94  7C 7D98           	lcall	LoadConfig_onewire_gateway
+    63  03B4  7C 0200           	lcall	LoadConfigTBL_onewire_gateway_Ordered
+    64  03B7  7C 03BB           	lcall	LoadConfig_onewire_gateway
     65                          
     66                          
     67                              RAM_EPILOGUE RAM_USE_CLASS_4
-    68  7D97  7F                    ret
+    68  03BA  7F                    ret
     69                          
     70                          ;---------------------------------------------------------------------------
     71                          ; Load Configuration onewire_gateway
@@ -1577,31 +1577,31 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
     86                          ;               Page Pointer Registers Modified: 
     87                          ;               CUR_PP
     88                          ;
-    89  7D98                    _LoadConfig_onewire_gateway:
-    90  7D98                     LoadConfig_onewire_gateway:
+    89  03BB                    _LoadConfig_onewire_gateway:
+    90  03BB                     LoadConfig_onewire_gateway:
     91                              RAM_PROLOGUE RAM_USE_CLASS_4
     92                          
-    93  7D98  10                	push	x
-    94  7D99  70 EF                 M8C_SetBank0                    ; Force bank 0
-    95  7D9B  50 00                 mov     a, 0                    ; Specify bank 0
-    96  7D9D  67                    asr     a                       ; Store in carry flag
+    93  03BB  10                	push	x
+    94  03BC  70 EF                 M8C_SetBank0                    ; Force bank 0
+    95  03BE  50 00                 mov     a, 0                    ; Specify bank 0
+    96  03C0  67                    asr     a                       ; Store in carry flag
     97                                                              ; Load bank 0 table:
-    98  7D9E  50 02                 mov     A, >LoadConfigTBL_onewire_gateway_Bank0
-    99  7DA0  57 E9                 mov     X, <LoadConfigTBL_onewire_gateway_Bank0
-   100  7DA2  7C 7DB3               lcall   LoadConfig              ; Load the bank 0 values
+    98  03C1  50 02                 mov     A, >LoadConfigTBL_onewire_gateway_Bank0
+    99  03C3  57 E9                 mov     X, <LoadConfigTBL_onewire_gateway_Bank0
+   100  03C5  7C 03D6               lcall   LoadConfig              ; Load the bank 0 values
    101                          
-   102  7DA5  50 01                 mov     a, 1                    ; Specify bank 1
-   103  7DA7  67                    asr     a                       ; Store in carry flag
+   102  03C8  50 01                 mov     a, 1                    ; Specify bank 1
+   103  03CA  67                    asr     a                       ; Store in carry flag
    104                                                              ; Load bank 1 table:
-   105  7DA8  50 03                 mov     A, >LoadConfigTBL_onewire_gateway_Bank1
-   106  7DAA  57 68                 mov     X, <LoadConfigTBL_onewire_gateway_Bank1
-   107  7DAC  7C 7DB3               lcall   LoadConfig              ; Load the bank 1 values
+   105  03CB  50 03                 mov     A, >LoadConfigTBL_onewire_gateway_Bank1
+   106  03CD  57 62                 mov     X, <LoadConfigTBL_onewire_gateway_Bank1
+   107  03CF  7C 03D6               lcall   LoadConfig              ; Load the bank 1 values
    108                          
-   109  7DAF  70 EF                 M8C_SetBank0                    ; Force return to bank 0
-   110  7DB1  20                	pop		x
+   109  03D2  70 EF                 M8C_SetBank0                    ; Force return to bank 0
+   110  03D4  20                	pop		x
    111                          
    112                              RAM_EPILOGUE RAM_USE_CLASS_4
-   113  7DB2  7F                    ret
+   113  03D5  7F                    ret
    114                          
    115                          
    116                          
@@ -1621,76 +1621,76 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    130                          ;                X-2 LSB of config table address
    131                          ;                X-1 MSB of config table address
    132                          ;
-   133  7DB3                    LoadConfig:
-   134  7DB3  71 40                 RAM_PROLOGUE RAM_USE_CLASS_2
-   135  7DB5  38 02                 add     SP, 2                   ; Set up local vars
-   136  7DB7  10                    push    X                       ; Save config table address on stack
-   137  7DB8  08                    push    A
-   138  7DB9  4F                    mov     X, SP
-   139  7DBA  56 FC 00              mov     [X-4], 0                ; Set default Destination to Bank 0
-   140  7DBD  D004                  jnc     .BankSelectSaved        ; Carry says Bank 0 is OK
-   141  7DBF  56 FC 01              mov     [X-4], 1                ; No Carry: default to Bank 1
-   142  7DC2                    .BankSelectSaved:
-   143  7DC2  18                    pop     A
-   144  7DC3  20                    pop     X
+   133  03D6                    LoadConfig:
+   134  03D6  71 40                 RAM_PROLOGUE RAM_USE_CLASS_2
+   135  03D8  38 02                 add     SP, 2                   ; Set up local vars
+   136  03DA  10                    push    X                       ; Save config table address on stack
+   137  03DB  08                    push    A
+   138  03DC  4F                    mov     X, SP
+   139  03DD  56 FC 00              mov     [X-4], 0                ; Set default Destination to Bank 0
+   140  03E0  D004                  jnc     .BankSelectSaved        ; Carry says Bank 0 is OK
+   141  03E2  56 FC 01              mov     [X-4], 1                ; No Carry: default to Bank 1
+   142  03E5                    .BankSelectSaved:
+   143  03E5  18                    pop     A
+   144  03E6  20                    pop     X
    145                          
-   146  7DC4                    LoadConfigLp:
-   147  7DC4  70 EF                 M8C_SetBank0                    ; Switch to bank 0
-   148  7DC6  62 E3 00              M8C_ClearWDT                    ; Clear the watchdog for long inits
-   149  7DC9  10                    push    X                       ; Preserve the config table address
-   150  7DCA  08                    push    A
-   151  7DCB  28                    romx                            ; Load register address from table
-   152  7DCC  39 FF                 cmp     A, END_CONFIG_TABLE     ; End of table?
-   153  7DCE  A01F                  jz      EndLoadConfig           ;   Yes, go wrap it up
-   154  7DD0  4F                    mov     X, SP                   ;
-   155  7DD1  48 FC 01              tst     [X-4], 1                ; Loading IO Bank 1?
-   156  7DD4  A003                  jz      .IOBankNowSet           ;    No, Bank 0 is fine
-   157  7DD6  71 10                 M8C_SetBank1                    ;   Yes, switch to Bank 1
-   158  7DD8                    .IOBankNowSet:
-   159  7DD8  54 FD                 mov     [X-3], A                ; Stash the register address
-   160  7DDA  18                    pop     A                       ; Retrieve the table address
-   161  7DDB  20                    pop     X
-   162  7DDC  75                    inc     X                       ; Advance to the data byte
-   163  7DDD  09 00                 adc     A, 0
-   164  7DDF  10                    push    X                       ; Save the config table address again
-   165  7DE0  08                    push    A
-   166  7DE1  28                    romx                            ; load config data from the table
-   167  7DE2  4F                    mov     X, SP                   ; retrieve the register address
-   168  7DE3  59 FD                 mov     X, [X-3]
-   169  7DE5  61 00                 mov     reg[X], A               ; Configure the register
-   170  7DE7  18                    pop     A                       ; retrieve the table address
-   171  7DE8  20                    pop     X
-   172  7DE9  75                    inc     X                       ; advance to next table entry
-   173  7DEA  09 00                 adc     A, 0
-   174  7DEC  8FD7                  jmp     LoadConfigLp            ; loop to configure another register
-   175  7DEE                    EndLoadConfig:
-   176  7DEE  38 FC                 add     SP, -4
-   177  7DF0  70 3F                 RAM_EPILOGUE RAM_USE_CLASS_2
-   178  7DF4  7F                    ret
+   146  03E7                    LoadConfigLp:
+   147  03E7  70 EF                 M8C_SetBank0                    ; Switch to bank 0
+   148  03E9  62 E3 00              M8C_ClearWDT                    ; Clear the watchdog for long inits
+   149  03EC  10                    push    X                       ; Preserve the config table address
+   150  03ED  08                    push    A
+   151  03EE  28                    romx                            ; Load register address from table
+   152  03EF  39 FF                 cmp     A, END_CONFIG_TABLE     ; End of table?
+   153  03F1  A01F                  jz      EndLoadConfig           ;   Yes, go wrap it up
+   154  03F3  4F                    mov     X, SP                   ;
+   155  03F4  48 FC 01              tst     [X-4], 1                ; Loading IO Bank 1?
+   156  03F7  A003                  jz      .IOBankNowSet           ;    No, Bank 0 is fine
+   157  03F9  71 10                 M8C_SetBank1                    ;   Yes, switch to Bank 1
+   158  03FB                    .IOBankNowSet:
+   159  03FB  54 FD                 mov     [X-3], A                ; Stash the register address
+   160  03FD  18                    pop     A                       ; Retrieve the table address
+   161  03FE  20                    pop     X
+   162  03FF  75                    inc     X                       ; Advance to the data byte
+   163  0400  09 00                 adc     A, 0
+   164  0402  10                    push    X                       ; Save the config table address again
+   165  0403  08                    push    A
+   166  0404  28                    romx                            ; load config data from the table
+   167  0405  4F                    mov     X, SP                   ; retrieve the register address
+   168  0406  59 FD                 mov     X, [X-3]
+   169  0408  61 00                 mov     reg[X], A               ; Configure the register
+   170  040A  18                    pop     A                       ; retrieve the table address
+   171  040B  20                    pop     X
+   172  040C  75                    inc     X                       ; advance to next table entry
+   173  040D  09 00                 adc     A, 0
+   174  040F  8FD7                  jmp     LoadConfigLp            ; loop to configure another register
+   175  0411                    EndLoadConfig:
+   176  0411  38 FC                 add     SP, -4
+   177  0413  70 3F                 RAM_EPILOGUE RAM_USE_CLASS_2
+   178  0417  7F                    ret
    179                          
    180                          AREA InterruptRAM(ram, rel)
    181                          
-   182  004A                    NO_SHADOW:
-   183  004A                    _NO_SHADOW:
+   182  0042                    NO_SHADOW:
+   183  0042                    _NO_SHADOW:
    184                          ; write only register shadows
-   185  004A                    _Port_3_Data_SHADE:
-   186  004A                    Port_3_Data_SHADE:	BLK	1
+   185  0042                    _Port_3_Data_SHADE:
+   186  0042                    Port_3_Data_SHADE:	BLK	1
 
 
 HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
-Symbol Table                                                                                               Thu Feb 05 17:14:16 2009
+Symbol Table                                                                                               Fri Feb 06 16:23:21 2009
 
-                      _LoadConfigInit 7D8E    LoadConfigTBL_onewire_gateway_Bank0 02E9    LoadConfigTBL_onewire_gateway_Bank1 0368  
+                      _LoadConfigInit 03B1    LoadConfigTBL_onewire_gateway_Bank0 02E9    LoadConfigTBL_onewire_gateway_Bank1 0362  
                              MAC0_CL0 00EE                               MAC0_CL1 00EF                               MAC1_CL0 00AE  
                              MAC1_CL1 00AF                                  MAC_X 00EC                                  MAC_Y 00ED  
-          _LoadConfig_onewire_gateway 7D98                                 MAC0_X 00EC                                 MAC0_Y 00ED  
+          _LoadConfig_onewire_gateway 03BB                                 MAC0_X 00EC                                 MAC0_Y 00ED  
                                MAC1_X 00AC                                 MAC1_Y 00AD                                 HITECH 0002  
-                      FLAG_PGMODE_01b 0040                        FLAG_PGMODE_10b 0080                      Port_3_Data_SHADE 004A  
-            SYSTEM_LARGE_MEMORY_MODEL 0001  LoadConfigTBL_onewire_gateway_Ordered 0200                              NO_SHADOW 004A  
-                              MAC_CL0 00EE                                MAC_CL1 00EF                     _Port_3_Data_SHADE 004A  
-                           _NO_SHADOW 004A                       FLAG_PGMODE_MASK 00C0                                RES_WDT 00E3  
+                      FLAG_PGMODE_01b 0040                        FLAG_PGMODE_10b 0080                      Port_3_Data_SHADE 0042  
+            SYSTEM_LARGE_MEMORY_MODEL 0001  LoadConfigTBL_onewire_gateway_Ordered 0200                              NO_SHADOW 0042  
+                              MAC_CL0 00EE                                MAC_CL1 00EF                     _Port_3_Data_SHADE 0042  
+                           _NO_SHADOW 0042                       FLAG_PGMODE_MASK 00C0                                RES_WDT 00E3  
                       RAM_USE_CLASS_1 0001                        RAM_USE_CLASS_2 0002                        RAM_USE_CLASS_3 0004  
-                      RAM_USE_CLASS_4 0008                             LoadConfig 7DB3                         LoadConfigInit 7D8E  
-                     END_CONFIG_TABLE 00FF             LoadConfig_onewire_gateway 7D98                          EndLoadConfig 7DEE  
-                        FLAG_XIO_MASK 0010             SYSTEM_IDXPG_TRACKS_IDX_PP 0001                           LoadConfigLp 7DC4  
+                      RAM_USE_CLASS_4 0008                             LoadConfig 03D6                         LoadConfigInit 03B1  
+                     END_CONFIG_TABLE 00FF             LoadConfig_onewire_gateway 03BB                          EndLoadConfig 0411  
+                        FLAG_XIO_MASK 0010             SYSTEM_IDXPG_TRACKS_IDX_PP 0001                           LoadConfigLp 03E7  
            SYSTEM_IDXPG_TRACKS_STK_PP 0000  
