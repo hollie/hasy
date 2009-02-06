@@ -1,7 +1,7 @@
 
 
 HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
-                                                                                                           Thu Feb 05 17:14:16 2009
+                                                                                                           Fri Feb 06 16:23:21 2009
 
 
      1                          ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -811,22 +811,22 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    805                          ;----------------------------------------------------
    806                              macro M8C_SetBank0
    807                              and   F, ~FLAG_XIO_MASK
-   808  7C6B                        endm
+   808  7D3C                        endm
    809                          
    810                              macro M8C_SetBank1
    811                              or    F, FLAG_XIO_MASK
-   812  7C6B                        endm
+   812  7D3C                        endm
    813                          
    814                          ;----------------------------------------------------
    815                          ;  Global Interrupt Enable/Disable
    816                          ;----------------------------------------------------
    817                              macro M8C_EnableGInt
    818                              or    F, FLAG_GLOBAL_IE
-   819  7C6B                        endm
+   819  7D3C                        endm
    820                          
    821                              macro M8C_DisableGInt
    822                              and   F, ~FLAG_GLOBAL_IE
-   823  7C6B                        endm
+   823  7D3C                        endm
    824                          
    825                          ;----------------------------------------------------
    826                          ;  Enable/Disable Interrupt Mask
@@ -844,12 +844,12 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    838                          ; Disable Interrupt Bit Mask(s)
    839                              macro M8C_DisableIntMask
    840                              and   reg[@0], ~@1              ; disable specified interrupt enable bit
-   841  7C6B                        endm
+   841  7D3C                        endm
    842                          
    843                          ; Enable Interrupt Bit Mask(s)
    844                              macro M8C_EnableIntMask
    845                              or    reg[@0], @1               ; enable specified interrupt enable bit
-   846  7C6B                        endm
+   846  7D3C                        endm
    847                          
    848                          ;----------------------------------------------------
    849                          ;  Clear Posted Interrupt Flag Mask
@@ -864,33 +864,33 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    858                          ;----------------------------------------------------
    859                              macro M8C_ClearIntFlag
    860                              mov   reg[@0], ~@1              ; clear specified interrupt enable bit
-   861  7C6B                        endm
+   861  7D3C                        endm
    862                          
    863                          ;----------------------------------------------------
    864                          ;  Power-On Reset & WatchDog Timer Functions
    865                          ;----------------------------------------------------
    866                              macro M8C_EnableWatchDog
    867                              and   reg[CPU_SCR0], ~CPU_SCR0_PORS_MASK
-   868  7C6B                        endm
+   868  7D3C                        endm
    869                          
    870                              macro M8C_ClearWDT
    871                              mov   reg[RES_WDT], 00h
-   872  7C6B                        endm
+   872  7D3C                        endm
    873                          
    874                              macro M8C_ClearWDTAndSleep
    875                              mov   reg[RES_WDT], 38h
-   876  7C6B                        endm
+   876  7D3C                        endm
    877                          
    878                          ;----------------------------------------------------
    879                          ;  CPU Stall for Analog PSoC Block Writes
    880                          ;----------------------------------------------------
    881                              macro M8C_Stall
    882                              or    reg[ASY_CR], ASY_CR_SYNCEN
-   883  7C6B                        endm
+   883  7D3C                        endm
    884                          
    885                              macro M8C_Unstall
    886                              and   reg[ASY_CR], ~ASY_CR_SYNCEN
-   887  7C6B                        endm
+   887  7D3C                        endm
    888                          
    889                          ;----------------------------------------------------
    890                          ;  Sleep, CPU Stop & Software Reset
@@ -904,21 +904,21 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    898                              ; interrupts are also enabled then the next instruction will be
    899                              ; from the interrupt vector table. If no interrupts are enabled
    900                              ; then the CPU sleeps forever.
-   901  7C6B                        endm
+   901  7D3C                        endm
    902                          
    903                              macro M8C_Stop
    904                              ; In general, you probably don't want to do this, but here's how:
    905                              or    reg[CPU_SCR0], CPU_SCR0_STOP_MASK
    906                              ; Next instruction to be executed is located in the interrupt
    907                              ; vector table entry for Power-On Reset.
-   908  7C6B                        endm
+   908  7D3C                        endm
    909                          
    910                              macro M8C_Reset
    911                              ; Restore CPU to the power-on reset state.
    912                              mov A, 0
    913                              SSC
    914                              ; Next non-supervisor instruction will be at interrupt vector 0.
-   915  7C6B                        endm
+   915  7D3C                        endm
    916                          
    917                          ;----------------------------------------------------
    918                          ; ImageCraft Code Compressor Actions
@@ -928,12 +928,12 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    922                              ; without resuming code compression
    923                              macro Suspend_CodeCompressor
    924                              or   F, 0
-   925  7C6B                        endm
+   925  7D3C                        endm
    926                          
    927                              ; Resume Code Compression
    928                              macro Resume_CodeCompressor
    929                              add  SP, 0
-   930  7C6B                        endm
+   930  7D3C                        endm
      1                          ; Generated by PSoC Designer ???
      2                          ;
      3                          include "m8c.inc"
@@ -1074,110 +1074,100 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    138  0331  6D 00             	db		6dh, 00h		; TMP_DR1 register (TMP_DR1)
    139  0333  6E 00             	db		6eh, 00h		; TMP_DR2 register (TMP_DR2)
    140  0335  6F 00             	db		6fh, 00h		; TMP_DR3 register (TMP_DR3)
-   141                          ;  Instance name Counter8, User Module Counter8
-   142                          ;       Instance name Counter8, Block Name CNTR8(DBB00)
-   143  0337  23 00             	db		23h, 00h		;Counter8_CONTROL_REG(DBB00CR0)
-   144  0339  21 27             	db		21h, 27h		;Counter8_PERIOD_REG(DBB00DR1)
-   145  033B  22 13             	db		22h, 13h		;Counter8_COMPARE_REG(DBB00DR2)
-   146                          ;  Instance name Counter8_ltrx, User Module Counter8
-   147                          ;       Instance name Counter8_ltrx, Block Name CNTR8(DBB10)
-   148  033D  33 00             	db		33h, 00h		;Counter8_ltrx_CONTROL_REG(DBB10CR0)
-   149  033F  31 27             	db		31h, 27h		;Counter8_ltrx_PERIOD_REG(DBB10DR1)
-   150  0341  32 13             	db		32h, 13h		;Counter8_ltrx_COMPARE_REG(DBB10DR2)
-   151                          ;  Instance name LED1, User Module LED
-   152                          ;  Instance name LTRX, User Module UART
-   153                          ;       Instance name LTRX, Block Name RX(DCB13)
-   154  0343  3F 00             	db		3fh, 00h		;LTRX_RX_CONTROL_REG(DCB13CR0)
-   155  0345  3D 00             	db		3dh, 00h		;LTRX_(DCB13DR1)
-   156  0347  3E 00             	db		3eh, 00h		;LTRX_RX_BUFFER_REG (DCB13DR2)
-   157                          ;       Instance name LTRX, Block Name TX(DCB12)
-   158  0349  3B 00             	db		3bh, 00h		;LTRX_TX_CONTROL_REG(DCB12CR0)
-   159  034B  39 00             	db		39h, 00h		;LTRX_TX_BUFFER_REG (DCB12DR1)
-   160  034D  3A 00             	db		3ah, 00h		;LTRX_(DCB12DR2)
-   161                          ;  Instance name OneWire, User Module OneWire
-   162                          ;       Instance name OneWire, Block Name BitClk(DBB31)
-   163  034F  57 00             	db		57h, 00h		;OneWire_BITCLK_CONTROL_REG(DBB31CR0)
-   164  0351  55 00             	db		55h, 00h		;OneWire_BITCLK_PERIOD_REG (DBB31DR1)
-   165  0353  56 00             	db		56h, 00h		;OneWire_BITCLK_COMPARE_REG(DBB31DR2)
-   166                          ;       Instance name OneWire, Block Name XCVR(DCB32)
-   167  0355  5B 00             	db		5bh, 00h		;OneWire_XCVR_CONTROL_REG(DCB32CR0)
-   168  0357  59 00             	db		59h, 00h		;OneWire_XCVR_TX_BUFFER_REG(DCB32DR1)
-   169  0359  5A 00             	db		5ah, 00h		;OneWire_XCVR_RX_BUFFER_REG(DCB32DR2)
-   170                          ;  Instance name Ticker, User Module Counter16
-   171                          ;       Instance name Ticker, Block Name CNTR16_LSB(DCB22)
-   172  035B  4B 00             	db		4bh, 00h		;Ticker_CONTROL_LSB_REG(DCB22CR0)
-   173  035D  49 FF             	db		49h, ffh		;Ticker_PERIOD_LSB_REG(DCB22DR1)
-   174  035F  4A 01             	db		4ah, 01h		;Ticker_COMPARE_LSB_REG(DCB22DR2)
-   175                          ;       Instance name Ticker, Block Name CNTR16_MSB(DCB23)
-   176  0361  4F 00             	db		4fh, 00h		;Ticker_CONTROL_MSB_REG(DCB23CR0)
-   177  0363  4D FF             	db		4dh, ffh		;Ticker_PERIOD_MSB_REG(DCB23DR1)
-   178  0365  4E 00             	db		4eh, 00h		;Ticker_COMPARE_MSB_REG(DCB23DR2)
-   179  0367  FF                	db		ffh
-   180  0368                    LoadConfigTBL_onewire_gateway_Bank1:
-   181                          ;  Global Register values
-   182  0368  61 00             	db		61h, 00h		; AnalogClockSelect1 register (CLK_CR1)
-   183  036A  69 00             	db		69h, 00h		; AnalogClockSelect2 register (CLK_CR2)
-   184  036C  60 00             	db		60h, 00h		; AnalogColumnClockSelect register (CLK_CR0)
-   185  036E  62 00             	db		62h, 00h		; AnalogIOControl_0 register (ABF_CR0)
-   186  0370  67 33             	db		67h, 33h		; AnalogLUTControl0 register (ALT_CR0)
-   187  0372  68 33             	db		68h, 33h		; AnalogLUTControl1 register (ALT_CR1)
-   188  0374  63 00             	db		63h, 00h		; AnalogModulatorControl_0 register (AMD_CR0)
-   189  0376  66 00             	db		66h, 00h		; AnalogModulatorControl_1 register (AMD_CR1)
-   190  0378  D1 00             	db		d1h, 00h		; GlobalDigitalInterconnect_Drive_Even_Input register (GDI_E_IN)
-   191  037A  D3 00             	db		d3h, 00h		; GlobalDigitalInterconnect_Drive_Even_Output register (GDI_E_OU)
-   192  037C  D0 00             	db		d0h, 00h		; GlobalDigitalInterconnect_Drive_Odd_Input register (GDI_O_IN)
-   193  037E  D2 00             	db		d2h, 00h		; GlobalDigitalInterconnect_Drive_Odd_Output register (GDI_O_OU)
-   194  0380  E1 30             	db		e1h, 30h		; OscillatorControl_1 register (OSC_CR1)
-   195  0382  E2 00             	db		e2h, 00h		; OscillatorControl_2 register (OSC_CR2)
-   196  0384  DF 02             	db		dfh, 02h		; OscillatorControl_3 register (OSC_CR3)
-   197  0386  DE 01             	db		deh, 01h		; OscillatorControl_4 register (OSC_CR4)
-   198  0388  DD 00             	db		ddh, 00h		; OscillatorGlobalBusEnableControl register (OSC_GO_EN)
-   199  038A  E7 00             	db		e7h, 00h		; Type2Decimator_Control register (DEC_CR2)
-   200                          ;  Instance name Counter8, User Module Counter8
-   201                          ;       Instance name Counter8, Block Name CNTR8(DBB00)
-   202  038C  20 61             	db		20h, 61h		;Counter8_FUNC_REG(DBB00FN)
-   203  038E  21 15             	db		21h, 15h		;Counter8_INPUT_REG(DBB00IN)
-   204  0390  22 40             	db		22h, 40h		;Counter8_OUTPUT_REG(DBB00OU)
-   205                          ;  Instance name Counter8_ltrx, User Module Counter8
-   206                          ;       Instance name Counter8_ltrx, Block Name CNTR8(DBB10)
-   207  0392  30 61             	db		30h, 61h		;Counter8_ltrx_FUNC_REG(DBB10FN)
-   208  0394  31 15             	db		31h, 15h		;Counter8_ltrx_INPUT_REG(DBB10IN)
-   209  0396  32 40             	db		32h, 40h		;Counter8_ltrx_OUTPUT_REG(DBB10OU)
-   210                          ;  Instance name LED1, User Module LED
-   211                          ;  Instance name LTRX, User Module UART
-   212                          ;       Instance name LTRX, Block Name RX(DCB13)
-   213  0398  3C 05             	db		3ch, 05h		;LTRX_RX_FUNC_REG   (DCB13FN)
-   214  039A  3D E2             	db		3dh, e2h		;LTRX_RX_INPUT_REG  (DCB13IN)
-   215  039C  3E 40             	db		3eh, 40h		;LTRX_RX_OUTPUT_REG (DCB13OU)
-   216                          ;       Instance name LTRX, Block Name TX(DCB12)
-   217  039E  38 1D             	db		38h, 1dh		;LTRX_TX_FUNC_REG   (DCB12FN)
-   218  03A0  39 02             	db		39h, 02h		;LTRX_TX_INPUT_REG  (DCB12IN)
-   219  03A2  3A 46             	db		3ah, 46h		;LTRX_TX_OUTPUT_REG (DCB12OU)
-   220                          ;  Instance name OneWire, User Module OneWire
-   221                          ;       Instance name OneWire, Block Name BitClk(DBB31)
-   222  03A4  54 21             	db		54h, 21h		;OneWire_BITCLK_FUNC_REG(DBB31FN)
-   223  03A6  55 11             	db		55h, 11h		;OneWire_BITCLK_INPUT_REG(DBB31IN)
-   224  03A8  56 40             	db		56h, 40h		;OneWire_BITCLK_OUTPUT_REG(DBB31OU)
-   225                          ;       Instance name OneWire, Block Name XCVR(DCB32)
-   226  03AA  58 16             	db		58h, 16h		;OneWire_XCVR_FUNC_REG(DCB32FN)
-   227  03AC  59 C3             	db		59h, c3h		;OneWire_XCVR_INPUT_REG(DCB32IN)
-   228  03AE  5A 46             	db		5ah, 46h		;OneWire_XCVR_OUTPUT_REG(DCB32OU)
-   229                          ;  Instance name Ticker, User Module Counter16
-   230                          ;       Instance name Ticker, Block Name CNTR16_LSB(DCB22)
-   231  03B0  48 01             	db		48h, 01h		;Ticker_FUNC_LSB_REG(DCB22FN)
-   232  03B2  49 17             	db		49h, 17h		;Ticker_INPUT_LSB_REG(DCB22IN)
-   233  03B4  4A 40             	db		4ah, 40h		;Ticker_OUTPUT_LSB_REG(DCB22OU)
-   234                          ;       Instance name Ticker, Block Name CNTR16_MSB(DCB23)
-   235  03B6  4C 21             	db		4ch, 21h		;Ticker_FUNC_MSB_REG(DCB23FN)
-   236  03B8  4D 37             	db		4dh, 37h		;Ticker_INPUT_MSB_REG(DCB23IN)
-   237  03BA  4E 40             	db		4eh, 40h		;Ticker_OUTPUT_MSB_REG(DCB23OU)
-   238  03BC  FF                	db		ffh
+   141                          ;  Instance name Counter8_ltrx, User Module Counter8
+   142                          ;       Instance name Counter8_ltrx, Block Name CNTR8(DBB10)
+   143  0337  33 00             	db		33h, 00h		;Counter8_ltrx_CONTROL_REG(DBB10CR0)
+   144  0339  31 27             	db		31h, 27h		;Counter8_ltrx_PERIOD_REG(DBB10DR1)
+   145  033B  32 13             	db		32h, 13h		;Counter8_ltrx_COMPARE_REG(DBB10DR2)
+   146                          ;  Instance name LED1, User Module LED
+   147                          ;  Instance name LTRX, User Module UART
+   148                          ;       Instance name LTRX, Block Name RX(DCB13)
+   149  033D  3F 00             	db		3fh, 00h		;LTRX_RX_CONTROL_REG(DCB13CR0)
+   150  033F  3D 00             	db		3dh, 00h		;LTRX_(DCB13DR1)
+   151  0341  3E 00             	db		3eh, 00h		;LTRX_RX_BUFFER_REG (DCB13DR2)
+   152                          ;       Instance name LTRX, Block Name TX(DCB12)
+   153  0343  3B 00             	db		3bh, 00h		;LTRX_TX_CONTROL_REG(DCB12CR0)
+   154  0345  39 00             	db		39h, 00h		;LTRX_TX_BUFFER_REG (DCB12DR1)
+   155  0347  3A 00             	db		3ah, 00h		;LTRX_(DCB12DR2)
+   156                          ;  Instance name OneWire, User Module OneWire
+   157                          ;       Instance name OneWire, Block Name BitClk(DBB31)
+   158  0349  57 00             	db		57h, 00h		;OneWire_BITCLK_CONTROL_REG(DBB31CR0)
+   159  034B  55 00             	db		55h, 00h		;OneWire_BITCLK_PERIOD_REG (DBB31DR1)
+   160  034D  56 00             	db		56h, 00h		;OneWire_BITCLK_COMPARE_REG(DBB31DR2)
+   161                          ;       Instance name OneWire, Block Name XCVR(DCB32)
+   162  034F  5B 00             	db		5bh, 00h		;OneWire_XCVR_CONTROL_REG(DCB32CR0)
+   163  0351  59 00             	db		59h, 00h		;OneWire_XCVR_TX_BUFFER_REG(DCB32DR1)
+   164  0353  5A 00             	db		5ah, 00h		;OneWire_XCVR_RX_BUFFER_REG(DCB32DR2)
+   165                          ;  Instance name Ticker, User Module Counter16
+   166                          ;       Instance name Ticker, Block Name CNTR16_LSB(DCB22)
+   167  0355  4B 00             	db		4bh, 00h		;Ticker_CONTROL_LSB_REG(DCB22CR0)
+   168  0357  49 FF             	db		49h, ffh		;Ticker_PERIOD_LSB_REG(DCB22DR1)
+   169  0359  4A 01             	db		4ah, 01h		;Ticker_COMPARE_LSB_REG(DCB22DR2)
+   170                          ;       Instance name Ticker, Block Name CNTR16_MSB(DCB23)
+   171  035B  4F 00             	db		4fh, 00h		;Ticker_CONTROL_MSB_REG(DCB23CR0)
+   172  035D  4D FF             	db		4dh, ffh		;Ticker_PERIOD_MSB_REG(DCB23DR1)
+   173  035F  4E 00             	db		4eh, 00h		;Ticker_COMPARE_MSB_REG(DCB23DR2)
+   174  0361  FF                	db		ffh
+   175  0362                    LoadConfigTBL_onewire_gateway_Bank1:
+   176                          ;  Global Register values
+   177  0362  61 00             	db		61h, 00h		; AnalogClockSelect1 register (CLK_CR1)
+   178  0364  69 00             	db		69h, 00h		; AnalogClockSelect2 register (CLK_CR2)
+   179  0366  60 00             	db		60h, 00h		; AnalogColumnClockSelect register (CLK_CR0)
+   180  0368  62 00             	db		62h, 00h		; AnalogIOControl_0 register (ABF_CR0)
+   181  036A  67 33             	db		67h, 33h		; AnalogLUTControl0 register (ALT_CR0)
+   182  036C  68 33             	db		68h, 33h		; AnalogLUTControl1 register (ALT_CR1)
+   183  036E  63 00             	db		63h, 00h		; AnalogModulatorControl_0 register (AMD_CR0)
+   184  0370  66 00             	db		66h, 00h		; AnalogModulatorControl_1 register (AMD_CR1)
+   185  0372  D1 00             	db		d1h, 00h		; GlobalDigitalInterconnect_Drive_Even_Input register (GDI_E_IN)
+   186  0374  D3 00             	db		d3h, 00h		; GlobalDigitalInterconnect_Drive_Even_Output register (GDI_E_OU)
+   187  0376  D0 00             	db		d0h, 00h		; GlobalDigitalInterconnect_Drive_Odd_Input register (GDI_O_IN)
+   188  0378  D2 00             	db		d2h, 00h		; GlobalDigitalInterconnect_Drive_Odd_Output register (GDI_O_OU)
+   189  037A  E1 30             	db		e1h, 30h		; OscillatorControl_1 register (OSC_CR1)
+   190  037C  E2 00             	db		e2h, 00h		; OscillatorControl_2 register (OSC_CR2)
+   191  037E  DF 02             	db		dfh, 02h		; OscillatorControl_3 register (OSC_CR3)
+   192  0380  DE 01             	db		deh, 01h		; OscillatorControl_4 register (OSC_CR4)
+   193  0382  DD 00             	db		ddh, 00h		; OscillatorGlobalBusEnableControl register (OSC_GO_EN)
+   194  0384  E7 00             	db		e7h, 00h		; Type2Decimator_Control register (DEC_CR2)
+   195                          ;  Instance name Counter8_ltrx, User Module Counter8
+   196                          ;       Instance name Counter8_ltrx, Block Name CNTR8(DBB10)
+   197  0386  30 61             	db		30h, 61h		;Counter8_ltrx_FUNC_REG(DBB10FN)
+   198  0388  31 15             	db		31h, 15h		;Counter8_ltrx_INPUT_REG(DBB10IN)
+   199  038A  32 40             	db		32h, 40h		;Counter8_ltrx_OUTPUT_REG(DBB10OU)
+   200                          ;  Instance name LED1, User Module LED
+   201                          ;  Instance name LTRX, User Module UART
+   202                          ;       Instance name LTRX, Block Name RX(DCB13)
+   203  038C  3C 05             	db		3ch, 05h		;LTRX_RX_FUNC_REG   (DCB13FN)
+   204  038E  3D E2             	db		3dh, e2h		;LTRX_RX_INPUT_REG  (DCB13IN)
+   205  0390  3E 40             	db		3eh, 40h		;LTRX_RX_OUTPUT_REG (DCB13OU)
+   206                          ;       Instance name LTRX, Block Name TX(DCB12)
+   207  0392  38 1D             	db		38h, 1dh		;LTRX_TX_FUNC_REG   (DCB12FN)
+   208  0394  39 02             	db		39h, 02h		;LTRX_TX_INPUT_REG  (DCB12IN)
+   209  0396  3A 46             	db		3ah, 46h		;LTRX_TX_OUTPUT_REG (DCB12OU)
+   210                          ;  Instance name OneWire, User Module OneWire
+   211                          ;       Instance name OneWire, Block Name BitClk(DBB31)
+   212  0398  54 21             	db		54h, 21h		;OneWire_BITCLK_FUNC_REG(DBB31FN)
+   213  039A  55 11             	db		55h, 11h		;OneWire_BITCLK_INPUT_REG(DBB31IN)
+   214  039C  56 40             	db		56h, 40h		;OneWire_BITCLK_OUTPUT_REG(DBB31OU)
+   215                          ;       Instance name OneWire, Block Name XCVR(DCB32)
+   216  039E  58 16             	db		58h, 16h		;OneWire_XCVR_FUNC_REG(DCB32FN)
+   217  03A0  59 C3             	db		59h, c3h		;OneWire_XCVR_INPUT_REG(DCB32IN)
+   218  03A2  5A 46             	db		5ah, 46h		;OneWire_XCVR_OUTPUT_REG(DCB32OU)
+   219                          ;  Instance name Ticker, User Module Counter16
+   220                          ;       Instance name Ticker, Block Name CNTR16_LSB(DCB22)
+   221  03A4  48 01             	db		48h, 01h		;Ticker_FUNC_LSB_REG(DCB22FN)
+   222  03A6  49 17             	db		49h, 17h		;Ticker_INPUT_LSB_REG(DCB22IN)
+   223  03A8  4A 40             	db		4ah, 40h		;Ticker_OUTPUT_LSB_REG(DCB22OU)
+   224                          ;       Instance name Ticker, Block Name CNTR16_MSB(DCB23)
+   225  03AA  4C 21             	db		4ch, 21h		;Ticker_FUNC_MSB_REG(DCB23FN)
+   226  03AC  4D 37             	db		4dh, 37h		;Ticker_INPUT_MSB_REG(DCB23IN)
+   227  03AE  4E 40             	db		4eh, 40h		;Ticker_OUTPUT_MSB_REG(DCB23OU)
+   228  03B0  FF                	db		ffh
 
 
 HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
-Symbol Table                                                                                               Thu Feb 05 17:14:16 2009
+Symbol Table                                                                                               Fri Feb 06 16:23:21 2009
 
-  LoadConfigTBL_onewire_gateway_Bank0 02E9    LoadConfigTBL_onewire_gateway_Bank1 0368                               MAC0_CL0 00EE  
+  LoadConfigTBL_onewire_gateway_Bank0 02E9    LoadConfigTBL_onewire_gateway_Bank1 0362                               MAC0_CL0 00EE  
                              MAC0_CL1 00EF                               MAC1_CL0 00AE                               MAC1_CL1 00AF  
                                 MAC_X 00EC                                  MAC_Y 00ED                                 MAC0_X 00EC  
                                MAC0_Y 00ED                                 MAC1_X 00AC                                 MAC1_Y 00AD  

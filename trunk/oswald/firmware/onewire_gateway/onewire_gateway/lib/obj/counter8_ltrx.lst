@@ -1,7 +1,7 @@
 
 
 HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
-                                                                                                           Thu Feb 05 17:14:13 2009
+                                                                                                           Fri Feb 06 16:23:18 2009
 
 
      1                          ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -811,22 +811,22 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    805                          ;----------------------------------------------------
    806                              macro M8C_SetBank0
    807                              and   F, ~FLAG_XIO_MASK
-   808  7C6B                        endm
+   808  7D3C                        endm
    809                          
    810                              macro M8C_SetBank1
    811                              or    F, FLAG_XIO_MASK
-   812  7C6B                        endm
+   812  7D3C                        endm
    813                          
    814                          ;----------------------------------------------------
    815                          ;  Global Interrupt Enable/Disable
    816                          ;----------------------------------------------------
    817                              macro M8C_EnableGInt
    818                              or    F, FLAG_GLOBAL_IE
-   819  7C6B                        endm
+   819  7D3C                        endm
    820                          
    821                              macro M8C_DisableGInt
    822                              and   F, ~FLAG_GLOBAL_IE
-   823  7C6B                        endm
+   823  7D3C                        endm
    824                          
    825                          ;----------------------------------------------------
    826                          ;  Enable/Disable Interrupt Mask
@@ -844,12 +844,12 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    838                          ; Disable Interrupt Bit Mask(s)
    839                              macro M8C_DisableIntMask
    840                              and   reg[@0], ~@1              ; disable specified interrupt enable bit
-   841  7C6B                        endm
+   841  7D3C                        endm
    842                          
    843                          ; Enable Interrupt Bit Mask(s)
    844                              macro M8C_EnableIntMask
    845                              or    reg[@0], @1               ; enable specified interrupt enable bit
-   846  7C6B                        endm
+   846  7D3C                        endm
    847                          
    848                          ;----------------------------------------------------
    849                          ;  Clear Posted Interrupt Flag Mask
@@ -864,33 +864,33 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    858                          ;----------------------------------------------------
    859                              macro M8C_ClearIntFlag
    860                              mov   reg[@0], ~@1              ; clear specified interrupt enable bit
-   861  7C6B                        endm
+   861  7D3C                        endm
    862                          
    863                          ;----------------------------------------------------
    864                          ;  Power-On Reset & WatchDog Timer Functions
    865                          ;----------------------------------------------------
    866                              macro M8C_EnableWatchDog
    867                              and   reg[CPU_SCR0], ~CPU_SCR0_PORS_MASK
-   868  7C6B                        endm
+   868  7D3C                        endm
    869                          
    870                              macro M8C_ClearWDT
    871                              mov   reg[RES_WDT], 00h
-   872  7C6B                        endm
+   872  7D3C                        endm
    873                          
    874                              macro M8C_ClearWDTAndSleep
    875                              mov   reg[RES_WDT], 38h
-   876  7C6B                        endm
+   876  7D3C                        endm
    877                          
    878                          ;----------------------------------------------------
    879                          ;  CPU Stall for Analog PSoC Block Writes
    880                          ;----------------------------------------------------
    881                              macro M8C_Stall
    882                              or    reg[ASY_CR], ASY_CR_SYNCEN
-   883  7C6B                        endm
+   883  7D3C                        endm
    884                          
    885                              macro M8C_Unstall
    886                              and   reg[ASY_CR], ~ASY_CR_SYNCEN
-   887  7C6B                        endm
+   887  7D3C                        endm
    888                          
    889                          ;----------------------------------------------------
    890                          ;  Sleep, CPU Stop & Software Reset
@@ -904,21 +904,21 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    898                              ; interrupts are also enabled then the next instruction will be
    899                              ; from the interrupt vector table. If no interrupts are enabled
    900                              ; then the CPU sleeps forever.
-   901  7C6B                        endm
+   901  7D3C                        endm
    902                          
    903                              macro M8C_Stop
    904                              ; In general, you probably don't want to do this, but here's how:
    905                              or    reg[CPU_SCR0], CPU_SCR0_STOP_MASK
    906                              ; Next instruction to be executed is located in the interrupt
    907                              ; vector table entry for Power-On Reset.
-   908  7C6B                        endm
+   908  7D3C                        endm
    909                          
    910                              macro M8C_Reset
    911                              ; Restore CPU to the power-on reset state.
    912                              mov A, 0
    913                              SSC
    914                              ; Next non-supervisor instruction will be at interrupt vector 0.
-   915  7C6B                        endm
+   915  7D3C                        endm
    916                          
    917                          ;----------------------------------------------------
    918                          ; ImageCraft Code Compressor Actions
@@ -928,12 +928,12 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    922                              ; without resuming code compression
    923                              macro Suspend_CodeCompressor
    924                              or   F, 0
-   925  7C6B                        endm
+   925  7D3C                        endm
    926                          
    927                              ; Resume Code Compression
    928                              macro Resume_CodeCompressor
    929                              add  SP, 0
-   930  7C6B                        endm
+   930  7D3C                        endm
      1                          ;;*****************************************************************************
      2                          ;;*****************************************************************************
      3                          ;;
@@ -999,7 +999,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
     63                             IF ( SYSTEM_LARGE_MEMORY_MODEL )
     64                                mov reg[STK_PP], @PG_NUMBER
     65                             ENDIF
-    66  7C6B                       endm
+    66  7D3C                       endm
     67                          
     68                             ;-----------------------------------------------
     69                             ;  Set Current Page Macro
@@ -1016,7 +1016,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
     80                             IF ( SYSTEM_LARGE_MEMORY_MODEL )
     81                                mov reg[CUR_PP], @PG_NUMBER
     82                             ENDIF
-    83  7C6B                       endm
+    83  7D3C                       endm
     84                          
     85                             ;-----------------------------------------------
     86                             ;  Set Index Page Macro
@@ -1033,7 +1033,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
     97                             IF ( SYSTEM_LARGE_MEMORY_MODEL )
     98                                mov reg[IDX_PP], @PG_NUMBER
     99                             ENDIF
-   100  7C6B                       endm
+   100  7D3C                       endm
    101                          
    102                             ;-----------------------------------------------
    103                             ;  Set MVI Read Page Macro
@@ -1051,7 +1051,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    115                             IF ( SYSTEM_LARGE_MEMORY_MODEL )
    116                                mov reg[MVR_PP], @PG_NUMBER
    117                             ENDIF
-   118  7C6B                       endm
+   118  7D3C                       endm
    119                          
    120                             ;-----------------------------------------------
    121                             ;  Set MVI Write Page Macro
@@ -1069,7 +1069,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    133                             IF ( SYSTEM_LARGE_MEMORY_MODEL )
    134                                mov reg[MVW_PP], @PG_NUMBER
    135                             ENDIF
-   136  7C6B                       endm
+   136  7D3C                       endm
    137                          
    138                             ;-----------------------------------------------
    139                             ;  Force Index Page Pointer to Stack Page
@@ -1091,7 +1091,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    155                                   RAM_SETPAGE_IDX SYSTEM_STACK_PAGE
    156                                ENDIF
    157                             ENDIF
-   158  7C6B                       endm
+   158  7D3C                       endm
    159                          
    160                             ;-----------------------------------------------
    161                             ;  Change Memory Mode
@@ -1109,7 +1109,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    173                                and   F, ~FLAG_PGMODE_MASK        ; NOTE: transition thru 00b state
    174                                or    F,  FLAG_PGMODE_MASK & @MODE
    175                             ENDIF
-   176  7C6B                       endm
+   176  7D3C                       endm
    177                          
    178                             ;-----------------------------------------------
    179                             ;  Set Large Memory Model Native Paging Mode
@@ -1134,7 +1134,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    198                                or    F,  FLAG_PGMODE_10b            ; LMM with independent IndexPage
    199                             ENDIF ; PGMODE FREE
    200                             ENDIF ; SYSTEM_LARGE_MEMORY_MODEL
-   201  7C6B                       endm
+   201  7D3C                       endm
    202                          
    203                             ;-----------------------------------------------
    204                             ; Restore Large Memory Model Native Paging Mode
@@ -1158,7 +1158,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    222                                RAM_CHANGE_PAGE_MODE FLAG_PGMODE_10b ; LMM with independent IndexPage
    223                             ENDIF ; PGMODE FREE
    224                             ENDIF ; SYSTEM_LARGE_MEMORY_MODEL
-   225  7C6B                       endm
+   225  7D3C                       endm
    226                          
    227                             ;-----------------------------------------------
    228                             ; Force indexed addr mode operands to Stack Pg
@@ -1177,7 +1177,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    241                             IF ( SYSTEM_LARGE_MEMORY_MODEL )
    242                                or   F, FLAG_PGMODE_01b
    243                             ENDIF ;  SYSTEM_LARGE_MEMORY_MODEL
-   244  7C6B                       endm
+   244  7D3C                       endm
    245                          
    246                             ;-----------------------------------------------
    247                             ;  Force indexed addr mode operands to Index Pg
@@ -1196,7 +1196,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    260                             IF ( SYSTEM_LARGE_MEMORY_MODEL )
    261                                and  F, ~FLAG_PGMODE_01b
    262                             ENDIF ;  SYSTEM_LARGE_MEMORY_MODEL
-   263  7C6B                       endm
+   263  7D3C                       endm
    264                          
    265                             ;-----------------------------------------------
    266                             ;  Function Prologue
@@ -1227,7 +1227,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    291                             ; Nothing to do
    292                             ENDIF ; RAM_USE_CLASS_4
    293                          
-   294  7C6B                       endm
+   294  7D3C                       endm
    295                          
    296                             ;-----------------------------------------------
    297                             ;  Function Epilogue
@@ -1254,7 +1254,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    318                             ; Nothing to do
    319                             ENDIF ; RAM_USE_CLASS_4
    320                          
-   321  7C6B                       endm
+   321  7D3C                       endm
    322                          
    323                             ;-----------------------------------------------
    324                             ;  Preserve Register
@@ -1273,7 +1273,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    337                             macro REG_PRESERVE( IOReg )
    338                             mov   A, reg[ @IOReg ]
    339                             push  A
-   340  7C6B                       endm
+   340  7D3C                       endm
    341                          
    342                             ;-----------------------------------------------
    343                             ;  Restore Register
@@ -1292,7 +1292,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    356                             macro REG_RESTORE( IOReg )
    357                             pop   A
    358                             mov   reg[ @IOReg ], A
-   359  7C6B                       endm
+   359  7D3C                       endm
    360                          
    361                             ;-----------------------------------------------
    362                             ;  Preserve Volatile Page Pointer Registers
@@ -1314,7 +1314,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    378                                REG_PRESERVE MVR_PP
    379                                REG_PRESERVE MVW_PP
    380                             ENDIF
-   381  7C6B                       endm
+   381  7D3C                       endm
    382                          
    383                             ;-----------------------------------------------
    384                             ;  Restore Volatile Page Pointer Registers
@@ -1337,7 +1337,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    401                                REG_RESTORE IDX_PP
    402                                REG_RESTORE CUR_PP
    403                             ENDIF
-   404  7C6B                       endm
+   404  7D3C                       endm
    931                          
    932                          ; end of file m8c.inc
     32  00C0                    FLAG_PGMODE_MASK:  equ 0C0h     ; Paging control for > 256 bytes of RAM
@@ -2116,22 +2116,22 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    805                          ;----------------------------------------------------
    806                              macro M8C_SetBank0
    807                              and   F, ~FLAG_XIO_MASK
-   808  7C6B                        endm
+   808  7D3C                        endm
    809                          
    810                              macro M8C_SetBank1
    811                              or    F, FLAG_XIO_MASK
-   812  7C6B                        endm
+   812  7D3C                        endm
    813                          
    814                          ;----------------------------------------------------
    815                          ;  Global Interrupt Enable/Disable
    816                          ;----------------------------------------------------
    817                              macro M8C_EnableGInt
    818                              or    F, FLAG_GLOBAL_IE
-   819  7C6B                        endm
+   819  7D3C                        endm
    820                          
    821                              macro M8C_DisableGInt
    822                              and   F, ~FLAG_GLOBAL_IE
-   823  7C6B                        endm
+   823  7D3C                        endm
    824                          
    825                          ;----------------------------------------------------
    826                          ;  Enable/Disable Interrupt Mask
@@ -2149,12 +2149,12 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    838                          ; Disable Interrupt Bit Mask(s)
    839                              macro M8C_DisableIntMask
    840                              and   reg[@0], ~@1              ; disable specified interrupt enable bit
-   841  7C6B                        endm
+   841  7D3C                        endm
    842                          
    843                          ; Enable Interrupt Bit Mask(s)
    844                              macro M8C_EnableIntMask
    845                              or    reg[@0], @1               ; enable specified interrupt enable bit
-   846  7C6B                        endm
+   846  7D3C                        endm
    847                          
    848                          ;----------------------------------------------------
    849                          ;  Clear Posted Interrupt Flag Mask
@@ -2169,33 +2169,33 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    858                          ;----------------------------------------------------
    859                              macro M8C_ClearIntFlag
    860                              mov   reg[@0], ~@1              ; clear specified interrupt enable bit
-   861  7C6B                        endm
+   861  7D3C                        endm
    862                          
    863                          ;----------------------------------------------------
    864                          ;  Power-On Reset & WatchDog Timer Functions
    865                          ;----------------------------------------------------
    866                              macro M8C_EnableWatchDog
    867                              and   reg[CPU_SCR0], ~CPU_SCR0_PORS_MASK
-   868  7C6B                        endm
+   868  7D3C                        endm
    869                          
    870                              macro M8C_ClearWDT
    871                              mov   reg[RES_WDT], 00h
-   872  7C6B                        endm
+   872  7D3C                        endm
    873                          
    874                              macro M8C_ClearWDTAndSleep
    875                              mov   reg[RES_WDT], 38h
-   876  7C6B                        endm
+   876  7D3C                        endm
    877                          
    878                          ;----------------------------------------------------
    879                          ;  CPU Stall for Analog PSoC Block Writes
    880                          ;----------------------------------------------------
    881                              macro M8C_Stall
    882                              or    reg[ASY_CR], ASY_CR_SYNCEN
-   883  7C6B                        endm
+   883  7D3C                        endm
    884                          
    885                              macro M8C_Unstall
    886                              and   reg[ASY_CR], ~ASY_CR_SYNCEN
-   887  7C6B                        endm
+   887  7D3C                        endm
    888                          
    889                          ;----------------------------------------------------
    890                          ;  Sleep, CPU Stop & Software Reset
@@ -2209,21 +2209,21 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    898                              ; interrupts are also enabled then the next instruction will be
    899                              ; from the interrupt vector table. If no interrupts are enabled
    900                              ; then the CPU sleeps forever.
-   901  7C6B                        endm
+   901  7D3C                        endm
    902                          
    903                              macro M8C_Stop
    904                              ; In general, you probably don't want to do this, but here's how:
    905                              or    reg[CPU_SCR0], CPU_SCR0_STOP_MASK
    906                              ; Next instruction to be executed is located in the interrupt
    907                              ; vector table entry for Power-On Reset.
-   908  7C6B                        endm
+   908  7D3C                        endm
    909                          
    910                              macro M8C_Reset
    911                              ; Restore CPU to the power-on reset state.
    912                              mov A, 0
    913                              SSC
    914                              ; Next non-supervisor instruction will be at interrupt vector 0.
-   915  7C6B                        endm
+   915  7D3C                        endm
    916                          
    917                          ;----------------------------------------------------
    918                          ; ImageCraft Code Compressor Actions
@@ -2233,12 +2233,12 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    922                              ; without resuming code compression
    923                              macro Suspend_CodeCompressor
    924                              or   F, 0
-   925  7C6B                        endm
+   925  7D3C                        endm
    926                          
    927                              ; Resume Code Compression
    928                              macro Resume_CodeCompressor
    929                              add  SP, 0
-   930  7C6B                        endm
+   930  7D3C                        endm
      1                          ;;*****************************************************************************
      2                          ;;*****************************************************************************
      3                          ;;  FILENAME: Counter8_ltrx.inc
@@ -2291,19 +2291,19 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
     50                          
     51                             macro Counter8_ltrx_Start_M
     52                             or    reg[Counter8_ltrx_CONTROL_REG],  Counter8_ltrx_CONTROL_REG_START_BIT
-    53  7C6B                       endm
+    53  7D3C                       endm
     54                          
     55                             macro Counter8_ltrx_Stop_M
     56                             and   reg[Counter8_ltrx_CONTROL_REG], ~Counter8_ltrx_CONTROL_REG_START_BIT
-    57  7C6B                       endm
+    57  7D3C                       endm
     58                          
     59                             macro Counter8_ltrx_EnableInt_M
     60                             M8C_EnableIntMask Counter8_ltrx_INT_REG, Counter8_ltrx_INT_MASK
-    61  7C6B                       endm
+    61  7D3C                       endm
     62                          
     63                             macro Counter8_ltrx_DisableInt_M
     64                             M8C_DisableIntMask Counter8_ltrx_INT_REG, Counter8_ltrx_INT_MASK
-    65  7C6B                       endm
+    65  7D3C                       endm
      1                          ;;*****************************************************************************
      2                          ;;*****************************************************************************
      3                          ;;  FILENAME: Counter8_ltrx.asm
@@ -2394,12 +2394,12 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
     88                          ;    responsibility to perserve their values across calls to fastcall16 
     89                          ;    functions.
     90                          ;
-    91  6E37                     Counter8_ltrx_EnableInt:
-    92  6E37                    _Counter8_ltrx_EnableInt:
+    91  727D                     Counter8_ltrx_EnableInt:
+    92  727D                    _Counter8_ltrx_EnableInt:
     93                             RAM_PROLOGUE RAM_USE_CLASS_1
-    94  6E37  43 E1 10             Counter8_ltrx_EnableInt_M
+    94  727D  43 E1 10             Counter8_ltrx_EnableInt_M
     95                             RAM_EPILOGUE RAM_USE_CLASS_1
-    96  6E3A  7F                   ret
+    96  7280  7F                   ret
     97                          
     98                          .ENDSECTION
     99                          
@@ -2421,12 +2421,12 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    115                          ;    responsibility to perserve their values across calls to fastcall16 
    116                          ;    functions.
    117                          ;
-   118  6E3B                     Counter8_ltrx_DisableInt:
-   119  6E3B                    _Counter8_ltrx_DisableInt:
+   118  7281                     Counter8_ltrx_DisableInt:
+   119  7281                    _Counter8_ltrx_DisableInt:
    120                             RAM_PROLOGUE RAM_USE_CLASS_1
-   121  6E3B  41 E1 EF             Counter8_ltrx_DisableInt_M
+   121  7281  41 E1 EF             Counter8_ltrx_DisableInt_M
    122                             RAM_EPILOGUE RAM_USE_CLASS_1
-   123  6E3E  7F                   ret
+   123  7284  7F                   ret
    124                          
    125                          
    126                          .ENDSECTION
@@ -2450,12 +2450,12 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    144                          ;    responsibility to perserve their values across calls to fastcall16 
    145                          ;    functions.
    146                          ;
-   147  6E3F                     Counter8_ltrx_Start:
-   148  6E3F                    _Counter8_ltrx_Start:
+   147  7285                     Counter8_ltrx_Start:
+   148  7285                    _Counter8_ltrx_Start:
    149                             RAM_PROLOGUE RAM_USE_CLASS_1
-   150  6E3F  43 33 01             Counter8_ltrx_Start_M
+   150  7285  43 33 01             Counter8_ltrx_Start_M
    151                             RAM_EPILOGUE RAM_USE_CLASS_1
-   152  6E42  7F                   ret
+   152  7288  7F                   ret
    153                          
    154                          
    155                          .ENDSECTION
@@ -2478,12 +2478,12 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    172                          ;    responsibility to perserve their values across calls to fastcall16 
    173                          ;    functions.
    174                          ;
-   175  6E43                     Counter8_ltrx_Stop:
-   176  6E43                    _Counter8_ltrx_Stop:
+   175  7289                     Counter8_ltrx_Stop:
+   176  7289                    _Counter8_ltrx_Stop:
    177                             RAM_PROLOGUE RAM_USE_CLASS_1
-   178  6E43  41 33 FE             Counter8_ltrx_Stop_M
+   178  7289  41 33 FE             Counter8_ltrx_Stop_M
    179                             RAM_EPILOGUE RAM_USE_CLASS_1
-   180  6E46  7F                   ret
+   180  728C  7F                   ret
    181                          
    182                          
    183                          .ENDSECTION
@@ -2508,12 +2508,12 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    202                          ;    responsibility to perserve their values across calls to fastcall16 
    203                          ;    functions.
    204                          ;
-   205  6E47                     Counter8_ltrx_WritePeriod:
-   206  6E47                    _Counter8_ltrx_WritePeriod:
+   205  728D                     Counter8_ltrx_WritePeriod:
+   206  728D                    _Counter8_ltrx_WritePeriod:
    207                             RAM_PROLOGUE RAM_USE_CLASS_1
-   208  6E47  60 31                mov   reg[Counter8_ltrx_PERIOD_REG], A
+   208  728D  60 31                mov   reg[Counter8_ltrx_PERIOD_REG], A
    209                             RAM_EPILOGUE RAM_USE_CLASS_1
-   210  6E49  7F                   ret
+   210  728F  7F                   ret
    211                          
    212                          
    213                          .ENDSECTION
@@ -2535,12 +2535,12 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    229                          ;    responsibility to perserve their values across calls to fastcall16 
    230                          ;    functions.
    231                          ;
-   232  6E4A                     Counter8_ltrx_WriteCompareValue:
-   233  6E4A                    _Counter8_ltrx_WriteCompareValue:
+   232  7290                     Counter8_ltrx_WriteCompareValue:
+   233  7290                    _Counter8_ltrx_WriteCompareValue:
    234                             RAM_PROLOGUE RAM_USE_CLASS_1
-   235  6E4A  60 32                mov   reg[Counter8_ltrx_COMPARE_REG], A
+   235  7290  60 32                mov   reg[Counter8_ltrx_COMPARE_REG], A
    236                             RAM_EPILOGUE RAM_USE_CLASS_1
-   237  6E4C  7F                   ret
+   237  7292  7F                   ret
    238                          
    239                          
    240                          .ENDSECTION
@@ -2562,14 +2562,14 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    256                          ;    responsibility to perserve their values across calls to fastcall16 
    257                          ;    functions.
    258                          ;
-   259  6E4D                     Counter8_ltrx_bReadCompareValue:
-   260  6E4D                    _Counter8_ltrx_bReadCompareValue:
-   261  6E4D                     bCounter8_ltrx_ReadCompareValue:                ; this name deprecated
-   262  6E4D                    _bCounter8_ltrx_ReadCompareValue:                ; this name deprecated
+   259  7293                     Counter8_ltrx_bReadCompareValue:
+   260  7293                    _Counter8_ltrx_bReadCompareValue:
+   261  7293                     bCounter8_ltrx_ReadCompareValue:                ; this name deprecated
+   262  7293                    _bCounter8_ltrx_ReadCompareValue:                ; this name deprecated
    263                             RAM_PROLOGUE RAM_USE_CLASS_1
-   264  6E4D  5D 32                mov   A, reg[Counter8_ltrx_COMPARE_REG]
+   264  7293  5D 32                mov   A, reg[Counter8_ltrx_COMPARE_REG]
    265                             RAM_EPILOGUE RAM_USE_CLASS_1
-   266  6E4F  7F                   ret
+   266  7295  7F                   ret
    267                          
    268                          
    269                          .ENDSECTION
@@ -2596,10 +2596,10 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    290                          ;        responsibility to perserve their values across calls to fastcall16 
    291                          ;        functions.
    292                          ;
-   293  6E50                     Counter8_ltrx_bReadCounter:
-   294  6E50                    _Counter8_ltrx_bReadCounter:
-   295  6E50                     bCounter8_ltrx_ReadCounter:                     ; this name deprecated
-   296  6E50                    _bCounter8_ltrx_ReadCounter:                     ; this name deprecated
+   293  7296                     Counter8_ltrx_bReadCounter:
+   294  7296                    _Counter8_ltrx_bReadCounter:
+   295  7296                     bCounter8_ltrx_ReadCounter:                     ; this name deprecated
+   296  7296                    _bCounter8_ltrx_ReadCounter:                     ; this name deprecated
    297                          
    298  0000                       bOrigCompareValue:      EQU   0               ; Frame offset to temp Compare store
    299  0001                       bOrigControlReg:        EQU   1               ; Frame offset to temp CR0     store
@@ -2607,56 +2607,56 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    301  0003                       wCounter:               EQU   3               ; Frame offset to temp Count   store
    302  0004                       STACK_FRAME_SIZE:       EQU   4               ; max stack frame size is 4 bytes
    303                          
-   304  6E50  71 40                RAM_PROLOGUE RAM_USE_CLASS_2
-   305  6E52  4F                   mov   X, SP                                   ; X <- stack frame pointer
-   306  6E53  5D 32                mov   A, reg[Counter8_ltrx_COMPARE_REG]       ; Save the Compare register on the stack
-   307  6E55  08                   push  A                                       ;
-   308  6E56  5D 33                mov   A, reg[Counter8_ltrx_CONTROL_REG]       ; Save CR0 (running or stopped state)
-   309  6E58  08                   push  A                                       ;
-   310  6E59  41 33 FE             Counter8_ltrx_Stop_M                          ; Disable (stop) the Counter if running
-   311  6E5C  71 10                M8C_SetBank1                                  ;
-   312  6E5E  5D 31                mov   A, reg[Counter8_ltrx_INPUT_REG]         ; save the clock input setting
-   313  6E60  08                   push  A                                       ;   on the stack (now 2 bytes) and ...
+   304  7296  71 40                RAM_PROLOGUE RAM_USE_CLASS_2
+   305  7298  4F                   mov   X, SP                                   ; X <- stack frame pointer
+   306  7299  5D 32                mov   A, reg[Counter8_ltrx_COMPARE_REG]       ; Save the Compare register on the stack
+   307  729B  08                   push  A                                       ;
+   308  729C  5D 33                mov   A, reg[Counter8_ltrx_CONTROL_REG]       ; Save CR0 (running or stopped state)
+   309  729E  08                   push  A                                       ;
+   310  729F  41 33 FE             Counter8_ltrx_Stop_M                          ; Disable (stop) the Counter if running
+   311  72A2  71 10                M8C_SetBank1                                  ;
+   312  72A4  5D 31                mov   A, reg[Counter8_ltrx_INPUT_REG]         ; save the clock input setting
+   313  72A6  08                   push  A                                       ;   on the stack (now 2 bytes) and ...
    314                                                                           ;   hold the clock low:
-   315  6E61  62 31 00             mov   reg[Counter8_ltrx_INPUT_REG], INPUT_REG_NULL
-   316  6E64  70 EF                M8C_SetBank0
+   315  72A7  62 31 00             mov   reg[Counter8_ltrx_INPUT_REG], INPUT_REG_NULL
+   316  72AA  70 EF                M8C_SetBank0
    317                                                                           ; Extract the Count via DR2 register
-   318  6E66  5D 30                mov   A, reg[Counter8_ltrx_COUNTER_REG]       ; DR2 <- DR0
-   319  6E68  5D 32                mov   A, reg[Counter8_ltrx_COMPARE_REG]       ; Stash the Count on the stack
-   320  6E6A  08                   push  A                                       ;  -stack frame is now 3 bytes
-   321  6E6B  52 00                mov   A, [X+bOrigCompareValue]                ; Restore the Compare register
-   322  6E6D  60 32                mov   reg[Counter8_ltrx_COMPARE_REG], A
-   323  6E6F  71 10                M8C_SetBank1                                  ; Restore the counter operation:
-   324  6E71  52 02                mov   A, [X+bOrigClockSetting]                ;   First, the clock setting...
-   325  6E73  60 31                mov   reg[Counter8_ltrx_INPUT_REG], A         ;
-   326  6E75  70 EF                M8C_SetBank0                                  ;   then re-enable (start) the counter
-   327  6E77  52 01                mov   A, [X+bOrigControlReg]                  ;     if it was running when
-   328  6E79  60 33                mov   reg[Counter8_ltrx_CONTROL_REG], A       ;     this function was first called
-   329  6E7B  18                   pop   A                                       ; Setup the return value
-   330  6E7C  38 FD                ADD   SP, -(STACK_FRAME_SIZE-1)               ; Zap remainder of stack frame
-   331  6E7E  70 3F                RAM_EPILOGUE RAM_USE_CLASS_2
-   332  6E82  7F                   ret
+   318  72AC  5D 30                mov   A, reg[Counter8_ltrx_COUNTER_REG]       ; DR2 <- DR0
+   319  72AE  5D 32                mov   A, reg[Counter8_ltrx_COMPARE_REG]       ; Stash the Count on the stack
+   320  72B0  08                   push  A                                       ;  -stack frame is now 3 bytes
+   321  72B1  52 00                mov   A, [X+bOrigCompareValue]                ; Restore the Compare register
+   322  72B3  60 32                mov   reg[Counter8_ltrx_COMPARE_REG], A
+   323  72B5  71 10                M8C_SetBank1                                  ; Restore the counter operation:
+   324  72B7  52 02                mov   A, [X+bOrigClockSetting]                ;   First, the clock setting...
+   325  72B9  60 31                mov   reg[Counter8_ltrx_INPUT_REG], A         ;
+   326  72BB  70 EF                M8C_SetBank0                                  ;   then re-enable (start) the counter
+   327  72BD  52 01                mov   A, [X+bOrigControlReg]                  ;     if it was running when
+   328  72BF  60 33                mov   reg[Counter8_ltrx_CONTROL_REG], A       ;     this function was first called
+   329  72C1  18                   pop   A                                       ; Setup the return value
+   330  72C2  38 FD                ADD   SP, -(STACK_FRAME_SIZE-1)               ; Zap remainder of stack frame
+   331  72C4  70 3F                RAM_EPILOGUE RAM_USE_CLASS_2
+   332  72C8  7F                   ret
 
 
 HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
-Symbol Table                                                                                               Thu Feb 05 17:14:13 2009
+Symbol Table                                                                                               Fri Feb 06 16:23:18 2009
 
-           Counter8_ltrx_PERIOD_REG 0031             _Counter8_ltrx_EnableInt 6E37                  _Counter8_ltrx_Stop 6E43  
-         _Counter8_ltrx_WritePeriod 6E47           bCounter8_ltrx_ReadCounter 6E50          _Counter8_ltrx_bReadCounter 6E50  
+           Counter8_ltrx_PERIOD_REG 0031             _Counter8_ltrx_EnableInt 727D                  _Counter8_ltrx_Stop 7289  
+         _Counter8_ltrx_WritePeriod 728D           bCounter8_ltrx_ReadCounter 7296          _Counter8_ltrx_bReadCounter 7296  
                            MAC0_CL0 00EE                             MAC0_CL1 00EF                             MAC1_CL0 00AE  
-                           MAC1_CL1 00AF                 _Counter8_ltrx_Start 6E3F                                MAC_X 00EC  
-                              MAC_Y 00ED            _Counter8_ltrx_DisableInt 6E3B      Counter8_ltrx_bReadCompareValue 6E4D  
+                           MAC1_CL1 00AF                 _Counter8_ltrx_Start 7285                                MAC_X 00EC  
+                              MAC_Y 00ED            _Counter8_ltrx_DisableInt 7281      Counter8_ltrx_bReadCompareValue 7293  
                   bOrigClockSetting 0002                               MAC0_X 00EC                               MAC0_Y 00ED  
                              MAC1_X 00AC                               MAC1_Y 00AD                               HITECH 0002  
-                    FLAG_PGMODE_01b 0040                      FLAG_PGMODE_10b 0080      bCounter8_ltrx_ReadCompareValue 6E4D  
-              Counter8_ltrx_INT_REG 00E1                  Counter8_ltrx_Start 6E3F     _Counter8_ltrx_WriteCompareValue 6E4A  
-Counter8_ltrx_CONTROL_REG_START_BIT 0001          _bCounter8_ltrx_ReadCounter 6E50                       INPUT_REG_NULL 0000  
+                    FLAG_PGMODE_01b 0040                      FLAG_PGMODE_10b 0080      bCounter8_ltrx_ReadCompareValue 7293  
+              Counter8_ltrx_INT_REG 00E1                  Counter8_ltrx_Start 7285     _Counter8_ltrx_WriteCompareValue 7290  
+Counter8_ltrx_CONTROL_REG_START_BIT 0001          _bCounter8_ltrx_ReadCounter 7296                       INPUT_REG_NULL 0000  
           Counter8_ltrx_COMPARE_REG 0032            SYSTEM_LARGE_MEMORY_MODEL 0001              Counter8_ltrx_INPUT_REG 0031  
                             MAC_CL0 00EE                              MAC_CL1 00EF            Counter8_ltrx_CONTROL_REG 0033  
                   bOrigCompareValue 0000                     FLAG_PGMODE_MASK 00C0                      RAM_USE_CLASS_1 0001  
                     RAM_USE_CLASS_2 0002                      RAM_USE_CLASS_3 0004                      RAM_USE_CLASS_4 0008  
-          Counter8_ltrx_COUNTER_REG 0030             Counter8_ltrx_DisableInt 6E3B                   Counter8_ltrx_Stop 6E43  
-                    bOrigControlReg 0001      Counter8_ltrx_WriteCompareValue 6E4A               Counter8_ltrx_INT_MASK 0010  
-                   STACK_FRAME_SIZE 0004            Counter8_ltrx_WritePeriod 6E47              Counter8_ltrx_EnableInt 6E37  
-   _Counter8_ltrx_bReadCompareValue 6E4D           Counter8_ltrx_bReadCounter 6E50                        FLAG_XIO_MASK 0010  
-         SYSTEM_IDXPG_TRACKS_IDX_PP 0001           SYSTEM_IDXPG_TRACKS_STK_PP 0000     _bCounter8_ltrx_ReadCompareValue 6E4D  
+          Counter8_ltrx_COUNTER_REG 0030             Counter8_ltrx_DisableInt 7281                   Counter8_ltrx_Stop 7289  
+                    bOrigControlReg 0001      Counter8_ltrx_WriteCompareValue 7290               Counter8_ltrx_INT_MASK 0010  
+                   STACK_FRAME_SIZE 0004            Counter8_ltrx_WritePeriod 728D              Counter8_ltrx_EnableInt 727D  
+   _Counter8_ltrx_bReadCompareValue 7293           Counter8_ltrx_bReadCounter 7296                        FLAG_XIO_MASK 0010  
+         SYSTEM_IDXPG_TRACKS_IDX_PP 0001           SYSTEM_IDXPG_TRACKS_STK_PP 0000     _bCounter8_ltrx_ReadCompareValue 7293  

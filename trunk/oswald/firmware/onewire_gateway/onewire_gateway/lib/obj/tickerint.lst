@@ -1,7 +1,7 @@
 
 
 HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
-                                                                                                           Thu Feb 05 17:14:17 2009
+                                                                                                           Fri Feb 06 16:23:21 2009
 
 
      1                          ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -2390,7 +2390,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
 
 
 HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
-Symbol Table                                                                                               Thu Feb 05 17:14:17 2009
+Symbol Table                                                                                               Fri Feb 06 16:23:21 2009
 
                  _Ticker_ISR 0000                      MAC0_CL0 00EE                      MAC0_CL1 00EF  
                     MAC1_CL0 00AE                      MAC1_CL1 00AF                         MAC_X 00EC  

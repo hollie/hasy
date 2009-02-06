@@ -1,7 +1,7 @@
 
 
 HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
-                                                                                                           Thu Feb 05 17:14:16 2009
+                                                                                                           Fri Feb 06 16:23:21 2009
 
 
      1                          ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -811,22 +811,22 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    805                          ;----------------------------------------------------
    806                              macro M8C_SetBank0
    807                              and   F, ~FLAG_XIO_MASK
-   808  7C6B                        endm
+   808  7D3C                        endm
    809                          
    810                              macro M8C_SetBank1
    811                              or    F, FLAG_XIO_MASK
-   812  7C6B                        endm
+   812  7D3C                        endm
    813                          
    814                          ;----------------------------------------------------
    815                          ;  Global Interrupt Enable/Disable
    816                          ;----------------------------------------------------
    817                              macro M8C_EnableGInt
    818                              or    F, FLAG_GLOBAL_IE
-   819  7C6B                        endm
+   819  7D3C                        endm
    820                          
    821                              macro M8C_DisableGInt
    822                              and   F, ~FLAG_GLOBAL_IE
-   823  7C6B                        endm
+   823  7D3C                        endm
    824                          
    825                          ;----------------------------------------------------
    826                          ;  Enable/Disable Interrupt Mask
@@ -844,12 +844,12 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    838                          ; Disable Interrupt Bit Mask(s)
    839                              macro M8C_DisableIntMask
    840                              and   reg[@0], ~@1              ; disable specified interrupt enable bit
-   841  7C6B                        endm
+   841  7D3C                        endm
    842                          
    843                          ; Enable Interrupt Bit Mask(s)
    844                              macro M8C_EnableIntMask
    845                              or    reg[@0], @1               ; enable specified interrupt enable bit
-   846  7C6B                        endm
+   846  7D3C                        endm
    847                          
    848                          ;----------------------------------------------------
    849                          ;  Clear Posted Interrupt Flag Mask
@@ -864,33 +864,33 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    858                          ;----------------------------------------------------
    859                              macro M8C_ClearIntFlag
    860                              mov   reg[@0], ~@1              ; clear specified interrupt enable bit
-   861  7C6B                        endm
+   861  7D3C                        endm
    862                          
    863                          ;----------------------------------------------------
    864                          ;  Power-On Reset & WatchDog Timer Functions
    865                          ;----------------------------------------------------
    866                              macro M8C_EnableWatchDog
    867                              and   reg[CPU_SCR0], ~CPU_SCR0_PORS_MASK
-   868  7C6B                        endm
+   868  7D3C                        endm
    869                          
    870                              macro M8C_ClearWDT
    871                              mov   reg[RES_WDT], 00h
-   872  7C6B                        endm
+   872  7D3C                        endm
    873                          
    874                              macro M8C_ClearWDTAndSleep
    875                              mov   reg[RES_WDT], 38h
-   876  7C6B                        endm
+   876  7D3C                        endm
    877                          
    878                          ;----------------------------------------------------
    879                          ;  CPU Stall for Analog PSoC Block Writes
    880                          ;----------------------------------------------------
    881                              macro M8C_Stall
    882                              or    reg[ASY_CR], ASY_CR_SYNCEN
-   883  7C6B                        endm
+   883  7D3C                        endm
    884                          
    885                              macro M8C_Unstall
    886                              and   reg[ASY_CR], ~ASY_CR_SYNCEN
-   887  7C6B                        endm
+   887  7D3C                        endm
    888                          
    889                          ;----------------------------------------------------
    890                          ;  Sleep, CPU Stop & Software Reset
@@ -904,21 +904,21 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    898                              ; interrupts are also enabled then the next instruction will be
    899                              ; from the interrupt vector table. If no interrupts are enabled
    900                              ; then the CPU sleeps forever.
-   901  7C6B                        endm
+   901  7D3C                        endm
    902                          
    903                              macro M8C_Stop
    904                              ; In general, you probably don't want to do this, but here's how:
    905                              or    reg[CPU_SCR0], CPU_SCR0_STOP_MASK
    906                              ; Next instruction to be executed is located in the interrupt
    907                              ; vector table entry for Power-On Reset.
-   908  7C6B                        endm
+   908  7D3C                        endm
    909                          
    910                              macro M8C_Reset
    911                              ; Restore CPU to the power-on reset state.
    912                              mov A, 0
    913                              SSC
    914                              ; Next non-supervisor instruction will be at interrupt vector 0.
-   915  7C6B                        endm
+   915  7D3C                        endm
    916                          
    917                          ;----------------------------------------------------
    918                          ; ImageCraft Code Compressor Actions
@@ -928,12 +928,12 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    922                              ; without resuming code compression
    923                              macro Suspend_CodeCompressor
    924                              or   F, 0
-   925  7C6B                        endm
+   925  7D3C                        endm
    926                          
    927                              ; Resume Code Compression
    928                              macro Resume_CodeCompressor
    929                              add  SP, 0
-   930  7C6B                        endm
+   930  7D3C                        endm
      1                          ;;*****************************************************************************
      2                          ;;*****************************************************************************
      3                          ;;
@@ -999,7 +999,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
     63                             IF ( SYSTEM_LARGE_MEMORY_MODEL )
     64                                mov reg[STK_PP], @PG_NUMBER
     65                             ENDIF
-    66  7C6B                       endm
+    66  7D3C                       endm
     67                          
     68                             ;-----------------------------------------------
     69                             ;  Set Current Page Macro
@@ -1016,7 +1016,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
     80                             IF ( SYSTEM_LARGE_MEMORY_MODEL )
     81                                mov reg[CUR_PP], @PG_NUMBER
     82                             ENDIF
-    83  7C6B                       endm
+    83  7D3C                       endm
     84                          
     85                             ;-----------------------------------------------
     86                             ;  Set Index Page Macro
@@ -1033,7 +1033,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
     97                             IF ( SYSTEM_LARGE_MEMORY_MODEL )
     98                                mov reg[IDX_PP], @PG_NUMBER
     99                             ENDIF
-   100  7C6B                       endm
+   100  7D3C                       endm
    101                          
    102                             ;-----------------------------------------------
    103                             ;  Set MVI Read Page Macro
@@ -1051,7 +1051,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    115                             IF ( SYSTEM_LARGE_MEMORY_MODEL )
    116                                mov reg[MVR_PP], @PG_NUMBER
    117                             ENDIF
-   118  7C6B                       endm
+   118  7D3C                       endm
    119                          
    120                             ;-----------------------------------------------
    121                             ;  Set MVI Write Page Macro
@@ -1069,7 +1069,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    133                             IF ( SYSTEM_LARGE_MEMORY_MODEL )
    134                                mov reg[MVW_PP], @PG_NUMBER
    135                             ENDIF
-   136  7C6B                       endm
+   136  7D3C                       endm
    137                          
    138                             ;-----------------------------------------------
    139                             ;  Force Index Page Pointer to Stack Page
@@ -1091,7 +1091,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    155                                   RAM_SETPAGE_IDX SYSTEM_STACK_PAGE
    156                                ENDIF
    157                             ENDIF
-   158  7C6B                       endm
+   158  7D3C                       endm
    159                          
    160                             ;-----------------------------------------------
    161                             ;  Change Memory Mode
@@ -1109,7 +1109,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    173                                and   F, ~FLAG_PGMODE_MASK        ; NOTE: transition thru 00b state
    174                                or    F,  FLAG_PGMODE_MASK & @MODE
    175                             ENDIF
-   176  7C6B                       endm
+   176  7D3C                       endm
    177                          
    178                             ;-----------------------------------------------
    179                             ;  Set Large Memory Model Native Paging Mode
@@ -1134,7 +1134,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    198                                or    F,  FLAG_PGMODE_10b            ; LMM with independent IndexPage
    199                             ENDIF ; PGMODE FREE
    200                             ENDIF ; SYSTEM_LARGE_MEMORY_MODEL
-   201  7C6B                       endm
+   201  7D3C                       endm
    202                          
    203                             ;-----------------------------------------------
    204                             ; Restore Large Memory Model Native Paging Mode
@@ -1158,7 +1158,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    222                                RAM_CHANGE_PAGE_MODE FLAG_PGMODE_10b ; LMM with independent IndexPage
    223                             ENDIF ; PGMODE FREE
    224                             ENDIF ; SYSTEM_LARGE_MEMORY_MODEL
-   225  7C6B                       endm
+   225  7D3C                       endm
    226                          
    227                             ;-----------------------------------------------
    228                             ; Force indexed addr mode operands to Stack Pg
@@ -1177,7 +1177,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    241                             IF ( SYSTEM_LARGE_MEMORY_MODEL )
    242                                or   F, FLAG_PGMODE_01b
    243                             ENDIF ;  SYSTEM_LARGE_MEMORY_MODEL
-   244  7C6B                       endm
+   244  7D3C                       endm
    245                          
    246                             ;-----------------------------------------------
    247                             ;  Force indexed addr mode operands to Index Pg
@@ -1196,7 +1196,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    260                             IF ( SYSTEM_LARGE_MEMORY_MODEL )
    261                                and  F, ~FLAG_PGMODE_01b
    262                             ENDIF ;  SYSTEM_LARGE_MEMORY_MODEL
-   263  7C6B                       endm
+   263  7D3C                       endm
    264                          
    265                             ;-----------------------------------------------
    266                             ;  Function Prologue
@@ -1227,7 +1227,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    291                             ; Nothing to do
    292                             ENDIF ; RAM_USE_CLASS_4
    293                          
-   294  7C6B                       endm
+   294  7D3C                       endm
    295                          
    296                             ;-----------------------------------------------
    297                             ;  Function Epilogue
@@ -1254,7 +1254,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    318                             ; Nothing to do
    319                             ENDIF ; RAM_USE_CLASS_4
    320                          
-   321  7C6B                       endm
+   321  7D3C                       endm
    322                          
    323                             ;-----------------------------------------------
    324                             ;  Preserve Register
@@ -1273,7 +1273,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    337                             macro REG_PRESERVE( IOReg )
    338                             mov   A, reg[ @IOReg ]
    339                             push  A
-   340  7C6B                       endm
+   340  7D3C                       endm
    341                          
    342                             ;-----------------------------------------------
    343                             ;  Restore Register
@@ -1292,7 +1292,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    356                             macro REG_RESTORE( IOReg )
    357                             pop   A
    358                             mov   reg[ @IOReg ], A
-   359  7C6B                       endm
+   359  7D3C                       endm
    360                          
    361                             ;-----------------------------------------------
    362                             ;  Preserve Volatile Page Pointer Registers
@@ -1314,7 +1314,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    378                                REG_PRESERVE MVR_PP
    379                                REG_PRESERVE MVW_PP
    380                             ENDIF
-   381  7C6B                       endm
+   381  7D3C                       endm
    382                          
    383                             ;-----------------------------------------------
    384                             ;  Restore Volatile Page Pointer Registers
@@ -1337,7 +1337,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    401                                REG_RESTORE IDX_PP
    402                                REG_RESTORE CUR_PP
    403                             ENDIF
-   404  7C6B                       endm
+   404  7D3C                       endm
    931                          
    932                          ; end of file m8c.inc
     32  00C0                    FLAG_PGMODE_MASK:  equ 0C0h     ; Paging control for > 256 bytes of RAM
@@ -2116,22 +2116,22 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    805                          ;----------------------------------------------------
    806                              macro M8C_SetBank0
    807                              and   F, ~FLAG_XIO_MASK
-   808  7C6B                        endm
+   808  7D3C                        endm
    809                          
    810                              macro M8C_SetBank1
    811                              or    F, FLAG_XIO_MASK
-   812  7C6B                        endm
+   812  7D3C                        endm
    813                          
    814                          ;----------------------------------------------------
    815                          ;  Global Interrupt Enable/Disable
    816                          ;----------------------------------------------------
    817                              macro M8C_EnableGInt
    818                              or    F, FLAG_GLOBAL_IE
-   819  7C6B                        endm
+   819  7D3C                        endm
    820                          
    821                              macro M8C_DisableGInt
    822                              and   F, ~FLAG_GLOBAL_IE
-   823  7C6B                        endm
+   823  7D3C                        endm
    824                          
    825                          ;----------------------------------------------------
    826                          ;  Enable/Disable Interrupt Mask
@@ -2149,12 +2149,12 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    838                          ; Disable Interrupt Bit Mask(s)
    839                              macro M8C_DisableIntMask
    840                              and   reg[@0], ~@1              ; disable specified interrupt enable bit
-   841  7C6B                        endm
+   841  7D3C                        endm
    842                          
    843                          ; Enable Interrupt Bit Mask(s)
    844                              macro M8C_EnableIntMask
    845                              or    reg[@0], @1               ; enable specified interrupt enable bit
-   846  7C6B                        endm
+   846  7D3C                        endm
    847                          
    848                          ;----------------------------------------------------
    849                          ;  Clear Posted Interrupt Flag Mask
@@ -2169,33 +2169,33 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    858                          ;----------------------------------------------------
    859                              macro M8C_ClearIntFlag
    860                              mov   reg[@0], ~@1              ; clear specified interrupt enable bit
-   861  7C6B                        endm
+   861  7D3C                        endm
    862                          
    863                          ;----------------------------------------------------
    864                          ;  Power-On Reset & WatchDog Timer Functions
    865                          ;----------------------------------------------------
    866                              macro M8C_EnableWatchDog
    867                              and   reg[CPU_SCR0], ~CPU_SCR0_PORS_MASK
-   868  7C6B                        endm
+   868  7D3C                        endm
    869                          
    870                              macro M8C_ClearWDT
    871                              mov   reg[RES_WDT], 00h
-   872  7C6B                        endm
+   872  7D3C                        endm
    873                          
    874                              macro M8C_ClearWDTAndSleep
    875                              mov   reg[RES_WDT], 38h
-   876  7C6B                        endm
+   876  7D3C                        endm
    877                          
    878                          ;----------------------------------------------------
    879                          ;  CPU Stall for Analog PSoC Block Writes
    880                          ;----------------------------------------------------
    881                              macro M8C_Stall
    882                              or    reg[ASY_CR], ASY_CR_SYNCEN
-   883  7C6B                        endm
+   883  7D3C                        endm
    884                          
    885                              macro M8C_Unstall
    886                              and   reg[ASY_CR], ~ASY_CR_SYNCEN
-   887  7C6B                        endm
+   887  7D3C                        endm
    888                          
    889                          ;----------------------------------------------------
    890                          ;  Sleep, CPU Stop & Software Reset
@@ -2209,21 +2209,21 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    898                              ; interrupts are also enabled then the next instruction will be
    899                              ; from the interrupt vector table. If no interrupts are enabled
    900                              ; then the CPU sleeps forever.
-   901  7C6B                        endm
+   901  7D3C                        endm
    902                          
    903                              macro M8C_Stop
    904                              ; In general, you probably don't want to do this, but here's how:
    905                              or    reg[CPU_SCR0], CPU_SCR0_STOP_MASK
    906                              ; Next instruction to be executed is located in the interrupt
    907                              ; vector table entry for Power-On Reset.
-   908  7C6B                        endm
+   908  7D3C                        endm
    909                          
    910                              macro M8C_Reset
    911                              ; Restore CPU to the power-on reset state.
    912                              mov A, 0
    913                              SSC
    914                              ; Next non-supervisor instruction will be at interrupt vector 0.
-   915  7C6B                        endm
+   915  7D3C                        endm
    916                          
    917                          ;----------------------------------------------------
    918                          ; ImageCraft Code Compressor Actions
@@ -2233,12 +2233,12 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    922                              ; without resuming code compression
    923                              macro Suspend_CodeCompressor
    924                              or   F, 0
-   925  7C6B                        endm
+   925  7D3C                        endm
    926                          
    927                              ; Resume Code Compression
    928                              macro Resume_CodeCompressor
    929                              add  SP, 0
-   930  7C6B                        endm
+   930  7D3C                        endm
      1                          ;;*****************************************************************************
      2                          ;;*****************************************************************************
      3                          ;;  FILENAME: Ticker.inc
@@ -2298,19 +2298,19 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
     57                          
     58                             macro Ticker_Start_M
     59                             or    reg[Ticker_CONTROL_LSB_REG],  Ticker_CONTROL_REG_START_BIT
-    60  7C6B                       endm
+    60  7D3C                       endm
     61                          
     62                             macro Ticker_Stop_M
     63                             and   reg[Ticker_CONTROL_LSB_REG], ~Ticker_CONTROL_REG_START_BIT
-    64  7C6B                       endm
+    64  7D3C                       endm
     65                          
     66                             macro Ticker_EnableInt_M
     67                             M8C_EnableIntMask Ticker_INT_REG, Ticker_INT_MASK
-    68  7C6B                       endm
+    68  7D3C                       endm
     69                          
     70                             macro Ticker_DisableInt_M
     71                             M8C_DisableIntMask Ticker_INT_REG, Ticker_INT_MASK
-    72  7C6B                       endm
+    72  7D3C                       endm
      1                          ;;*****************************************************************************
      2                          ;;*****************************************************************************
      3                          ;;  FILENAME: Ticker.asm
@@ -2401,12 +2401,12 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
     88                          ;    responsibility to perserve their values across calls to fastcall16 
     89                          ;    functions.
     90                          ;
-    91  742B                     Ticker_EnableInt:
-    92  742B                    _Ticker_EnableInt:
+    91  7870                     Ticker_EnableInt:
+    92  7870                    _Ticker_EnableInt:
     93                             RAM_PROLOGUE RAM_USE_CLASS_1
-    94  742B  43 DF 08             Ticker_EnableInt_M
+    94  7870  43 DF 08             Ticker_EnableInt_M
     95                             RAM_EPILOGUE RAM_USE_CLASS_1
-    96  742E  7F                   ret
+    96  7873  7F                   ret
     97                          
     98                          .ENDSECTION
     99                          
@@ -2428,12 +2428,12 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    115                          ;    responsibility to perserve their values across calls to fastcall16 
    116                          ;    functions.
    117                          ;
-   118  742F                     Ticker_DisableInt:
-   119  742F                    _Ticker_DisableInt:
+   118  7874                     Ticker_DisableInt:
+   119  7874                    _Ticker_DisableInt:
    120                             RAM_PROLOGUE RAM_USE_CLASS_1
-   121  742F  41 DF F7             Ticker_DisableInt_M
+   121  7874  41 DF F7             Ticker_DisableInt_M
    122                             RAM_EPILOGUE RAM_USE_CLASS_1
-   123  7432  7F                   ret
+   123  7877  7F                   ret
    124                          
    125                          
    126                          .ENDSECTION
@@ -2457,12 +2457,12 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    144                          ;    responsibility to perserve their values across calls to fastcall16 
    145                          ;    functions.
    146                          ;
-   147  7433                     Ticker_Start:
-   148  7433                    _Ticker_Start:
+   147  7878                     Ticker_Start:
+   148  7878                    _Ticker_Start:
    149                             RAM_PROLOGUE RAM_USE_CLASS_1
-   150  7433  43 4B 01             Ticker_Start_M
+   150  7878  43 4B 01             Ticker_Start_M
    151                             RAM_EPILOGUE RAM_USE_CLASS_1
-   152  7436  7F                   ret
+   152  787B  7F                   ret
    153                          
    154                          
    155                          .ENDSECTION
@@ -2485,12 +2485,12 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    172                          ;    responsibility to perserve their values across calls to fastcall16 
    173                          ;    functions.
    174                          ;
-   175  7437                     Ticker_Stop:
-   176  7437                    _Ticker_Stop:
+   175  787C                     Ticker_Stop:
+   176  787C                    _Ticker_Stop:
    177                             RAM_PROLOGUE RAM_USE_CLASS_1
-   178  7437  41 4B FE             Ticker_Stop_M
+   178  787C  41 4B FE             Ticker_Stop_M
    179                             RAM_EPILOGUE RAM_USE_CLASS_1
-   180  743A  7F                   ret
+   180  787F  7F                   ret
    181                          
    182                          
    183                          .ENDSECTION
@@ -2515,14 +2515,14 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    202                          ;    responsibility to perserve their values across calls to fastcall16 
    203                          ;    functions.
    204                          ;
-   205  743B                     Ticker_WritePeriod:
-   206  743B                    _Ticker_WritePeriod:
+   205  7880                     Ticker_WritePeriod:
+   206  7880                    _Ticker_WritePeriod:
    207                             RAM_PROLOGUE RAM_USE_CLASS_1
-   208  743B  60 49                mov   reg[Ticker_PERIOD_LSB_REG], A
-   209  743D  5B                   mov   A, X
-   210  743E  60 4D                mov   reg[Ticker_PERIOD_MSB_REG], A
+   208  7880  60 49                mov   reg[Ticker_PERIOD_LSB_REG], A
+   209  7882  5B                   mov   A, X
+   210  7883  60 4D                mov   reg[Ticker_PERIOD_MSB_REG], A
    211                             RAM_EPILOGUE RAM_USE_CLASS_1
-   212  7440  7F                   ret
+   212  7885  7F                   ret
    213                          
    214                          
    215                          .ENDSECTION
@@ -2544,14 +2544,14 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    231                          ;    responsibility to perserve their values across calls to fastcall16 
    232                          ;    functions.
    233                          ;
-   234  7441                     Ticker_WriteCompareValue:
-   235  7441                    _Ticker_WriteCompareValue:
+   234  7886                     Ticker_WriteCompareValue:
+   235  7886                    _Ticker_WriteCompareValue:
    236                             RAM_PROLOGUE RAM_USE_CLASS_1
-   237  7441  60 4A                mov   reg[Ticker_COMPARE_LSB_REG], A
-   238  7443  5B                   mov   A, X
-   239  7444  60 4E                mov   reg[Ticker_COMPARE_MSB_REG], A
+   237  7886  60 4A                mov   reg[Ticker_COMPARE_LSB_REG], A
+   238  7888  5B                   mov   A, X
+   239  7889  60 4E                mov   reg[Ticker_COMPARE_MSB_REG], A
    240                             RAM_EPILOGUE RAM_USE_CLASS_1
-   241  7446  7F                   ret
+   241  788B  7F                   ret
    242                          
    243                          
    244                          .ENDSECTION
@@ -2573,16 +2573,16 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    260                          ;    responsibility to perserve their values across calls to fastcall16 
    261                          ;    functions.
    262                          ;
-   263  7447                     Ticker_wReadCompareValue:
-   264  7447                    _Ticker_wReadCompareValue:
-   265  7447                     wTicker_ReadCompareValue:                       ; this name deprecated
-   266  7447                    _wTicker_ReadCompareValue:                       ; this name deprecated
+   263  788C                     Ticker_wReadCompareValue:
+   264  788C                    _Ticker_wReadCompareValue:
+   265  788C                     wTicker_ReadCompareValue:                       ; this name deprecated
+   266  788C                    _wTicker_ReadCompareValue:                       ; this name deprecated
    267                             RAM_PROLOGUE RAM_USE_CLASS_1
-   268  7447  5D 4E                mov   A, reg[Ticker_COMPARE_MSB_REG]
-   269  7449  5C                   mov   X, A
-   270  744A  5D 4A                mov   A, reg[Ticker_COMPARE_LSB_REG]
+   268  788C  5D 4E                mov   A, reg[Ticker_COMPARE_MSB_REG]
+   269  788E  5C                   mov   X, A
+   270  788F  5D 4A                mov   A, reg[Ticker_COMPARE_LSB_REG]
    271                             RAM_EPILOGUE RAM_USE_CLASS_1
-   272  744C  7F                   ret
+   272  7891  7F                   ret
    273                          
    274                          
    275                          .ENDSECTION
@@ -2608,10 +2608,10 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    295                          ;        responsibility to perserve their values across calls to fastcall16 
    296                          ;        functions.
    297                          ;
-   298  744D                     Ticker_wReadCounter:
-   299  744D                    _Ticker_wReadCounter:
-   300  744D                     wTicker_ReadCounter:                            ; this name deprecated
-   301  744D                    _wTicker_ReadCounter:                            ; this name deprecated
+   298  7892                     Ticker_wReadCounter:
+   299  7892                    _Ticker_wReadCounter:
+   300  7892                     wTicker_ReadCounter:                            ; this name deprecated
+   301  7892                    _wTicker_ReadCounter:                            ; this name deprecated
    302                          
    303  0000                       bOrigCompareValue:      EQU   0                  ; Frame offset to temp Compare store
    304  0002                       bOrigControlReg:        EQU   2                  ; Frame offset to temp CR0     store
@@ -2619,64 +2619,64 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    306  0004                       wCounter:               EQU   4                  ; Frame offset to temp Count   store
    307  0006                       STACK_FRAME_SIZE:       EQU   6                  ; max stack frame size is 6 bytes
    308                          
-   309  744D  71 40                RAM_PROLOGUE RAM_USE_CLASS_2
-   310  744F  4F                   mov   X, SP                                      ; X <-  stack frame pointer
-   311  7450  5D 4E                mov   A, reg[Ticker_COMPARE_MSB_REG]          ; Save the Compare register on the stack
-   312  7452  08                   push  A                                          ;
-   313  7453  5D 4A                mov   A, reg[Ticker_COMPARE_LSB_REG]          ;
-   314  7455  08                   push  A                                          ;   -stack frame now 2 bytes-
-   315  7456  5D 4B                mov   A, reg[Ticker_CONTROL_LSB_REG]          ; Save CR0 (running or stopped state)
-   316  7458  08                   push  A                                          ;   -stack frame now 3 bytes-
-   317  7459  41 4B FE             Ticker_Stop_M                                 ; Disable (stop) the Counter if running
-   318  745C  71 10                M8C_SetBank1                                     ;
-   319  745E  5D 49                mov   A, reg[Ticker_INPUT_LSB_REG]            ; save the LSB clock input setting
-   320  7460  08                   push  A                                          ;   on the stack (now 4 bytes) and ...
+   309  7892  71 40                RAM_PROLOGUE RAM_USE_CLASS_2
+   310  7894  4F                   mov   X, SP                                      ; X <-  stack frame pointer
+   311  7895  5D 4E                mov   A, reg[Ticker_COMPARE_MSB_REG]          ; Save the Compare register on the stack
+   312  7897  08                   push  A                                          ;
+   313  7898  5D 4A                mov   A, reg[Ticker_COMPARE_LSB_REG]          ;
+   314  789A  08                   push  A                                          ;   -stack frame now 2 bytes-
+   315  789B  5D 4B                mov   A, reg[Ticker_CONTROL_LSB_REG]          ; Save CR0 (running or stopped state)
+   316  789D  08                   push  A                                          ;   -stack frame now 3 bytes-
+   317  789E  41 4B FE             Ticker_Stop_M                                 ; Disable (stop) the Counter if running
+   318  78A1  71 10                M8C_SetBank1                                     ;
+   319  78A3  5D 49                mov   A, reg[Ticker_INPUT_LSB_REG]            ; save the LSB clock input setting
+   320  78A5  08                   push  A                                          ;   on the stack (now 4 bytes) and ...
    321                                                                              ;   hold the clock low:
-   322  7461  62 49 00             mov   reg[Ticker_INPUT_LSB_REG], INPUT_REG_NULL
-   323  7464  70 EF                M8C_SetBank0                                     ; Extract the Count via DR2 register
-   324  7466  5D 4C                mov   A, reg[Ticker_COUNTER_MSB_REG]          ; DR2 <- DR0 (in the MSB block)
-   325  7468  5D 4E                mov   A, reg[Ticker_COMPARE_MSB_REG]          ; Stash the Count MSB on the stack
-   326  746A  08                   push  A                                          ;   -stack frame is now 5 bytes
-   327  746B  5D 48                mov   A, reg[Ticker_COUNTER_LSB_REG]          ; DR2 <- DR0 (in the LSB block)
-   328  746D  5D 4A                mov   A, reg[Ticker_COMPARE_LSB_REG]          ; Stash the Count LSB on the stack
-   329  746F  08                   push  A                                          ;   -stack frame is now 6 bytes-
-   330  7470  52 00                mov   A, [X+bOrigCompareValue]                   ; Restore the Compare MSB register
-   331  7472  60 4E                mov   reg[Ticker_COMPARE_MSB_REG], A          ;
-   332  7474  52 01                mov   A, [X+bOrigCompareValue+1]                 ; Restore the Compare LSB register
-   333  7476  60 4A                mov   reg[Ticker_COMPARE_LSB_REG], A          ;
-   334  7478  71 10                M8C_SetBank1                                     ; ---Restore the counter operation
-   335  747A  52 03                mov   A, [X+bOrigClockSetting]                   ; Grab the LSB clock setting...
-   336  747C  60 49                mov   reg[Ticker_INPUT_LSB_REG], A            ;   and restore it
-   337  747E  70 EF                M8C_SetBank0                                     ; Now re-enable (start) the counter
-   338  7480  52 02                mov   A, [X+bOrigControlReg]                     ;   if it was running when
-   339  7482  60 4B                mov   reg[Ticker_CONTROL_LSB_REG], A          ;   this function was first called
-   340  7484  18                   pop   A                                          ; Setup the return value
-   341  7485  20                   pop   X                                          ;
-   342  7486  38 FC                ADD   SP, -(STACK_FRAME_SIZE-2)                  ; Zap remainder of stack frame
-   343  7488  70 3F                RAM_EPILOGUE RAM_USE_CLASS_2
-   344  748C  7F                   ret
+   322  78A6  62 49 00             mov   reg[Ticker_INPUT_LSB_REG], INPUT_REG_NULL
+   323  78A9  70 EF                M8C_SetBank0                                     ; Extract the Count via DR2 register
+   324  78AB  5D 4C                mov   A, reg[Ticker_COUNTER_MSB_REG]          ; DR2 <- DR0 (in the MSB block)
+   325  78AD  5D 4E                mov   A, reg[Ticker_COMPARE_MSB_REG]          ; Stash the Count MSB on the stack
+   326  78AF  08                   push  A                                          ;   -stack frame is now 5 bytes
+   327  78B0  5D 48                mov   A, reg[Ticker_COUNTER_LSB_REG]          ; DR2 <- DR0 (in the LSB block)
+   328  78B2  5D 4A                mov   A, reg[Ticker_COMPARE_LSB_REG]          ; Stash the Count LSB on the stack
+   329  78B4  08                   push  A                                          ;   -stack frame is now 6 bytes-
+   330  78B5  52 00                mov   A, [X+bOrigCompareValue]                   ; Restore the Compare MSB register
+   331  78B7  60 4E                mov   reg[Ticker_COMPARE_MSB_REG], A          ;
+   332  78B9  52 01                mov   A, [X+bOrigCompareValue+1]                 ; Restore the Compare LSB register
+   333  78BB  60 4A                mov   reg[Ticker_COMPARE_LSB_REG], A          ;
+   334  78BD  71 10                M8C_SetBank1                                     ; ---Restore the counter operation
+   335  78BF  52 03                mov   A, [X+bOrigClockSetting]                   ; Grab the LSB clock setting...
+   336  78C1  60 49                mov   reg[Ticker_INPUT_LSB_REG], A            ;   and restore it
+   337  78C3  70 EF                M8C_SetBank0                                     ; Now re-enable (start) the counter
+   338  78C5  52 02                mov   A, [X+bOrigControlReg]                     ;   if it was running when
+   339  78C7  60 4B                mov   reg[Ticker_CONTROL_LSB_REG], A          ;   this function was first called
+   340  78C9  18                   pop   A                                          ; Setup the return value
+   341  78CA  20                   pop   X                                          ;
+   342  78CB  38 FC                ADD   SP, -(STACK_FRAME_SIZE-2)                  ; Zap remainder of stack frame
+   343  78CD  70 3F                RAM_EPILOGUE RAM_USE_CLASS_2
+   344  78D1  7F                   ret
 
 
 HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
-Symbol Table                                                                                               Thu Feb 05 17:14:16 2009
+Symbol Table                                                                                               Fri Feb 06 16:23:21 2009
 
-          Ticker_WritePeriod 743B        Ticker_COMPARE_LSB_REG 004A        Ticker_COMPARE_MSB_REG 004E  
+          Ticker_WritePeriod 7880        Ticker_COMPARE_LSB_REG 004A        Ticker_COMPARE_MSB_REG 004E  
                     MAC0_CL0 00EE                      MAC0_CL1 00EF                      MAC1_CL0 00AE  
                     MAC1_CL1 00AF                         MAC_X 00EC                         MAC_Y 00ED  
-                _Ticker_Stop 7437          Ticker_INPUT_LSB_REG 0049      wTicker_ReadCompareValue 7447  
+                _Ticker_Stop 787C          Ticker_INPUT_LSB_REG 0049      wTicker_ReadCompareValue 788C  
            bOrigClockSetting 0003                        MAC0_X 00EC                        MAC0_Y 00ED  
                       MAC1_X 00AC                        MAC1_Y 00AD                        HITECH 0002  
              FLAG_PGMODE_01b 0040               FLAG_PGMODE_10b 0080  Ticker_CONTROL_REG_START_BIT 0001  
-           Ticker_DisableInt 742F                 _Ticker_Start 7433     _Ticker_wReadCompareValue 7447  
-        _wTicker_ReadCounter 744D      Ticker_WriteCompareValue 7441           _Ticker_WritePeriod 743B  
-              INPUT_REG_NULL 0000     SYSTEM_LARGE_MEMORY_MODEL 0001            _Ticker_DisableInt 742F  
-        _Ticker_wReadCounter 744D                       MAC_CL0 00EE                       MAC_CL1 00EF  
-           bOrigCompareValue 0000           wTicker_ReadCounter 744D              FLAG_PGMODE_MASK 00C0  
+           Ticker_DisableInt 7874                 _Ticker_Start 7878     _Ticker_wReadCompareValue 788C  
+        _wTicker_ReadCounter 7892      Ticker_WriteCompareValue 7886           _Ticker_WritePeriod 7880  
+              INPUT_REG_NULL 0000     SYSTEM_LARGE_MEMORY_MODEL 0001            _Ticker_DisableInt 7874  
+        _Ticker_wReadCounter 7892                       MAC_CL0 00EE                       MAC_CL1 00EF  
+           bOrigCompareValue 0000           wTicker_ReadCounter 7892              FLAG_PGMODE_MASK 00C0  
              RAM_USE_CLASS_1 0001               RAM_USE_CLASS_2 0002               RAM_USE_CLASS_3 0004  
-             RAM_USE_CLASS_4 0008              Ticker_EnableInt 742B               Ticker_INT_MASK 0008  
-   _wTicker_ReadCompareValue 7447         Ticker_PERIOD_LSB_REG 0049         Ticker_PERIOD_MSB_REG 004D  
-             bOrigControlReg 0002             _Ticker_EnableInt 742B           Ticker_wReadCounter 744D  
-            STACK_FRAME_SIZE 0006                Ticker_INT_REG 00DF      Ticker_wReadCompareValue 7447  
-      Ticker_COUNTER_LSB_REG 0048        Ticker_COUNTER_MSB_REG 004C     _Ticker_WriteCompareValue 7441  
+             RAM_USE_CLASS_4 0008              Ticker_EnableInt 7870               Ticker_INT_MASK 0008  
+   _wTicker_ReadCompareValue 788C         Ticker_PERIOD_LSB_REG 0049         Ticker_PERIOD_MSB_REG 004D  
+             bOrigControlReg 0002             _Ticker_EnableInt 7870           Ticker_wReadCounter 7892  
+            STACK_FRAME_SIZE 0006                Ticker_INT_REG 00DF      Ticker_wReadCompareValue 788C  
+      Ticker_COUNTER_LSB_REG 0048        Ticker_COUNTER_MSB_REG 004C     _Ticker_WriteCompareValue 7886  
                FLAG_XIO_MASK 0010    SYSTEM_IDXPG_TRACKS_IDX_PP 0001        Ticker_CONTROL_LSB_REG 004B  
-  SYSTEM_IDXPG_TRACKS_STK_PP 0000                  Ticker_Start 7433                   Ticker_Stop 7437  
+  SYSTEM_IDXPG_TRACKS_STK_PP 0000                  Ticker_Start 7878                   Ticker_Stop 787C  

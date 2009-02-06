@@ -1,13 +1,9 @@
 Starting MAKE...
 creating project.mk 
 
-lib/counter8.asm
-
 lib/counter8_ltrx.asm
 
 lib/counter8_ltrxint.asm
-
-lib/counter8int.asm
 
 lib/led1.asm
 
@@ -35,9 +31,11 @@ module lib/obj/ltrxplus.obj defines no symbols (warning)
 
 ./main.c
 
+!W ./main.c(81):(361) function declared implicit int (warning)
+
 ./oo.c
 
-!W ./oo.c(114):(345) unreachable code (warning)
+!W ./oo.c(111):(345) unreachable code (warning)
 
 sed: can't read HTlinkOpts.lkp: No such file or directory
 
@@ -51,29 +49,29 @@ Copyright (C) 1984-2008 HI-TECH SOFTWARE
 
 (1273) Omniscient Code Generation not available in Lite mode (warning)
 
-!W ./main.c(25):(690) interrupt function requires address (warning)
+!W ./main.c(21):(690) interrupt function requires address (warning)
 
 
 
 Memory Summary:
 
-    Program space        used  151Eh (  5406) of  8000h bytes   ( 16.5%)
+    Program space        used  10FEh (  4350) of  8000h bytes   ( 13.3%)
 
-    Data space           used   197h (   407) of   800h bytes   ( 19.9%)
+    Data space           used   18Fh (   399) of   800h bytes   ( 19.5%)
 
 
 
 Comparative memory usage (excludes absolute areas and stack variables)
 
-    ROM used:  5015 bytes
+    ROM used:  3959 bytes
 
     RAM used:   328 bytes
 
 HI-TECH C PRO compiler averages 40% less code than this Lite mode
 
-PRO may reduce your program size by 891 bytes
+PRO may reduce your program size by 530 bytes
 
 To evaluate HI-TECH C PRO please visit http://cypress.htsoft.com/portal/convert
 
  
-onewire_gateway - 0 error(s) 2 warning(s) 17:14:25
+onewire_gateway - 0 error(s) 3 warning(s) 16:23:28

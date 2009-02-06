@@ -1,7 +1,7 @@
 
 
 HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
-                                                                                                           Thu Feb 05 17:14:15 2009
+                                                                                                           Fri Feb 06 16:23:18 2009
 
 
      1                          ;;*****************************************************************************
@@ -201,7 +201,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
     63                             IF ( SYSTEM_LARGE_MEMORY_MODEL )
     64                                mov reg[STK_PP], @PG_NUMBER
     65                             ENDIF
-    66  7C6B                       endm
+    66  7D3C                       endm
     67                          
     68                             ;-----------------------------------------------
     69                             ;  Set Current Page Macro
@@ -218,7 +218,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
     80                             IF ( SYSTEM_LARGE_MEMORY_MODEL )
     81                                mov reg[CUR_PP], @PG_NUMBER
     82                             ENDIF
-    83  7C6B                       endm
+    83  7D3C                       endm
     84                          
     85                             ;-----------------------------------------------
     86                             ;  Set Index Page Macro
@@ -235,7 +235,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
     97                             IF ( SYSTEM_LARGE_MEMORY_MODEL )
     98                                mov reg[IDX_PP], @PG_NUMBER
     99                             ENDIF
-   100  7C6B                       endm
+   100  7D3C                       endm
    101                          
    102                             ;-----------------------------------------------
    103                             ;  Set MVI Read Page Macro
@@ -253,7 +253,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    115                             IF ( SYSTEM_LARGE_MEMORY_MODEL )
    116                                mov reg[MVR_PP], @PG_NUMBER
    117                             ENDIF
-   118  7C6B                       endm
+   118  7D3C                       endm
    119                          
    120                             ;-----------------------------------------------
    121                             ;  Set MVI Write Page Macro
@@ -271,7 +271,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    133                             IF ( SYSTEM_LARGE_MEMORY_MODEL )
    134                                mov reg[MVW_PP], @PG_NUMBER
    135                             ENDIF
-   136  7C6B                       endm
+   136  7D3C                       endm
    137                          
    138                             ;-----------------------------------------------
    139                             ;  Force Index Page Pointer to Stack Page
@@ -293,7 +293,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    155                                   RAM_SETPAGE_IDX SYSTEM_STACK_PAGE
    156                                ENDIF
    157                             ENDIF
-   158  7C6B                       endm
+   158  7D3C                       endm
    159                          
    160                             ;-----------------------------------------------
    161                             ;  Change Memory Mode
@@ -311,7 +311,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    173                                and   F, ~FLAG_PGMODE_MASK        ; NOTE: transition thru 00b state
    174                                or    F,  FLAG_PGMODE_MASK & @MODE
    175                             ENDIF
-   176  7C6B                       endm
+   176  7D3C                       endm
    177                          
    178                             ;-----------------------------------------------
    179                             ;  Set Large Memory Model Native Paging Mode
@@ -336,7 +336,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    198                                or    F,  FLAG_PGMODE_10b            ; LMM with independent IndexPage
    199                             ENDIF ; PGMODE FREE
    200                             ENDIF ; SYSTEM_LARGE_MEMORY_MODEL
-   201  7C6B                       endm
+   201  7D3C                       endm
    202                          
    203                             ;-----------------------------------------------
    204                             ; Restore Large Memory Model Native Paging Mode
@@ -360,7 +360,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    222                                RAM_CHANGE_PAGE_MODE FLAG_PGMODE_10b ; LMM with independent IndexPage
    223                             ENDIF ; PGMODE FREE
    224                             ENDIF ; SYSTEM_LARGE_MEMORY_MODEL
-   225  7C6B                       endm
+   225  7D3C                       endm
    226                          
    227                             ;-----------------------------------------------
    228                             ; Force indexed addr mode operands to Stack Pg
@@ -379,7 +379,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    241                             IF ( SYSTEM_LARGE_MEMORY_MODEL )
    242                                or   F, FLAG_PGMODE_01b
    243                             ENDIF ;  SYSTEM_LARGE_MEMORY_MODEL
-   244  7C6B                       endm
+   244  7D3C                       endm
    245                          
    246                             ;-----------------------------------------------
    247                             ;  Force indexed addr mode operands to Index Pg
@@ -398,7 +398,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    260                             IF ( SYSTEM_LARGE_MEMORY_MODEL )
    261                                and  F, ~FLAG_PGMODE_01b
    262                             ENDIF ;  SYSTEM_LARGE_MEMORY_MODEL
-   263  7C6B                       endm
+   263  7D3C                       endm
    264                          
    265                             ;-----------------------------------------------
    266                             ;  Function Prologue
@@ -429,7 +429,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    291                             ; Nothing to do
    292                             ENDIF ; RAM_USE_CLASS_4
    293                          
-   294  7C6B                       endm
+   294  7D3C                       endm
    295                          
    296                             ;-----------------------------------------------
    297                             ;  Function Epilogue
@@ -456,7 +456,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    318                             ; Nothing to do
    319                             ENDIF ; RAM_USE_CLASS_4
    320                          
-   321  7C6B                       endm
+   321  7D3C                       endm
    322                          
    323                             ;-----------------------------------------------
    324                             ;  Preserve Register
@@ -475,7 +475,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    337                             macro REG_PRESERVE( IOReg )
    338                             mov   A, reg[ @IOReg ]
    339                             push  A
-   340  7C6B                       endm
+   340  7D3C                       endm
    341                          
    342                             ;-----------------------------------------------
    343                             ;  Restore Register
@@ -494,7 +494,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    356                             macro REG_RESTORE( IOReg )
    357                             pop   A
    358                             mov   reg[ @IOReg ], A
-   359  7C6B                       endm
+   359  7D3C                       endm
    360                          
    361                             ;-----------------------------------------------
    362                             ;  Preserve Volatile Page Pointer Registers
@@ -516,7 +516,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    378                                REG_PRESERVE MVR_PP
    379                                REG_PRESERVE MVW_PP
    380                             ENDIF
-   381  7C6B                       endm
+   381  7D3C                       endm
    382                          
    383                             ;-----------------------------------------------
    384                             ;  Restore Volatile Page Pointer Registers
@@ -539,7 +539,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    401                                REG_RESTORE IDX_PP
    402                                REG_RESTORE CUR_PP
    403                             ENDIF
-   404  7C6B                       endm
+   404  7D3C                       endm
      1                          ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
      2                          ;;;
      3                          ;;;  M8C.INC -- M8C29000 Microcontroller Family System Declarations
@@ -1347,22 +1347,22 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    805                          ;----------------------------------------------------
    806                              macro M8C_SetBank0
    807                              and   F, ~FLAG_XIO_MASK
-   808  7C6B                        endm
+   808  7D3C                        endm
    809                          
    810                              macro M8C_SetBank1
    811                              or    F, FLAG_XIO_MASK
-   812  7C6B                        endm
+   812  7D3C                        endm
    813                          
    814                          ;----------------------------------------------------
    815                          ;  Global Interrupt Enable/Disable
    816                          ;----------------------------------------------------
    817                              macro M8C_EnableGInt
    818                              or    F, FLAG_GLOBAL_IE
-   819  7C6B                        endm
+   819  7D3C                        endm
    820                          
    821                              macro M8C_DisableGInt
    822                              and   F, ~FLAG_GLOBAL_IE
-   823  7C6B                        endm
+   823  7D3C                        endm
    824                          
    825                          ;----------------------------------------------------
    826                          ;  Enable/Disable Interrupt Mask
@@ -1380,12 +1380,12 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    838                          ; Disable Interrupt Bit Mask(s)
    839                              macro M8C_DisableIntMask
    840                              and   reg[@0], ~@1              ; disable specified interrupt enable bit
-   841  7C6B                        endm
+   841  7D3C                        endm
    842                          
    843                          ; Enable Interrupt Bit Mask(s)
    844                              macro M8C_EnableIntMask
    845                              or    reg[@0], @1               ; enable specified interrupt enable bit
-   846  7C6B                        endm
+   846  7D3C                        endm
    847                          
    848                          ;----------------------------------------------------
    849                          ;  Clear Posted Interrupt Flag Mask
@@ -1400,33 +1400,33 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    858                          ;----------------------------------------------------
    859                              macro M8C_ClearIntFlag
    860                              mov   reg[@0], ~@1              ; clear specified interrupt enable bit
-   861  7C6B                        endm
+   861  7D3C                        endm
    862                          
    863                          ;----------------------------------------------------
    864                          ;  Power-On Reset & WatchDog Timer Functions
    865                          ;----------------------------------------------------
    866                              macro M8C_EnableWatchDog
    867                              and   reg[CPU_SCR0], ~CPU_SCR0_PORS_MASK
-   868  7C6B                        endm
+   868  7D3C                        endm
    869                          
    870                              macro M8C_ClearWDT
    871                              mov   reg[RES_WDT], 00h
-   872  7C6B                        endm
+   872  7D3C                        endm
    873                          
    874                              macro M8C_ClearWDTAndSleep
    875                              mov   reg[RES_WDT], 38h
-   876  7C6B                        endm
+   876  7D3C                        endm
    877                          
    878                          ;----------------------------------------------------
    879                          ;  CPU Stall for Analog PSoC Block Writes
    880                          ;----------------------------------------------------
    881                              macro M8C_Stall
    882                              or    reg[ASY_CR], ASY_CR_SYNCEN
-   883  7C6B                        endm
+   883  7D3C                        endm
    884                          
    885                              macro M8C_Unstall
    886                              and   reg[ASY_CR], ~ASY_CR_SYNCEN
-   887  7C6B                        endm
+   887  7D3C                        endm
    888                          
    889                          ;----------------------------------------------------
    890                          ;  Sleep, CPU Stop & Software Reset
@@ -1440,21 +1440,21 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    898                              ; interrupts are also enabled then the next instruction will be
    899                              ; from the interrupt vector table. If no interrupts are enabled
    900                              ; then the CPU sleeps forever.
-   901  7C6B                        endm
+   901  7D3C                        endm
    902                          
    903                              macro M8C_Stop
    904                              ; In general, you probably don't want to do this, but here's how:
    905                              or    reg[CPU_SCR0], CPU_SCR0_STOP_MASK
    906                              ; Next instruction to be executed is located in the interrupt
    907                              ; vector table entry for Power-On Reset.
-   908  7C6B                        endm
+   908  7D3C                        endm
    909                          
    910                              macro M8C_Reset
    911                              ; Restore CPU to the power-on reset state.
    912                              mov A, 0
    913                              SSC
    914                              ; Next non-supervisor instruction will be at interrupt vector 0.
-   915  7C6B                        endm
+   915  7D3C                        endm
    916                          
    917                          ;----------------------------------------------------
    918                          ; ImageCraft Code Compressor Actions
@@ -1464,12 +1464,12 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    922                              ; without resuming code compression
    923                              macro Suspend_CodeCompressor
    924                              or   F, 0
-   925  7C6B                        endm
+   925  7D3C                        endm
    926                          
    927                              ; Resume Code Compression
    928                              macro Resume_CodeCompressor
    929                              add  SP, 0
-   930  7C6B                        endm
+   930  7D3C                        endm
      1                          ;;*****************************************************************************
      2                          ;;*****************************************************************************
      3                          ;;  FILENAME:   LTRXINT.asm
@@ -1509,13 +1509,13 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
     37                          AREA InterruptRAM (RAM, REL, CON)
     38                          
     39                          IF (LTRX_RXBUF_ENABLE)
-    40  0048                     LTRX_fStatus:
-    41  0048                    _LTRX_fStatus:      BLK  1
-    42  0049                     LTRX_bRxCnt:
-    43  0049                    _LTRX_bRxCnt:       BLK  1
+    40  0040                     LTRX_fStatus:
+    41  0040                    _LTRX_fStatus:      BLK  1
+    42  0041                     LTRX_bRxCnt:
+    43  0041                    _LTRX_bRxCnt:       BLK  1
     44                          AREA LTRX_RAM (RAM, REL, CON)
-    45  004B                     LTRX_aRxBuffer:
-    46  004B                    _LTRX_aRxBuffer:    BLK LTRX_RX_BUFFER_SIZE
+    45  0043                     LTRX_aRxBuffer:
+    46  0043                    _LTRX_aRxBuffer:    BLK LTRX_RX_BUFFER_SIZE
     47                          ENDIF
     48                          
     49                          AREA InterruptRAM (RAM, REL, CON)
@@ -1558,7 +1558,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
     86                          ;     handler for this function, then place code where specified.
     87                          ;-----------------------------------------------------------------------------
     88                          
-    89  70B0                    _LTRX_TX_ISR:
+    89  74F5                    _LTRX_TX_ISR:
     90                             ;@PSoC_UserCode_BODY_1@ (Do not change this line.)
     91                             ;---------------------------------------------------
     92                             ; Insert your custom code below this banner
@@ -1570,7 +1570,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
     98                             ; Insert your custom code above this banner
     99                             ;---------------------------------------------------
    100                             ;@PSoC_UserCode_END@ (Do not change this line.)
-   101  70B0  7E                   reti
+   101  74F5  7E                   reti
    102                          
    103                          
    104                          ;-----------------------------------------------------------------------------
@@ -1606,7 +1606,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    134                          ;     a command determinator will still cause the command bit to be set.
    135                          ;
    136                          ;-----------------------------------------------------------------------------
-   137  70B1                    _LTRX_RX_ISR:
+   137  74F6                    _LTRX_RX_ISR:
    138                          
    139                             ;@PSoC_UserCode_BODY_2@ (Do not change this line.)
    140                             ;---------------------------------------------------
@@ -1621,62 +1621,62 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    149                             ;@PSoC_UserCode_END@ (Do not change this line.)
    150                          
    151                          IF (LTRX_RXBUF_ENABLE)
-   152  70B1  08                   push A
-   153  70B2  10                   push X
+   152  74F6  08                   push A
+   153  74F7  10                   push X
    154                             
    155                             IF SYSTEM_LARGE_MEMORY_MODEL
-   156  70B3  5D D3                   REG_PRESERVE IDX_PP
+   156  74F8  5D D3                   REG_PRESERVE IDX_PP
    157                             ENDIF
    158                             
-   159  70B6  58 49                mov  X,[LTRX_bRxCnt]                                    ; Load X with byte counter
-   160  70B8  5D 3F                mov  A,REG[LTRX_RX_CONTROL_REG]                         ; Read the control register
-   161  70BA  08                   push A                                                  ; Store copy for later test
+   159  74FB  58 41                mov  X,[LTRX_bRxCnt]                                    ; Load X with byte counter
+   160  74FD  5D 3F                mov  A,REG[LTRX_RX_CONTROL_REG]                         ; Read the control register
+   161  74FF  08                   push A                                                  ; Store copy for later test
    162                                                                                     ; IF real RX interrupt
-   163  70BB  21 08                and  A,LTRX_RX_REG_FULL                                 ; Did really really get an IRQ
-   164  70BD  B004                 jnz  .UARTRX_ReadRx                                     ; Data ready, go get it
-   165  70BF  18                   pop  A                                                  ; Restore stack
-   166  70C0  805E                 jmp  .RESTORE_IDX_PP
+   163  7500  21 08                and  A,LTRX_RX_REG_FULL                                 ; Did really really get an IRQ
+   164  7502  B004                 jnz  .UARTRX_ReadRx                                     ; Data ready, go get it
+   165  7504  18                   pop  A                                                  ; Restore stack
+   166  7505  805E                 jmp  .RESTORE_IDX_PP
    167                          
-   168  70C2                    .UARTRX_ReadRx:
-   169  70C2  18                   pop  A                                                  ; Restore status flags
+   168  7507                    .UARTRX_ReadRx:
+   169  7507  18                   pop  A                                                  ; Restore status flags
    170                                                                                     ; IF there is no error, get data
    171                                                                                     ; Check for parity or framing error
-   172  70C3  21 E0                and  A,LTRX_RX_ERROR
-   173  70C5  A012                 jz   .UARTRX_NO_ERROR                                   ; If there is not an Error go read data
+   172  7508  21 E0                and  A,LTRX_RX_ERROR
+   173  750A  A012                 jz   .UARTRX_NO_ERROR                                   ; If there is not an Error go read data
    174                          
-   175  70C7  2C 48                or   [LTRX_fStatus],A                                   ; Set error flags (parity,framing,overrun
+   175  750C  2C 40                or   [LTRX_fStatus],A                                   ; Set error flags (parity,framing,overrun
                                 ) bits
-   176  70C9  49 3E 00             tst  REG[LTRX_RX_BUFFER_REG], 0x00                      ; Read the data buffer to clear it.
-   177  70CC  21 20                and  A,LTRX_RX_FRAMING_ERROR                            ; Check for framing error special case
-   178  70CE  A050                 jz   .RESTORE_IDX_PP                                    ; Not framing error, all done
+   176  750E  49 3E 00             tst  REG[LTRX_RX_BUFFER_REG], 0x00                      ; Read the data buffer to clear it.
+   177  7511  21 20                and  A,LTRX_RX_FRAMING_ERROR                            ; Check for framing error special case
+   178  7513  A050                 jz   .RESTORE_IDX_PP                                    ; Not framing error, all done
    179                          
    180                                                                                     ; Disable and re-enable RX to reset after
    181                                                                                     ; framing error.
-   182  70D0  41 3F FE             and   REG[LTRX_RX_CONTROL_REG], ~LTRX_RX_ENABLE         ; Disable RX
-   183  70D3  43 3F 01             or    REG[LTRX_RX_CONTROL_REG],  LTRX_RX_ENABLE         ; Enable RX
-   184  70D6  8048                 jmp  .RESTORE_IDX_PP                                    ; Done with framing error, leave.
+   182  7515  41 3F FE             and   REG[LTRX_RX_CONTROL_REG], ~LTRX_RX_ENABLE         ; Disable RX
+   183  7518  43 3F 01             or    REG[LTRX_RX_CONTROL_REG],  LTRX_RX_ENABLE         ; Enable RX
+   184  751B  8048                 jmp  .RESTORE_IDX_PP                                    ; Done with framing error, leave.
    185                          
    186                          
-   187  70D8                    .UARTRX_NO_ERROR:
-   188  70D8  5D 3E                mov  A,REG[LTRX_RX_BUFFER_REG ]                         ; Read the data buffer
+   187  751D                    .UARTRX_NO_ERROR:
+   188  751D  5D 3E                mov  A,REG[LTRX_RX_BUFFER_REG ]                         ; Read the data buffer
    189                          
    190                                                                                     ; IF buffer not full
-   191  70DA  47 48  01            tst  [LTRX_fStatus],LTRX_RX_BUF_CMDTERM                 ; Check for buffer full
-   192  70DD  B041                 jnz  .RESTORE_IDX_PP                                    ; All done
+   191  751F  47 40  01            tst  [LTRX_fStatus],LTRX_RX_BUF_CMDTERM                 ; Check for buffer full
+   192  7522  B041                 jnz  .RESTORE_IDX_PP                                    ; All done
    193                          
-   194  70DF  39 0D                cmp  A,LTRX_CMD_TERM                                    ; Check for End of command
-   195  70E1  B014                 jnz  .UARTRX_CHK_BACKSPACE
-   196  70E3  2E 48  01            or   [LTRX_fStatus],LTRX_RX_BUF_CMDTERM                 ; Set command ready bit
+   194  7524  39 0D                cmp  A,LTRX_CMD_TERM                                    ; Check for End of command
+   195  7526  B014                 jnz  .UARTRX_CHK_BACKSPACE
+   196  7528  2E 40  01            or   [LTRX_fStatus],LTRX_RX_BUF_CMDTERM                 ; Set command ready bit
    197                          
    198                          
    199                          
-   200  70E6  62 D3 00             RAM_SETPAGE_IDX >LTRX_aRxBuffer
-   201  70E9  70 3F                RAM_CHANGE_PAGE_MODE FLAG_PGMODE_10b
-   202  70ED  56 4B  00            mov  [X + LTRX_aRxBuffer],00h                           ; Zero out last data
-   203  70F0  70 3F                RAM_CHANGE_PAGE_MODE FLAG_PGMODE_00b
-   204  70F4  802A                 jmp  .RESTORE_IDX_PP
+   200  752B  62 D3 00             RAM_SETPAGE_IDX >LTRX_aRxBuffer
+   201  752E  70 3F                RAM_CHANGE_PAGE_MODE FLAG_PGMODE_10b
+   202  7532  56 43  00            mov  [X + LTRX_aRxBuffer],00h                           ; Zero out last data
+   203  7535  70 3F                RAM_CHANGE_PAGE_MODE FLAG_PGMODE_00b
+   204  7539  802A                 jmp  .RESTORE_IDX_PP
    205                          
-   206  70F6                    .UARTRX_CHK_BACKSPACE:                                     ; 
+   206  753B                    .UARTRX_CHK_BACKSPACE:                                     ; 
    207                          IF(LTRX_BACKSPACE_ENABLE)                                  ; Enable if backspace/delete mode
    208                             cmp  A,LTRX_BACKSPACE_ENABLE                            ; Check for backspace character
    209                             jnz  .UARTRX_IGNORE                                     ; If not, skip the backspace stuff
@@ -1686,58 +1686,58 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    213                             jmp  .RESTORE_IDX_PP
    214                          ENDIF                                                      ; 
    215                          
-   216  70F6                    .UARTRX_IGNORE:
+   216  753B                    .UARTRX_IGNORE:
    217                          IF(LTRX_RX_IGNORE_BELOW)                                   ; Ignore charaters below this value
-   218  70F6  39 20                cmp  A,LTRX_RX_IGNORE_BELOW                             ; If ignore char is set to 0x00, do not
-   219  70F8  C026                 jc   .RESTORE_IDX_PP                                    ; ignore any characters.
+   218  753B  39 20                cmp  A,LTRX_RX_IGNORE_BELOW                             ; If ignore char is set to 0x00, do not
+   219  753D  C026                 jc   .RESTORE_IDX_PP                                    ; ignore any characters.
    220                          ENDIF
    221                          
-   222  70FA                    .UARTRX_CHK_OVFL:                                          ; Check for MAX String here
+   222  753F                    .UARTRX_CHK_OVFL:                                          ; Check for MAX String here
    223                          	
-   224  70FA  62 D3 00             RAM_SETPAGE_IDX >LTRX_aRxBuffer                         ;   using idexed address mode
-   225  70FD  3C 49  0F            cmp  [LTRX_bRxCnt],(LTRX_RX_BUFFER_SIZE - 1)
-   226  7100  C011                 jc   .UARTRX_ISR_GETDATA
-   227  7102  70 3F                RAM_CHANGE_PAGE_MODE FLAG_PGMODE_10b
-   228  7106  56 4B  00            mov  [X + LTRX_aRxBuffer],00h                           ; Zero out last data in the buffer
-   229  7109  70 3F                RAM_CHANGE_PAGE_MODE FLAG_PGMODE_00b
-   230  710D  2E 48  10            or   [LTRX_fStatus],LTRX_RX_BUF_OVERRUN                 ; Set error flags (parity,framing,overrun
+   224  753F  62 D3 00             RAM_SETPAGE_IDX >LTRX_aRxBuffer                         ;   using idexed address mode
+   225  7542  3C 41  0F            cmp  [LTRX_bRxCnt],(LTRX_RX_BUFFER_SIZE - 1)
+   226  7545  C011                 jc   .UARTRX_ISR_GETDATA
+   227  7547  70 3F                RAM_CHANGE_PAGE_MODE FLAG_PGMODE_10b
+   228  754B  56 43  00            mov  [X + LTRX_aRxBuffer],00h                           ; Zero out last data in the buffer
+   229  754E  70 3F                RAM_CHANGE_PAGE_MODE FLAG_PGMODE_00b
+   230  7552  2E 40  10            or   [LTRX_fStatus],LTRX_RX_BUF_OVERRUN                 ; Set error flags (parity,framing,overrun
                                 ) bits
-   231  7110  800E                 jmp  .RESTORE_IDX_PP
+   231  7555  800E                 jmp  .RESTORE_IDX_PP
    232                          
-   233  7112                    .UARTRX_ISR_GETDATA:                                       ; IF input data == "CR", then end of comm
+   233  7557                    .UARTRX_ISR_GETDATA:                                       ; IF input data == "CR", then end of comm
                                 and
    234                                                                                     ; X is already loaded with pointer
-   235  7112  70 3F                RAM_CHANGE_PAGE_MODE FLAG_PGMODE_10b
-   236  7116  54 4B                mov  [X+LTRX_aRxBuffer],A                               ; store data in array
-   237  7118  70 3F                RAM_CHANGE_PAGE_MODE FLAG_PGMODE_00b
-   238  711C  75                   inc  X                                                  ; Inc the pointer
-   239  711D  5A 49                mov  [LTRX_bRxCnt],X                                    ; Restore the pointer
+   235  7557  70 3F                RAM_CHANGE_PAGE_MODE FLAG_PGMODE_10b
+   236  755B  54 43                mov  [X+LTRX_aRxBuffer],A                               ; store data in array
+   237  755D  70 3F                RAM_CHANGE_PAGE_MODE FLAG_PGMODE_00b
+   238  7561  75                   inc  X                                                  ; Inc the pointer
+   239  7562  5A 41                mov  [LTRX_bRxCnt],X                                    ; Restore the pointer
    240                                                                                     ; ENDIF max string size
-   241  711F                    .RESTORE_IDX_PP:
+   241  7564                    .RESTORE_IDX_PP:
    242                             IF SYSTEM_LARGE_MEMORY_MODEL
-   243  711F  18                      REG_RESTORE IDX_PP
+   243  7564  18                      REG_RESTORE IDX_PP
    244                             ENDIF
    245                          
-   246  7122                    .END_UARTRX_ISR:
-   247  7122  20                   pop  X
-   248  7123  18                   pop  A
+   246  7567                    .END_UARTRX_ISR:
+   247  7567  20                   pop  X
+   248  7568  18                   pop  A
    249                          
    250                          ENDIF
    251                          
-   252  7124                    LTRX_RX_ISR_END:
-   253  7124  7E                   reti
+   252  7569                    LTRX_RX_ISR_END:
+   253  7569  7E                   reti
 
 
 HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
-Symbol Table                                                                                               Thu Feb 05 17:14:15 2009
+Symbol Table                                                                                               Fri Feb 06 16:23:18 2009
 
-             _LTRX_fStatus 0048               LTRX_RX_ERROR 00E0                    MAC0_CL0 00EE                    MAC0_CL1 00EF  
+             _LTRX_fStatus 0040               LTRX_RX_ERROR 00E0                    MAC0_CL0 00EE                    MAC0_CL1 00EF  
                   MAC1_CL0 00AE                    MAC1_CL1 00AF            LTRX_RX_REG_FULL 0008                       MAC_X 00EC  
                      MAC_Y 00ED          LTRX_RX_BUFFER_REG 003E       LTRX_RX_FRAMING_ERROR 0020              LTRX_RX_ENABLE 0001  
                     MAC0_X 00EC                      MAC0_Y 00ED                      MAC1_X 00AC                      MAC1_Y 00AD  
                     HITECH 0002             FLAG_PGMODE_00b 0000             FLAG_PGMODE_10b 0080        LTRX_RX_IGNORE_BELOW 0020  
-                    IDX_PP 00D3                 LTRX_bRxCnt 0049         LTRX_RX_BUFFER_SIZE 0010       LTRX_BACKSPACE_ENABLE 0000  
-              _LTRX_RX_ISR 70B1                _LTRX_TX_ISR 70B0           LTRX_RXBUF_ENABLE 0001                _LTRX_bRxCnt 0049  
- SYSTEM_LARGE_MEMORY_MODEL 0001             LTRX_RX_ISR_END 7124         LTRX_RX_CONTROL_REG 003F                     MAC_CL0 00EE  
-                   MAC_CL1 00EF         LTRX_RX_BUF_CMDTERM 0001              LTRX_aRxBuffer 004B            FLAG_PGMODE_MASK 00C0  
-       LTRX_RX_BUF_OVERRUN 0010                LTRX_fStatus 0048             _LTRX_aRxBuffer 004B               LTRX_CMD_TERM 000D  
+                    IDX_PP 00D3                 LTRX_bRxCnt 0041         LTRX_RX_BUFFER_SIZE 0010       LTRX_BACKSPACE_ENABLE 0000  
+              _LTRX_RX_ISR 74F6                _LTRX_TX_ISR 74F5           LTRX_RXBUF_ENABLE 0001                _LTRX_bRxCnt 0041  
+ SYSTEM_LARGE_MEMORY_MODEL 0001             LTRX_RX_ISR_END 7569         LTRX_RX_CONTROL_REG 003F                     MAC_CL0 00EE  
+                   MAC_CL1 00EF         LTRX_RX_BUF_CMDTERM 0001              LTRX_aRxBuffer 0043            FLAG_PGMODE_MASK 00C0  
+       LTRX_RX_BUF_OVERRUN 0010                LTRX_fStatus 0040             _LTRX_aRxBuffer 0043               LTRX_CMD_TERM 000D  

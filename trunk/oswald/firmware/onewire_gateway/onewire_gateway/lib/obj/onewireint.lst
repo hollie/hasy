@@ -1,7 +1,7 @@
 
 
 HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
-                                                                                                           Thu Feb 05 17:14:16 2009
+                                                                                                           Fri Feb 06 16:23:19 2009
 
 
      1                          ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -811,22 +811,22 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    805                          ;----------------------------------------------------
    806                              macro M8C_SetBank0
    807                              and   F, ~FLAG_XIO_MASK
-   808  7C6B                        endm
+   808  7D3C                        endm
    809                          
    810                              macro M8C_SetBank1
    811                              or    F, FLAG_XIO_MASK
-   812  7C6B                        endm
+   812  7D3C                        endm
    813                          
    814                          ;----------------------------------------------------
    815                          ;  Global Interrupt Enable/Disable
    816                          ;----------------------------------------------------
    817                              macro M8C_EnableGInt
    818                              or    F, FLAG_GLOBAL_IE
-   819  7C6B                        endm
+   819  7D3C                        endm
    820                          
    821                              macro M8C_DisableGInt
    822                              and   F, ~FLAG_GLOBAL_IE
-   823  7C6B                        endm
+   823  7D3C                        endm
    824                          
    825                          ;----------------------------------------------------
    826                          ;  Enable/Disable Interrupt Mask
@@ -844,12 +844,12 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    838                          ; Disable Interrupt Bit Mask(s)
    839                              macro M8C_DisableIntMask
    840                              and   reg[@0], ~@1              ; disable specified interrupt enable bit
-   841  7C6B                        endm
+   841  7D3C                        endm
    842                          
    843                          ; Enable Interrupt Bit Mask(s)
    844                              macro M8C_EnableIntMask
    845                              or    reg[@0], @1               ; enable specified interrupt enable bit
-   846  7C6B                        endm
+   846  7D3C                        endm
    847                          
    848                          ;----------------------------------------------------
    849                          ;  Clear Posted Interrupt Flag Mask
@@ -864,33 +864,33 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    858                          ;----------------------------------------------------
    859                              macro M8C_ClearIntFlag
    860                              mov   reg[@0], ~@1              ; clear specified interrupt enable bit
-   861  7C6B                        endm
+   861  7D3C                        endm
    862                          
    863                          ;----------------------------------------------------
    864                          ;  Power-On Reset & WatchDog Timer Functions
    865                          ;----------------------------------------------------
    866                              macro M8C_EnableWatchDog
    867                              and   reg[CPU_SCR0], ~CPU_SCR0_PORS_MASK
-   868  7C6B                        endm
+   868  7D3C                        endm
    869                          
    870                              macro M8C_ClearWDT
    871                              mov   reg[RES_WDT], 00h
-   872  7C6B                        endm
+   872  7D3C                        endm
    873                          
    874                              macro M8C_ClearWDTAndSleep
    875                              mov   reg[RES_WDT], 38h
-   876  7C6B                        endm
+   876  7D3C                        endm
    877                          
    878                          ;----------------------------------------------------
    879                          ;  CPU Stall for Analog PSoC Block Writes
    880                          ;----------------------------------------------------
    881                              macro M8C_Stall
    882                              or    reg[ASY_CR], ASY_CR_SYNCEN
-   883  7C6B                        endm
+   883  7D3C                        endm
    884                          
    885                              macro M8C_Unstall
    886                              and   reg[ASY_CR], ~ASY_CR_SYNCEN
-   887  7C6B                        endm
+   887  7D3C                        endm
    888                          
    889                          ;----------------------------------------------------
    890                          ;  Sleep, CPU Stop & Software Reset
@@ -904,21 +904,21 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    898                              ; interrupts are also enabled then the next instruction will be
    899                              ; from the interrupt vector table. If no interrupts are enabled
    900                              ; then the CPU sleeps forever.
-   901  7C6B                        endm
+   901  7D3C                        endm
    902                          
    903                              macro M8C_Stop
    904                              ; In general, you probably don't want to do this, but here's how:
    905                              or    reg[CPU_SCR0], CPU_SCR0_STOP_MASK
    906                              ; Next instruction to be executed is located in the interrupt
    907                              ; vector table entry for Power-On Reset.
-   908  7C6B                        endm
+   908  7D3C                        endm
    909                          
    910                              macro M8C_Reset
    911                              ; Restore CPU to the power-on reset state.
    912                              mov A, 0
    913                              SSC
    914                              ; Next non-supervisor instruction will be at interrupt vector 0.
-   915  7C6B                        endm
+   915  7D3C                        endm
    916                          
    917                          ;----------------------------------------------------
    918                          ; ImageCraft Code Compressor Actions
@@ -928,12 +928,12 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    922                              ; without resuming code compression
    923                              macro Suspend_CodeCompressor
    924                              or   F, 0
-   925  7C6B                        endm
+   925  7D3C                        endm
    926                          
    927                              ; Resume Code Compression
    928                              macro Resume_CodeCompressor
    929                              add  SP, 0
-   930  7C6B                        endm
+   930  7D3C                        endm
      1                          ;;*****************************************************************************
      2                          ;;*****************************************************************************
      3                          ;;  FILENAME: OneWire.inc
@@ -1023,20 +1023,20 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
     30                          ;               drive mode immediately after transmission of last data bit.
     31                          ;-----------------------------------------------------------------------------
     32                          
-    33  742A                    _OneWire_ISR:
+    33  786F                    _OneWire_ISR:
     34                          IF (OneWire_PARASITE_ENABLE)
     35                              M8C_SetBank1
     36                              and   REG[OneWire_OUT_PORT_DM1],~OneWire_OUT_PORT_MASK
     37                              M8C_SetBank0
     38                          ENDIF
-    39  742A  7E                   reti
+    39  786F  7E                   reti
 
 
 HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
-Symbol Table                                                                                               Thu Feb 05 17:14:16 2009
+Symbol Table                                                                                               Fri Feb 06 16:23:19 2009
 
                   MAC0_CL0 00EE                    MAC0_CL1 00EF                    MAC1_CL0 00AE                    MAC1_CL1 00AF  
                      MAC_X 00EC                       MAC_Y 00ED                    INT_CLR2 00DC                    INT_MSK1 00E1  
                     MAC0_X 00EC                      MAC0_Y 00ED                      MAC1_X 00AC                      MAC1_Y 00AD  
        OneWire_BIT_INT_REG 00DF     OneWire_PARASITE_ENABLE 0000                     MAC_CL0 00EE                     MAC_CL1 00EF  
-                   PRT0DM1 0001                _OneWire_ISR 742A  
+                   PRT0DM1 0001                _OneWire_ISR 786F  

@@ -1471,116 +1471,44 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _ECO_TR `Auc 1 e@491 ]
 [; ;CY8C29~1\m8c.h: 1181: BYTE ECO_TR;
 
-"36 ./lib\Counter8.h
-[v F371 `(v 1 tf ]
-[; ;lib\Counter8.h: 36: extern void Counter8_EnableInt(void);
-
-"37
-[v F374 `(v 1 tf ]
-[; ;lib\Counter8.h: 37: extern void Counter8_DisableInt(void);
-
-"38
-[v F377 `(v 1 tf ]
-[; ;lib\Counter8.h: 38: extern void Counter8_Start(void);
-
-"39
-[v F380 `(v 1 tf ]
-[; ;lib\Counter8.h: 39: extern void Counter8_Stop(void);
-
-"40
-[v F383 `(uc 1 tf ]
-[; ;lib\Counter8.h: 40: extern BYTE Counter8_bReadCounter(void);
-
-"41
-[v F386 `(v 1 tf1`uc ]
-[; ;lib\Counter8.h: 41: extern void Counter8_WritePeriod(BYTE bPeriod);
-
-"42
-[v F389 `(uc 1 tf ]
-[; ;lib\Counter8.h: 42: extern BYTE Counter8_bReadCompareValue(void);
-
-"43
-[v F392 `(v 1 tf1`uc ]
-[; ;lib\Counter8.h: 43: extern void Counter8_WriteCompareValue(BYTE bCompareValue);
-
-"48
-[v F395 `(uc 1 tf ]
-[; ;lib\Counter8.h: 48: extern BYTE bCounter8_ReadCounter(void);
-
-"49
-[v F398 `(uc 1 tf ]
-[; ;lib\Counter8.h: 49: extern BYTE bCounter8_ReadCompareValue(void);
-
-"74
-[v _Counter8_COUNTER_REG `Auc 1 e@32 ]
-[; ;lib\Counter8.h: 74: BYTE Counter8_COUNTER_REG;
-
-"76
-[v _Counter8_PERIOD_REG `Auc 1 e@33 ]
-[; ;lib\Counter8.h: 76: BYTE Counter8_PERIOD_REG;
-
-"78
-[v _Counter8_COMPARE_REG `Auc 1 e@34 ]
-[; ;lib\Counter8.h: 78: BYTE Counter8_COMPARE_REG;
-
-"80
-[v _Counter8_CONTROL_REG `Auc 1 e@35 ]
-[; ;lib\Counter8.h: 80: BYTE Counter8_CONTROL_REG;
-
-"82
-[v _Counter8_FUNC_REG `Auc 1 e@288 ]
-[; ;lib\Counter8.h: 82: BYTE Counter8_FUNC_REG;
-
-"84
-[v _Counter8_INPUT_REG `Auc 1 e@289 ]
-[; ;lib\Counter8.h: 84: BYTE Counter8_INPUT_REG;
-
-"86
-[v _Counter8_OUTPUT_REG `Auc 1 e@290 ]
-[; ;lib\Counter8.h: 86: BYTE Counter8_OUTPUT_REG;
-
-"88
-[v _Counter8_INT_REG `Auc 1 e@225 ]
-[; ;lib\Counter8.h: 88: BYTE Counter8_INT_REG;
-
 "36 ./lib\Counter8_ltrx.h
-[v F409 `(v 1 tf ]
+[v F371 `(v 1 tf ]
 [; ;lib\Counter8_ltrx.h: 36: extern void Counter8_ltrx_EnableInt(void);
 
 "37
-[v F412 `(v 1 tf ]
+[v F374 `(v 1 tf ]
 [; ;lib\Counter8_ltrx.h: 37: extern void Counter8_ltrx_DisableInt(void);
 
 "38
-[v F415 `(v 1 tf ]
+[v F377 `(v 1 tf ]
 [; ;lib\Counter8_ltrx.h: 38: extern void Counter8_ltrx_Start(void);
 
 "39
-[v F418 `(v 1 tf ]
+[v F380 `(v 1 tf ]
 [; ;lib\Counter8_ltrx.h: 39: extern void Counter8_ltrx_Stop(void);
 
 "40
-[v F421 `(uc 1 tf ]
+[v F383 `(uc 1 tf ]
 [; ;lib\Counter8_ltrx.h: 40: extern BYTE Counter8_ltrx_bReadCounter(void);
 
 "41
-[v F424 `(v 1 tf1`uc ]
+[v F386 `(v 1 tf1`uc ]
 [; ;lib\Counter8_ltrx.h: 41: extern void Counter8_ltrx_WritePeriod(BYTE bPeriod);
 
 "42
-[v F427 `(uc 1 tf ]
+[v F389 `(uc 1 tf ]
 [; ;lib\Counter8_ltrx.h: 42: extern BYTE Counter8_ltrx_bReadCompareValue(void);
 
 "43
-[v F430 `(v 1 tf1`uc ]
+[v F392 `(v 1 tf1`uc ]
 [; ;lib\Counter8_ltrx.h: 43: extern void Counter8_ltrx_WriteCompareValue(BYTE bCompareValue);
 
 "48
-[v F433 `(uc 1 tf ]
+[v F395 `(uc 1 tf ]
 [; ;lib\Counter8_ltrx.h: 48: extern BYTE bCounter8_ltrx_ReadCounter(void);
 
 "49
-[v F436 `(uc 1 tf ]
+[v F398 `(uc 1 tf ]
 [; ;lib\Counter8_ltrx.h: 49: extern BYTE bCounter8_ltrx_ReadCompareValue(void);
 
 "74
@@ -1616,31 +1544,31 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;lib\Counter8_ltrx.h: 88: BYTE Counter8_ltrx_INT_REG;
 
 "37 ./lib\LED1.h
-[v F447 `(v 1 tf ]
+[v F409 `(v 1 tf ]
 [; ;lib\LED1.h: 37: extern void LED1_Start(void);
 
 "38
-[v F450 `(v 1 tf ]
+[v F412 `(v 1 tf ]
 [; ;lib\LED1.h: 38: extern void LED1_Stop(void);
 
 "39
-[v F453 `(v 1 tf ]
+[v F415 `(v 1 tf ]
 [; ;lib\LED1.h: 39: extern void LED1_On(void);
 
 "40
-[v F456 `(v 1 tf ]
+[v F418 `(v 1 tf ]
 [; ;lib\LED1.h: 40: extern void LED1_Off(void);
 
 "41
-[v F459 `(v 1 tf1`uc ]
+[v F421 `(v 1 tf1`uc ]
 [; ;lib\LED1.h: 41: extern void LED1_Switch(BYTE bSwitch);
 
 "42
-[v F462 `(v 1 tf ]
+[v F424 `(v 1 tf ]
 [; ;lib\LED1.h: 42: extern void LED1_Invert(void);
 
 "43
-[v F465 `(uc 1 tf ]
+[v F427 `(uc 1 tf ]
 [; ;lib\LED1.h: 43: extern BYTE LED1_GetState(void);
 
 [; ;lib\LTRX.h: 24: extern char LTRX_aRxBuffer[];
@@ -1650,115 +1578,115 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;lib\LTRX.h: 26: extern BYTE LTRX_fStatus;
 
 "69 ./lib\LTRX.h
-[v F471 `(v 1 tf1`uc ]
+[v F433 `(v 1 tf1`uc ]
 [; ;lib\LTRX.h: 69: extern void LTRX_SetTxIntMode(BYTE bTxIntMode);
 
 "70
-[v F474 `(v 1 tf ]
+[v F436 `(v 1 tf ]
 [; ;lib\LTRX.h: 70: extern void LTRX_EnableInt(void);
 
 "71
-[v F477 `(v 1 tf ]
+[v F439 `(v 1 tf ]
 [; ;lib\LTRX.h: 71: extern void LTRX_DisableInt(void);
 
 "72
-[v F480 `(v 1 tf1`uc ]
+[v F442 `(v 1 tf1`uc ]
 [; ;lib\LTRX.h: 72: extern void LTRX_Start(BYTE bParitySetting);
 
 "73
-[v F483 `(v 1 tf ]
+[v F445 `(v 1 tf ]
 [; ;lib\LTRX.h: 73: extern void LTRX_Stop(void);
 
 "74
-[v F486 `(v 1 tf1`uc ]
+[v F448 `(v 1 tf1`uc ]
 [; ;lib\LTRX.h: 74: extern void LTRX_SendData(BYTE bTxData);
 
 "75
-[v F489 `(uc 1 tf ]
+[v F451 `(uc 1 tf ]
 [; ;lib\LTRX.h: 75: extern BYTE LTRX_bReadTxStatus(void);
 
 "76
-[v F492 `(uc 1 tf ]
+[v F454 `(uc 1 tf ]
 [; ;lib\LTRX.h: 76: extern BYTE LTRX_bReadRxData(void);
 
 "77
-[v F495 `(uc 1 tf ]
+[v F457 `(uc 1 tf ]
 [; ;lib\LTRX.h: 77: extern BYTE LTRX_bReadRxStatus(void);
 
 "80
-[v F498 `(v 1 tf1`*Cuc ]
+[v F460 `(v 1 tf1`*Cuc ]
 [; ;lib\LTRX.h: 80: extern void LTRX_CPutString(const BYTE * szRomString);
 
 "81
-[v F501 `(v 1 tf1`*uc ]
+[v F463 `(v 1 tf1`*uc ]
 [; ;lib\LTRX.h: 81: extern void LTRX_PutString(BYTE * szRamString);
 
 "82
-[v F504 `(v 1 tf1`c ]
+[v F466 `(v 1 tf1`c ]
 [; ;lib\LTRX.h: 82: extern void LTRX_PutChar(CHAR cData);
 
 "83
-[v F508 `(v 1 tf2`*uc`uc ]
+[v F470 `(v 1 tf2`*uc`uc ]
 [; ;lib\LTRX.h: 83: extern void LTRX_Write(BYTE * szRamString, BYTE bCount);
 
 "84
-[v F512 `(v 1 tf2`*Cuc`i ]
+[v F474 `(v 1 tf2`*Cuc`i ]
 [; ;lib\LTRX.h: 84: extern void LTRX_CWrite(const BYTE * szRomString, INT iCount);
 
 "85
-[v F515 `(v 1 tf1`uc ]
+[v F477 `(v 1 tf1`uc ]
 [; ;lib\LTRX.h: 85: extern void LTRX_PutSHexByte(BYTE bValue);
 
 "86
-[v F518 `(v 1 tf1`i ]
+[v F480 `(v 1 tf1`i ]
 [; ;lib\LTRX.h: 86: extern void LTRX_PutSHexInt(INT iValue);
 
 "87
-[v F521 `(v 1 tf ]
+[v F483 `(v 1 tf ]
 [; ;lib\LTRX.h: 87: extern void LTRX_PutCRLF(void);
 
 "88
-[v F524 `(v 1 tf1`uc ]
+[v F486 `(v 1 tf1`uc ]
 [; ;lib\LTRX.h: 88: extern void LTRX_TxIntMode(BYTE bMask);
 
 "91
-[v F527 `(c 1 tf ]
+[v F489 `(c 1 tf ]
 [; ;lib\LTRX.h: 91: extern CHAR LTRX_cGetChar(void);
 
 "92
-[v F530 `(c 1 tf ]
+[v F492 `(c 1 tf ]
 [; ;lib\LTRX.h: 92: extern CHAR LTRX_cReadChar(void);
 
 "93
-[v F533 `(i 1 tf ]
+[v F495 `(i 1 tf ]
 [; ;lib\LTRX.h: 93: extern INT LTRX_iReadChar(void);
 
 "94
-[v F536 `(v 1 tf1`uc ]
+[v F498 `(v 1 tf1`uc ]
 [; ;lib\LTRX.h: 94: extern void LTRX_IntCntl(BYTE bMask);
 
 "97
-[v F539 `(v 1 tf ]
+[v F501 `(v 1 tf ]
 [; ;lib\LTRX.h: 97: extern void LTRX_CmdReset(void);
 
 "98
-[v F542 `(uc 1 tf ]
+[v F504 `(uc 1 tf ]
 [; ;lib\LTRX.h: 98: extern BYTE LTRX_bCmdCheck(void);
 
 "99
-[v F545 `(uc 1 tf ]
+[v F507 `(uc 1 tf ]
 [; ;lib\LTRX.h: 99: extern BYTE LTRX_bErrCheck(void);
 
 "100
-[v F548 `(uc 1 tf ]
+[v F510 `(uc 1 tf ]
 [; ;lib\LTRX.h: 100: extern BYTE LTRX_bCmdLength(void);
 
 "101
-[v F551 `(*uc 1 tf ]
+[v F513 `(*uc 1 tf ]
 [; ;lib\LTRX.h: 101: extern BYTE * LTRX_szGetParam(void);
 
 "102
-[v F554 `(*uc 1 tf ]
+[v F516 `(*uc 1 tf ]
 [; ;lib\LTRX.h: 102: extern BYTE * LTRX_szGetRestOfParams(void);
 
 "157
@@ -1818,79 +1746,79 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;lib\LTRX.h: 184: BYTE LTRX_RX_INT_REG;
 
 "200
-[v F571 `(uc 1 tf ]
+[v F533 `(uc 1 tf ]
 [; ;lib\LTRX.h: 200: extern BYTE bLTRX_ReadTxStatus(void);
 
 "201
-[v F574 `(uc 1 tf ]
+[v F536 `(uc 1 tf ]
 [; ;lib\LTRX.h: 201: extern BYTE bLTRX_ReadRxData(void);
 
 "202
-[v F577 `(uc 1 tf ]
+[v F539 `(uc 1 tf ]
 [; ;lib\LTRX.h: 202: extern BYTE bLTRX_ReadRxStatus(void);
 
 "56 ./lib\OneWire.h
-[v F580 `(v 1 tf ]
+[v F542 `(v 1 tf ]
 [; ;lib\OneWire.h: 56: extern void OneWire_Start(void);
 
 "57
-[v F583 `(v 1 tf ]
+[v F545 `(v 1 tf ]
 [; ;lib\OneWire.h: 57: extern void OneWire_Stop(void);
 
 "59
-[v F586 `(uc 1 tf ]
+[v F548 `(uc 1 tf ]
 [; ;lib\OneWire.h: 59: extern BYTE OneWire_fReset(void);
 
 "60
-[v F589 `(v 1 tf1`uc ]
+[v F551 `(v 1 tf1`uc ]
 [; ;lib\OneWire.h: 60: extern void OneWire_WriteBit(BYTE bData);
 
 "61
-[v F592 `(uc 1 tf ]
+[v F554 `(uc 1 tf ]
 [; ;lib\OneWire.h: 61: extern BYTE OneWire_bReadBit(void);
 
 "62
-[v F595 `(v 1 tf1`uc ]
+[v F557 `(v 1 tf1`uc ]
 [; ;lib\OneWire.h: 62: extern void OneWire_WriteByte(BYTE bData);
 
 "63
-[v F598 `(uc 1 tf ]
+[v F560 `(uc 1 tf ]
 [; ;lib\OneWire.h: 63: extern BYTE OneWire_bReadByte(void);
 
 "64
-[v F601 `(v 1 tf ]
+[v F563 `(v 1 tf ]
 [; ;lib\OneWire.h: 64: extern void OneWire_ClearCRC8(void);
 
 "65
-[v F604 `(uc 1 tf1`uc ]
+[v F566 `(uc 1 tf1`uc ]
 [; ;lib\OneWire.h: 65: extern BYTE OneWire_bCRC8(BYTE bData);
 
 "73
-[v F607 `(v 1 tf1`*uc ]
+[v F569 `(v 1 tf1`*uc ]
 [; ;lib\OneWire.h: 73: extern void OneWire_GetROM(BYTE * pbArray);
 
 "74
-[v F610 `(v 1 tf1`*uc ]
+[v F572 `(v 1 tf1`*uc ]
 [; ;lib\OneWire.h: 74: extern void OneWire_SetROM(BYTE * pbArray);
 
 "75
-[v F613 `(uc 1 tf ]
+[v F575 `(uc 1 tf ]
 [; ;lib\OneWire.h: 75: extern BYTE OneWire_fFindFirst(void);
 
 "76
-[v F616 `(uc 1 tf ]
+[v F578 `(uc 1 tf ]
 [; ;lib\OneWire.h: 76: extern BYTE OneWire_fFindNext(void);
 
 "77
-[v F619 `(uc 1 tf ]
+[v F581 `(uc 1 tf ]
 [; ;lib\OneWire.h: 77: extern BYTE OneWire_fVerify(void);
 
 "78
-[v F622 `(v 1 tf1`uc ]
+[v F584 `(v 1 tf1`uc ]
 [; ;lib\OneWire.h: 78: extern void OneWire_FamilyTargetSetup(BYTE bFamilyType);
 
 "79
-[v F625 `(v 1 tf ]
+[v F587 `(v 1 tf ]
 [; ;lib\OneWire.h: 79: extern void OneWire_FamilySkipSetup(void);
 
 "109
@@ -1950,43 +1878,43 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;lib\OneWire.h: 136: BYTE OneWire_XCVR_OUTPUT_REG;
 
 "34 ./lib\Ticker.h
-[v F642 `(v 1 tf ]
+[v F604 `(v 1 tf ]
 [; ;lib\Ticker.h: 34: extern void Ticker_EnableInt(void);
 
 "35
-[v F645 `(v 1 tf ]
+[v F607 `(v 1 tf ]
 [; ;lib\Ticker.h: 35: extern void Ticker_DisableInt(void);
 
 "36
-[v F648 `(v 1 tf ]
+[v F610 `(v 1 tf ]
 [; ;lib\Ticker.h: 36: extern void Ticker_Start(void);
 
 "37
-[v F651 `(v 1 tf ]
+[v F613 `(v 1 tf ]
 [; ;lib\Ticker.h: 37: extern void Ticker_Stop(void);
 
 "38
-[v F654 `(ui 1 tf ]
+[v F616 `(ui 1 tf ]
 [; ;lib\Ticker.h: 38: extern WORD Ticker_wReadCounter(void);
 
 "39
-[v F657 `(v 1 tf1`ui ]
+[v F619 `(v 1 tf1`ui ]
 [; ;lib\Ticker.h: 39: extern void Ticker_WritePeriod(WORD wPeriod);
 
 "40
-[v F660 `(ui 1 tf ]
+[v F622 `(ui 1 tf ]
 [; ;lib\Ticker.h: 40: extern WORD Ticker_wReadCompareValue(void);
 
 "41
-[v F663 `(v 1 tf1`ui ]
+[v F625 `(v 1 tf1`ui ]
 [; ;lib\Ticker.h: 41: extern void Ticker_WriteCompareValue(WORD wCompareValue);
 
 "46
-[v F666 `(ui 1 tf ]
+[v F628 `(ui 1 tf ]
 [; ;lib\Ticker.h: 46: extern WORD wTicker_ReadCounter(void);
 
 "47
-[v F669 `(ui 1 tf ]
+[v F631 `(ui 1 tf ]
 [; ;lib\Ticker.h: 47: extern WORD wTicker_ReadCompareValue(void);
 
 "72
@@ -2113,698 +2041,281 @@ Version 3.2 HI-TECH Software Intermediate Code
 
 [; ;main.c: 17: void hardware_init();
 
-[; ;main.c: 18: void print_id(unsigned char *id);
-
-[; ;main.c: 19: void get_sensors();
-
-[; ;main.c: 20: void get_temp();
-
-"25
-[v F717 `(v 1 tf ]
-[v _Ticker_ISR `IF717 1 e ]
+"21
+[v F675 `(v 1 tf ]
+[v _Ticker_ISR `IF675 1 e ]
 {
-[; ;main.c: 24: void Ticker_ISR()
+[; ;main.c: 20: void Ticker_ISR()
 
-[; ;main.c: 25: {
+[; ;main.c: 21: {
 
 [e :U _Ticker_ISR ]
 [f ]
-[; ;main.c: 26: LED1_Invert();
+[; ;main.c: 22: LED1_Invert();
 
 "42 ./lib\LED1.h
-[v _LED1_Invert `BF462 0 e ]
-"26 ./main.c
+[v _LED1_Invert `BF424 0 e ]
+"22 ./main.c
 [e ( _LED1_Invert ..  ]
-[; ;main.c: 28: return;
+[; ;main.c: 24: return;
 
-"28
+"24
 [e $UE 2  ]
-"29
-[; ;main.c: 29: }
+"25
+[; ;main.c: 25: }
 
 [e :UE 2 ]
 }
-"32
-[v _print_data `(v 1 ef ]
-{
-[; ;main.c: 31: void print_data()
-
-[; ;main.c: 32: {
-
-[e :U _print_data ]
-[f ]
-[; ;main.c: 33: LTRX_PutCRLF();
-
-"87 ./lib\LTRX.h
-[v _LTRX_PutCRLF `BF521 0 e ]
-"33 ./main.c
-[e ( _LTRX_PutCRLF ..  ]
-[; ;main.c: 34: LTRX_CPutString("OneWire gateway v.");
-
-"80 ./lib\LTRX.h
-[v _LTRX_CPutString `BF498 0 e ]
-"34 ./main.c
-[e ( _LTRX_CPutString (1
- :s 1C ]
-[; ;main.c: 35: LTRX_CPutString("1.0");
-
-"35
-[e ( _LTRX_CPutString (1
- :s 2C ]
-[; ;main.c: 36: LTRX_PutCRLF();
-
-"36
-[e ( _LTRX_PutCRLF ..  ]
-[; ;main.c: 37: LTRX_CPutString("Node 1 ID: ");
-
-"37
-[e ( _LTRX_CPutString (1
- :s 3C ]
-[; ;main.c: 38: print_id(id0);
-
-"18
-[v _print_id `(v 0 ef1`*uc ]
-"38
-[e ( _print_id (1
- &U _id0 ]
-[; ;main.c: 39: LTRX_CPutString(" - ");
-
-"39
-[e ( _LTRX_CPutString (1
- :s 4C ]
-[; ;main.c: 40: LTRX_PutSHexInt(temp0);
-
-"86 ./lib\LTRX.h
-[v _LTRX_PutSHexInt `BF518 0 e ]
-"40 ./main.c
-[e ( _LTRX_PutSHexInt (1
- -> _temp0 `i ]
-[; ;main.c: 41: LTRX_PutCRLF();
-
-"41
-[e ( _LTRX_PutCRLF ..  ]
-[; ;main.c: 42: LTRX_CPutString("Node 2 ID: ");
-
-"42
-[e ( _LTRX_CPutString (1
- :s 5C ]
-[; ;main.c: 43: print_id(id1);
-
-"43
-[e ( _print_id (1
- &U _id1 ]
-[; ;main.c: 44: LTRX_CPutString(" - ");
-
-"44
-[e ( _LTRX_CPutString (1
- :s 6C ]
-[; ;main.c: 45: LTRX_PutSHexInt(temp1);
-
-"45
-[e ( _LTRX_PutSHexInt (1
- -> _temp1 `i ]
-[; ;main.c: 46: LTRX_PutCRLF();
-
-"46
-[e ( _LTRX_PutCRLF ..  ]
-[; ;main.c: 47: LTRX_CPutString("EOT");
-
-"47
-[e ( _LTRX_CPutString (1
- :s 7C ]
-[; ;main.c: 48: LTRX_PutCRLF();
-
-"48
-[e ( _LTRX_PutCRLF ..  ]
-[; ;main.c: 50: return;
-
-"50
-[e $UE 3  ]
-"51
-[; ;main.c: 51: }
-
-[e :UE 3 ]
-}
-"52
+"28
 [v _print_header `(v 1 ef ]
 {
-[; ;main.c: 52: void print_header(){
+[; ;main.c: 28: void print_header(){
 
 [e :U _print_header ]
 [f ]
-[; ;main.c: 53: LTRX_PutCRLF();
+[; ;main.c: 29: LTRX_PutCRLF();
 
-"53
+"87 ./lib\LTRX.h
+[v _LTRX_PutCRLF `BF483 0 e ]
+"29 ./main.c
 [e ( _LTRX_PutCRLF ..  ]
-[; ;main.c: 54: LTRX_CPutString("OneWire gateway v.");
+[; ;main.c: 30: LTRX_CPutString("OneWire gateway v.");
 
-"54
+"80 ./lib\LTRX.h
+[v _LTRX_CPutString `BF460 0 e ]
+"30 ./main.c
 [e ( _LTRX_CPutString (1
- :s 8C ]
-[; ;main.c: 55: LTRX_CPutString("1.0");
+ :s 1C ]
+[; ;main.c: 31: LTRX_CPutString("1.1");
 
-"55
+"31
 [e ( _LTRX_CPutString (1
- :s 9C ]
-[; ;main.c: 56: LTRX_PutCRLF();
+ :s 2C ]
+[; ;main.c: 32: LTRX_PutCRLF();
 
-"56
+"32
 [e ( _LTRX_PutCRLF ..  ]
-[; ;main.c: 58: return;
+[; ;main.c: 33: LTRX_CPutString("Lieven Hollevoet, 2009");
 
-"58
-[e $UE 4  ]
-"59
-[; ;main.c: 59: }
+"33
+[e ( _LTRX_CPutString (1
+ :s 3C ]
+[; ;main.c: 34: LTRX_PutCRLF();
 
-[e :UE 4 ]
+"34
+[e ( _LTRX_PutCRLF ..  ]
+[; ;main.c: 35: return;
+
+"35
+[e $UE 3  ]
+"36
+[; ;main.c: 36: }
+
+[e :UE 3 ]
 }
-"62
+"39
 [v _print_help `(v 1 ef ]
 {
-[; ;main.c: 62: void print_help(){
+[; ;main.c: 39: void print_help(){
 
 [e :U _print_help ]
 [f ]
-[; ;main.c: 63: print_header();
+[; ;main.c: 40: print_header();
 
-"63
+"40
 [e ( _print_header ..  ]
-[; ;main.c: 64: LTRX_PutCRLF();
+[; ;main.c: 41: LTRX_CPutString("Press 'T' to initiate temperature conversion and to get a report");
 
-"64
-[e ( _LTRX_PutCRLF ..  ]
-[; ;main.c: 65: LTRX_CPutString("Press 'T' to initiate temperature conversion and to get a report");
-
-"65
+"41
 [e ( _LTRX_CPutString (1
- :s 10C ]
-[; ;main.c: 66: LTRX_PutCRLF();
+ :s 4C ]
+[; ;main.c: 42: LTRX_PutCRLF();
 
-"66
+"42
 [e ( _LTRX_PutCRLF ..  ]
-"67
-[; ;main.c: 67: }
+"43
+[; ;main.c: 43: }
 
-[e :UE 5 ]
+[e :UE 4 ]
 }
-"70
+"46
 [v _main `(v 1 ef ]
 [p mainexit ]
 {
-[; ;main.c: 69: void main()
+[; ;main.c: 45: void main()
 
-[; ;main.c: 70: {
+[; ;main.c: 46: {
 
 [e :U _main ]
 [f ]
-"72
-[v _strPtr `*uc 1 a ]
-[; ;main.c: 72: char * strPtr;
+"48
+[v _UART_bfr `*uc 1 a ]
+[; ;main.c: 48: char * UART_bfr;
 
-[; ;main.c: 75: hardware_init();
+[; ;main.c: 50: hardware_init();
 
 "17
 [v _hardware_init `(v 0 ef ]
-"75
+"50
 [e ( _hardware_init ..  ]
-[; ;main.c: 77: get_sensors();
+[; ;main.c: 52: print_help();
 
-"19
-[v _get_sensors `(v 0 ef ]
-"77
-[e ( _get_sensors ..  ]
-[; ;main.c: 78: get_temp();
+"52
+[e ( _print_help ..  ]
+[; ;main.c: 54: while(1) {
 
-"20
-[v _get_temp `(v 0 ef ]
-"78
-[e ( _get_temp ..  ]
-[; ;main.c: 79: print_data();
-
-"79
-[e ( _print_data ..  ]
-[; ;main.c: 81: while(1) {
-
-"81
-[e :U 8 ]
+"54
+[e :U 7 ]
 {
-[; ;main.c: 84: if (LTRX_bCmdCheck()) {
+[; ;main.c: 57: if (LTRX_bCmdCheck()) {
 
 "98 ./lib\LTRX.h
-[v _LTRX_bCmdCheck `BF542 0 e ]
-"84 ./main.c
-[e $ ! != -> ( _LTRX_bCmdCheck ..  `i -> -> -> 0 `i `uc `i 10  ]
+[v _LTRX_bCmdCheck `BF504 0 e ]
+"57 ./main.c
+[e $ ! != -> ( _LTRX_bCmdCheck ..  `i -> -> -> 0 `i `uc `i 9  ]
 {
-[; ;main.c: 85: if(strPtr = LTRX_szGetParam()) {
+[; ;main.c: 58: if(UART_bfr = LTRX_szGetParam()) {
 
 "101 ./lib\LTRX.h
-[v _LTRX_szGetParam `BF551 0 e ]
-"85 ./main.c
-[e $ ! != = _strPtr ( _LTRX_szGetParam ..  -> -> 0 `i `*uc 11  ]
+[v _LTRX_szGetParam `BF513 0 e ]
+"58 ./main.c
+[e $ ! != = _UART_bfr ( _LTRX_szGetParam ..  -> -> 0 `i `*uc 10  ]
 {
-[; ;main.c: 86: if (*strPtr == '#'){
+[; ;main.c: 59: if (*UART_bfr == 'T'){
 
-"86
-[e $ ! == -> *U _strPtr `ui -> 35 `ui 12  ]
+"59
+[e $ ! == -> *U _UART_bfr `ui -> 84 `ui 11  ]
 {
-[; ;main.c: 87: get_sensors();
-
-"87
-[e ( _get_sensors ..  ]
-[; ;main.c: 88: print_data();
-
-"88
-[e ( _print_data ..  ]
-"89
-}
-[; ;main.c: 89: } else if (*strPtr == 'T'){
-
-[e $U 13  ]
-[e :U 12 ]
-[e $ ! == -> *U _strPtr `ui -> 84 `ui 14  ]
-{
-[; ;main.c: 90: oo_report();
+[; ;main.c: 61: oo_report();
 
 "58 ./oo.h
 [v _oo_report `(v 0 ef ]
-"90 ./main.c
+"61 ./main.c
 [e ( _oo_report ..  ]
-"91
-}
-[; ;main.c: 91: } else {
+[; ;main.c: 62: LTRX_CPutString("EOT");
 
-[e $U 15  ]
-[e :U 14 ]
-{
-[; ;main.c: 92: print_help();
+"62
+[e ( _LTRX_CPutString (1
+ :s 5C ]
+[; ;main.c: 63: LTRX_PutCRLF();
 
-"92
-[e ( _print_help ..  ]
-"93
+"63
+[e ( _LTRX_PutCRLF ..  ]
+"64
 }
-[e :U 15 ]
-[e :U 13 ]
-"95
-}
+[; ;main.c: 64: } else {
+
+[e $U 12  ]
 [e :U 11 ]
-[; ;main.c: 93: }
+{
+[; ;main.c: 65: print_help();
 
-[; ;main.c: 95: }
-
-[; ;main.c: 96: LTRX_CmdReset();
-
-"97 ./lib\LTRX.h
-[v _LTRX_CmdReset `BF539 0 e ]
-"96 ./main.c
-[e ( _LTRX_CmdReset ..  ]
-"97
+"65
+[e ( _print_help ..  ]
+"66
+}
+[e :U 12 ]
+"68
 }
 [e :U 10 ]
-"98
+[; ;main.c: 66: }
+
+[; ;main.c: 68: }
+
+[; ;main.c: 69: LTRX_CmdReset();
+
+"97 ./lib\LTRX.h
+[v _LTRX_CmdReset `BF501 0 e ]
+"69 ./main.c
+[e ( _LTRX_CmdReset ..  ]
+"70
 }
-[e :U 7 ]
-"81
-[e $U 8  ]
 [e :U 9 ]
-"101
-[; ;main.c: 97: }
-
-[; ;main.c: 98: }
-
-[; ;main.c: 101: }
-
-[e :UE 6 ]
+"71
 }
-"104
+[e :U 6 ]
+"54
+[e $U 7  ]
+[e :U 8 ]
+"74
+[; ;main.c: 70: }
+
+[; ;main.c: 71: }
+
+[; ;main.c: 74: }
+
+[e :UE 5 ]
+}
+"77
 [v _hardware_init `(v 1 ef ]
 {
-[; ;main.c: 104: void hardware_init(){
+[; ;main.c: 77: void hardware_init(){
 
 [e :U _hardware_init ]
 [f ]
-[; ;main.c: 107: OneWire_Start();
+[; ;main.c: 80: OneWire_Start();
 
 "56 ./lib\OneWire.h
-[v _OneWire_Start `BF580 0 e ]
-"107 ./main.c
+[v _OneWire_Start `BF542 0 e ]
+"80 ./main.c
 [e ( _OneWire_Start ..  ]
-[; ;main.c: 108: Counter8_Start();
+[; ;main.c: 81: Counter8_Start();
 
-"38 ./lib\Counter8.h
-[v _Counter8_Start `BF377 0 e ]
-"108 ./main.c
+"81
+[v _Counter8_Start `(i 0 e ]
 [e ( _Counter8_Start ..  ]
-[; ;main.c: 109: Counter8_ltrx_Start();
+[; ;main.c: 82: Counter8_ltrx_Start();
 
 "38 ./lib\Counter8_ltrx.h
-[v _Counter8_ltrx_Start `BF415 0 e ]
-"109 ./main.c
+[v _Counter8_ltrx_Start `BF377 0 e ]
+"82 ./main.c
 [e ( _Counter8_ltrx_Start ..  ]
-[; ;main.c: 110: LED1_Start();
+[; ;main.c: 83: LED1_Start();
 
 "37 ./lib\LED1.h
-[v _LED1_Start `BF447 0 e ]
-"110 ./main.c
+[v _LED1_Start `BF409 0 e ]
+"83 ./main.c
 [e ( _LED1_Start ..  ]
-[; ;main.c: 111: Ticker_Start();
+[; ;main.c: 84: Ticker_Start();
 
 "36 ./lib\Ticker.h
-[v _Ticker_Start `BF648 0 e ]
-"111 ./main.c
+[v _Ticker_Start `BF610 0 e ]
+"84 ./main.c
 [e ( _Ticker_Start ..  ]
-[; ;main.c: 114: LTRX_CmdReset();
+[; ;main.c: 87: LTRX_CmdReset();
 
-"114
+"87
 [e ( _LTRX_CmdReset ..  ]
-[; ;main.c: 115: LTRX_EnableInt();
+[; ;main.c: 88: LTRX_EnableInt();
 
 "70 ./lib\LTRX.h
-[v _LTRX_EnableInt `BF474 0 e ]
-"115 ./main.c
+[v _LTRX_EnableInt `BF436 0 e ]
+"88 ./main.c
 [e ( _LTRX_EnableInt ..  ]
-[; ;main.c: 116: LTRX_Start(0x00);
+[; ;main.c: 89: LTRX_Start(0x00);
 
 "72 ./lib\LTRX.h
-[v _LTRX_Start `BF480 0 e ]
-"116 ./main.c
+[v _LTRX_Start `BF442 0 e ]
+"89 ./main.c
 [e ( _LTRX_Start (1
  -> -> 0 `i `uc ]
-[; ;main.c: 119: Ticker_EnableInt();
+[; ;main.c: 92: Ticker_EnableInt();
 
 "34 ./lib\Ticker.h
-[v _Ticker_EnableInt `BF642 0 e ]
-"119 ./main.c
+[v _Ticker_EnableInt `BF604 0 e ]
+"92 ./main.c
 [e ( _Ticker_EnableInt ..  ]
-[; ;main.c: 120: asm("or  F, 01h") ;
+[; ;main.c: 93: asm("or  F, 01h") ;
 
-"120
+"93
 [; or  F, 01h ;#
-"122
-[; ;main.c: 122: }
+"95
+[; ;main.c: 95: }
 
-[e :UE 16 ]
+[e :UE 13 ]
 }
-"124
-[v _get_sensors `(v 1 ef ]
-{
-[; ;main.c: 124: void get_sensors(){
-
-[e :U _get_sensors ]
-[f ]
-"126
-[v _next_found `uc 1 a ]
-[; ;main.c: 126: char next_found = 0;
-
-[e = _next_found -> -> 0 `i `uc ]
-[; ;main.c: 128: if (!OneWire_fReset()){
-
-"59 ./lib\OneWire.h
-[v _OneWire_fReset `BF586 0 e ]
-"128 ./main.c
-[e $ ! ! != -> ( _OneWire_fReset ..  `i -> -> -> 0 `i `uc `i 18  ]
-{
-[; ;main.c: 129: LTRX_CPutString("No sensor found on bus");
-
-"129
-[e ( _LTRX_CPutString (1
- :s 11C ]
-[; ;main.c: 130: LTRX_PutCRLF();
-
-"130
-[e ( _LTRX_PutCRLF ..  ]
-[; ;main.c: 131: return;
-
-"131
-[e $UE 17  ]
-"132
-}
-[e :U 18 ]
-[; ;main.c: 132: }
-
-[; ;main.c: 134: if (OneWire_fFindFirst()){
-
-"75 ./lib\OneWire.h
-[v _OneWire_fFindFirst `BF613 0 e ]
-"134 ./main.c
-[e $ ! != -> ( _OneWire_fFindFirst ..  `i -> -> -> 0 `i `uc `i 19  ]
-{
-[; ;main.c: 135: OneWire_GetROM(id0);
-
-"73 ./lib\OneWire.h
-[v _OneWire_GetROM `BF607 0 e ]
-"135 ./main.c
-[e ( _OneWire_GetROM (1
- &U _id0 ]
-"136
-}
-[; ;main.c: 136: } else {
-
-[e $U 20  ]
-[e :U 19 ]
-{
-[; ;main.c: 137: LTRX_CPutString("Problem detecting sensor 1");
-
-"137
-[e ( _LTRX_CPutString (1
- :s 12C ]
-[; ;main.c: 138: LTRX_PutCRLF();
-
-"138
-[e ( _LTRX_PutCRLF ..  ]
-"139
-}
-[e :U 20 ]
-[; ;main.c: 139: }
-
-[; ;main.c: 140: if (OneWire_fFindNext()){
-
-"76 ./lib\OneWire.h
-[v _OneWire_fFindNext `BF616 0 e ]
-"140 ./main.c
-[e $ ! != -> ( _OneWire_fFindNext ..  `i -> -> -> 0 `i `uc `i 21  ]
-{
-[; ;main.c: 141: OneWire_GetROM(id1);
-
-"141
-[e ( _OneWire_GetROM (1
- &U _id1 ]
-"142
-}
-[; ;main.c: 142: } else {
-
-[e $U 22  ]
-[e :U 21 ]
-{
-[; ;main.c: 143: LTRX_CPutString("Problem detecting sensor 2");
-
-"143
-[e ( _LTRX_CPutString (1
- :s 13C ]
-[; ;main.c: 144: LTRX_PutCRLF();
-
-"144
-[e ( _LTRX_PutCRLF ..  ]
-"145
-}
-[e :U 22 ]
-[; ;main.c: 145: }
-
-[; ;main.c: 147: LTRX_CPutString("get_sensors done...");
-
-"147
-[e ( _LTRX_CPutString (1
- :s 14C ]
-[; ;main.c: 148: LTRX_PutCRLF();
-
-"148
-[e ( _LTRX_PutCRLF ..  ]
-"151
-[; ;main.c: 151: }
-
-[e :UE 17 ]
-}
-"153
-[v _get_temp `(v 1 ef ]
-{
-[; ;main.c: 153: void get_temp(){
-
-[e :U _get_temp ]
-[f ]
-[; ;main.c: 157: if (!OneWire_fReset()){
-
-"157
-[e $ ! ! != -> ( _OneWire_fReset ..  `i -> -> -> 0 `i `uc `i 24  ]
-{
-[; ;main.c: 158: LTRX_CPutString("No sensor found on bus");
-
-"158
-[e ( _LTRX_CPutString (1
- :s 15C ]
-[; ;main.c: 159: LTRX_PutCRLF();
-
-"159
-[e ( _LTRX_PutCRLF ..  ]
-[; ;main.c: 160: return;
-
-"160
-[e $UE 23  ]
-"161
-}
-[e :U 24 ]
-[; ;main.c: 161: }
-
-[; ;main.c: 164: OneWire_WriteByte(0xCC);
-
-"62 ./lib\OneWire.h
-[v _OneWire_WriteByte `BF595 0 e ]
-"164 ./main.c
-[e ( _OneWire_WriteByte (1
- -> -> 204 `i `uc ]
-[; ;main.c: 167: OneWire_WriteByte(0x44);
-
-"167
-[e ( _OneWire_WriteByte (1
- -> -> 68 `i `uc ]
-[; ;main.c: 170: while (!OneWire_bReadByte()){};
-
-"63 ./lib\OneWire.h
-[v _OneWire_bReadByte `BF598 0 e ]
-"170 ./main.c
-[e $U 25  ]
-[e :U 26 ]
-{
-}
-[e :U 25 ]
-[e $ ! != -> ( _OneWire_bReadByte ..  `i -> -> -> 0 `i `uc `i 26  ]
-[e :U 27 ]
-[; ;main.c: 174: OneWire_fReset();
-
-"174
-[e ( _OneWire_fReset ..  ]
-[; ;main.c: 175: OneWire_SetROM(id0);
-
-"74 ./lib\OneWire.h
-[v _OneWire_SetROM `BF610 0 e ]
-"175 ./main.c
-[e ( _OneWire_SetROM (1
- &U _id0 ]
-[; ;main.c: 176: OneWire_fVerify();
-
-"77 ./lib\OneWire.h
-[v _OneWire_fVerify `BF619 0 e ]
-"176 ./main.c
-[e ( _OneWire_fVerify ..  ]
-[; ;main.c: 177: OneWire_WriteByte(0xBE);
-
-"177
-[e ( _OneWire_WriteByte (1
- -> -> 190 `i `uc ]
-[; ;main.c: 178: temp0 = OneWire_bReadByte();
-
-"178
-[e = _temp0 -> ( _OneWire_bReadByte ..  `us ]
-[; ;main.c: 179: temp0 += OneWire_bReadByte() << 8;
-
-"179
-[e =+ _temp0 -> << -> ( _OneWire_bReadByte ..  `i -> 8 `i `us ]
-[; ;main.c: 182: OneWire_fReset();
-
-"182
-[e ( _OneWire_fReset ..  ]
-[; ;main.c: 183: OneWire_SetROM(id1);
-
-"183
-[e ( _OneWire_SetROM (1
- &U _id1 ]
-[; ;main.c: 184: OneWire_fVerify();
-
-"184
-[e ( _OneWire_fVerify ..  ]
-[; ;main.c: 185: OneWire_WriteByte(0xBE);
-
-"185
-[e ( _OneWire_WriteByte (1
- -> -> 190 `i `uc ]
-[; ;main.c: 186: temp1 = OneWire_bReadByte();
-
-"186
-[e = _temp1 -> ( _OneWire_bReadByte ..  `us ]
-[; ;main.c: 187: temp1 += OneWire_bReadByte() << 8;
-
-"187
-[e =+ _temp1 -> << -> ( _OneWire_bReadByte ..  `i -> 8 `i `us ]
-[; ;main.c: 189: LTRX_CPutString("Conversion/grabbing done...");
-
-"189
-[e ( _LTRX_CPutString (1
- :s 16C ]
-[; ;main.c: 190: LTRX_PutCRLF();
-
-"190
-[e ( _LTRX_PutCRLF ..  ]
-"192
-[; ;main.c: 192: }
-
-[e :UE 23 ]
-}
-"194
-[v _print_id `(v 1 ef1`*uc ]
-{
-[; ;main.c: 194: void print_id(unsigned char *id){
-
-[e :U _print_id ]
-[v _id `*uc 1 r1 ]
-[f ]
-"196
-[v _cntr `uc 1 a ]
-[; ;main.c: 196: char cntr = 0;
-
-[e = _cntr -> -> 0 `i `uc ]
-[; ;main.c: 197: for (cntr=0; cntr<8; cntr++){
-
-"197
-{
-[e = _cntr -> -> 0 `i `uc ]
-[e $ < -> _cntr `i -> 8 `i 29  ]
-[e $U 30  ]
-[e :U 29 ]
-{
-[; ;main.c: 198: LTRX_PutSHexByte(*(id+cntr));
-
-"85 ./lib\LTRX.h
-[v _LTRX_PutSHexByte `BF515 0 e ]
-"198 ./main.c
-[e ( _LTRX_PutSHexByte (1
- *U + _id * -> _cntr `ux -> -> # *U _id `ui `ux ]
-"199
-}
-"197
-[e ++ _cntr -> -> 1 `i `uc ]
-[e $ < -> _cntr `i -> 8 `i 29  ]
-[e :U 30 ]
-"199
-}
-"200
-[; ;main.c: 199: }
-
-[; ;main.c: 200: }
-
-[e :UE 28 ]
-}
-[a 10C 80 114 101 115 115 32 39 84 39 32 116 111 32 105 110 105 116 105 97 116 101 32 116 101 109 112 101 114 97 116 117 114 101 32 99 111 110 118 101 114 115 105 111 110 32 97 110 100 32 116 111 32 103 101 116 32 97 32 114 101 112 111 114 116 0 ]
-[a 11C 78 111 32 115 101 110 115 111 114 32 102 111 117 110 100 32 111 110 32 98 117 115 0 ]
-[a 15C 78 111 32 115 101 110 115 111 114 32 102 111 117 110 100 32 111 110 32 98 117 115 0 ]
-[a 7C 69 79 84 0 ]
-[a 13C 80 114 111 98 108 101 109 32 100 101 116 101 99 116 105 110 103 32 115 101 110 115 111 114 32 50 0 ]
-[a 12C 80 114 111 98 108 101 109 32 100 101 116 101 99 116 105 110 103 32 115 101 110 115 111 114 32 49 0 ]
-[a 9C 49 46 48 0 ]
-[a 2C 49 46 48 0 ]
+[a 4C 80 114 101 115 115 32 39 84 39 32 116 111 32 105 110 105 116 105 97 116 101 32 116 101 109 112 101 114 97 116 117 114 101 32 99 111 110 118 101 114 115 105 111 110 32 97 110 100 32 116 111 32 103 101 116 32 97 32 114 101 112 111 114 116 0 ]
+[a 5C 69 79 84 0 ]
+[a 3C 76 105 101 118 101 110 32 72 111 108 108 101 118 111 101 116 44 32 50 48 48 57 0 ]
+[a 2C 49 46 49 0 ]
 [a 1C 79 110 101 87 105 114 101 32 103 97 116 101 119 97 121 32 118 46 0 ]
-[a 8C 79 110 101 87 105 114 101 32 103 97 116 101 119 97 121 32 118 46 0 ]
-[a 14C 103 101 116 95 115 101 110 115 111 114 115 32 100 111 110 101 46 46 46 0 ]
-[a 16C 67 111 110 118 101 114 115 105 111 110 47 103 114 97 98 98 105 110 103 32 100 111 110 101 46 46 46 0 ]
-[a 5C 78 111 100 101 32 50 32 73 68 58 32 0 ]
-[a 3C 78 111 100 101 32 49 32 73 68 58 32 0 ]
-[a 6C 32 45 32 0 ]
-[a 4C 32 45 32 0 ]
