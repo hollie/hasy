@@ -35,6 +35,8 @@ module lib/obj/ltrxplus.obj defines no symbols (warning)
 
 !W ./oo.c(111):(345) unreachable code (warning)
 
+./shtxx.c
+
 sed: can't read HTlinkOpts.lkp: No such file or directory
 
 expanded_libs = 
@@ -47,29 +49,29 @@ Copyright (C) 1984-2008 HI-TECH SOFTWARE
 
 (1273) Omniscient Code Generation not available in Lite mode (warning)
 
-!W ./main.c(14):(690) interrupt function requires address (warning)
+!W ./main.c(15):(690) interrupt function requires address (warning)
 
 
 
 Memory Summary:
 
-    Program space        used  10C2h (  4290) of  8000h bytes   ( 13.1%)
+    Program space        used  4846h ( 18502) of  8000h bytes   ( 56.5%)
 
-    Data space           used   17Bh (   379) of   800h bytes   ( 18.5%)
+    Data space           used   1C2h (   450) of   800h bytes   ( 22.0%)
 
 
 
 Comparative memory usage (excludes absolute areas and stack variables)
 
-    ROM used:  3899 bytes
+    ROM used: 18111 bytes
 
-    RAM used:   308 bytes
+    RAM used:   310 bytes
 
 HI-TECH C PRO compiler averages 40% less code than this Lite mode
 
-PRO may reduce your program size by 535 bytes
+PRO may reduce your program size by 6098 bytes
 
 To evaluate HI-TECH C PRO please visit http://cypress.htsoft.com/portal/convert
 
  
-sensor_gateway - 0 error(s) 2 warning(s) 14:18:10
+sensor_gateway - 0 error(s) 2 warning(s) 16:14:27
