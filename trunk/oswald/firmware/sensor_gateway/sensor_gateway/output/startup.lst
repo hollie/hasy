@@ -1,7 +1,7 @@
 
 
 HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
-                                                                                                           Sat Feb 07 14:18:05 2009
+                                                                                                           Sat Feb 07 16:14:23 2009
 
 
      1                          
@@ -15,8 +15,8 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
      9                          	;
     10                          	; --asmlist --errformat --chip=CY8C29566 --WARN=0 --OPT=asm,9 \
     11                          	; -Osensor_gateway -Moutput/sensor_gateway.mp --OUTDIR=./output \
-    12                          	; ./obj/boot.obj ./obj/main.p1 ./obj/oo.p1 lib/libpsoc.lib \
-    13                          	; lib/libpsoc.lpp \
+    12                          	; ./obj/boot.obj ./obj/main.p1 ./obj/oo.p1 ./obj/shtxx.p1 \
+    13                          	; lib/libpsoc.lib lib/libpsoc.lpp \
     14                          	; C:/PROGRA~1/Cypress/Common/CYPRES~2/tools/lib/CY8C29000/cms.lib
     15                          	;
     16                          
@@ -24,7 +24,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
     18                          	processor	CY8C29566
     19                          	macro	M8C_ClearWDT
     20                          	mov reg[0xE3],0x38
-    21  78C5                    	endm
+    21  413B                    	endm
     22                          
     23                          	psect	PD_startup,class=CODE
     24                          	psect	init,class=CODE
@@ -104,9 +104,9 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
     98                          
     99                          	global	start,startup,_main
    100                          	global	reset_vec,intlevel0,intlevel1,intlevel2
-   101  0060                    intlevel0:
-   102  0060                    intlevel1:
-   103  0060                    intlevel2:		; for C funcs called from assembler
+   101  00A5                    intlevel0:
+   102  00A5                    intlevel1:
+   103  00A5                    intlevel2:		; for C funcs called from assembler
    104                          
    105                          	fnconf	fnauto,??,?
    106                          	fnroot	_main
@@ -124,56 +124,56 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    118  0000                    reset_vec:
    119  0000                    start:
    120                          	global	__Start
-   121  0000  7D 7E04           	ljmp	__Start
+   121  0000  7D 7F5A           	ljmp	__Start
    122                          
    123                          	psect	init
-   124  7E8E                    startup:
-   125  7E8E  62 E3 38          	M8C_ClearWDT
-   126  7E91  71 80             	or	f, 0x80	;select multiple RAM page mode
-   127  7E93  70 BF             	and	f, 0xBF
+   124  7CC9                    startup:
+   125  7CC9  62 E3 38          	M8C_ClearWDT
+   126  7CCC  71 80             	or	f, 0x80	;select multiple RAM page mode
+   127  7CCE  70 BF             	and	f, 0xBF
    128                          
    129                          ;	Clear uninitialized variables in bank 0
    130                          	global	__Lbss0
-   131  7E95  62 D0 00          	mov	reg[CUR_PP],0
-   132  7E98  50 00             	mov	a,0
-   133  7E9A  53 00             	mov	[__Lbss0+0],a
+   131  7CD0  62 D0 00          	mov	reg[CUR_PP],0
+   132  7CD3  50 00             	mov	a,0
+   133  7CD5  53 00             	mov	[__Lbss0+0],a
    134                          
    135                          ;	Copy initialized data into bank 1
    136                          	global	__Lromdata1,__Lramdata1
-   137  7E9C  62 D1 01          	mov	reg[STK_PP],1
-   138  7E9F  57 00             	mov	x,low __Lromdata1
-   139  7EA1  50 00             	mov	a,low __Lramdata1
-   140  7EA3  4E                	swap	a,sp
-   141  7EA4                    dataloop1:
-   142  7EA4  50 01             	mov	a,high __Lromdata1
-   143  7EA6  28                	romx
-   144  7EA7  08                	push	a
-   145  7EA8  75                	inc	x
-   146  7EA9  5B                		mov	a,x
-   147  7EAA  39 00             cmp	a,low (__Lromdata1+256)
-   148  7EAC  BFF7              	jnz	dataloop1
+   137  7CD7  62 D1 01          	mov	reg[STK_PP],1
+   138  7CDA  57 00             	mov	x,low __Lromdata1
+   139  7CDC  50 00             	mov	a,low __Lramdata1
+   140  7CDE  4E                	swap	a,sp
+   141  7CDF                    dataloop1:
+   142  7CDF  50 01             	mov	a,high __Lromdata1
+   143  7CE1  28                	romx
+   144  7CE2  08                	push	a
+   145  7CE3  75                	inc	x
+   146  7CE4  5B                		mov	a,x
+   147  7CE5  39 00             cmp	a,low (__Lromdata1+256)
+   148  7CE7  BFF7              	jnz	dataloop1
    149                          
    150                          ;	Clear uninitialized variables in bank 2
    151                          	global	__Lbss2
-   152  7EAE  62 D1 02          	mov	reg[STK_PP],2
-   153  7EB1  50 00             	mov	a,low __Lbss2
-   154  7EB3  4E                	swap	a,sp
-   155  7EB4  50 00             	mov	a,0
-   156  7EB6  57 13             	mov	x,19
-   157  7EB8                    bssloop2:
-   158  7EB8  08                	push	a
-   159  7EB9  79                	dec	x
-   160  7EBA  BFFD              	jnz	bssloop2
-   161  7EBC  62 D1 07          	mov	reg[STK_PP],7
-   162  7EBF  50 00             	mov	a,low __Lstackps
-   163  7EC1  4E                	swap	a,sp
+   152  7CE9  62 D1 02          	mov	reg[STK_PP],2
+   153  7CEC  50 00             	mov	a,low __Lbss2
+   154  7CEE  4E                	swap	a,sp
+   155  7CEF  50 00             	mov	a,0
+   156  7CF1  57 15             	mov	x,21
+   157  7CF3                    bssloop2:
+   158  7CF3  08                	push	a
+   159  7CF4  79                	dec	x
+   160  7CF5  BFFD              	jnz	bssloop2
+   161  7CF7  62 D1 07          	mov	reg[STK_PP],7
+   162  7CFA  50 00             	mov	a,low __Lstackps
+   163  7CFC  4E                	swap	a,sp
    164                          
-   165  7EC2  7D 7D3C           	ljmp	_main
+   165  7CFD  7D 7BE0           	ljmp	_main
 
 
 HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
-Symbol Table                                                                                               Sat Feb 07 14:18:05 2009
+Symbol Table                                                                                               Sat Feb 07 16:14:23 2009
 
-    __Lramdata1 0100       __Lstackps 0700      __Lromdata1 0100            _main 7D3C            start 0000        dataloop1 7EA4  
-         CUR_PP 00D0           STK_PP 00D1        intlevel0 0060        intlevel1 0060        intlevel2 0060        reset_vec 0000  
-       bssloop2 7EB8          __Lbss0 0000          __Lbss2 0200          __Start 7E04          startup 7E8E  __stack_start__ 0700  
+    __Lramdata1 0100       __Lstackps 0700      __Lromdata1 0100            _main 7BE0            start 0000        dataloop1 7CDF  
+         CUR_PP 00D0           STK_PP 00D1        intlevel0 00A5        intlevel1 00A5        intlevel2 00A5        reset_vec 0000  
+       bssloop2 7CF3          __Lbss0 0000          __Lbss2 0200          __Start 7F5A          startup 7CC9  __stack_start__ 0700  

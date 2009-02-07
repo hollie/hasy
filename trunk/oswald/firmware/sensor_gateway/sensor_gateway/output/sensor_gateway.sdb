@@ -167,8 +167,20 @@
 "27 ./oo.h
 [s S512 s_oo_data 13 `[8]uc 1 id 8 0 `uc 1 t_msb 1 8 `uc 1 t_lsb 1 9 `uc 1 remain 1 10 `uc 1 nr_count 1 11 `uc 1 valid 1 12 ]
 [v _oo_tdata `S512  1 t 13 ]
-"14 ./main.c
-[v F670 `(v  1 t 0 ]
+"12 C:\Program Files\HI-TECH Software\HCPSOC\PRO\9.61\include\stdio.h
+[v _ptrdiff_t `i  1 t 2 ]
+"13
+[v _size_t `ui  1 t 2 ]
+"14
+[v _wchar_t `us  1 t 2 ]
+"46 C:\Program Files\HI-TECH Software\HCPSOC\PRO\9.61\include\stdarg.h
+[v _va_list `[1]*v  1a t 2 ]
+"61 C:\Program Files\HI-TECH Software\HCPSOC\PRO\9.61\include\stdio.h
+[v F744 `(v  1 t 0 ]
+"62
+[s S525 __prbuf 3 `*uc 1 ptr 2 0 `*(v 1 func 1 2 ]
+"15 ./main.c
+[v F797 `(v  1 t 0 ]
 "21 C:/PROGRA~1/Cypress/Common/CYPRES~2/tools/include/CY8C29~1\m8c.h
 [v _BOOL `uc  1 t 1 ]
 "22
@@ -183,157 +195,391 @@
 [v _DWORD `ul  1 t 4 ]
 "27
 [v _LONG `l  1 t 4 ]
-"27 ./oo.h
-[s S918 s_oo_data 13 `[8]uc 1 id 8 0 `uc 1 t_msb 1 8 `uc 1 t_lsb 1 9 `uc 1 remain 1 10 `uc 1 nr_count 1 11 `uc 1 valid 1 12 ]
-[v _oo_tdata `S512  1 t 13 ]
 "36 ./lib\Counter8_ltrx.h
-[v F393 `(v  1 t 0 ]
+[v F371 `(v  1 t 0 ]
 "37
-[v F396 `(v  1 t 0 ]
+[v F374 `(v  1 t 0 ]
 "38
-[v F399 `(v  1 t 0 ]
+[v F377 `(v  1 t 0 ]
 "39
-[v F402 `(v  1 t 0 ]
+[v F380 `(v  1 t 0 ]
 "40
-[v F405 `(uc  1 t 1 ]
+[v F383 `(uc  1 t 1 ]
 "41
-[v F408 `(v  1 t 0 ]
+[v F386 `(v  1 t 0 ]
 "42
-[v F411 `(uc  1 t 1 ]
+[v F389 `(uc  1 t 1 ]
 "43
-[v F414 `(v  1 t 0 ]
+[v F392 `(v  1 t 0 ]
 "48
-[v F417 `(uc  1 t 1 ]
+[v F395 `(uc  1 t 1 ]
 "49
-[v F420 `(uc  1 t 1 ]
+[v F398 `(uc  1 t 1 ]
 "37 ./lib\LED1.h
-[v F431 `(v  1 t 0 ]
+[v F409 `(v  1 t 0 ]
 "38
-[v F434 `(v  1 t 0 ]
+[v F412 `(v  1 t 0 ]
 "39
-[v F437 `(v  1 t 0 ]
+[v F415 `(v  1 t 0 ]
 "40
-[v F440 `(v  1 t 0 ]
+[v F418 `(v  1 t 0 ]
 "41
-[v F443 `(v  1 t 0 ]
+[v F421 `(v  1 t 0 ]
 "42
-[v F446 `(v  1 t 0 ]
+[v F424 `(v  1 t 0 ]
 "43
-[v F449 `(uc  1 t 1 ]
+[v F427 `(uc  1 t 1 ]
 "69 ./lib\LTRX.h
-[v F455 `(v  1 t 0 ]
+[v F433 `(v  1 t 0 ]
 "70
-[v F458 `(v  1 t 0 ]
+[v F436 `(v  1 t 0 ]
 "71
-[v F461 `(v  1 t 0 ]
+[v F439 `(v  1 t 0 ]
 "72
-[v F464 `(v  1 t 0 ]
+[v F442 `(v  1 t 0 ]
 "73
-[v F467 `(v  1 t 0 ]
+[v F445 `(v  1 t 0 ]
 "74
-[v F470 `(v  1 t 0 ]
+[v F448 `(v  1 t 0 ]
 "75
-[v F473 `(uc  1 t 1 ]
+[v F451 `(uc  1 t 1 ]
 "76
-[v F476 `(uc  1 t 1 ]
+[v F454 `(uc  1 t 1 ]
 "77
-[v F479 `(uc  1 t 1 ]
+[v F457 `(uc  1 t 1 ]
 "80
-[v F482 `(v  1 t 0 ]
+[v F460 `(v  1 t 0 ]
 "81
-[v F485 `(v  1 t 0 ]
+[v F463 `(v  1 t 0 ]
 "82
-[v F488 `(v  1 t 0 ]
+[v F466 `(v  1 t 0 ]
 "83
-[v F492 `(v  1 t 0 ]
+[v F470 `(v  1 t 0 ]
 "84
-[v F496 `(v  1 t 0 ]
+[v F474 `(v  1 t 0 ]
 "85
-[v F499 `(v  1 t 0 ]
+[v F477 `(v  1 t 0 ]
 "86
-[v F502 `(v  1 t 0 ]
+[v F480 `(v  1 t 0 ]
 "87
-[v F505 `(v  1 t 0 ]
+[v F483 `(v  1 t 0 ]
 "88
-[v F508 `(v  1 t 0 ]
+[v F486 `(v  1 t 0 ]
 "91
-[v F511 `(c  1 t 1 ]
+[v F489 `(c  1 t 1 ]
 "92
-[v F514 `(c  1 t 1 ]
+[v F492 `(c  1 t 1 ]
 "93
-[v F517 `(i  1 t 2 ]
+[v F495 `(i  1 t 2 ]
 "94
-[v F520 `(v  1 t 0 ]
+[v F498 `(v  1 t 0 ]
 "97
-[v F523 `(v  1 t 0 ]
+[v F501 `(v  1 t 0 ]
 "98
-[v F526 `(uc  1 t 1 ]
+[v F504 `(uc  1 t 1 ]
 "99
-[v F529 `(uc  1 t 1 ]
+[v F507 `(uc  1 t 1 ]
 "100
-[v F532 `(uc  1 t 1 ]
+[v F510 `(uc  1 t 1 ]
 "101
-[v F535 `(*uc  1 t 2 ]
+[v F513 `(*uc  1 t 2 ]
 "102
-[v F538 `(*uc  1 t 2 ]
+[v F516 `(*uc  1 t 2 ]
 "200
-[v F555 `(uc  1 t 1 ]
+[v F533 `(uc  1 t 1 ]
 "201
-[v F558 `(uc  1 t 1 ]
+[v F536 `(uc  1 t 1 ]
 "202
-[v F561 `(uc  1 t 1 ]
+[v F539 `(uc  1 t 1 ]
 "56 ./lib\OneWire.h
-[v F564 `(v  1 t 0 ]
+[v F542 `(v  1 t 0 ]
 "57
-[v F567 `(v  1 t 0 ]
+[v F545 `(v  1 t 0 ]
 "59
-[v F570 `(uc  1 t 1 ]
+[v F548 `(uc  1 t 1 ]
 "60
-[v F573 `(v  1 t 0 ]
+[v F551 `(v  1 t 0 ]
 "61
-[v F576 `(uc  1 t 1 ]
+[v F554 `(uc  1 t 1 ]
 "62
-[v F579 `(v  1 t 0 ]
+[v F557 `(v  1 t 0 ]
 "63
-[v F582 `(uc  1 t 1 ]
+[v F560 `(uc  1 t 1 ]
 "64
-[v F585 `(v  1 t 0 ]
+[v F563 `(v  1 t 0 ]
 "65
-[v F588 `(uc  1 t 1 ]
+[v F566 `(uc  1 t 1 ]
 "73
-[v F591 `(v  1 t 0 ]
+[v F569 `(v  1 t 0 ]
 "74
-[v F594 `(v  1 t 0 ]
+[v F572 `(v  1 t 0 ]
 "75
-[v F597 `(uc  1 t 1 ]
+[v F575 `(uc  1 t 1 ]
 "76
-[v F600 `(uc  1 t 1 ]
+[v F578 `(uc  1 t 1 ]
 "77
-[v F603 `(uc  1 t 1 ]
+[v F581 `(uc  1 t 1 ]
 "78
-[v F606 `(v  1 t 0 ]
+[v F584 `(v  1 t 0 ]
 "79
-[v F609 `(v  1 t 0 ]
+[v F587 `(v  1 t 0 ]
 "34 ./lib\Ticker.h
-[v F626 `(v  1 t 0 ]
+[v F604 `(v  1 t 0 ]
 "35
-[v F629 `(v  1 t 0 ]
+[v F607 `(v  1 t 0 ]
 "36
-[v F632 `(v  1 t 0 ]
+[v F610 `(v  1 t 0 ]
 "37
-[v F635 `(v  1 t 0 ]
+[v F613 `(v  1 t 0 ]
 "38
-[v F638 `(ui  1 t 2 ]
+[v F616 `(ui  1 t 2 ]
 "39
-[v F641 `(v  1 t 0 ]
+[v F619 `(v  1 t 0 ]
 "40
-[v F644 `(ui  1 t 2 ]
+[v F622 `(ui  1 t 2 ]
 "41
-[v F647 `(v  1 t 0 ]
+[v F625 `(v  1 t 0 ]
 "46
-[v F650 `(ui  1 t 2 ]
+[v F628 `(ui  1 t 2 ]
 "47
-[v F653 `(ui  1 t 2 ]
+[v F631 `(ui  1 t 2 ]
+"27 ./oo.h
+[s S1062 s_oo_data 13 `[8]uc 1 id 8 0 `uc 1 t_msb 1 8 `uc 1 t_lsb 1 9 `uc 1 remain 1 10 `uc 1 nr_count 1 11 `uc 1 valid 1 12 ]
+[v _oo_tdata `S512  1 t 13 ]
+"21 C:/PROGRA~1/Cypress/Common/CYPRES~2/tools/include/CY8C29~1\m8c.h
+[v _BOOL `uc  1 t 1 ]
+"22
+[v _BYTE `uc  1 t 1 ]
+"23
+[v _CHAR `c  1 t 1 ]
+"24
+[v _WORD `ui  1 t 2 ]
+"25
+[v _INT `i  1 t 2 ]
+"26
+[v _DWORD `ul  1 t 4 ]
+"27
+[v _LONG `l  1 t 4 ]
+"36 ./lib\Counter8_ltrx.h
+[v F371 `(v  1 t 0 ]
+"37
+[v F374 `(v  1 t 0 ]
+"38
+[v F377 `(v  1 t 0 ]
+"39
+[v F380 `(v  1 t 0 ]
+"40
+[v F383 `(uc  1 t 1 ]
+"41
+[v F386 `(v  1 t 0 ]
+"42
+[v F389 `(uc  1 t 1 ]
+"43
+[v F392 `(v  1 t 0 ]
+"48
+[v F395 `(uc  1 t 1 ]
+"49
+[v F398 `(uc  1 t 1 ]
+"37 ./lib\LED1.h
+[v F409 `(v  1 t 0 ]
+"38
+[v F412 `(v  1 t 0 ]
+"39
+[v F415 `(v  1 t 0 ]
+"40
+[v F418 `(v  1 t 0 ]
+"41
+[v F421 `(v  1 t 0 ]
+"42
+[v F424 `(v  1 t 0 ]
+"43
+[v F427 `(uc  1 t 1 ]
+"69 ./lib\LTRX.h
+[v F433 `(v  1 t 0 ]
+"70
+[v F436 `(v  1 t 0 ]
+"71
+[v F439 `(v  1 t 0 ]
+"72
+[v F442 `(v  1 t 0 ]
+"73
+[v F445 `(v  1 t 0 ]
+"74
+[v F448 `(v  1 t 0 ]
+"75
+[v F451 `(uc  1 t 1 ]
+"76
+[v F454 `(uc  1 t 1 ]
+"77
+[v F457 `(uc  1 t 1 ]
+"80
+[v F460 `(v  1 t 0 ]
+"81
+[v F463 `(v  1 t 0 ]
+"82
+[v F466 `(v  1 t 0 ]
+"83
+[v F470 `(v  1 t 0 ]
+"84
+[v F474 `(v  1 t 0 ]
+"85
+[v F477 `(v  1 t 0 ]
+"86
+[v F480 `(v  1 t 0 ]
+"87
+[v F483 `(v  1 t 0 ]
+"88
+[v F486 `(v  1 t 0 ]
+"91
+[v F489 `(c  1 t 1 ]
+"92
+[v F492 `(c  1 t 1 ]
+"93
+[v F495 `(i  1 t 2 ]
+"94
+[v F498 `(v  1 t 0 ]
+"97
+[v F501 `(v  1 t 0 ]
+"98
+[v F504 `(uc  1 t 1 ]
+"99
+[v F507 `(uc  1 t 1 ]
+"100
+[v F510 `(uc  1 t 1 ]
+"101
+[v F513 `(*uc  1 t 2 ]
+"102
+[v F516 `(*uc  1 t 2 ]
+"200
+[v F533 `(uc  1 t 1 ]
+"201
+[v F536 `(uc  1 t 1 ]
+"202
+[v F539 `(uc  1 t 1 ]
+"56 ./lib\OneWire.h
+[v F542 `(v  1 t 0 ]
+"57
+[v F545 `(v  1 t 0 ]
+"59
+[v F548 `(uc  1 t 1 ]
+"60
+[v F551 `(v  1 t 0 ]
+"61
+[v F554 `(uc  1 t 1 ]
+"62
+[v F557 `(v  1 t 0 ]
+"63
+[v F560 `(uc  1 t 1 ]
+"64
+[v F563 `(v  1 t 0 ]
+"65
+[v F566 `(uc  1 t 1 ]
+"73
+[v F569 `(v  1 t 0 ]
+"74
+[v F572 `(v  1 t 0 ]
+"75
+[v F575 `(uc  1 t 1 ]
+"76
+[v F578 `(uc  1 t 1 ]
+"77
+[v F581 `(uc  1 t 1 ]
+"78
+[v F584 `(v  1 t 0 ]
+"79
+[v F587 `(v  1 t 0 ]
+"34 ./lib\Ticker.h
+[v F604 `(v  1 t 0 ]
+"35
+[v F607 `(v  1 t 0 ]
+"36
+[v F610 `(v  1 t 0 ]
+"37
+[v F613 `(v  1 t 0 ]
+"38
+[v F616 `(ui  1 t 2 ]
+"39
+[v F619 `(v  1 t 0 ]
+"40
+[v F622 `(ui  1 t 2 ]
+"41
+[v F625 `(v  1 t 0 ]
+"46
+[v F628 `(ui  1 t 2 ]
+"47
+[v F631 `(ui  1 t 2 ]
+"12 C:\Program Files\HI-TECH Software\HCPSOC\PRO\9.61\include\stdio.h
+[v _ptrdiff_t `i  1 t 2 ]
+"13
+[v _size_t `ui  1 t 2 ]
+"14
+[v _wchar_t `us  1 t 2 ]
+"46 C:\Program Files\HI-TECH Software\HCPSOC\PRO\9.61\include\stdarg.h
+[v _va_list `[1]*v  1a t 2 ]
+"61 C:\Program Files\HI-TECH Software\HCPSOC\PRO\9.61\include\stdio.h
+[v F659 `(v  1 t 0 ]
+"62
+[s S1631 __prbuf 3 `*uc 1 ptr 2 0 `*(v 1 func 1 2 ]
+"17 ./shtxx.c
+[e E776 . `uc
+TEMP 0
+HUMI 1
+]
+"22
+[u S1638 . 4 `ui 1 i 2 0 `f 1 f 4 0 ]
+[v _value `S1638  1 t 4 ]
+"12 C:\Program Files\HI-TECH Software\HCPSOC\PRO\9.61\include\stdio.h
+[v _ptrdiff_t `i  1 t 2 ]
+"13
+[v _size_t `ui  1 t 2 ]
+"14
+[v _wchar_t `us  1 t 2 ]
+"46 C:\Program Files\HI-TECH Software\HCPSOC\PRO\9.61\include\stdarg.h
+[v _va_list `[1]*v  1a t 2 ]
+"61 C:\Program Files\HI-TECH Software\HCPSOC\PRO\9.61\include\stdio.h
+[v F13 `(v  1 t 0 ]
+"62
+[s S1713 __prbuf 3 `*uc 1 ptr 2 0 `*(v 1 func 1 2 ]
+"47 C:\Program Files\HI-TECH Software\HCPSOC\PRO\9.61\include\stdlib.h
+[s S1717 . 4 `i 1 quot 2 0 `i 1 rem 2 2 ]
+[v _div_t `S1717  1 t 4 ]
+"51
+[s S1721 . 4 `ui 1 quot 2 0 `ui 1 rem 2 2 ]
+[v _udiv_t `S1721  1 t 4 ]
+"55
+[s S1725 . 8 `l 1 quot 4 0 `l 1 rem 4 4 ]
+[v _ldiv_t `S1725  1 t 8 ]
+"59
+[s S1729 . 8 `ul 1 quot 4 0 `ul 1 rem 4 4 ]
+[v _uldiv_t `S1729  1 t 8 ]
+"124
+[v F165 `(v  1 t 0 ]
+"128
+[v F177 `(i  1 t 2 ]
+"129
+[v F186 `(i  1 t 2 ]
+"511 C:\Program Files\HI-TECH Software\HCPSOC\PRO\9.61\lib\doprnt.c
+[s S1755 . 4 `*Cuc 1 _cp 2 0 `ui 1 _len 2 2 ]
+"512
+[u S1758 . 4 `ul 1 _val 4 0 `S1755 1 _str 4 0 ]
+"124 ../common/frexp.c
+[s S1793 flt 4 `uc 1 sign 1 0 :1:7 
+`uc 1 exp 1 0 :8:7 
+`uc 1 hmant 1 1 :7:0 
+`[2]uc 1 mant 2 2 ]
+"126
+[u S1798 both 4 `S1793 1 flt 4 0 `d 1 fl 4 0 ]
+[v _both_t `S1798  1 t 4 ]
+"5 ../common/evalpoly.c
+[v _eval_poly `(d  1 e 4 0 ]
+"255 ../common/frexp.c
+[v _frexp `(d  1 e 4 0 ]
+"13 ../common/isdigit.c
+[v _isdigit `(b  1 e 0 0 ]
+"6 ../common/log.c
+[v _log `(d  1 e 4 0 ]
+"40
+[v _log10 `(d  1 e 4 0 ]
 "38 ./lib\Counter8_ltrx.h
 [v _Counter8_ltrx_Start `BR(v  1 e 0 0 ]
 "37 ./lib\LED1.h
@@ -380,16 +626,18 @@
 [v _Ticker_EnableInt `BR(v  1 e 0 0 ]
 "36
 [v _Ticker_Start `BR(v  1 e 0 0 ]
-"14 ./main.c
+"15 ./main.c
 [v _Ticker_ISR `I(v  1 e 0 @0 ]
 "21
 [v _print_header `(v  1 e 0 0 ]
-"32
+"31
 [v _print_help `(v  1 e 0 0 ]
-"39
+"38
 [v _hardware_init `(v  1 e 0 0 ]
 "59
 [v _main `(v  1 e 0 0 ]
+"92
+[v _putch `(v  1 e 0 0 ]
 "51 ./oo.c
 [v _oo_busreset `(uc  1 e 1 0 ]
 "62
@@ -416,6 +664,72 @@
 [v _oo_print_data `(v  1 e 0 0 ]
 "302
 [v _oo_report `(v  1 e 0 0 ]
+"45 ./shtxx.c
+[v _s_Start `(v  1 e 0 0 ]
+"55
+[v _s_write_byte `(uc  1 e 1 0 ]
+"76
+[v _s_read_byte `(uc  1 e 1 0 ]
+"107
+[v _s_transstart `(v  1 e 0 0 ]
+"131
+[v _s_connectionreset `(v  1 e 0 0 ]
+"186
+[v _s_measure `(uc  1 e 1 0 ]
+"222
+[v _calc_sth11 `(v  1 e 0 0 ]
+"250
+[v _calc_dewpoint `(f  1 e 4 0 ]
+"257
+[v _s_do_measure `(v  1 e 0 0 ]
+"297
+[v _delay_1us `(v  1 e 0 0 ]
+"303
+[v _delay_5us `(v  1 e 0 0 ]
+"398 C:\Program Files\HI-TECH Software\HCPSOC\PRO\9.61\lib\doprnt.c
+[v _fround `(d  1 s 4 _fround ]
+"414
+[v _scale `(d  1 s 4 _scale ]
+"453
+[v _printf `(i  1 e 2 0 ]
+"5 C:\Program Files\HI-TECH Software\HCPSOC\PRO\9.61\sources\awdiv.c
+[v ___awdiv `(i  1 e 2 0 ]
+"5 C:\Program Files\HI-TECH Software\HCPSOC\PRO\9.61\sources\awmod.c
+[v ___awmod `(i  1 e 2 0 ]
+"16 C:\Program Files\HI-TECH Software\HCPSOC\PRO\9.61\sources\awtofl.c
+[v ___awtofl `(d  1 e 4 0 ]
+"13 C:\Program Files\HI-TECH Software\HCPSOC\PRO\9.61\sources\double.c
+[v ___flunpack `(uc  1 e 1 0 ]
+"33
+[v ___flpack `(v  1 e 0 0 ]
+"17 C:\Program Files\HI-TECH Software\HCPSOC\PRO\9.61\sources\fladd.c
+[v ___fladd `(d  1 e 4 0 ]
+"19 C:\Program Files\HI-TECH Software\HCPSOC\PRO\9.61\sources\fldiv.c
+[v ___fldiv `(d  1 e 4 0 ]
+"5 C:\Program Files\HI-TECH Software\HCPSOC\PRO\9.61\sources\flge.c
+[v ___flge `(b  1 e 0 0 ]
+"18 C:\Program Files\HI-TECH Software\HCPSOC\PRO\9.61\sources\flmul.c
+[v ___flmul `(d  1 e 4 0 ]
+"16 C:\Program Files\HI-TECH Software\HCPSOC\PRO\9.61\sources\flneg.c
+[v ___flneg `(d  1 e 4 0 ]
+"17 C:\Program Files\HI-TECH Software\HCPSOC\PRO\9.61\sources\flsub.c
+[v ___flsub `(d  1 e 4 0 ]
+"16 C:\Program Files\HI-TECH Software\HCPSOC\PRO\9.61\sources\fltol.c
+[v ___fltol `(l  1 e 4 0 ]
+"5 C:\Program Files\HI-TECH Software\HCPSOC\PRO\9.61\sources\lldiv.c
+[v ___lldiv `(ul  1 e 4 0 ]
+"5 C:\Program Files\HI-TECH Software\HCPSOC\PRO\9.61\sources\llmod.c
+[v ___llmod `(ul  1 e 4 0 ]
+"16 C:\Program Files\HI-TECH Software\HCPSOC\PRO\9.61\sources\lltofl.c
+[v ___lltofl `(d  1 e 4 0 ]
+"16 C:\Program Files\HI-TECH Software\HCPSOC\PRO\9.61\sources\lwtofl.c
+[v ___lwtofl `(d  1 e 4 0 ]
+"3 C:\Program Files\HI-TECH Software\HCPSOC\PRO\9.61\sources\wmul.c
+[v ___wmul `(ui  1 e 2 0 ]
+"19 fldivl.c
+[v __div_to_l_ `(ul  1 e 4 0 ]
+"9 ../common/log.c
+[v F64 `C[9]d  1 s 36 coeff ]
 "74 ./lib\Counter8_ltrx.h
 [v _Counter8_ltrx_COUNTER_REG `Auc  1 e 1 @48 ]
 "76
@@ -530,6 +844,18 @@
 [v _conflict `c  1 e 1 0 ]
 "39
 [v _new_conflict `b  1 e 0 0 ]
+"222 ./shtxx.c
+[v F815 `Cf  1 s 4 C1 ]
+"223
+[v F816 `Cf  1 s 4 C2 ]
+"224
+[v F817 `Cf  1 s 4 C3 ]
+"225
+[v F818 `Cf  1 s 4 T1 ]
+"226
+[v F819 `Cf  1 s 4 T2 ]
+"22 /hitech/products/compilers/psoc/pro/9.61PL1/dist/linux/include/errno.h
+[v _errno `i  1 e 2 0 ]
 "73 C:/PROGRA~1/Cypress/Common/CYPRES~2/tools/include/CY8C29~1\m8c.h
 [v _PRT0DR `Auc  1 e 1 @0 ]
 "75
@@ -1252,24 +1578,52 @@
 [v _BDG_TR `Auc  1 e 1 @490 ]
 "1181
 [v _ECO_TR `Auc  1 e 1 @491 ]
+"342 C:\Program Files\HI-TECH Software\HCPSOC\PRO\9.61\lib\doprnt.c
+[v _dpowers `C[10]ul  1 s 40 _dpowers ]
+"376
+[v __powers_ `C[13]d  1 e 52 0 ]
+[v __npowers_ `C[13]d  1 e 52 0 ]
 "1 output\__custom.c
 [v __flash_banks `Cuc  1 e 1 0 ]
 "2
 [v __flash_size `Cui  1 e 2 0 ]
 "3
 [v __flash_blocksize `Cuc  1 e 1 0 ]
+"252
+"251
+"236
+"235
+"427
+"425
+"421
+"419
+"404
+"402
 "59 ./main.c
 [v _main `(v  1 e 0 0 ]
 {
 "61
 [v _UART_bfr `*uc  1 a 2 0 ]
-"87
+"89
 } 2
-"32
+"31
 [v _print_help `(v  1 e 0 0 ]
 {
-"36
+"35
 } 0
+"257 ./shtxx.c
+[v _s_do_measure `(v  1 e 0 0 ]
+{
+"268
+[v _humi_val `S1638  1 a 4 4 ]
+[v _temp_val `S1638  1 a 4 0 ]
+"269
+[v _dew_point `f  1 a 4 8 ]
+"270
+[v _error `uc  1 a 1 12 ]
+[v _checksum `uc  1 a 1 13 ]
+"292
+} 14
 "302 ./oo.c
 [v _oo_report `(v  1 e 0 0 ]
 {
@@ -1277,7 +1631,7 @@
 [v _data `S512  1 a 13 0 ]
 "342
 } 13
-"39 ./main.c
+"38 ./main.c
 [v _hardware_init `(v  1 e 0 0 ]
 {
 "56
@@ -1287,7 +1641,56 @@
 {
 "171
 } 0
-"233
+"186 ./shtxx.c
+[v _s_measure `(uc  1 e 1 0 ]
+{
+"187
+[v _error `ui  1 a 2 0 ]
+"188
+[v _i `ui  1 a 2 2 ]
+"186
+[v _p_value `*uc  1 p 2 0 ]
+[v _p_checksum `*uc  1 p 2 2 ]
+[v _mode `uc  1 p 1 4 ]
+"211
+} 4
+"250
+[v _calc_dewpoint `(f  1 e 4 0 ]
+{
+[v _logEx `f  1 a 4 0 ]
+[v _dew_point `f  1 a 4 4 ]
+[v _h `f  1 p 4 0 ]
+[v _t `f  1 p 4 4 ]
+"254
+} 24
+"222
+[v _calc_sth11 `(v  1 e 0 0 ]
+{
+"231
+[v _rh_true `f  1 a 4 0 ]
+"228
+[v _rh `f  1 a 4 4 ]
+"232
+[v _t_C `f  1 a 4 8 ]
+"229
+[v _t `f  1 a 4 16 ]
+"230
+[v _rh_lin `f  1 a 4 12 ]
+"222
+[v _p_humidity `*f  1 p 2 0 ]
+[v _p_temperature `*f  1 p 2 2 ]
+"242
+} 32
+"16 C:\Program Files\HI-TECH Software\HCPSOC\PRO\9.61\sources\lwtofl.c
+[v ___lwtofl `(d  1 e 4 0 ]
+{
+"17
+[v _f1 `d  1 a 4 0 ]
+"16
+[v _c `ui  1 p 2 0 ]
+"24
+} 4
+"233 ./oo.c
 [v _oo_read_device `(S512  1 e 13 0 ]
 {
 "238
@@ -1296,13 +1699,6 @@
 [v _crc `uc  1 a 1 13 ]
 "265
 } 14
-"188
-[v _oo_wait_for_completion `(uc  1 e 1 0 ]
-{
-"190
-[v _counter `uc  1 a 1 0 ]
-"203
-} 1
 "270
 [v _oo_print_data `(v  1 e 0 0 ]
 {
@@ -1312,45 +1708,277 @@
 [v _data `S512  1 p 13 0 ]
 "293
 } 1
+"188
+[v _oo_wait_for_completion `(uc  1 e 1 0 ]
+{
+"190
+[v _counter `uc  1 a 1 0 ]
+"203
+} 1
+"131 ./shtxx.c
+[v _s_connectionreset `(v  1 e 0 0 ]
+{
+"132
+[v _i `uc  1 a 1 0 ]
+"144
+} 1
 "21 ./main.c
 [v _print_header `(v  1 e 0 0 ]
 {
 "29
 } 0
-"90 ./oo.c
-[v _oo_read_scratchpad `(uc  1 e 1 0 ]
+"45 ./shtxx.c
+[v _s_Start `(v  1 e 0 0 ]
 {
-"95
-[v _counter `uc  1 a 1 0 ]
-"112
-} 1
-"51
-[v _oo_busreset `(uc  1 e 1 0 ]
-{
-"55
+"49
 } 0
-"149
-[v _oo_conversion_busy `(uc  1 e 1 0 ]
+"453 C:\Program Files\HI-TECH Software\HCPSOC\PRO\9.61\lib\doprnt.c
+[v _printf `(i  1 e 2 0 ]
 {
-"155
-} 0
-"174
+"503
+[v _fval `d  1 a 4 0 ]
+"512
+[v __val `S1758  1 a 4 4 ]
+"503
+[v _integ `d  1 a 4 8 ]
+"491
+[v _prec `i  1 a 2 12 ]
+"504
+[v _exp `i  1 a 2 14 ]
+"488
+[v _width `i  1 a 2 16 ]
+"495
+[v _flag `us  1 a 2 18 ]
+"454
+[v _ap `[1]*v  1 a 2 20 ]
+"486
+[v _c `c  1 a 1 22 ]
+"453
+[v _f `*Cuc  1 p 2 0 ]
+"1507
+} 23
+"174 ./oo.c
 [v _delay_10ms `(v  1 e 0 0 ]
 {
 "175
 [v _counter `s  1 a 2 0 ]
 "180
 } 2
-"212
-[v _oo_crc_init `(v  1 e 0 0 ]
+"149
+[v _oo_conversion_busy `(uc  1 e 1 0 ]
 {
-"214
+"155
 } 0
-"62
+"107 ./shtxx.c
+[v _s_transstart `(v  1 e 0 0 ]
+{
+"121
+} 0
+"51 ./oo.c
+[v _oo_busreset `(uc  1 e 1 0 ]
+{
+"55
+} 0
+"90
+[v _oo_read_scratchpad `(uc  1 e 1 0 ]
+{
+"95
+[v _counter `uc  1 a 1 0 ]
+"112
+} 1
+"76 ./shtxx.c
+[v _s_read_byte `(uc  1 e 1 0 ]
+{
+"77
+[v _i `uc  1 a 1 0 ]
+[v _val `uc  1 a 1 1 ]
+"76
+[v _ack `uc  1 p 1 0 ]
+"97
+} 2
+"414 C:\Program Files\HI-TECH Software\HCPSOC\PRO\9.61\lib\doprnt.c
+[v _scale `(d  1 s 4 _scale ]
+{
+[v _scl `c  1 p 1 0 ]
+"429
+} 24
+"398
+[v _fround `(d  1 s 4 _fround ]
+{
+[v _prec `uc  1 p 1 0 ]
+"406
+} 12
+"55 ./shtxx.c
+[v _s_write_byte `(uc  1 e 1 0 ]
+{
+"56
+[v _i `uc  1 a 1 0 ]
+[v _error `uc  1 a 1 1 ]
+"55
+[v _value `uc  1 p 1 0 ]
+"70
+} 2
+"92 ./main.c
+[v _putch `(v  1 e 0 0 ]
+{
+[v _c `uc  1 p 1 0 ]
+"96
+} 0
+"13 ../common/isdigit.c
+[v _isdigit `(b  1 e 0 0 ]
+{
+[v _c `uc  1 p 1 0 ]
+"15
+} 0
+"19 C:\Program Files\HI-TECH Software\HCPSOC\PRO\9.61\sources\fldiv.c
+[v ___fldiv `(d  1 e 4 0 ]
+{
+"21
+[v _f3 `d  1 a 4 0 ]
+"20
+[v _exp1 `uc  1 a 1 5 ]
+[v _sign2 `uc  1 a 1 4 ]
+[v _exp2 `uc  1 a 1 7 ]
+[v _sign1 `uc  1 a 1 6 ]
+"19
+[v _f1 `d  1 p 4 0 ]
+[v _f2 `d  1 p 4 4 ]
+"45
+} 8
+"40 ../common/log.c
+[v _log10 `(d  1 e 4 0 ]
+{
+[v _x `d  1 p 4 0 ]
+"42
+} 0
+"3 C:\Program Files\HI-TECH Software\HCPSOC\PRO\9.61\sources\wmul.c
+[v ___wmul `(ui  1 e 2 0 ]
+{
+"4
+[v _product `ui  1 a 2 0 ]
+"3
+[v _multiplier `ui  1 p 2 0 ]
+[v _multiplicand `ui  1 p 2 2 ]
+"13
+} 2
+"5 C:\Program Files\HI-TECH Software\HCPSOC\PRO\9.61\sources\lldiv.c
+[v ___lldiv `(ul  1 e 4 0 ]
+{
+"6
+[v _quotient `ul  1 a 4 0 ]
+"7
+[v _counter `uc  1 a 1 4 ]
+"5
+[v _dividend `ul  1 p 4 0 ]
+[v _divisor `ul  1 p 4 4 ]
+"26
+} 5
+"5 C:\Program Files\HI-TECH Software\HCPSOC\PRO\9.61\sources\llmod.c
+[v ___llmod `(ul  1 e 4 0 ]
+{
+"6
+[v _counter `uc  1 a 1 0 ]
+"5
+[v _dividend `ul  1 p 4 0 ]
+[v _divisor `ul  1 p 4 4 ]
+"21
+} 1
+"17 C:\Program Files\HI-TECH Software\HCPSOC\PRO\9.61\sources\flsub.c
+[v ___flsub `(d  1 e 4 0 ]
+{
+[v _f1 `d  1 p 4 0 ]
+[v _f2 `d  1 p 4 4 ]
+"20
+} 0
+"16 C:\Program Files\HI-TECH Software\HCPSOC\PRO\9.61\sources\fltol.c
+[v ___fltol `(l  1 e 4 0 ]
+{
+"18
+[v _lval `ul  1 a 4 0 ]
+"17
+[v _exp1 `uc  1 a 1 4 ]
+[v _sign1 `uc  1 a 1 5 ]
+"16
+[v _f1 `d  1 p 4 0 ]
+"40
+} 6
+"19 fldivl.c
+[v __div_to_l_ `(ul  1 e 4 0 ]
+{
+"21
+[v _quot `ul  1 a 4 0 ]
+"20
+[v _exp1 `uc  1 a 1 4 ]
+[v _cntr `uc  1 a 1 5 ]
+"19
+[v _f1 `d  1 p 4 0 ]
+[v _f2 `d  1 p 4 4 ]
+"56
+} 6
+"16 C:\Program Files\HI-TECH Software\HCPSOC\PRO\9.61\sources\lltofl.c
+[v ___lltofl `(d  1 e 4 0 ]
+{
+"17
+[v _f1 `d  1 a 4 0 ]
+"18
+[v _exp `uc  1 a 1 4 ]
+"16
+[v _c `ul  1 p 4 0 ]
+"26
+} 5
+"303 ./shtxx.c
+[v _delay_5us `(v  1 e 0 0 ]
+{
+"311
+} 0
+"297
+[v _delay_1us `(v  1 e 0 0 ]
+{
+"299
+} 0
+"6 ../common/log.c
+[v _log `(d  1 e 4 0 ]
+{
+"7
+[v _exp `i  1 a 2 0 ]
+"6
+[v _x `d  1 p 4 0 ]
+"36
+} 2
+"62 ./oo.c
 [v _oo_tx_byte `(v  1 e 0 0 ]
 {
 [v _data `uc  1 p 1 0 ]
 "65
+} 0
+"5 C:\Program Files\HI-TECH Software\HCPSOC\PRO\9.61\sources\awdiv.c
+[v ___awdiv `(i  1 e 2 0 ]
+{
+"6
+[v _quotient `i  1 a 2 0 ]
+"7
+[v _sign `uc  1 a 1 2 ]
+[v _counter `uc  1 a 1 3 ]
+"5
+[v _dividend `i  1 p 2 0 ]
+[v _divisor `i  1 p 2 2 ]
+"37
+} 4
+"5 C:\Program Files\HI-TECH Software\HCPSOC\PRO\9.61\sources\awmod.c
+[v ___awmod `(i  1 e 2 0 ]
+{
+"6
+[v _counter `uc  1 a 1 1 ]
+[v _sign `uc  1 a 1 0 ]
+"5
+[v _dividend `i  1 p 2 0 ]
+[v _divisor `i  1 p 2 2 ]
+"30
+} 2
+"212 ./oo.c
+[v _oo_crc_init `(v  1 e 0 0 ]
+{
+"214
 } 0
 "72
 [v _oo_rx_byte `(uc  1 e 1 0 ]
@@ -1359,14 +1987,99 @@
 [v _data `uc  1 a 1 0 ]
 "82
 } 1
-"221
+"255 ../common/frexp.c
+[v _frexp `(d  1 e 4 0 ]
+{
+[v _value `d  1 p 4 0 ]
+[v _eptr `*i  1 p 2 4 ]
+"274
+} 0
+"221 ./oo.c
 [v _oo_crc_shuffle_byte `(v  1 e 0 0 ]
 {
 [v _input `uc  1 p 1 0 ]
 "223
 } 0
-"14 ./main.c
-[v _Ticker_ISR `I(v  1 e 0 @0 ]
+"5 C:\Program Files\HI-TECH Software\HCPSOC\PRO\9.61\sources\flge.c
+[v ___flge `(b  1 e 0 0 ]
+{
+[v _ff1 `d  1 p 4 0 ]
+[v _ff2 `d  1 p 4 4 ]
+"13
+} 0
+"5 ../common/evalpoly.c
+[v _eval_poly `(d  1 e 4 0 ]
+{
+"6
+[v _res `d  1 a 4 0 ]
+"5
+[v _x `d  1 p 4 0 ]
+[v _d `*Cd  1 p 2 4 ]
+[v _n `i  1 p 2 6 ]
+"12
+} 4
+"16 C:\Program Files\HI-TECH Software\HCPSOC\PRO\9.61\sources\awtofl.c
+[v ___awtofl `(d  1 e 4 0 ]
+{
+"17
+[v _f1 `d  1 a 4 0 ]
+"16
+[v _c `i  1 p 2 0 ]
+"28
+} 4
+"17 C:\Program Files\HI-TECH Software\HCPSOC\PRO\9.61\sources\fladd.c
+[v ___fladd `(d  1 e 4 0 ]
 {
 "18
+[v _exp1 `uc  1 a 1 0 ]
+[v _exp2 `uc  1 a 1 1 ]
+[v _sign1 `uc  1 a 1 2 ]
+[v _sign2 `uc  1 a 1 4 ]
+[v _cntr `uc  1 a 1 3 ]
+"17
+[v _f1 `d  1 p 4 0 ]
+[v _f2 `d  1 p 4 4 ]
+"85
+} 5
+"18 C:\Program Files\HI-TECH Software\HCPSOC\PRO\9.61\sources\flmul.c
+[v ___flmul `(d  1 e 4 0 ]
+{
+"20
+[v _f3 `d  1 a 4 0 ]
+"19
+[v _cntr `uc  1 a 1 4 ]
+[v _exp1 `uc  1 a 1 5 ]
+[v _sign1 `uc  1 a 1 6 ]
+"18
+[v _f1 `d  1 p 4 0 ]
+[v _f2 `d  1 p 4 4 ]
+"46
+} 7
+"16 C:\Program Files\HI-TECH Software\HCPSOC\PRO\9.61\sources\flneg.c
+[v ___flneg `(d  1 e 4 0 ]
+{
+[v _f1 `d  1 p 4 0 ]
+"20
+} 0
+"33 C:\Program Files\HI-TECH Software\HCPSOC\PRO\9.61\sources\double.c
+[v ___flpack `(v  1 e 0 0 ]
+{
+[v _arg `*ul  1 p 2 0 ]
+[v _exp `uc  1 p 1 2 ]
+"55
+} 0
+"13
+[v ___flunpack `(uc  1 e 1 0 ]
+{
+"14
+[v _sign `uc  1 a 1 0 ]
+"13
+[v _arg `*ul  1 p 2 0 ]
+[v _exp `*uc  1 p 2 2 ]
+"27
+} 1
+"15 ./main.c
+[v _Ticker_ISR `I(v  1 e 0 @0 ]
+{
+"19
 } 0

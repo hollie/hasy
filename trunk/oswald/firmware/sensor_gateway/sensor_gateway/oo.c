@@ -5,8 +5,8 @@
 * PSoC Designer v5.0 HiTide compiler
 *************************************************************/
 
-#include "oo.h"
 #include "PSoCAPI.h"
+#include "oo.h"
 
 char oo_scratchpad[9];
 // Scratchpad contents
@@ -174,7 +174,7 @@ void oo_start_conversion(){
 void delay_10ms(){
 	short counter;
 	
-	for (counter = 0; counter<430; counter++){
+	for (counter = 0; counter<8*430; counter++){
 		asm("nop");
 	}
 }
