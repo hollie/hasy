@@ -1,0 +1,75 @@
+Starting MAKE...
+creating project.mk 
+
+lib/counter8_ltrx.asm
+
+lib/counter8_ltrxint.asm
+
+lib/led1.asm
+
+lib/ltrx.asm
+
+lib/ltrxint.asm
+
+lib/ltrxplus.asm
+
+lib/onewire.asm
+
+lib/onewireint.asm
+
+lib/psocconfig.asm
+
+lib/psocconfigtbl.asm
+
+lib/ticker.asm
+
+lib/tickerint.asm
+
+module lib/obj/ltrxplus.obj defines no symbols (warning)
+
+./boot.asm
+
+./main.c
+
+./oo.c
+
+!W ./oo.c(111):(345) unreachable code (warning)
+
+sed: can't read HTlinkOpts.lkp: No such file or directory
+
+expanded_libs = 
+
+Linking..
+
+HI-TECH C COMPILER (Cypress PSOC) Lite  V9.61PL1
+
+Copyright (C) 1984-2008 HI-TECH SOFTWARE
+
+(1273) Omniscient Code Generation not available in Lite mode (warning)
+
+!W ./main.c(14):(690) interrupt function requires address (warning)
+
+
+
+Memory Summary:
+
+    Program space        used  10C2h (  4290) of  8000h bytes   ( 13.1%)
+
+    Data space           used   17Bh (   379) of   800h bytes   ( 18.5%)
+
+
+
+Comparative memory usage (excludes absolute areas and stack variables)
+
+    ROM used:  3899 bytes
+
+    RAM used:   308 bytes
+
+HI-TECH C PRO compiler averages 40% less code than this Lite mode
+
+PRO may reduce your program size by 535 bytes
+
+To evaluate HI-TECH C PRO please visit http://cypress.htsoft.com/portal/convert
+
+ 
+sensor_gateway - 0 error(s) 2 warning(s) 14:18:10

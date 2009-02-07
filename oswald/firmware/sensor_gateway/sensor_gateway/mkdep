@@ -1,0 +1,13 @@
+-a -f project.dep -p./lib/obj/ -o.obj -- -I./lib -IC:/PROGRA~1/Cypress/Common/CYPRES~2/tools/include/CY8C29~1 -- 
+lib/counter8_ltrx.asm   
+lib/counter8_ltrxint.asm   
+lib/led1.asm   
+lib/ltrx.asm   
+lib/ltrxint.asm   
+lib/ltrxplus.asm   
+lib/onewire.asm   
+lib/onewireint.asm   
+lib/psocconfig.asm   
+lib/psocconfigtbl.asm   
+lib/ticker.asm   
+lib/tickerint.asm 
