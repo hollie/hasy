@@ -9,8 +9,8 @@
 	;
 	; --asmlist --errformat --chip=CY8C29566 --WARN=0 --OPT=asm,9 \
 	; -Osensor_gateway -Moutput/sensor_gateway.mp --OUTDIR=./output \
-	; ./obj/boot.obj ./obj/main.p1 ./obj/oo.p1 ./obj/shtxx.p1 \
-	; lib/libpsoc.lib lib/libpsoc.lpp \
+	; ./obj/boot.obj ./obj/main.p1 ./obj/oo.p1 ./obj/orcon.p1 \
+	; ./obj/shtxx.p1 lib/libpsoc.lib lib/libpsoc.lpp \
 	; C:/PROGRA~1/Cypress/Common/CYPRES~2/tools/lib/CY8C29000/cms.lib
 	;
 

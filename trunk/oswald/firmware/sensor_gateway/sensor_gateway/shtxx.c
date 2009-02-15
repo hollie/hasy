@@ -26,10 +26,13 @@ typedef union
 //----------------------------------------------------------------------------------
 
 // Data and clock set macros
-#define DATA(b) (PRT4DR = (b==0) ? (PRT4DR&0xFE) : (PRT4DR|0x01))
-#define SCK(b)  (PRT2DR = (b==0) ? (PRT2DR&0xBF) : (PRT2DR|0x40))
+// DATA is on P2.1, set it to 'open drain low' drive in chip view
+#define DATA(b) (PRT2DR = (b==0) ? (PRT2DR&0xFD) : (PRT2DR|0x02))
+#define DATA_IN PRT2DR&0x02
 
-#define DATA_IN PRT4DR&0x01
+// CLOCK is on P4.7, set it to 'strong slow' drive in chip view
+#define SCK(b)  (PRT4DR = (b==0) ? (PRT4DR&0x7F) : (PRT4DR|0x80))
+
 
 #define noACK 0
 #define ACK   1
@@ -106,17 +109,17 @@ void s_transstart(void)
 // SCK : ___|   |___|   |______
 {  
    DATA(1); SCK(0);                   //Initial state
-   delay_1us();
+   delay_5us();
    SCK(1);
-   delay_1us();
+   delay_5us();
    DATA(0);
-   delay_1us();
+   delay_5us();
    SCK(0);  
    delay_5us();
    SCK(1);
-   delay_1us();
+   delay_5us();
    DATA(1);		   
-   delay_1us();
+   delay_5us();
    SCK(0);		   
 }
 
@@ -131,14 +134,14 @@ void s_connectionreset(void)
 {  
   unsigned char i; 
   DATA(1); 
-  delay_1us();
+  delay_5us();
   SCK(0);                    //Initial state
-  delay_1us();  
+  delay_5us();  
   for(i=0;i<9;i++)                  //9 SCK cycles
   { SCK(1);
-    delay_1us();
+    delay_5us();
     SCK(0);
-    delay_1us();
+    delay_5us();
   }
   s_transstart();                   //transmission start
 }

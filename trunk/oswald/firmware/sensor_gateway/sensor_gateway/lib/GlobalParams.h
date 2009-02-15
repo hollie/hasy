@@ -36,9 +36,9 @@
 #define CLOCK_INPUT_VC3        0x1     // VC3 clock source
 #define CLOCK_INPUT_VC3_MASK   0x3     // VC3 clock source mask
 #define CLOCK_INPUT_VC3_JUST   0x1     // VC3 clock source justified
-#define CLOCK_DIV_VC3          0x2     // VC3 clock divider
+#define CLOCK_DIV_VC3          0x1     // VC3 clock divider
 #define CLOCK_DIV_VC3_MASK     0xff    // VC3 clock divider mask
-#define CLOCK_DIV_VC3_JUST     0x2     // VC3 clock divider justified
+#define CLOCK_DIV_VC3_JUST     0x1     // VC3 clock divider justified
 #define ANALOG_BUFFER_PWR      0x0     // Analog buffer power level
 #define ANALOG_BUFFER_PWR_MASK 0x1     // Analog buffer power level mask
 #define ANALOG_BUFFER_PWR_JUST 0x0     // Analog buffer power level justified
@@ -65,9 +65,9 @@
 //
 #define ANALOG_IO_CONTROL      0x0     //Analog IO Control register (ABF_CR)
 #define PORT_0_GLOBAL_SELECT   0x5     //Port 0 global select register (PRT0GS)
-#define PORT_0_DRIVE_0         0x6     //Port 0 drive mode 0 register (PRT0DM0)
+#define PORT_0_DRIVE_0         0x2e    //Port 0 drive mode 0 register (PRT0DM0)
 #define PORT_0_DRIVE_1         0xfb    //Port 0 drive mode 1 register (PRT0DM1)
-#define PORT_0_DRIVE_2         0xf8    //Port 0 drive mode 1 register (PRT0DM2)
+#define PORT_0_DRIVE_2         0xd0    //Port 0 drive mode 1 register (PRT0DM2)
 #define PORT_0_INTENABLE       0x0     //Port 0 interrupt enable register (PRT0IE)
 #define PORT_0_INTCTRL_0       0x0     //Port 0 interrupt control 0 register (PRT0IC0)
 #define PORT_0_INTCTRL_1       0x0     //Port 0 interrupt control 1 register (PRT0IC1)
@@ -78,10 +78,10 @@
 #define PORT_1_INTENABLE       0x0     //Port 1 interrupt enable register (PRT1IE)
 #define PORT_1_INTCTRL_0       0x0     //Port 1 interrupt control 0 register (PRT1IC0)
 #define PORT_1_INTCTRL_1       0x0     //Port 1 interrupt control 1 register (PRT1IC1)
-#define PORT_2_GLOBAL_SELECT   0x0     //Port 2 global select register (PRT2GS)
-#define PORT_2_DRIVE_0         0x40    //Port 2 drive mode 0 register (PRT2DM0)
-#define PORT_2_DRIVE_1         0xbf    //Port 2 drive mode 1 register (PRT2DM1)
-#define PORT_2_DRIVE_2         0xff    //Port 2 drive mode 2 register (PRT2DM2)
+#define PORT_2_GLOBAL_SELECT   0x28    //Port 2 global select register (PRT2GS)
+#define PORT_2_DRIVE_0         0x62    //Port 2 drive mode 0 register (PRT2DM0)
+#define PORT_2_DRIVE_1         0x9f    //Port 2 drive mode 1 register (PRT2DM1)
+#define PORT_2_DRIVE_2         0xf7    //Port 2 drive mode 2 register (PRT2DM2)
 #define PORT_2_INTENABLE       0x0     //Port 2 interrupt enable register (PRT2IE)
 #define PORT_2_INTCTRL_0       0x0     //Port 2 interrupt control 0 register (PRT2IC0)
 #define PORT_2_INTCTRL_1       0x0     //Port 2 interrupt control 1 register (PRT2IC1)
@@ -93,8 +93,8 @@
 #define PORT_3_INTCTRL_0       0x0     //Port 3 interrupt control 0 register (PRT3IC0)
 #define PORT_3_INTCTRL_1       0x0     //Port 3 interrupt control 1 register (PRT3IC1)
 #define PORT_4_GLOBAL_SELECT   0x0     //Port 4 global select register (PRT4GS)
-#define PORT_4_DRIVE_0         0x5     //Port 4 drive mode 0 register (PRT4DM0)
-#define PORT_4_DRIVE_1         0xfb    //Port 4 drive mode 1 register (PRT4DM1)
+#define PORT_4_DRIVE_0         0x85    //Port 4 drive mode 0 register (PRT4DM0)
+#define PORT_4_DRIVE_1         0x7b    //Port 4 drive mode 1 register (PRT4DM1)
 #define PORT_4_DRIVE_2         0xff    //Port 4 drive mode 2 register (PRT4DM2)
 #define PORT_4_INTENABLE       0x0     //Port 4 interrupt enable register (PRT4IE)
 #define PORT_4_INTCTRL_0       0x0     //Port 4 interrupt control 0 register (PRT4IC0)

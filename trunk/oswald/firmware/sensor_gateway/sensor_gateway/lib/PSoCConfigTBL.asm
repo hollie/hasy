@@ -9,10 +9,10 @@ AREA lit(rom, rel)
 LoadConfigTBL_sensor_gateway_Ordered:
 ;  Ordered Global Register values
 	M8C_SetBank1
-	mov	reg[00h], 06h		; Port_0_DriveMode_0 register (PRT0DM0)
+	mov	reg[00h], 2eh		; Port_0_DriveMode_0 register (PRT0DM0)
 	mov	reg[01h], fbh		; Port_0_DriveMode_1 register (PRT0DM1)
 	M8C_SetBank0
-	mov	reg[03h], f8h		; Port_0_DriveMode_2 register (PRT0DM2)
+	mov	reg[03h], d0h		; Port_0_DriveMode_2 register (PRT0DM2)
 	mov	reg[02h], 05h		; Port_0_GlobalSelect register (PRT0GS)
 	M8C_SetBank1
 	mov	reg[02h], 00h		; Port_0_IntCtrl_0 register (PRT0IC0)
@@ -31,11 +31,11 @@ LoadConfigTBL_sensor_gateway_Ordered:
 	M8C_SetBank0
 	mov	reg[05h], 00h		; Port_1_IntEn register (PRT1IE)
 	M8C_SetBank1
-	mov	reg[08h], 40h		; Port_2_DriveMode_0 register (PRT2DM0)
-	mov	reg[09h], bfh		; Port_2_DriveMode_1 register (PRT2DM1)
+	mov	reg[08h], 62h		; Port_2_DriveMode_0 register (PRT2DM0)
+	mov	reg[09h], 9fh		; Port_2_DriveMode_1 register (PRT2DM1)
 	M8C_SetBank0
-	mov	reg[0bh], ffh		; Port_2_DriveMode_2 register (PRT2DM2)
-	mov	reg[0ah], 00h		; Port_2_GlobalSelect register (PRT2GS)
+	mov	reg[0bh], f7h		; Port_2_DriveMode_2 register (PRT2DM2)
+	mov	reg[0ah], 28h		; Port_2_GlobalSelect register (PRT2GS)
 	M8C_SetBank1
 	mov	reg[0ah], 00h		; Port_2_IntCtrl_0 register (PRT2IC0)
 	mov	reg[0bh], 00h		; Port_2_IntCtrl_1 register (PRT2IC1)
@@ -53,8 +53,8 @@ LoadConfigTBL_sensor_gateway_Ordered:
 	M8C_SetBank0
 	mov	reg[0dh], 00h		; Port_3_IntEn register (PRT3IE)
 	M8C_SetBank1
-	mov	reg[10h], 05h		; Port_4_DriveMode_0 register (PRT4DM0)
-	mov	reg[11h], fbh		; Port_4_DriveMode_1 register (PRT4DM1)
+	mov	reg[10h], 85h		; Port_4_DriveMode_0 register (PRT4DM0)
+	mov	reg[11h], 7bh		; Port_4_DriveMode_1 register (PRT4DM1)
 	M8C_SetBank0
 	mov	reg[13h], ffh		; Port_4_DriveMode_2 register (PRT4DM2)
 	mov	reg[12h], 00h		; Port_4_GlobalSelect register (PRT4GS)
@@ -127,13 +127,13 @@ LoadConfigTBL_sensor_gateway_Bank0:
 	db		c4h, 33h		; Row_2_LogicSelect_1 register (RDI3LT1)
 	db		c5h, 00h		; Row_2_OutputDrive_0 register (RDI2SRO0)
 	db		c6h, 00h		; Row_2_OutputDrive_1 register (RDI2SRO1)
-	db		c8h, 54h		; Row_3_InputMux register (RDI3RI)
+	db		c8h, 14h		; Row_3_InputMux register (RDI3RI)
 	db		c9h, 00h		; Row_3_InputSync register (RDI3SYN)
 	db		cah, 30h		; Row_3_LogicInputAMux register (RDI3IS)
 	db		cbh, 33h		; Row_3_LogicSelect_0 register (RDI3LT0)
 	db		cch, 33h		; Row_3_LogicSelect_1 register (RDI3LT1)
-	db		cdh, 00h		; Row_3_OutputDrive_0 register (RDI3SRO0)
-	db		ceh, 01h		; Row_3_OutputDrive_1 register (RDI3SRO1)
+	db		cdh, 20h		; Row_3_OutputDrive_0 register (RDI3SRO0)
+	db		ceh, 00h		; Row_3_OutputDrive_1 register (RDI3SRO1)
 	db		6ch, 00h		; TMP_DR0 register (TMP_DR0)
 	db		6dh, 00h		; TMP_DR1 register (TMP_DR1)
 	db		6eh, 00h		; TMP_DR2 register (TMP_DR2)
@@ -188,7 +188,7 @@ LoadConfigTBL_sensor_gateway_Bank1:
 	db		d2h, 00h		; GlobalDigitalInterconnect_Drive_Odd_Output register (GDI_O_OU)
 	db		e1h, 30h		; OscillatorControl_1 register (OSC_CR1)
 	db		e2h, 00h		; OscillatorControl_2 register (OSC_CR2)
-	db		dfh, 02h		; OscillatorControl_3 register (OSC_CR3)
+	db		dfh, 01h		; OscillatorControl_3 register (OSC_CR3)
 	db		deh, 01h		; OscillatorControl_4 register (OSC_CR4)
 	db		ddh, 00h		; OscillatorGlobalBusEnableControl register (OSC_GO_EN)
 	db		e7h, 00h		; Type2Decimator_Control register (DEC_CR2)
@@ -214,8 +214,8 @@ LoadConfigTBL_sensor_gateway_Bank1:
 	db		56h, 40h		;OneWire_BITCLK_OUTPUT_REG(DBB31OU)
 ;       Instance name OneWire, Block Name XCVR(DCB32)
 	db		58h, 16h		;OneWire_XCVR_FUNC_REG(DCB32FN)
-	db		59h, c3h		;OneWire_XCVR_INPUT_REG(DCB32IN)
-	db		5ah, 46h		;OneWire_XCVR_OUTPUT_REG(DCB32OU)
+	db		59h, f3h		;OneWire_XCVR_INPUT_REG(DCB32IN)
+	db		5ah, 45h		;OneWire_XCVR_OUTPUT_REG(DCB32OU)
 ;  Instance name Ticker, User Module Counter16
 ;       Instance name Ticker, Block Name CNTR16_LSB(DCB22)
 	db		48h, 01h		;Ticker_FUNC_LSB_REG(DCB22FN)
