@@ -32,78 +32,54 @@ use Net::hostent;
 # Register ALARM signal
 $SIG{ALRM} = sub { die "timeout" };
 
-my $gateway_host = 'oswald-03';
+# Function prototypes
+#sub read_socket;
+
+# Settings
+my $gateway_host = 'oswald-03';			# Host on the network that has light level values
+my $gateway_port = '10001';				# Port to connect to
+my $state_file   = 'last_command.txt';	# File where the last sent command has been sent to
+my $blinds_host  = 'netnode02';			# Host on the network that controls the blinds
+my $blinds_port  = '10001';				# Port to connect to on the blind controller
+
+# Global variables
 my $next_command;
+my $socket = 0;
 
 # First try to get and parse the ambient light level from the garden sensor
-if (sensor_value_valid()){
-    $next_command = parse_sensor_report();
+open_socket($gateway_host, $gateway_port); # Open the socket with possibility to retry if the target port is in use (can happen on the Lantronix XPORT)
+$socket->send("?\r");
+my $response = read_socket(10);
+
+# Close the socket again, we don't need it anymore
+close_socket();
+
+
+
+# Determine the command to send, either based on sensor readings (if valid), or on calculated value
+if (sensor_value_valid($response)){
+    $next_command = parse_sensor_report($response);
 } else {
     $next_command = determine_calculated_command();
 }
 
-# Check if we need to apply the next command.
 
-# Do so if required
-
-my $socket;
-
-if (open_socket()) { # Open the socket with possibility to retry if the target port is in use (can happen on the Lantronix XPORT)
-    $socket->send("?\r");
-
-    my $response = &read_serial(10);
-
-    if (se)
-} else {
-    # Go for the precalculated values
-}
-# Command file
-my $state_file = 'last_command.txt';
 
 # Get the last command we sent to the blind controller
-my $last_command = &get_last_command($state_file);
-
-#print "Last command was: $last_command\n";
-
-my $xml = new XML::Simple(keyattr => ['time']);
-
-my $config = $xml->XMLin("blind_settings_today.xml");
-
-# Get the local time
-my ($sec, $min, $hour) = localtime(time);
-
-# Make sure to append a '0' if required, this is done so that the
-# time can easily be compared to the times stored in the command file
-my $minutes = $min > 9 ? "$min" : "0$min"; 
-my $hours = $hour > 9 ? "$hour" : "0$hour";
-
-my $current_time = $hours . ':' . $minutes;
-
-# Determine the command that is valid now
-my $lastmatch;
-
-foreach (sort keys %{$config->{command}}){
-	my $compare_time = $_;
-	# Determine the last command
-	if ($current_time ge $compare_time){
-		$lastmatch = $compare_time;		
-	}
-}
- 
-# Get the actual command of the last programmed command (up or down)
-my $lastmatch_command = $config->{command}->{$lastmatch}->{direction};
-#print "Last match was $lastmatch, direction $lastmatch_command\n";
+my $last_command = get_last_command($state_file);
 
 # If the command and the status file don't match, update!
-if ($last_command ne $lastmatch_command){
-	print "[$current_time] Last known sent command does not match the last command in the settings file. Updating!\n";
+if ($last_command ne $next_command){
+	my $cmd_time = get_current_time();
+	
+	print "[$cmd_time] New command '$next_command' sent to blinds.\n";
 	
 	# Send it to the blind controller
-	if (&command_blinds($lastmatch_command)){
-		&save_last_command($state_file, $lastmatch_command);
+	if (command_blinds($next_command)){
+		save_last_command($state_file, $next_command);
 	}
 } else {
-	print "[$current_time] No action taken, blinds already in position\n";
+	#print "[$current_time] No action taken, blinds already in position\n";
 }
 
 exit(0);
@@ -115,28 +91,25 @@ exit(0);
 #
 # Blind controller related
 #
-sub command_blinds () {
+sub command_blinds  {
 	my $blind_command = shift();
+		
+	# Open the socket to send the command
+	open_socket($blinds_host, $blinds_port);
 	
-	my $host = $config->{target}->{host};
-	my $port = $config->{target}->{port};
+	#my $handle = IO::Socket::INET->new(Proto => "tcp", PeerAddr => $config->{target}->{host}, PeerPort => $config->{target}->{port}, Type => SOCK_STREAM);
+	#if (!defined($handle)){
+	#	print "[$current_time] Could not connect to '$host'! The command will be resent when the script runs the next time.\n";
+	#	return 0;
+	#}
 	
-	#print "SENDING COMMAND TO [$host:$port] : $blind_command\n";
+	#print $handle $blind_command;
+
+	$socket->send($blind_command);
 	
-	my $handle = IO::Socket::INET->new(Proto => "tcp", PeerAddr => $config->{target}->{host}, PeerPort => $config->{target}->{port}, Type => SOCK_STREAM);
-	if (!defined($handle)){
-		print "[$current_time] Could not connect to '$host'! The command will be resent when the script runs the next time.\n";
-		return 0;
-	}
-	print $handle $blind_command;
+	close_socket();
 
-	sleep(50);
-
-	print $handle $blind_command;
-
-	$handle->close();
-					
-	return 1;
+	return 1;						
 }
 
 #
@@ -144,7 +117,7 @@ sub command_blinds () {
 #
 
 ## Retrieve the last command sent to the blind controller from this script
-sub get_last_command(){
+sub get_last_command {
 	
 	# Get filename
 	my $filename = shift();
@@ -164,7 +137,7 @@ sub get_last_command(){
 }
 
 ## Save the last command sent to the blind controller from this script
-sub save_last_command(){
+sub save_last_command {
 	
 	# Get filename and last command
 	my $filename = shift();
@@ -181,46 +154,94 @@ sub save_last_command(){
 
 
 ######## Wireless gateway related routines
+
+
+
 ###############################################################
-## parse_and_post(response)
-# Parse the returned string and post the results to the RRD 
-# database
+## handle_timeout
+#   Close everything and exit if we have a timeout
 ###############################################################
-sub parse_and_post() {
-	my $data = shift();
-	
-	my ($hex1, $hex2, $hex3);
-	
-	# Extract values
-	if ($data =~ /Node 1: ([0-9A-F]{2}) ([0-9A-F]{2}) ([0-9A-F]{2})/) { $hex1 = $1; $hex2 = $2; $hex3 = $3;}
-	
-	# Convert to decimal
-	my $solar_adc = hex($hex1);
-	my $vcc_adc   = hex($hex2);
-	my $temp_adc  = hex($hex3);
-	
-	# Convert to human readable
-	my $solar_voltage = $solar_adc * 2.5 / 255 * 2;
-	my $vcc_voltage   = 2.5 * 255 / $vcc_adc;
-	my $temperature   = (($temp_adc * 2.5 / 255) - 0.600) / 0.01; # LM61 temperature sensor
-	
-	# Sanity check
-	if ($solar_voltage > 5) {$solar_voltage = 5};
-	if ($vcc_voltage   > 5) {$vcc_voltage   = 5};
-	
-	print "Read from node 1: solar $solar_adc ($solar_voltage)\t vcc $vcc_adc ($vcc_voltage)\t temp: $temperature\n";
-	
-	RRDs::update("$rrd_name.rrd","N:$solar_voltage:$vcc_voltage:$temperature");
-	my $err = RRDs::error;
-	die "Error while updating $rrd_name.rrd: $err\n" if $err;
+sub handle_timeout {
+    &close_socket();
+    &error("Timeout while waiting for data from host! Check the server\n");
+}
+
+
+
+
+###############################################################
+## clean_and_exit
+#   Shutdown cleanly
+###############################################################
+sub clean_and_exit {
+    &close_socket();    
+    exit 0;
 }
 
 ###############################################################
-## read_serial(timeout)
-#   Reads data from the serial port. Times out if nothing is
+## error
+#   Signal error and exit
+###############################################################
+sub error {
+    my $data = shift();
+    print $data;
+    &close_socket();
+    exit 1;
+}
+
+###############################################################
+## close_socket
+#   Close the socket
+###############################################################
+sub close_socket {
+    if (defined $socket){
+	$socket->close();
+    }    
+}
+
+###############################################################
+## open_socket(host, port)
+#   Try to open a TCP session to 'host' on 'port'.
+#   Retry if the server is not available, timeout after 
+#   10 tries with 1 second sleep.
+###############################################################
+sub open_socket {
+
+	# Read input parameters
+    my $client_host = shift(); 
+    my $client_port = shift();
+
+    # Connect to the remote device 
+    # create a tcp connection to the specified host and port
+    my ($kidpid, $handle, $line);
+
+    my $timeout = 0;
+
+    while () {
+        if ($socket = IO::Socket::INET->new(Proto     => "tcp",
+					PeerAddr  => $client_host,
+					PeerPort  => $client_port,
+					Type      => SOCK_STREAM)){
+	   		last;
+        } else {
+	   		print "Waiting for server to become available...\n";
+	   		$timeout++;
+	   		if ($timeout == 10){
+	     		die "Server not available for 10 seconds, exit...\n";
+	   		}
+	   
+	  		sleep 1;
+        }
+    }
+    
+}
+
+###############################################################
+## read_socket(timeout)
+#   Reads data from the socket interface. Times out if nothing is
 #   received after <timeout> seconds.
 ###############################################################
-sub read_serial() {
+sub read_socket {
     my $timeout = shift();
 
     my @numresult;
@@ -238,7 +259,6 @@ sub read_serial() {
 
 	    # Read reply
 	    ($socket->recv($res, 32));
-	    # Verify we have the entire string (should end with 0x04 and no preceding 0x05)
 	    $result .= $res;
 	    if (($result =~ /EOT/)) {
 		$waiting = 0;
@@ -254,9 +274,8 @@ sub read_serial() {
 	if ($@ =~ /timeout/) {
 	    # Oops, we had a timeout
 	    print "Received up to now: $result";
-
-	    &handle_timeout;
-	    
+		close_socket();
+		die "Response not received in time! Exit...";
 	} else {
 	    # Oops, we died
 	    alarm(0);           # clear the still-pending alarm
@@ -271,144 +290,100 @@ sub read_serial() {
 	
 }
 
-
-###############################################################
-## handle_timeout
-#   Close everything and exit if we have a timeout
-###############################################################
-sub handle_timeout() {
-    &close_port();
-    &error("Timeout while waiting for data from PIC! Check your cables and connections.\n");
-}
-
-###############################################################
-## Print fancy header at program startup
-###############################################################
-sub print_header() {
-
-    # Calculate file age
-    #my @info = stat($r_config->{filename});
-    #my @nowtime = Time_to_Date(time());
-    #my @filetime =Time_to_Date($info[9]); 
-    #my @diff = Delta_DHMS(@filetime, @nowtime);
-   
-    print "--------------------------------------\n";
-    print "Net Temp listener v$version\n";
-    print "L. Hollevoet 2006\n";
-    print "--------------------------------------\n";
-    #print "\nOn port: $r_config->{comport}, $r_config->{baudrate}\n\n";
-
-
-}
-
-###############################################################
-## debug
-#   Debug print supporting multiple log levels
-###############################################################
-sub debug {
-
-    my $debuglevel = shift();
-    my $logline = shift();
+sub sensor_value_valid {
+	my $data = shift();
+	my $result_age;
 	
-    if ($debuglevel <= $global->{verbose}) {
-	print(STDOUT "+$debuglevel= $logline\n");
-    } # end print to log or STDERR
-
-} 
-
-###############################################################
-## dec2hex
-#   Convert dec number into hex string
-###############################################################
-sub dec2hex() {
-    my $dec  = shift();
-    my $fill = shift();
-
-    my $fmt_string;
-
-    if (defined($fill)){
-	$fmt_string = "%0" . $fill . "X";
-    } else {
-	$fmt_string = "%02X";
-    }
-    return sprintf($fmt_string, $dec );
+	if ($data =~ /Node 1: [0-9A-F]{2} [0-9A-F]{2} [0-9A-F]{2} ([0-9A-F]{2})/) { $result_age = $1;}
+	
+	# Convert to decimal
+	my $age_dec = hex($result_age);
+	
+	# If age < 0xF0 then we assume we have a 'fresh' report waiting
+	if ($age_dec < 0xF0){
+		return 1;
+	} else {
+		return 0;
+	}
+	
 }
 
-## Generate 3 address bytes from integer number
-sub gen_address(){
-    my $address = shift();
+###############################################################
+## parse_and_report(response)
+# Parse the returned string and determine the next command
+###############################################################
+sub parse_sensor_report {
 
-    my $string = &dec2hex($address, 6);
+	my $data = shift();
+	
+	my $hex1;
+	
+	# Extract values
+	if ($data =~ /Node 1: ([0-9A-F]{2}) /) { $hex1 = $1}
+	
+	# Convert to decimal
+	my $solar = hex($hex1);
 
-    # Address format required by bootloader: <ADDRL:ADDRH:ADDRU>
-    my $addr = substr($string, 4, 2) . substr($string, 2, 2) . substr($string, 0, 2);
+	my $command;
+	
+	# If level goes > 20: send first up
+	#               > 40: send second up
+	#               < 15: send down
+	if ($solar > 20 && $solar < 40){
+		$command = 'u1';
+	} elsif ( $solar > 40 ) {
+		$command = 'u2';
+	} else {
+		$command = 'd';
+	}
+
+	return $command;
+}
+
+###############################################################
+## determine_calculated_command()
+# Get the command that should be sent according to the 
+# calculation script, only used as a fallback
+###############################################################
+sub determine_calculated_command {
+
+	# Read the XML config file
+	my $xml = new XML::Simple(keyattr => ['time']);
+
+	my $config = $xml->XMLin("blind_settings_today.xml");
+
+    my $current_time = get_current_time();
     
-    return $addr; 
-}
-###############################################################
-## min(val1, val2)
-#   Return the minimum of 2 values
-###############################################################
-sub min(){
-    my $a = shift();
-    my $b = shift();
+	# Determine the command that is valid now according to the script
+	my $lastmatch;
 
-    return  ($a<$b) ? $a : $b;
-}
-
-###############################################################
-## clean_and_exit
-#   Shutdown cleanly
-###############################################################
-sub clean_and_exit() {
-    &close_port();    
-    exit 0;
+	foreach (sort keys %{$config->{command}}){
+		my $compare_time = $_;
+		# Determine the last command
+		if ($current_time ge $compare_time){
+			$lastmatch = $compare_time;		
+		}
+	}
+ 
+	# Get the actual command of the last programmed command (up or down)
+	my $lastmatch_command = $config->{command}->{$lastmatch}->{direction};
+	
+	return $lastmatch_command;
 }
 
-###############################################################
-## error
-#   Signal error and exit
-###############################################################
-sub error() {
-    my $data = shift();
-    print $data;
-    &close_port();
-    exit 1;
-}
+sub get_current_time {
+	
+	# Get the local time
+	my ($sec, $min, $hour) = localtime(time);
 
-###############################################################
-## close_port
-#   Close the serial port
-###############################################################
-sub close_port(){
-    if (defined $socket){
-	$socket->close();
-    }    
-}
+	# Make sure to append a '0' if required, this is done so that the
+	# time is easily readible/comparable
+	my $minutes = $min > 9 ? "$min" : "0$min"; 
+	my $hours = $hour > 9 ? "$hour" : "0$hour";
 
-sub open_socket(){
-    # Connect to the remote device 
-    # create a tcp connection to the specified host and port
-    my ($client_host, $client_port, $kidpid, $handle, $line);
-
-    $client_host = $gateway_host; 
-    $client_port = 10001;
-
-    my $timeout = 0;
-
-    while () {
-        if ($socket = IO::Socket::INET->new(Proto     => "tcp",
-					PeerAddr  => $client_host,
-					PeerPort  => $client_port,
-					Type      => SOCK_STREAM)){
-	   last;
-        } else {
-	   print "Waiting for server to become available...\n";
-	   $timeout++;
-	   if ($timeout == 10){
-	     die "Server not available for 10 seconds...\n";
-	   }
-	   sleep 1;
-        }
-    }
+	my $current_time = $hours . ':' . $minutes;
+	
+	return $current_time;
+	
+	
 }
