@@ -32,9 +32,6 @@ use Net::hostent;
 # Register ALARM signal
 $SIG{ALRM} = sub { die "timeout" };
 
-# Function prototypes
-#sub read_socket;
-
 # Settings
 my $gateway_host = 'oswald-03';			# Host on the network that has light level values
 my $gateway_port = '10001';				# Port to connect to
@@ -97,14 +94,6 @@ sub command_blinds  {
 	# Open the socket to send the command
 	open_socket($blinds_host, $blinds_port);
 	
-	#my $handle = IO::Socket::INET->new(Proto => "tcp", PeerAddr => $config->{target}->{host}, PeerPort => $config->{target}->{port}, Type => SOCK_STREAM);
-	#if (!defined($handle)){
-	#	print "[$current_time] Could not connect to '$host'! The command will be resent when the script runs the next time.\n";
-	#	return 0;
-	#}
-	
-	#print $handle $blind_command;
-
 	$socket->send($blind_command);
 	
 	close_socket();
