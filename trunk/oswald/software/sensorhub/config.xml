@@ -1,0 +1,21 @@
+<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++        -->
+<!-- Config file, contains sensorhub hostname and sensor         -->
+<!-- parameters                                                  -->
+<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++        -->
+<config>
+
+<hostname>oswald06</hostname>
+<hostport>10001   </hostport>
+
+<onewire>
+<node id = "10D8774B000800A0" db = "aww_uit"      />
+<node id = "10ED8C4B00080070" db = "unit_ext_in"  />
+<node id = "10A1692D000800E9" db = "unit_int_uit" />
+<node id = "10A7803B00080043" db = "unit_int_in"  />
+</onewire> 
+
+<sht>
+<node id = "1"                db = "humi"         />
+</sht>
+
+</config>
