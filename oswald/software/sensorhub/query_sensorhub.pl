@@ -29,11 +29,41 @@ my $config;
 my $socket;
 
 
+
+
+
+
+
+
+
+########################## MAIN PROGRAM ##########################
+
+# Read the config file
+get_config();
+
+# Connect to the remote device
+open_socket($config->{hostname}, $config->{hostport});
+
+# Request report
+print $socket "?\r\n";
+
+# Read sensor values, with a timeout of 10 seconds
+my $report = read_socket(5);
+
+# Close the socket
+close_socket();
+#my $report = "OneWire 00000001 0012\nOneWire 00000002 0013\n";
+
+# Parse
+parse_report($report);
+
+
+
 ########################## SUBROUTINES  ##########################
 # Read configuration settings from XML file
-sub get_config() {
+sub get_config {
 	# Read the XML config file
-	my $xml = new XML::Simple(keyattr => ['id'], ForceArray => '1');
+	my $xml = new XML::Simple(keyattr => ['id'], ForceArray => '0', NormaliseSpace => '2');
     $config = $xml->XMLin("config.xml");
 	print Dumper($config);
 	
@@ -43,25 +73,31 @@ sub get_config() {
 sub parse_report {
 	my $report = shift();
 	
+	print "Parsing report:\n$report\n";
 	
 	# Extract OneWire 
-	while ($report =~ /OneWire\s+([0-9A-F]{8})\s+([0-9A-F]){4}/g){
+	while ($report =~ /OneWire\s+([0-9A-F]{16})\s+-\s+([0-9A-F]){4}/g){
 		# Store result in RRD database ($id, $value)
 		store_onewire($1, $2);		
+	}
+	
+	# Extract SHTxx
+	while ($report =~ /SHTxx T: (\d+.\d) C RH: (\d+.\d) DewPt:\s+(\d+.\d) C/g){
+		process_sht($1, $2, $3);
 	}
 	 
 }
 
 # Store reading from OneWire sensor in the RRD database defined in the config hash
-sub store_onewire() {
+sub store_onewire {
 	my $id    = shift();
 	my $value = shift();
 	
 	my $temperature = hex($value) / 2;
 	my $db;
 	
-	if (exists($config->{'onewire'}->{'node'}->{$id})){
-		$db = $config->{'onewire'}->{'node'}->{$id};
+	if (exists($config->{onewire}->{node}->{$id})){
+		$db = $config->{onewire}->{node}->{$id};
 	} else {
 		print("Unknown OneWire sensor $id\n");
 		return;
@@ -73,11 +109,19 @@ sub store_onewire() {
 	
 }
 
+sub process_sht {
+	my $temp  = shift();
+	my $humi  = shift();
+	my $dewpt = shift();
+	
+	print "Read SHT sensor with: $temp, $humi, $dewpt\n";
+	
+}
 ###############################################################
 ## dec2hex
 #   Convert dec number into hex string
 ###############################################################
-sub dec2hex() {
+sub dec2hex {
     my $dec  = shift();
     my $fill = shift();
 
@@ -95,7 +139,7 @@ sub dec2hex() {
 ## clean_and_exit
 #   Shutdown cleanly
 ###############################################################
-sub clean_and_exit() {
+sub clean_and_exit {
     &close_port();    
     exit 0;
 }
@@ -104,7 +148,7 @@ sub clean_and_exit() {
 ## error
 #   Signal error and exit
 ###############################################################
-sub error() {
+sub error {
     my $data = shift();
     print $data;
     &close_port();
@@ -112,7 +156,7 @@ sub error() {
 }
 
 # Returns the date.
-sub the_date() {
+sub the_date {
     my ($second, $minute, $hour, $dayOfMonth, $month, $yearOffset, $dayOfWeek, $dayOfYear, $daylightSavings) = localtime();
     my $year = 1900 + $yearOffset;
     my $hms  = sprintf("%02i:%02i:%02i", $hour, $minute, $second);
@@ -151,6 +195,8 @@ sub open_socket {
 
     my $timeout = 0;
 
+	print "Opening socket to '$client_host' on port '$client_port'...\n";
+	
     while () {
         if ($socket = IO::Socket::INET->new(Proto     => "tcp",
 					PeerAddr  => $client_host,
@@ -223,31 +269,5 @@ sub read_socket {
 	return $result;
 	
 }
-
-
-
-
-
-
-
-########################## MAIN PROGRAM ##########################
-
-# Read the config file
-get_config();
-
-# Connect to the remote device
-#open_socket($config->{'hostname'}, $config->{'hostport'});
-
-# Read sensor values, with a timeout of 10 seconds
-#my $report = read_socket(10);
-
-# Close the socket
-#close_socket();
-my $report = "OneWire 00000001 0012\nOneWire 00000002 0013\n";
-
-# Parse
-parse_report($report);
-
-
 
 
