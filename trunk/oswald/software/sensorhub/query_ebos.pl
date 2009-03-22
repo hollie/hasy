@@ -1,8 +1,12 @@
 #! /usr/bin/perl -w
 
+# Script to scrape live temperature/dewpoint readings from 
+# the metar report of an airport.
+#
 # Original code found in the infobot source tree.
 #
-# L. Hollevoet, 2006
+# Lieven Hollevoet, 2006
+
 use lib qw( /opt/lib/perl );
 use LWP::UserAgent;
 use HTML::Entities;
