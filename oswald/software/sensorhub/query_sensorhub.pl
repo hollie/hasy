@@ -11,7 +11,7 @@ use lib qw( /opt/lib/perl );
 
 use strict;
 use POSIX;
-#use RRDs;
+use RRDs;
 use XML::Simple;
 
 use Data::Dumper;
@@ -73,12 +73,12 @@ sub get_config {
 sub parse_report {
 	my $report = shift();
 	
-	print "Parsing report:\n$report\n";
+	#print "Parsing report:\n$report\n";
 	
 	# Extract OneWire 
-	while ($report =~ /OneWire\s+([0-9A-F]{16})\s+-\s+([0-9A-F]){4}/g){
+	while ($report =~ /OneWire\s+([0-9A-F]{16})\s+-\s+([0-9A-F]{4})/g){
 		# Store result in RRD database ($id, $value)
-		store_onewire($1, $2);		
+		process_onewire($1, $2);		
 	}
 	
 	# Extract SHTxx
@@ -89,21 +89,32 @@ sub parse_report {
 }
 
 # Store reading from OneWire sensor in the RRD database defined in the config hash
-sub store_onewire {
+sub process_onewire {
 	my $id    = shift();
 	my $value = shift();
 	
-	my $temperature = hex($value) / 2;
+	# Convert temperature, this can be different depending on the family id
+	my $temperature = 0;
+	
+	if ($id =~ /^10/) {
+		$temperature = hex($value) / 2;
+	} else {
+		print "Unknown sensor family ID, add temperature conversion formula to this script!";
+		return;
+	}
+	
+	# Fetch the database name
 	my $db;
 	
 	if (exists($config->{onewire}->{node}->{$id})){
 		$db = $config->{onewire}->{node}->{$id};
 	} else {
-		print("Unknown OneWire sensor $id\n");
+		print("Unknown OneWire sensor $id reports $temperature degrees\n");
 		return;
 	}
 	
-	print("Storing $temperature in database $db");
+	# Add value to the database
+	print("Storing reading $temperature degrees in database '$db'");
 	
 	return;
 	
@@ -114,8 +125,18 @@ sub process_sht {
 	my $humi  = shift();
 	my $dewpt = shift();
 	
-	print "Read SHT sensor with: $temp, $humi, $dewpt\n";
+	print "Read SHT sensor with: $temp degrees, RH $humi %, dewpt $dewpt degrees\n";
 	
+	my $db = $config->{sht}->{node}->{db};
+	
+	print("Storing $temp degrees, RH $humi %, dewpt $dewpt degrees in database '$db'");
+	
+	# Store in RRD database
+	RRDs::update($db,"N:$temp:$humi:$dewpt");
+	my $err = RRDs::error;
+	die "Error while updating $db: $err\n" if $err;
+	
+	return;	
 }
 ###############################################################
 ## dec2hex

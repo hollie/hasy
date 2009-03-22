@@ -66,4 +66,19 @@ rrdtool create ventilatie/aww_uit.rrd    \
    RRA:MAX:0.5:12:720 \
    RRA:MAX:0.5:288:365 \
    RRA:MAX:0.5:2016:1560
+   
+rrdtool create ventilatie/humi_binnen.rrd    \
+   DS:temperature:GAUGE:600:-10:50      \
+   DS:rhumi:GAUGE:600:0:100 \
+   DS:dewpt:GAUGE:600:-20:50 \
+   RRA:AVERAGE:0.5:1:4032 \
+   RRA:AVERAGE:0.5:12:720 \
+   RRA:AVERAGE:0.5:288:365 \
+   RRA:AVERAGE:0.5:2016:1560 \
+   RRA:MIN:0.5:12:720 \
+   RRA:MIN:0.5:288:365 \
+   RRA:MIN:0.5:2016:1560 \
+   RRA:MAX:0.5:12:720 \
+   RRA:MAX:0.5:288:365 \
+   RRA:MAX:0.5:2016:1560
 
