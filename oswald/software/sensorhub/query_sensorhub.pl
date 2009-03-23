@@ -65,7 +65,7 @@ sub get_config {
 	# Read the XML config file
 	my $xml = new XML::Simple(keyattr => ['id'], ForceArray => '0', NormaliseSpace => '2');
     $config = $xml->XMLin("config.xml");
-	print Dumper($config);
+	#print Dumper($config);
 	
 }
 
@@ -129,7 +129,7 @@ sub process_sht {
 	
 	my $db = $config->{sht}->{node}->{db};
 	
-	print("Storing $temp degrees, RH $humi %, dewpt $dewpt degrees in database '$db'");
+	print("Storing $temp degrees, RH $humi %, dewpt $dewpt degrees in database '$db'\n");
 	
 	# Store in RRD database
 	RRDs::update($db,"N:$temp:$humi:$dewpt");
@@ -216,7 +216,7 @@ sub open_socket {
 
     my $timeout = 0;
 
-	print "Opening socket to '$client_host' on port '$client_port'...\n";
+	#print "Opening socket to '$client_host' on port '$client_port'...\n";
 	
     while () {
         if ($socket = IO::Socket::INET->new(Proto     => "tcp",
