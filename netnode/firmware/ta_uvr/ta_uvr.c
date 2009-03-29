@@ -115,7 +115,7 @@ char ta_uvr_waitforsync(short bit_time){
 }
 
 
-void ta_uvr_getinfo(){
+char ta_uvr_getinfo(){
 
 	bit  done = 0;
 	bit  firstrun = 0;
@@ -131,8 +131,10 @@ void ta_uvr_getinfo(){
 	
 	// When no UVR is detected, just return.
 	if (bit_time == 0) {
-		return;
+		return 1;
 	}
+
+    //bit_time = 0x07E1;
 
 	// Calculate timer setting to wait for 1/4th bit time,this is the time to wait after we found sync to start sampling
 	timer_wait = 0xFFFF - (bit_time >> 1);
@@ -184,7 +186,7 @@ void ta_uvr_getinfo(){
 				serial_print_dec(bytecount);
 				serial_printf("!! Quit...");
 				serial_print_lf();
-				return;
+				return 1;
 			}
 			databyte = 0;
 			counter++;
@@ -197,7 +199,7 @@ void ta_uvr_getinfo(){
 				serial_print_dec(bytecount);
 				serial_printf("!! Quit...");
 				serial_print_lf();
-				return;
+				return 1;
 			}
 			// Store databyte
 			counter = 0;
@@ -226,7 +228,7 @@ void ta_uvr_getinfo(){
 		
 	}
 
-	return;
+	return 0;
 	
 }
 

@@ -54,7 +54,7 @@ Count=0
 [Watchpoint]
 Count=0
 [Compiler]
-Extra=-d DBG_COMPILE
+Extra=
 [Linker]
 Extra=
 [Tools]

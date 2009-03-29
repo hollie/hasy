@@ -4,7 +4,7 @@
 * Has an additional counter input on RB0. Add a pullup 
 * to RB0, counter increments on falling edge on RB0.
 *
-* (c) 2004, Lieven Hollevoet.
+* (c) 2004-2009, Lieven Hollevoet.
 **************************************************************
 * boostc compiler : v 6.40
 * target device   : PIC18F2320
@@ -65,29 +65,34 @@ void main()
 	
 	// Main loop
 	while (1){
-	
+
 		// Set the counter LED on if we got an interrupt
 		if (prev_count != interrupt_count) {
 			portb.1 = 0;
 			prev_count = interrupt_count;
 		}
 		
-		ta_uvr_getinfo();
-		
-		// Reset the LED
-		portb.1 = 1;
-		
-		if (ta_uvr_verify_checksum() == 0) {
-			// Data checksum is OK, clear for TX of UVR status			
-			stat0 = 0;
-		} else {
-			// Retry on next packet
-			stat0 = 1;
+		// If we get valid info from UVR, verify
+		if (ta_uvr_getinfo() == 0) {
+			if (ta_uvr_verify_checksum() == 0) {
+				// Data checksum is OK, clear for TX of UVR status			
+				stat0 = 0;
+			} else {
+				// Retry on next packet
+				stat0 = 1;
+			}
 		}
 
+		// Reset the LED
+		portb.1 = 1;
+
 		if (serial_peek()){
+			stat0=0;
 			command_byte = serial_getch();
-			if (ta_uvr_data_available()) {
+			if (command_byte == 'S') {
+				report_and_reset_int_count();
+				continue;
+			} else if (ta_uvr_data_available()) {
 				stat0=1;
 				// Report UVR status
 				ta_uvr_send_data();
@@ -95,20 +100,32 @@ void main()
 				serial_printf("No valid packet received from regulator since last read");
 				serial_print_lf();
 			}	
-			// Report interupt count and reset the count.
-			// Note: interrupts are disbabled at this stage, to avoid contention of the reset and increment
-			// We don't miss events, as the interrupt flag is always set
 			serial_printf("Interrupts: ");	
-			intcon.GIE = 0;
-			serial_print_dec(interrupt_count);
-			interrupt_count = 0;
-			prev_count      = 0;
-			intcon.GIE = 1;
+			serial_print_hex(interrupt_count);
 			serial_print_lf();
 			serial_printf("EOT");
 			
 		} 
 	}
+	
+}
+
+// Report interupt count and reset the count.
+// Note: interrupts are disabled at this stage, to avoid contention of the reset and increment
+// We don't miss events, as the interrupt flag is always set
+void report_and_reset_int_count(void)
+{
+	short count_shadow = 0;
+	
+	serial_printf("Interrupts: ");	
+	intcon.GIE = 0;
+	count_shadow = interrupt_count;
+	interrupt_count = 0;
+	intcon.GIE = 1;
+
+	serial_print_hex(count_shadow);
+	serial_print_lf();
+	serial_printf("EOT");
 	
 }
 
@@ -142,7 +159,7 @@ void init(void)
 	}
 	
 	// Serial interface
-	//serial_printf("Booting UVR61-3 LAN logger....");
+	serial_printf("Booting UVR61-3 LAN logger....");
 	serial_print_lf();
 
 	// Enable interrupt on falling edge of RB0

@@ -34,4 +34,6 @@ volatile bit stat0    @ PORTA . 4;
 void init(void);
 void identify(void);
 void send_data_out();
+void report_and_reset_int_count();
+
 #endif //_NET_TA_H_
