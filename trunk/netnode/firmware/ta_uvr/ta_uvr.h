@@ -19,7 +19,7 @@ typedef struct s_ta_uvr61_data {
                  char  valid;
               } ta_uvr_data;
             
-void ta_uvr_getinfo();
+char ta_uvr_getinfo();
 char ta_uvr_verify_checksum();
 char ta_uvr_data_available();
 
