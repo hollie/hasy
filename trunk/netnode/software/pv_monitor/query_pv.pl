@@ -9,7 +9,7 @@ use lib qw( /opt/lib/perl );
 
 use strict;
 use POSIX;
-#use RRDs;
+use RRDs;
 use XML::Simple;
 
 use Data::Dumper;
@@ -65,7 +65,7 @@ sub parse_report {
 	#print "Parsing report:\n$report\n";
 	
 	# Extract number of Watt-hours
-	while ($report =~ /Watt-hours\s+([0-9A-F]{4})/g){
+	while ($report =~ /Watt-hours:\s+([0-9A-F]{4})/g){
 	    # Store result in RRD database ($value)\
 	    process_report($1);
 	}
@@ -82,10 +82,16 @@ sub process_report {
 	$watt_hours = hex($value);
 	
 	# Fetch the database name
-	my $db;
+	my $db = $config->{db}->{name};
 	
 	# Add value to the database
-	print("Production: $watt_hours Watt-hours sine last read\n");
+	print(the_date());
+	print("Production: $watt_hours Watt-hours sine last read, adding to $db\n");
+	
+	# Store in RRD database
+	RRDs::update($db,"N:$watt_hours");
+	my $err = RRDs::error;
+	die "Error while updating $db: $err\n" if $err;
 	
 	return;
 	
