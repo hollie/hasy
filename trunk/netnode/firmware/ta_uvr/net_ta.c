@@ -100,7 +100,10 @@ void main()
 				serial_printf("No valid packet received from regulator since last read");
 				serial_print_lf();
 			}	
-			serial_printf("Interrupts: ");	
+			serial_print_lf();
+			serial_printf("Digital inputs:");
+			serial_print_lf();
+			serial_printf("Watt-hours: ");	
 			serial_print_hex(interrupt_count);
 			serial_print_lf();
 			serial_printf("EOT");
@@ -117,7 +120,9 @@ void report_and_reset_int_count(void)
 {
 	short count_shadow = 0;
 	
-	serial_printf("Interrupts: ");	
+	serial_printf("Reporting and resetting...");
+	serial_print_lf();
+	serial_printf("Watt-hours: ");	
 	intcon.GIE = 0;
 	count_shadow = interrupt_count;
 	interrupt_count = 0;
@@ -159,7 +164,7 @@ void init(void)
 	}
 	
 	// Serial interface
-	serial_printf("Booting UVR61-3 LAN logger....");
+	//serial_printf("Booting UVR61-3 LAN logger....");
 	serial_print_lf();
 
 	// Enable interrupt on falling edge of RB0
