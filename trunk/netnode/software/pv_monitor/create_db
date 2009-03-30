@@ -1,0 +1,17 @@
+#! /bin/sh
+
+rrdtool create pv.rrd    \
+ --step 1800                           \
+ DS:watthour:ABSOLUTE:1800:0:65536      \
+ RRA:AVERAGE:0.5:1:4032 \
+ RRA:AVERAGE:0.5:12:720 \
+ RRA:AVERAGE:0.5:288:365 \
+ RRA:AVERAGE:0.5:2016:1560 \
+ RRA:MIN:0.5:12:720 \
+ RRA:MIN:0.5:288:365 \
+ RRA:MIN:0.5:2016:1560 \
+ RRA:MAX:0.5:12:720 \
+ RRA:MAX:0.5:288:365 \
+ RRA:MAX:0.5:2016:1560
+
+

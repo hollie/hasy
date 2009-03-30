@@ -1,0 +1,13 @@
+<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++        -->
+<!-- Config file, contains netnode hostname and                  -->
+<!-- parameters                                                  -->
+<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++        -->
+<config>
+
+<hostname>netnode04</hostname>
+<hostport>10001   </hostport>
+
+<command>S</command>
+<db name="pv.rrd" />
+
+</config>
