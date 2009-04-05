@@ -92,7 +92,7 @@ sub config_string {
 	return "--end", "now",
     	"--imgformat","PNG",
     	"--lower-limit","0",
-    	#"--lazy",
+    	"--lazy",
     	"--color","BACK#EEF0F0",
     	"--interlaced",
     	"--watermark","http://bouw.lika.be",
