@@ -33,7 +33,8 @@ RRDs::graph "pv_days.png",
     "--vertical-label", "kWh / uur",
     config_string(),
     "CDEF:whc=wh,3600,*,1000,/",
-    "AREA:whc#0000FF:Productie elektriciteit",
+    "AREA:whc#8F8FFF",
+    "LINE:whc#5252FF:Productie elektriciteit",
 	;
 	
 if ($err = RRDs::error) {
@@ -48,7 +49,8 @@ RRDs::graph "pv_month.png",
     "--step", "86400",
     config_string(),
     "CDEF:whc=wh,3600,*,24,*,1000,/",
-    "AREA:whc#0000FF:Productie elektriciteit",
+    "AREA:whc#8F8FFF",
+    "LINE:whc#5252FF:Productie elektriciteit",
 	;
 	
 if ($err = RRDs::error) {
@@ -90,7 +92,7 @@ sub config_string {
 	return "--end", "now",
     	"--imgformat","PNG",
     	"--lower-limit","0",
-    	"--lazy",
+    	#"--lazy",
     	"--color","BACK#EEF0F0",
     	"--interlaced",
     	"--watermark","http://bouw.lika.be",
