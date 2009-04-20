@@ -114,7 +114,7 @@ sub generate_months_js {
 
 sub init_offsets {
 	$log->{'09'}->{'04'}->{day} = 0;
-	$log->{'09'}->{'04'}->{value} = 36000;
+	$log->{'09'}->{'04'}->{value} = 31228;
 }
 
 sub upload_file {
