@@ -43,6 +43,8 @@ my $blinds_port  = '10001';				# Port to connect to on the blind controller
 my $next_command;
 my $socket = 0;
 
+my $cmd_time = get_current_time();
+
 # First try to get and parse the ambient light level from the garden sensor
 open_socket($gateway_host, $gateway_port); # Open the socket with possibility to retry if the target port is in use (can happen on the Lantronix XPORT)
 $socket->send("?\r");
@@ -67,9 +69,14 @@ my $last_command = get_last_command($state_file);
 
 # If the command and the status file don't match, update!
 if ($last_command ne $next_command){
-	my $cmd_time = get_current_time();
 	
-	print "[$cmd_time] New command '$next_command' sent to blinds.\n";
+	print "[$cmd_time] New command '$next_command' sent to blinds based on ";
+	if (sensor_value_valid($response)){
+		print "sensor";
+	} else {
+		print "backup file";
+	}
+	print "\n";
 	
 	# Send it to the blind controller
 	if (command_blinds($next_command)){
@@ -90,11 +97,19 @@ exit(0);
 #
 sub command_blinds  {
 	my $blind_command = shift();
+
+	print "[$cmd_time] Connecting to socket $blinds_host... ";
 		
 	# Open the socket to send the command
 	open_socket($blinds_host, $blinds_port);
+
+    print " Connected on port $blinds_port\n";
 	
+	$socket->send('?');
+	$blind_command = substr($blind_command, 0, 1);
 	$socket->send($blind_command);
+	
+	print "$blind_command sent to host...\n";
 	
 	close_socket();
 
@@ -205,7 +220,9 @@ sub open_socket {
     my ($kidpid, $handle, $line);
 
     my $timeout = 0;
-
+	
+	my $cmd_time = get_current_time();
+	
     while () {
         if ($socket = IO::Socket::INET->new(Proto     => "tcp",
 					PeerAddr  => $client_host,
@@ -222,6 +239,8 @@ sub open_socket {
 	  		sleep 1;
         }
     }
+    
+    
     
 }
 
@@ -316,13 +335,13 @@ sub parse_sensor_report {
 	my $command;
 	
 	# If level goes > 20: send first up
-	#               > 40: send second up
+	#               > 80: send second up
 	#               < 15: send down
-	if ($solar > 20 && $solar < 40){
+	if ($solar > 20 && $solar < 80){
 		$command = 'u1';
-	} elsif ( $solar > 40 ) {
+	} elsif ( $solar >= 80 ) {
 		$command = 'u2';
-	} else {
+	} elsif ( $solar <= 16 ) { 
 		$command = 'd';
 	}
 
