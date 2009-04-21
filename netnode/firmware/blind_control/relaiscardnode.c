@@ -183,6 +183,14 @@ void program_cards(){
 	// And latch it to the output of the shift register
 	sr_latch_outputs();
 	
+	// Also update the portb register map as workaround for the problem with the shift registers
+	portb.0 = blind3_up;
+	portb.1 = blind3_down;
+	portb.2 = blind4_up;
+	portb.3 = blind4_down;
+	portb.4 = blind5_up;
+	portb.5 = blind5_down;
+	
 	// We wait here 1 second by default, remember we're steering inductive loads
 	delay_s(1);
 	
