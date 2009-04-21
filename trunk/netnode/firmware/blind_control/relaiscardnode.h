@@ -17,7 +17,7 @@
 
 // Define port directions
 #define PortAConfig  11100000b  //  1=input
-#define PortBConfig  11111111b  //  1=input 
+#define PortBConfig  11000000b  //  1=input 
 #define PortCConfig  11010000b	
 
 // Define special function pins

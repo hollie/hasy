@@ -12,14 +12,18 @@ void sr_load_byte(char data){
 		}
 		data = data << 1;
 		sr_sck = 0;
+		delay_ms(1);
 		sr_sck = 1;
+		delay_ms(1);
 	}
 }
 
 void sr_latch_outputs(){
 	// clock the data to the output register
 	sr_lck = 0;
+	delay_ms(1);
 	sr_lck = 1;
+	delay_ms(1);
 }
 
 void sr_init(){
@@ -33,6 +37,7 @@ void sr_init(){
 	// Reset the shift register logic
 	// and init the IO's
 	sr_rst = 0;
+	delay_ms(1);
 	sr_dta = 0;
 	sr_sck = 0;
 	sr_lck = 0;
