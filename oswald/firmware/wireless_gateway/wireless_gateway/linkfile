@@ -1,3 +1,0 @@
--H+./output/wireless_gateway.sym -M./output/wireless_gateway.map -O./output/wireless_gateway.obj 
- ./obj/main.p1   
- D:/hollevo/projects/personal/hasy/oswald/firmware/WIRELE~1/WIRELE~1/lib/libpsoc.lib D:/hollevo/projects/personal/hasy/oswald/firmware/WIRELE~1/WIRELE~1/lib/libpsoc.lpp C:\PROGRA~1\HI-TEC~1\HCPSOC\PRO\9.61/lib/psoc-c.lib  
