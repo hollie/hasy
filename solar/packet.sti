@@ -1,0 +1,1705 @@
+// Generating message 906F00000101010800100020003000400050006001130000000000000000000000006E with sync frame in front
+// SYNC frame
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+// Sending 90...
+// Start bit
+wait 1025 us
+01
+wait 1025 us
+00
+// DATA: 90
+// in bits: 10010000
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+00
+wait 1025 us
+01
+// Stop bit
+wait 1025 us
+00
+wait 1025 us
+01
+// Sending 6F...
+// Start bit
+wait 1025 us
+01
+wait 1025 us
+00
+// DATA: 6F
+// in bits: 01101111
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+01
+wait 1025 us
+00
+// Stop bit
+wait 1025 us
+00
+wait 1025 us
+01
+// Sending 00...
+// Start bit
+wait 1025 us
+01
+wait 1025 us
+00
+// DATA: 00
+// in bits: 00000000
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+// Stop bit
+wait 1025 us
+00
+wait 1025 us
+01
+// Sending 00...
+// Start bit
+wait 1025 us
+01
+wait 1025 us
+00
+// DATA: 00
+// in bits: 00000000
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+// Stop bit
+wait 1025 us
+00
+wait 1025 us
+01
+// Sending 01...
+// Start bit
+wait 1025 us
+01
+wait 1025 us
+00
+// DATA: 01
+// in bits: 00000001
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+// Stop bit
+wait 1025 us
+00
+wait 1025 us
+01
+// Sending 01...
+// Start bit
+wait 1025 us
+01
+wait 1025 us
+00
+// DATA: 01
+// in bits: 00000001
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+// Stop bit
+wait 1025 us
+00
+wait 1025 us
+01
+// Sending 01...
+// Start bit
+wait 1025 us
+01
+wait 1025 us
+00
+// DATA: 01
+// in bits: 00000001
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+// Stop bit
+wait 1025 us
+00
+wait 1025 us
+01
+// Sending 08...
+// Start bit
+wait 1025 us
+01
+wait 1025 us
+00
+// DATA: 08
+// in bits: 00001000
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+// Stop bit
+wait 1025 us
+00
+wait 1025 us
+01
+// Sending 00...
+// Start bit
+wait 1025 us
+01
+wait 1025 us
+00
+// DATA: 00
+// in bits: 00000000
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+// Stop bit
+wait 1025 us
+00
+wait 1025 us
+01
+// Sending 10...
+// Start bit
+wait 1025 us
+01
+wait 1025 us
+00
+// DATA: 10
+// in bits: 00010000
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+// Stop bit
+wait 1025 us
+00
+wait 1025 us
+01
+// Sending 00...
+// Start bit
+wait 1025 us
+01
+wait 1025 us
+00
+// DATA: 00
+// in bits: 00000000
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+// Stop bit
+wait 1025 us
+00
+wait 1025 us
+01
+// Sending 20...
+// Start bit
+wait 1025 us
+01
+wait 1025 us
+00
+// DATA: 20
+// in bits: 00100000
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+// Stop bit
+wait 1025 us
+00
+wait 1025 us
+01
+// Sending 00...
+// Start bit
+wait 1025 us
+01
+wait 1025 us
+00
+// DATA: 00
+// in bits: 00000000
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+// Stop bit
+wait 1025 us
+00
+wait 1025 us
+01
+// Sending 30...
+// Start bit
+wait 1025 us
+01
+wait 1025 us
+00
+// DATA: 30
+// in bits: 00110000
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+// Stop bit
+wait 1025 us
+00
+wait 1025 us
+01
+// Sending 00...
+// Start bit
+wait 1025 us
+01
+wait 1025 us
+00
+// DATA: 00
+// in bits: 00000000
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+// Stop bit
+wait 1025 us
+00
+wait 1025 us
+01
+// Sending 40...
+// Start bit
+wait 1025 us
+01
+wait 1025 us
+00
+// DATA: 40
+// in bits: 01000000
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+01
+wait 1025 us
+00
+// Stop bit
+wait 1025 us
+00
+wait 1025 us
+01
+// Sending 00...
+// Start bit
+wait 1025 us
+01
+wait 1025 us
+00
+// DATA: 00
+// in bits: 00000000
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+// Stop bit
+wait 1025 us
+00
+wait 1025 us
+01
+// Sending 50...
+// Start bit
+wait 1025 us
+01
+wait 1025 us
+00
+// DATA: 50
+// in bits: 01010000
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+01
+wait 1025 us
+00
+// Stop bit
+wait 1025 us
+00
+wait 1025 us
+01
+// Sending 00...
+// Start bit
+wait 1025 us
+01
+wait 1025 us
+00
+// DATA: 00
+// in bits: 00000000
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+// Stop bit
+wait 1025 us
+00
+wait 1025 us
+01
+// Sending 60...
+// Start bit
+wait 1025 us
+01
+wait 1025 us
+00
+// DATA: 60
+// in bits: 01100000
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+01
+wait 1025 us
+00
+// Stop bit
+wait 1025 us
+00
+wait 1025 us
+01
+// Sending 01...
+// Start bit
+wait 1025 us
+01
+wait 1025 us
+00
+// DATA: 01
+// in bits: 00000001
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+// Stop bit
+wait 1025 us
+00
+wait 1025 us
+01
+// Sending 13...
+// Start bit
+wait 1025 us
+01
+wait 1025 us
+00
+// DATA: 13
+// in bits: 00010011
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+// Stop bit
+wait 1025 us
+00
+wait 1025 us
+01
+// Sending 00...
+// Start bit
+wait 1025 us
+01
+wait 1025 us
+00
+// DATA: 00
+// in bits: 00000000
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+// Stop bit
+wait 1025 us
+00
+wait 1025 us
+01
+// Sending 00...
+// Start bit
+wait 1025 us
+01
+wait 1025 us
+00
+// DATA: 00
+// in bits: 00000000
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+// Stop bit
+wait 1025 us
+00
+wait 1025 us
+01
+// Sending 00...
+// Start bit
+wait 1025 us
+01
+wait 1025 us
+00
+// DATA: 00
+// in bits: 00000000
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+// Stop bit
+wait 1025 us
+00
+wait 1025 us
+01
+// Sending 00...
+// Start bit
+wait 1025 us
+01
+wait 1025 us
+00
+// DATA: 00
+// in bits: 00000000
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+// Stop bit
+wait 1025 us
+00
+wait 1025 us
+01
+// Sending 00...
+// Start bit
+wait 1025 us
+01
+wait 1025 us
+00
+// DATA: 00
+// in bits: 00000000
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+// Stop bit
+wait 1025 us
+00
+wait 1025 us
+01
+// Sending 00...
+// Start bit
+wait 1025 us
+01
+wait 1025 us
+00
+// DATA: 00
+// in bits: 00000000
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+// Stop bit
+wait 1025 us
+00
+wait 1025 us
+01
+// Sending 00...
+// Start bit
+wait 1025 us
+01
+wait 1025 us
+00
+// DATA: 00
+// in bits: 00000000
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+// Stop bit
+wait 1025 us
+00
+wait 1025 us
+01
+// Sending 00...
+// Start bit
+wait 1025 us
+01
+wait 1025 us
+00
+// DATA: 00
+// in bits: 00000000
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+// Stop bit
+wait 1025 us
+00
+wait 1025 us
+01
+// Sending 00...
+// Start bit
+wait 1025 us
+01
+wait 1025 us
+00
+// DATA: 00
+// in bits: 00000000
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+// Stop bit
+wait 1025 us
+00
+wait 1025 us
+01
+// Sending 00...
+// Start bit
+wait 1025 us
+01
+wait 1025 us
+00
+// DATA: 00
+// in bits: 00000000
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+// Stop bit
+wait 1025 us
+00
+wait 1025 us
+01
+// Sending 00...
+// Start bit
+wait 1025 us
+01
+wait 1025 us
+00
+// DATA: 00
+// in bits: 00000000
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+// Stop bit
+wait 1025 us
+00
+wait 1025 us
+01
+// Sending 00...
+// Start bit
+wait 1025 us
+01
+wait 1025 us
+00
+// DATA: 00
+// in bits: 00000000
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+// Stop bit
+wait 1025 us
+00
+wait 1025 us
+01
+// Sending 6E...
+// Start bit
+wait 1025 us
+01
+wait 1025 us
+00
+// DATA: 6E
+// in bits: 01101110
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+00
+wait 1025 us
+01
+wait 1025 us
+01
+wait 1025 us
+00
+// Stop bit
+wait 1025 us
+00
+wait 1025 us
+01
