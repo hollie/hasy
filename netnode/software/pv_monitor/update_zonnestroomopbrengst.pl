@@ -52,18 +52,25 @@ init_offsets();
 
 for my $line ((@$data)) {
   #print "  ", scalar localtime($start), " ($start) ";
-  $start += $step;
   for my $val (@$line) {
    if (defined $val){
     	#printf "%12.1f ", $val*86400;
     	push_value($start, $val*86400);
    }
   }
+  $start += $step;
+
   #print "\n";
 }
 
 
-generate_months_js();
+my $production = generate_months_js();
+
+# Convert prodction to kWh
+$production = floor($production/1000);
+
+#print "Total energy produced: $production kWh\n";
+
 
 upload_file();
 
@@ -80,6 +87,8 @@ sub push_value {
 	my $year  = strftime("%y", localtime($stamp));
 	my $month = strftime("%m", localtime($stamp));
 	my $day   = strftime("%d", localtime($stamp));
+	
+	#printf "Adding $value Wh for $day-$month-$year\n";
 	
 	# Create or add the value in the log hash
 	if (!defined($log->{$year}->{$month}->{day})){
@@ -99,6 +108,7 @@ sub push_value {
 sub generate_months_js {
 	# Loop over the months, starting at the latest month and print the status line
 	my ($year, $month);
+	my $total=0;
 	
 	open F, "> months.js" or die "Could not open months.js for writing: $!\n";
 	
@@ -106,15 +116,18 @@ sub generate_months_js {
 	foreach $year (reverse sort keys %{$log}){
 		foreach $month (reverse sort keys %{$log->{$year}}){
 			print F "mo[mx++]=\"" . $log->{$year}->{$month}->{day} . ".$month.$year|" . floor($log->{$year}->{$month}->{value}) . "\"\n";
+			$total += $log->{$year}->{$month}->{value};
 		}
 	}
 	
 	close F;
+	
+	return floor($total);
 }
 
 sub init_offsets {
 	$log->{'09'}->{'04'}->{day} = 0;
-	$log->{'09'}->{'04'}->{value} = 31228;
+	$log->{'09'}->{'04'}->{value} = 30850;
 }
 
 sub upload_file {
