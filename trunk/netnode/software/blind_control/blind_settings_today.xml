@@ -1,4 +1,4 @@
-<config created="Mon Apr 20 01:00:01 2009">
+<config created="Sun May 10 01:00:01 2009">
 <target>
 <host>netnode02</host>
 <port>10001</port>
@@ -8,10 +8,10 @@
 <direction>u</direction>
 </command>
 <command>
-<time>21:10</time>
+<time>21:44</time>
 <direction>d</direction>
 </command>
 </config>
 
-    0K                                                       100%    1.13 MB/s
+    0K                                                       100%    1.14 MB/s
 

@@ -45,6 +45,11 @@ my $socket = 0;
 
 my $cmd_time = get_current_time();
 
+# Check if we need to run, we should not during the night, and we don't want to
+# send the blinds up too early in the morning :-)
+verify_activation_time($cmd_time);
+
+
 # First try to get and parse the ambient light level from the garden sensor
 open_socket($gateway_host, $gateway_port); # Open the socket with possibility to retry if the target port is in use (can happen on the Lantronix XPORT)
 $socket->send("?\r");
@@ -156,6 +161,20 @@ sub save_last_command {
 	return;
 }	
 
+## The script will exit in this funtion is the time is between midnight and 6:30 am.
+sub verify_activation_time {
+	my $time = shift();
+	
+	if ($time =~ /(\d+):(\d+)/){
+		my $hr = $1; # Current hour
+		my $mn = $2; # Current minute
+		if ($hr < 6) {
+			exit(0);
+		} elsif ($hr == 6 && $mn < 30) {
+			exit(0);
+		}
+	}
+}
 
 ######## Wireless gateway related routines
 
