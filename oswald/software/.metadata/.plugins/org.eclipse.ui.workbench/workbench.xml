@@ -34,9 +34,9 @@
 </folder>
 </info>
 </editorArea>
-<editor activePart="true" focus="true" id="org.epic.perleditor.editors.PerlEditor" name="query_sensorhub.pl" partName="query_sensorhub.pl" path="D:/hollevo/projects/personal/hasy/oswald/software/sensorhub/query_sensorhub.pl" title="query_sensorhub.pl" tooltip="sensorhub/query_sensorhub.pl" workbook="DefaultEditorWorkbook">
+<editor focus="true" id="org.epic.perleditor.editors.PerlEditor" name="query_sensorhub.pl" partName="query_sensorhub.pl" path="D:/hollevo/projects/personal/hasy/oswald/software/sensorhub/query_sensorhub.pl" title="query_sensorhub.pl" tooltip="sensorhub/query_sensorhub.pl" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/sensorhub/query_sensorhub.pl"/>
-<editorState selectionHPixel="0" selectionLength="52" selectionOffset="1386"/>
+<editorState selectionHPixel="0" selectionLength="0" selectionOffset="0"/>
 </editor>
 <editor id="org.epic.perleditor.editors.PerlEditor" name="backup_dbs.pl" partName="backup_dbs.pl" path="D:/hollevo/projects/personal/hasy/oswald/software/sensorhub/backup_dbs.pl" title="backup_dbs.pl" tooltip="sensorhub/backup_dbs.pl" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/sensorhub/backup_dbs.pl"/>
@@ -59,6 +59,9 @@
 <filters>
 <filter element=".*" isEnabled="false"/>
 </filters>
+<expanded>
+<element path="/sensorhub"/>
+</expanded>
 </viewState>
 </view>
 <view id="org.eclipse.debug.ui.DebugView" partName="Debug">
@@ -91,7 +94,7 @@
 <viewState/>
 </view>
 </views>
-<perspectives activePart="org.epic.perleditor.editors.PerlEditor" activePerspective="org.epic.core.Perspective">
+<perspectives activePart="org.eclipse.ui.views.ResourceNavigator" activePerspective="org.epic.core.Perspective">
 <perspective editorAreaTrimState="2" editorAreaVisible="1" fixed="0" version="0.016">
 <descriptor class="org.eclipse.ui.internal.ide.application.ResourcePerspective" id="org.eclipse.ui.resourcePerspective" label="Resource"/>
 <alwaysOnActionSet id="org.eclipse.ui.cheatsheets.actionSet"/>
