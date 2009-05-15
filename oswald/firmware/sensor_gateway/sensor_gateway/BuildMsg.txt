@@ -51,7 +51,7 @@ Copyright (C) 1984-2008 HI-TECH SOFTWARE
 
 (1273) Omniscient Code Generation not available in Lite mode (warning)
 
-!W ./main.c(17):(690) interrupt function requires address (warning)
+!W ./main.c(30):(690) interrupt function requires address (warning)
 
 
 
@@ -76,4 +76,4 @@ PRO may reduce your program size by 6403 bytes
 To evaluate HI-TECH C PRO please visit http://cypress.htsoft.com/portal/convert
 
  
-sensor_gateway - 0 error(s) 2 warning(s) 21:55:12
+sensor_gateway - 0 error(s) 2 warning(s) 10:09:54
