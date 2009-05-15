@@ -44,7 +44,7 @@ sub get_config {
 	# Read the XML config file
 	my $xml = new XML::Simple(NormaliseSpace => '2', keyattr => ['name'], ForceArray => ['item'] );
     $config = $xml->XMLin($settings_file);
-	print Dumper($config);
+	#print Dumper($config);
 }
 
 # add the password passed through the commandline to the config hash
@@ -75,13 +75,19 @@ sub ftp_upload {
 	my $folder;
 	my $file;
 	
+	# Go into folder on server
+	$ftp->cwd($config->{settings}->{target_root}) or die "Could not change to folder : ", $ftp->message;
+	
 	foreach $folder (keys %{$config->{folder}}){
 		# Change to the correct folder on the server 
 		$ftp->cwd($folder) or die "Could not change to folder : ", $ftp->message;	
+		print "Uploading to folder $folder:\n";
 		
 		# Put the files up...			
 		foreach $file (keys %{$config->{folder}->{$folder}->{item}}){
-			ftp->put($file) or die "Could not upload file : ", $ftp->message;
+			print " + $file... ";
+			$ftp->put($file) or die "Could not upload file : ", $ftp->message;
+			print "done!\n";
 		}
 		
 		# Go back to root folder
