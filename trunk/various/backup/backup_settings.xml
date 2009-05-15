@@ -1,0 +1,22 @@
+<backup>
+
+<settings>
+<host>ftp.lika.be</host>
+<user>stats@lika.be</user>
+<target_root>backup</target_root>
+</settings>
+
+<!-- Files to back up -->
+<folder name="ventilatie">
+<item name="../../netnode/software/onewire/ventilatie/aww_uit.rrd"      />
+<item name="../../netnode/software/onewire/ventilatie/ebos.rrd"         />
+<item name="../../netnode/software/onewire/ventilatie/unit_int_in.rrd"  />
+<item name="../../netnode/software/onewire/ventilatie/unit_int_uit.rrd" />
+<item name="../../oswald/software/sensorhub/sht.rrd"                    />
+</folder>
+
+<folder name="pv">
+<item name="../../netnode/software/pv_monitor/pv.rrd"                   />
+</folder>
+
+</backup>
