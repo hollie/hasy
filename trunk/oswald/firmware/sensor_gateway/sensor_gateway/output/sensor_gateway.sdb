@@ -179,7 +179,7 @@
 [v F832 `(v  1 t 0 ]
 "62
 [s S525 __prbuf 3 `*uc 1 ptr 2 0 `*(v 1 func 1 2 ]
-"17 ./main.c
+"30 ./main.c
 [v F885 `(v  1 t 0 ]
 "21 C:/PROGRA~1/Cypress/Common/CYPRES~2/tools/include/CY8C29~1\m8c.h
 [v _BOOL `uc  1 t 1 ]
@@ -808,17 +808,17 @@ HUMI 1
 [v _Ticker_EnableInt `BR(v  1 e 0 0 ]
 "36
 [v _Ticker_Start `BR(v  1 e 0 0 ]
-"17 ./main.c
+"30 ./main.c
 [v _Ticker_ISR `I(v  1 e 0 @0 ]
-"23
+"36
 [v _print_header `(v  1 e 0 0 ]
-"34
+"47
 [v _print_help `(v  1 e 0 0 ]
-"41
+"54
 [v _hardware_init `(v  1 e 0 0 ]
-"63
+"76
 [v _main `(v  1 e 0 0 ]
-"116
+"129
 [v _putch `(v  1 e 0 0 ]
 "51 ./oo.c
 [v _oo_busreset `(uc  1 e 1 0 ]
@@ -1791,12 +1791,12 @@ HUMI 1
 "425
 "421
 "419
-"63 ./main.c
+"76 ./main.c
 [v _main `(v  1 e 0 0 ]
 {
-"65
+"78
 [v _UART_bfr `*uc  1 a 2 0 ]
-"113
+"126
 } 2
 "5 ../common/strcmp.c
 [v _strcmp `(i  1 e 2 0 ]
@@ -1828,15 +1828,15 @@ HUMI 1
 [v _checksum `uc  1 a 1 13 ]
 "295
 } 14
-"34 ./main.c
+"47 ./main.c
 [v _print_help `(v  1 e 0 0 ]
 {
-"38
+"51
 } 0
-"41
+"54
 [v _hardware_init `(v  1 e 0 0 ]
 {
-"60
+"73
 } 0
 "77 ./orcon.c
 [v _orcon_high `(v  1 e 0 0 ]
@@ -1976,10 +1976,10 @@ HUMI 1
 [v _f `*Cuc  1 p 2 0 ]
 "1507
 } 23
-"23 ./main.c
+"36 ./main.c
 [v _print_header `(v  1 e 0 0 ]
 {
-"32
+"45
 } 0
 "48 ./shtxx.c
 [v _s_Start `(v  1 e 0 0 ]
@@ -1998,11 +1998,11 @@ HUMI 1
 {
 "55
 } 0
-"116 ./main.c
+"129 ./main.c
 [v _putch `(v  1 e 0 0 ]
 {
 [v _c `uc  1 p 1 0 ]
-"120
+"133
 } 0
 "40 ../common/log.c
 [v _log10 `(d  1 e 4 0 ]
@@ -2307,8 +2307,8 @@ HUMI 1
 [v _exp `uc  1 p 1 2 ]
 "55
 } 0
-"17 ./main.c
+"30 ./main.c
 [v _Ticker_ISR `I(v  1 e 0 @0 ]
 {
-"21
+"34
 } 0

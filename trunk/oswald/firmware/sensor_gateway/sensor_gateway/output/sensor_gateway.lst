@@ -1,7 +1,7 @@
 
 
 HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
-                                                                                                           Sun Feb 15 21:55:09 2009
+                                                                                                           Tue May 05 10:09:50 2009
 
 
      1                          	processor	CY8C29566
@@ -364,7 +364,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    358                          
    359                          ; *************** function _main *****************
    360                          ; Defined at:
-   361                          ;		line 63 in file "./main.c"
+   361                          ;		line 76 in file "./main.c"
    362                          ; Parameters:
    363                          ;		None
    364                          ; Auto variables:
@@ -403,32 +403,32 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    397                          ; This function uses a non-reentrant model
    398                          ; 
    399                          	file	"./main.c"
-   400                          	line	63
+   400                          	line	76
    401  0161                    	__size_of_main	equ	__end_of_main-_main
-   402                          ;main.c: 62: void main()
-   403                          ;main.c: 63: {
+   402                          ;main.c: 75: void main()
+   403                          ;main.c: 76: {
    404                          ;			
    405  7A27                    _main:	
    406                          	opt	disable
-   407                          	line	67
-   408                          ;main.c: 65: char * UART_bfr;
-   409                          ;main.c: 67: hardware_init();
+   407                          	line	80
+   408                          ;main.c: 78: char * UART_bfr;
+   409                          ;main.c: 80: hardware_init();
    410  7A27  71 80             	or	f, 0x80	;select multiple RAM page mode
    411                          	
    412  7A29  7C 3FF1           	xcall	_hardware_init
    413                          	
-   414                          	line	69
-   415                          ;main.c: 69: print_help();
+   414                          	line	82
+   415                          ;main.c: 82: print_help();
    416  7A2C  71 80             	or	f, 0x80	;select multiple RAM page mode
    417                          	
    418  7A2E  7C 3FC5           	xcall	_print_help
    419                          	
-   420                          	line	71
-   421                          ;main.c: 71: while(1) {
+   420                          	line	84
+   421                          ;main.c: 84: while(1) {
    422                          ;			
    423  7A31                    l9:	
-   424                          	line	74
-   425                          ;main.c: 74: if (LTRX_bCmdCheck()) {
+   424                          	line	87
+   425                          ;main.c: 87: if (LTRX_bCmdCheck()) {
    426  7A31  71 80             	or	f, 0x80	;select multiple RAM page mode
    427  7A33  70 CF             	and	f, 0xCF   ;select user reg space
    428                          	
@@ -437,8 +437,8 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    431  7A38  38 00             	add	sp,0
    432  7A3A  39 00             	cmp	a,(0)
    433  7A3C  A145              	jz	l8
-   434                          	line	75
-   435                          ;main.c: 75: if(UART_bfr = LTRX_szGetParam()) {
+   434                          	line	88
+   435                          ;main.c: 88: if(UART_bfr = LTRX_szGetParam()) {
    436  7A3E  71 80             	or	f, 0x80	;select multiple RAM page mode
    437  7A40  70 CF             	and	f, 0xCF   ;select user reg space
    438                          	
@@ -465,8 +465,8 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    459  7A63  39 00             	cmp	a,<(0)
    460  7A65                    u2573:
    461  7A65  A113              	jz	l12
-   462                          	line	76
-   463                          ;main.c: 76: if (*UART_bfr == '?'){
+   462                          	line	89
+   463                          ;main.c: 89: if (*UART_bfr == '?'){
    464  7A67  70 CF             	and	f, 0xCF   ;select user reg space
    465  7A69  62 D0 00          	mov	reg[CUR_PP],0
    466  7A6C  51 01             	mov	a,[0+((main@UART_bfr)^0x0)]
@@ -475,14 +475,14 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    469  7A72  52 00             	mov	a,[x+0]
    470  7A74  39 3F             	cmp	a,(03Fh)
    471  7A76  B049              	jnz	l13
-   472                          	line	77
-   473                          ;main.c: 77: print_header();
+   472                          	line	90
+   473                          ;main.c: 90: print_header();
    474  7A78  71 80             	or	f, 0x80	;select multiple RAM page mode
    475                          	
    476  7A7A  7C 577E           	xcall	_print_header
    477                          	
-   478                          	line	79
-   479                          ;main.c: 79: printf("-> OneWire devices\r\n");
+   478                          	line	92
+   479                          ;main.c: 92: printf("-> OneWire devices\r\n");
    480  7A7D  50 AB             	mov	a,<(STR_6)
    481  7A7F  70 CF             	and	f, 0xCF   ;select user reg space
    482  7A81  62 D0 00          	mov	reg[CUR_PP],0
@@ -493,14 +493,14 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    487                          	
    488  7A8C  7C 4B67           	xcall	_printf
    489                          	
-   490                          	line	80
-   491                          ;main.c: 80: oo_report();
+   490                          	line	93
+   491                          ;main.c: 93: oo_report();
    492  7A8F  71 80             	or	f, 0x80	;select multiple RAM page mode
    493                          	
    494  7A91  7C 3D95           	xcall	_oo_report
    495                          	
-   496                          	line	81
-   497                          ;main.c: 81: printf("-> SHTxx sensors\r\n");
+   496                          	line	94
+   497                          ;main.c: 94: printf("-> SHTxx sensors\r\n");
    498  7A94  50 C0             	mov	a,<(STR_7)
    499  7A96  70 CF             	and	f, 0xCF   ;select user reg space
    500  7A98  62 D0 00          	mov	reg[CUR_PP],0
@@ -511,14 +511,14 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    505                          	
    506  7AA3  7C 4B67           	xcall	_printf
    507                          	
-   508                          	line	82
-   509                          ;main.c: 82: s_do_measure();
+   508                          	line	95
+   509                          ;main.c: 95: s_do_measure();
    510  7AA6  71 80             	or	f, 0x80	;select multiple RAM page mode
    511                          	
    512  7AA8  7C 3E52           	xcall	_s_do_measure
    513                          	
-   514                          	line	83
-   515                          ;main.c: 83: printf("-> EOT\r\n");
+   514                          	line	96
+   515                          ;main.c: 96: printf("-> EOT\r\n");
    516  7AAB  50 F6             	mov	a,<(STR_8)
    517  7AAD  70 CF             	and	f, 0xCF   ;select user reg space
    518  7AAF  62 D0 00          	mov	reg[CUR_PP],0
@@ -529,8 +529,8 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    523                          	
    524  7ABA  7C 4B67           	xcall	_printf
    525                          	
-   526                          	line	84
-   527                          ;main.c: 84: } else if (strcmp(UART_bfr, "venti")==0){
+   526                          	line	97
+   527                          ;main.c: 97: } else if (strcmp(UART_bfr, "venti")==0){
    528  7ABD  7D 7B79           	xjmp	l12
    529                          ;			
    530  7AC0                    l13:	
@@ -555,8 +555,8 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    549  7AE1  5A 03             	mov	[(??_main^0x0)+2+0],x
    550  7AE3  2A 03             	or	a,[(??_main^0x0)+2+0]
    551  7AE5  B08E              	jnz	l15
-   552                          	line	86
-   553                          ;main.c: 86: if (UART_bfr = LTRX_szGetParam()){
+   552                          	line	99
+   553                          ;main.c: 99: if (UART_bfr = LTRX_szGetParam()){
    554  7AE7  71 80             	or	f, 0x80	;select multiple RAM page mode
    555  7AE9  70 CF             	and	f, 0xCF   ;select user reg space
    556                          	
@@ -583,54 +583,54 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    577  7B0C  39 00             	cmp	a,<(0)
    578  7B0E                    u2583:
    579  7B0E  A050              	jz	l16
-   580                          	line	87
-   581                          ;main.c: 87: switch (*UART_bfr){
+   580                          	line	100
+   581                          ;main.c: 100: switch (*UART_bfr){
    582  7B10  7D 7B40           	xjmp	l18
-   583                          	line	88
-   584                          ;main.c: 88: case 'l':
+   583                          	line	101
+   584                          ;main.c: 101: case 'l':
    585                          ;			
    586  7B13                    l19:	
-   587                          	line	89
-   588                          ;main.c: 89: orcon_low();
+   587                          	line	102
+   588                          ;main.c: 102: orcon_low();
    589  7B13  71 80             	or	f, 0x80	;select multiple RAM page mode
    590                          	
    591  7B15  7C 40C2           	xcall	_orcon_low
    592                          	
-   593                          	line	90
-   594                          ;main.c: 90: break;
+   593                          	line	103
+   594                          ;main.c: 103: break;
    595  7B18  7D 7B5C           	xjmp	l17
-   596                          	line	91
-   597                          ;main.c: 91: case 'n':
+   596                          	line	104
+   597                          ;main.c: 104: case 'n':
    598                          ;			
    599  7B1B                    l20:	
-   600                          	line	92
-   601                          ;main.c: 92: orcon_med();
+   600                          	line	105
+   601                          ;main.c: 105: orcon_med();
    602  7B1B  71 80             	or	f, 0x80	;select multiple RAM page mode
    603                          	
    604  7B1D  7C 4086           	xcall	_orcon_med
    605                          	
-   606                          	line	93
-   607                          ;main.c: 93: break;
+   606                          	line	106
+   607                          ;main.c: 106: break;
    608  7B20  7D 7B5C           	xjmp	l17
-   609                          	line	94
-   610                          ;main.c: 94: case 'h':
+   609                          	line	107
+   610                          ;main.c: 107: case 'h':
    611                          ;			
    612  7B23                    l21:	
-   613                          	line	95
-   614                          ;main.c: 95: orcon_high();
+   613                          	line	108
+   614                          ;main.c: 108: orcon_high();
    615  7B23  71 80             	or	f, 0x80	;select multiple RAM page mode
    616                          	
    617  7B25  7C 404A           	xcall	_orcon_high
    618                          	
-   619                          	line	96
-   620                          ;main.c: 96: break;
+   619                          	line	109
+   620                          ;main.c: 109: break;
    621  7B28  7D 7B5C           	xjmp	l17
-   622                          	line	97
-   623                          ;main.c: 97: default:
+   622                          	line	110
+   623                          ;main.c: 110: default:
    624                          ;			
    625  7B2B                    l22:	
-   626                          	line	98
-   627                          ;main.c: 98: printf(" ! Unknown parameter\r\n");
+   626                          	line	111
+   627                          ;main.c: 111: printf(" ! Unknown parameter\r\n");
    628  7B2B  50 7D             	mov	a,<(STR_10)
    629  7B2D  70 CF             	and	f, 0xCF   ;select user reg space
    630  7B2F  62 D0 00          	mov	reg[CUR_PP],0
@@ -641,10 +641,10 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    635                          	
    636  7B3A  7C 4B67           	xcall	_printf
    637                          	
-   638                          	line	99
-   639                          ;main.c: 99: }
+   638                          	line	112
+   639                          ;main.c: 112: }
    640  7B3D  7D 7B5C           	xjmp	l17
-   641                          	line	87
+   641                          	line	100
    642                          ;			
    643  7B40                    l18:	
    644  7B40  70 CF             	and	f, 0xCF   ;select user reg space
@@ -661,16 +661,16 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    655  7B57  AFC3              	jz	l20
    656  7B59  7D 7B2B           	xjmp	l22
    657                          
-   658                          	line	99
+   658                          	line	112
    659                          ;			
    660  7B5C                    l17:	
-   661                          	line	100
-   662                          ;main.c: 100: } else {
+   661                          	line	113
+   662                          ;main.c: 113: } else {
    663  7B5C  7D 7B71           	xjmp	l23
    664                          ;			
    665  7B5F                    l16:	
-   666                          	line	101
-   667                          ;main.c: 101: printf("Enter 'venti' followed by 'low', 'normal' or 'high'\r\n");
+   666                          	line	114
+   667                          ;main.c: 114: printf("Enter 'venti' followed by 'low', 'normal' or 'high'\r\n");
    668  7B5F  50 A3             	mov	a,<(STR_11)
    669  7B61  70 CF             	and	f, 0xCF   ;select user reg space
    670  7B63  62 D0 00          	mov	reg[CUR_PP],0
@@ -681,46 +681,46 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    675                          	
    676  7B6E  7C 4B67           	xcall	_printf
    677                          	
-   678                          	line	102
+   678                          	line	115
    679                          ;			
    680  7B71                    l23:	
-   681                          	line	103
-   682                          ;main.c: 102: }
-   683                          ;main.c: 103: } else {
+   681                          	line	116
+   682                          ;main.c: 115: }
+   683                          ;main.c: 116: } else {
    684  7B71  7D 7B79           	xjmp	l12
    685                          ;			
    686  7B74                    l15:	
-   687                          	line	104
-   688                          ;main.c: 104: print_help();
+   687                          	line	117
+   688                          ;main.c: 117: print_help();
    689  7B74  71 80             	or	f, 0x80	;select multiple RAM page mode
    690                          	
    691  7B76  7C 3FC5           	xcall	_print_help
    692                          	
-   693                          	line	105
+   693                          	line	118
    694                          ;			
    695  7B79                    l24:	
    696                          ;			
    697  7B79                    l14:	
-   698                          	line	107
+   698                          	line	120
    699                          ;			
    700  7B79                    l12:	
-   701                          	line	108
-   702                          ;main.c: 105: }
-   703                          ;main.c: 107: }
-   704                          ;main.c: 108: LTRX_CmdReset();
+   701                          	line	121
+   702                          ;main.c: 118: }
+   703                          ;main.c: 120: }
+   704                          ;main.c: 121: LTRX_CmdReset();
    705  7B79  71 80             	or	f, 0x80	;select multiple RAM page mode
    706  7B7B  70 CF             	and	f, 0xCF   ;select user reg space
    707                          	
    708  7B7D  7C 38CD           	xcall	_LTRX_CmdReset
    709                          	
    710  7B80  38 00             	add	sp,0
-   711                          	line	109
+   711                          	line	122
    712                          ;			
    713  7B82                    l11:	
-   714                          	line	110
+   714                          	line	123
    715                          ;			
    716  7B82                    l8:	
-   717                          	line	71
+   717                          	line	84
    718  7B82  7D 7A31           	xjmp	l9
    719  7B85                    ___exit:	;where's that confounded watchdog?
    720  7B85  7D 7B85           	jmp	___exit
@@ -730,7 +730,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    724                          ; =============== function _main ends ============
    725                          
    726                          	psect	maintext
-   727                          	line	113
+   727                          	line	126
    728                          	signat	_main,88
    729                          	global	_LTRX_szGetParam
    730                          	global	_strcmp
@@ -1373,7 +1373,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
   1365                          
   1366                          ; *************** function _print_help *****************
   1367                          ; Defined at:
-  1368                          ;		line 34 in file "./main.c"
+  1368                          ;		line 47 in file "./main.c"
   1369                          ; Parameters:
   1370                          ;		None
   1371                          ; Auto variables:
@@ -1400,20 +1400,20 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
   1392                          ; This function uses a non-reentrant model
   1393                          ; 
   1394                          	file	"./main.c"
-  1395                          	line	34
+  1395                          	line	47
   1396  002C                    	__size_of_print_help	equ	__end_of_print_help-_print_help
-  1397                          ;main.c: 34: void print_help(){
+  1397                          ;main.c: 47: void print_help(){
   1398                          ;			
   1399  3FC5                    _print_help:	
   1400                          	opt	disable
-  1401                          	line	35
-  1402                          ;main.c: 35: print_header();
+  1401                          	line	48
+  1402                          ;main.c: 48: print_header();
   1403  3FC5  71 80             	or	f, 0x80	;select multiple RAM page mode
   1404                          	
   1405  3FC7  7C 577E           	xcall	_print_header
   1406                          	
-  1407                          	line	36
-  1408                          ;main.c: 36: printf("Press '?' to acquire sensor values and to generate a report\r\n");
+  1407                          	line	49
+  1408                          ;main.c: 49: printf("Press '?' to acquire sensor values and to generate a report\r\n");
   1409  3FCA  50 65             	mov	a,<(STR_4)
   1410  3FCC  70 CF             	and	f, 0xCF   ;select user reg space
   1411  3FCE  62 D0 00          	mov	reg[CUR_PP],0
@@ -1424,8 +1424,8 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
   1416                          	
   1417  3FD9  7C 4B67           	xcall	_printf
   1418                          	
-  1419                          	line	37
-  1420                          ;main.c: 37: printf("Or enter 'venti'\r\n followed by 'low', 'normal' or 'high'\r\n to control the v
+  1419                          	line	50
+  1420                          ;main.c: 50: printf("Or enter 'venti'\r\n followed by 'low', 'normal' or 'high'\r\n to control the v
                                 entilation system speed\r\n");
   1421  3FDC  50 00             	mov	a,<(STR_5)
   1422  3FDE  70 CF             	and	f, 0xCF   ;select user reg space
@@ -1437,8 +1437,8 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
   1428                          	
   1429  3FEB  7C 4B67           	xcall	_printf
   1430                          	
-  1431                          	line	38
-  1432                          ;main.c: 38: }
+  1431                          	line	51
+  1432                          ;main.c: 51: }
   1433  3FEE                    l5:
   1434                          ;			
   1435  3FEE  70 CF             	and	f, 0xCF   ;select user reg space
@@ -1457,7 +1457,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
   1448                          
   1449                          ; *************** function _hardware_init *****************
   1450                          ; Defined at:
-  1451                          ;		line 41 in file "./main.c"
+  1451                          ;		line 54 in file "./main.c"
   1452                          ; Parameters:
   1453                          ;		None
   1454                          ; Auto variables:
@@ -1492,74 +1492,74 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
   1483                          ; This function uses a non-reentrant model
   1484                          ; 
   1485                          	file	"./main.c"
-  1486                          	line	41
+  1486                          	line	54
   1487  0059                    	__size_of_hardware_init	equ	__end_of_hardware_init-_hardware_init
-  1488                          ;main.c: 41: void hardware_init(){
+  1488                          ;main.c: 54: void hardware_init(){
   1489                          ;			
   1490  3FF1                    _hardware_init:	
   1491                          	opt	disable
-  1492                          	line	44
-  1493                          ;main.c: 44: Counter8_ltrx_Start();
+  1492                          	line	57
+  1493                          ;main.c: 57: Counter8_ltrx_Start();
   1494  3FF1  71 80             	or	f, 0x80	;select multiple RAM page mode
   1495  3FF3  70 CF             	and	f, 0xCF   ;select user reg space
   1496                          	
   1497  3FF5  7C 36F4           	xcall	_Counter8_ltrx_Start
   1498                          	
   1499  3FF8  38 00             	add	sp,0
-  1500                          	line	45
-  1501                          ;main.c: 45: LED1_Start();
+  1500                          	line	58
+  1501                          ;main.c: 58: LED1_Start();
   1502  3FFA  71 80             	or	f, 0x80	;select multiple RAM page mode
   1503  3FFC  70 CF             	and	f, 0xCF   ;select user reg space
   1504                          	
   1505  3FFE  7C 373D           	xcall	_LED1_Start
   1506                          	
   1507  4001  38 00             	add	sp,0
-  1508                          	line	46
-  1509                          ;main.c: 46: Ticker_Start();
+  1508                          	line	59
+  1509                          ;main.c: 59: Ticker_Start();
   1510  4003  71 80             	or	f, 0x80	;select multiple RAM page mode
   1511  4005  70 CF             	and	f, 0xCF   ;select user reg space
   1512                          	
   1513  4007  7C 3CE7           	xcall	_Ticker_Start
   1514                          	
   1515  400A  38 00             	add	sp,0
-  1516                          	line	47
-  1517                          ;main.c: 47: OneWire_Start();
+  1516                          	line	60
+  1517                          ;main.c: 60: OneWire_Start();
   1518  400C  71 80             	or	f, 0x80	;select multiple RAM page mode
   1519  400E  70 CF             	and	f, 0xCF   ;select user reg space
   1520                          	
   1521  4010  7C 39D9           	xcall	_OneWire_Start
   1522                          	
   1523  4013  38 00             	add	sp,0
-  1524                          	line	48
-  1525                          ;main.c: 48: s_Start();
+  1524                          	line	61
+  1525                          ;main.c: 61: s_Start();
   1526  4015  71 80             	or	f, 0x80	;select multiple RAM page mode
   1527                          	
   1528  4017  7C 57CF           	xcall	_s_Start
   1529                          	
-  1530                          	line	49
-  1531                          ;main.c: 49: orcon_Start();
+  1530                          	line	62
+  1531                          ;main.c: 62: orcon_Start();
   1532  401A  71 80             	or	f, 0x80	;select multiple RAM page mode
   1533                          	
   1534  401C  7C 4B5C           	xcall	_orcon_Start
   1535                          	
-  1536                          	line	52
-  1537                          ;main.c: 52: LTRX_CmdReset();
+  1536                          	line	65
+  1537                          ;main.c: 65: LTRX_CmdReset();
   1538  401F  71 80             	or	f, 0x80	;select multiple RAM page mode
   1539  4021  70 CF             	and	f, 0xCF   ;select user reg space
   1540                          	
   1541  4023  7C 38CD           	xcall	_LTRX_CmdReset
   1542                          	
   1543  4026  38 00             	add	sp,0
-  1544                          	line	53
-  1545                          ;main.c: 53: LTRX_EnableInt();
+  1544                          	line	66
+  1545                          ;main.c: 66: LTRX_EnableInt();
   1546  4028  71 80             	or	f, 0x80	;select multiple RAM page mode
   1547  402A  70 CF             	and	f, 0xCF   ;select user reg space
   1548                          	
   1549  402C  7C 377D           	xcall	_LTRX_EnableInt
   1550                          	
   1551  402F  38 00             	add	sp,0
-  1552                          	line	54
-  1553                          ;main.c: 54: LTRX_Start(0x00);
+  1552                          	line	67
+  1553                          ;main.c: 67: LTRX_Start(0x00);
   1554  4031  50 00             	mov	a,<((0))
   1555  4033  71 80             	or	f, 0x80	;select multiple RAM page mode
   1556  4035  70 CF             	and	f, 0xCF   ;select user reg space
@@ -1567,21 +1567,21 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
   1558  4037  7C 379D           	xcall	_LTRX_Start
   1559                          	
   1560  403A  38 00             	add	sp,0
-  1561                          	line	57
-  1562                          ;main.c: 57: Ticker_EnableInt();
+  1561                          	line	70
+  1562                          ;main.c: 70: Ticker_EnableInt();
   1563  403C  71 80             	or	f, 0x80	;select multiple RAM page mode
   1564  403E  70 CF             	and	f, 0xCF   ;select user reg space
   1565                          	
   1566  4040  7C 3CDF           	xcall	_Ticker_EnableInt
   1567                          	
   1568  4043  38 00             	add	sp,0
-  1569                          	line	58
-  1570                          # 58 "./main.c"
+  1569                          	line	71
+  1570                          # 71 "./main.c"
   1571  4045  71 01             or  F, 01h ;#
   1572                          	psect	text
-  1573                          	line	60
-  1574                          ;main.c: 58: asm("or  F, 01h") ;
-  1575                          ;main.c: 60: }
+  1573                          	line	73
+  1574                          ;main.c: 71: asm("or  F, 01h") ;
+  1575                          ;main.c: 73: }
   1576  4047                    l6:
   1577                          ;			
   1578  4047  70 CF             	and	f, 0xCF   ;select user reg space
@@ -6234,7 +6234,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
   6224                          
   6225                          ; *************** function _print_header *****************
   6226                          ; Defined at:
-  6227                          ;		line 23 in file "./main.c"
+  6227                          ;		line 36 in file "./main.c"
   6228                          ; Parameters:
   6229                          ;		None
   6230                          ; Auto variables:
@@ -6262,22 +6262,22 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
   6252                          ; This function uses a non-reentrant model
   6253                          ; 
   6254                          	file	"./main.c"
-  6255                          	line	23
+  6255                          	line	36
   6256  0051                    	__size_of_print_header	equ	__end_of_print_header-_print_header
-  6257                          ;main.c: 23: void print_header(){
+  6257                          ;main.c: 36: void print_header(){
   6258                          ;			
   6259  577E                    _print_header:	
   6260                          	opt	disable
-  6261                          	line	24
-  6262                          ;main.c: 24: LTRX_PutCRLF();
+  6261                          	line	37
+  6262                          ;main.c: 37: LTRX_PutCRLF();
   6263  577E  71 80             	or	f, 0x80	;select multiple RAM page mode
   6264  5780  70 CF             	and	f, 0xCF   ;select user reg space
   6265                          	
   6266  5782  7C 38C4           	xcall	_LTRX_PutCRLF
   6267                          	
   6268  5785  38 00             	add	sp,0
-  6269                          	line	25
-  6270                          ;main.c: 25: LTRX_CPutString("Sensor gateway v.");
+  6269                          	line	38
+  6270                          ;main.c: 38: LTRX_CPutString("Sensor gateway v.");
   6271  5787  57 D3             	mov	x,<(STR_1)
   6272  5789  50 7E             	mov	a,>(STR_1)
   6273  578B  71 80             	or	f, 0x80	;select multiple RAM page mode
@@ -6286,8 +6286,8 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
   6276  578F  7C 38B2           	xcall	_LTRX_CPutString
   6277                          	
   6278  5792  38 00             	add	sp,0
-  6279                          	line	26
-  6280                          ;main.c: 26: LTRX_CPutString("1.0.2");
+  6279                          	line	39
+  6280                          ;main.c: 39: LTRX_CPutString("1.0.2");
   6281  5794  57 4B             	mov	x,<(STR_2)
   6282  5796  50 7F             	mov	a,>(STR_2)
   6283  5798  71 80             	or	f, 0x80	;select multiple RAM page mode
@@ -6296,16 +6296,16 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
   6286  579C  7C 38B2           	xcall	_LTRX_CPutString
   6287                          	
   6288  579F  38 00             	add	sp,0
-  6289                          	line	27
-  6290                          ;main.c: 27: LTRX_PutCRLF();
+  6289                          	line	40
+  6290                          ;main.c: 40: LTRX_PutCRLF();
   6291  57A1  71 80             	or	f, 0x80	;select multiple RAM page mode
   6292  57A3  70 CF             	and	f, 0xCF   ;select user reg space
   6293                          	
   6294  57A5  7C 38C4           	xcall	_LTRX_PutCRLF
   6295                          	
   6296  57A8  38 00             	add	sp,0
-  6297                          	line	28
-  6298                          ;main.c: 28: LTRX_CPutString("Lieven Hollevoet, 2009");
+  6297                          	line	41
+  6298                          ;main.c: 41: LTRX_CPutString("Lieven Hollevoet, 2009");
   6299  57AA  57 94             	mov	x,<(STR_3)
   6300  57AC  50 7E             	mov	a,>(STR_3)
   6301  57AE  71 80             	or	f, 0x80	;select multiple RAM page mode
@@ -6314,27 +6314,27 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
   6304  57B2  7C 38B2           	xcall	_LTRX_CPutString
   6305                          	
   6306  57B5  38 00             	add	sp,0
-  6307                          	line	29
-  6308                          ;main.c: 29: LTRX_PutCRLF();
+  6307                          	line	42
+  6308                          ;main.c: 42: LTRX_PutCRLF();
   6309  57B7  71 80             	or	f, 0x80	;select multiple RAM page mode
   6310  57B9  70 CF             	and	f, 0xCF   ;select user reg space
   6311                          	
   6312  57BB  7C 38C4           	xcall	_LTRX_PutCRLF
   6313                          	
   6314  57BE  38 00             	add	sp,0
-  6315                          	line	30
-  6316                          ;main.c: 30: LTRX_PutCRLF();
+  6315                          	line	43
+  6316                          ;main.c: 43: LTRX_PutCRLF();
   6317  57C0  71 80             	or	f, 0x80	;select multiple RAM page mode
   6318  57C2  70 CF             	and	f, 0xCF   ;select user reg space
   6319                          	
   6320  57C4  7C 38C4           	xcall	_LTRX_PutCRLF
   6321                          	
   6322  57C7  38 00             	add	sp,0
-  6323                          	line	31
-  6324                          ;main.c: 31: return;
+  6323                          	line	44
+  6324                          ;main.c: 44: return;
   6325  57C9  7D 57CC           	xjmp	l4
-  6326                          	line	32
-  6327                          ;main.c: 32: }
+  6326                          	line	45
+  6327                          ;main.c: 45: }
   6328  57CC                    l4:
   6329                          ;			
   6330  57CC  70 CF             	and	f, 0xCF   ;select user reg space
@@ -6615,7 +6615,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
   6603                          
   6604                          ; *************** function _putch *****************
   6605                          ; Defined at:
-  6606                          ;		line 116 in file "./main.c"
+  6606                          ;		line 129 in file "./main.c"
   6607                          ; Parameters:
   6608                          ;		c           	offs:   0	type: unsigned char 
   6609                          ; Auto variables:
@@ -6641,14 +6641,14 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
   6629                          ; This function uses a non-reentrant model
   6630                          ; 
   6631                          	file	"./main.c"
-  6632                          	line	116
+  6632                          	line	129
   6633  0014                    	__size_of_putch	equ	__end_of_putch-_putch
-  6634                          ;main.c: 116: void putch(unsigned char c) {
+  6634                          ;main.c: 129: void putch(unsigned char c) {
   6635                          ;			
   6636  5840                    _putch:	
   6637                          	opt	disable
-  6638                          	line	118
-  6639                          ;main.c: 118: LTRX_PutChar(c);
+  6638                          	line	131
+  6639                          ;main.c: 131: LTRX_PutChar(c);
   6640  5840  70 CF             	and	f, 0xCF   ;select user reg space
   6641  5842  62 D0 00          	mov	reg[CUR_PP],0
   6642  5845  51 41             	mov	a,[0+((putch@c)^0x0)]
@@ -6657,11 +6657,11 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
   6645  5849  7C 3811           	xcall	_LTRX_PutChar
   6646                          	
   6647  584C  38 00             	add	sp,0
-  6648                          	line	119
-  6649                          ;main.c: 119: return;
+  6648                          	line	132
+  6649                          ;main.c: 132: return;
   6650  584E  7D 5851           	xjmp	l25
-  6651                          	line	120
-  6652                          ;main.c: 120: }
+  6651                          	line	133
+  6652                          ;main.c: 133: }
   6653  5851                    l25:
   6654                          ;			
   6655  5851  70 CF             	and	f, 0xCF   ;select user reg space
@@ -14335,7 +14335,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
  14322                          
  14323                          ; *************** function _Ticker_ISR *****************
  14324                          ; Defined at:
- 14325                          ;		line 17 in file "./main.c"
+ 14325                          ;		line 30 in file "./main.c"
  14326                          ; Parameters:
  14327                          ;		None
  14328                          ; Auto variables:
@@ -14361,10 +14361,10 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
  14348                          ; This function uses a non-reentrant model
  14349                          ; 
  14350                          	file	"./main.c"
- 14351                          	line	17
+ 14351                          	line	30
  14352  0041                    	__size_of_Ticker_ISR	equ	__end_of_Ticker_ISR-_Ticker_ISR
- 14353                          ;main.c: 16: void Ticker_ISR()
- 14354                          ;main.c: 17: {
+ 14353                          ;main.c: 29: void Ticker_ISR()
+ 14354                          ;main.c: 30: {
  14355  7B88                    _Ticker_ISR:
  14356  7B88                    Ticker_ISR:
  14357                          	global	Ticker_ISR ; in case PD tries to call an assembler ISR by this name
@@ -14388,18 +14388,18 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
  14375  7B9E  08                	push	a
  14376  7B9F  5D D5             	mov a,reg[MVW_PP]
  14377  7BA1  08                	push	a
- 14378                          	line	18
- 14379                          ;main.c: 18: LED1_Invert();
+ 14378                          	line	31
+ 14379                          ;main.c: 31: LED1_Invert();
  14380  7BA2  71 80             	or	f, 0x80	;select multiple RAM page mode
  14381                          	
  14382  7BA4  7C 3759           	xcall	_LED1_Invert
  14383                          	
  14384  7BA7  38 00             	add	sp,0
- 14385                          	line	20
- 14386                          ;main.c: 20: return;
+ 14385                          	line	33
+ 14386                          ;main.c: 33: return;
  14387  7BA9  7D 7BAC           	xjmp	l3
- 14388                          	line	21
- 14389                          ;main.c: 21: }
+ 14388                          	line	34
+ 14389                          ;main.c: 34: }
  14390  7BAC                    l3:
  14391                          ;			
  14392  7BAC  70 CF             	and	f, 0xCF   ;select user reg space
@@ -15871,7 +15871,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
 
 
 HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
-Symbol Table                                                                                               Sun Feb 15 21:55:09 2009
+Symbol Table                                                                                               Tue May 05 10:09:50 2009
 
            ?_oo_crc_shuffle_byte 0035        __end_of_s_connectionreset 4A2B                 ___awdiv@dividend 005E  
                               l3 7BAC                                l4 57CC                                l5 3FEE  
@@ -16174,7 +16174,7 @@ Symbol Table                                                                    
       ___start_of_c_program_code 3D41                  ___awmod@divisor 0060              __end_of_s_read_byte 5A54  
             __end_of_oo_crc_init 6E94                  ___awmod@counter 0063  
 HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
-                                                                                                           Sun Feb 15 21:55:05 2009
+                                                                                                           Tue May 05 10:09:42 2009
      1                          ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
      2                          ;;;
      3                          ;;;  M8C.INC -- M8C29000 Microcontroller Family System Declarations
@@ -18808,7 +18808,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    331  3733  70 3F                RAM_EPILOGUE RAM_USE_CLASS_2
    332  3737  7F                   ret
 HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
-Symbol Table                                                                                               Sun Feb 15 21:55:05 2009
+Symbol Table                                                                                               Tue May 05 10:09:42 2009
            Counter8_ltrx_PERIOD_REG 0031             _Counter8_ltrx_EnableInt 36EC                  _Counter8_ltrx_Stop 36F8  
          _Counter8_ltrx_WritePeriod 36FC           bCounter8_ltrx_ReadCounter 3705          _Counter8_ltrx_bReadCounter 3705  
                            MAC0_CL0 00EE                             MAC0_CL1 00EF                             MAC1_CL0 00AE  
@@ -18829,7 +18829,7 @@ Counter8_ltrx_CONTROL_REG_START_BIT 0001          _bCounter8_ltrx_ReadCounter 37
    _Counter8_ltrx_bReadCompareValue 3702           Counter8_ltrx_bReadCounter 3705                        FLAG_XIO_MASK 0010  
          SYSTEM_IDXPG_TRACKS_IDX_PP 0001           SYSTEM_IDXPG_TRACKS_STK_PP 0000     _bCounter8_ltrx_ReadCompareValue 3702  
 HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
-                                                                                                           Sun Feb 15 21:55:05 2009
+                                                                                                           Tue May 05 10:09:42 2009
      1                          ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
      2                          ;;;
      3                          ;;;  M8C.INC -- M8C29000 Microcontroller Family System Declarations
@@ -21207,14 +21207,14 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
     75                          
     76  3738  7E                   reti
 HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
-Symbol Table                                                                                               Sun Feb 15 21:55:05 2009
+Symbol Table                                                                                               Tue May 05 10:09:42 2009
                  _Counter8_ltrx_ISR 3738                             MAC0_CL0 00EE                             MAC0_CL1 00EF  
                            MAC1_CL0 00AE                             MAC1_CL1 00AF                                MAC_X 00EC  
                               MAC_Y 00ED                               MAC0_X 00EC                               MAC0_Y 00ED  
                              MAC1_X 00AC                               MAC1_Y 00AD                               HITECH 0002  
                             MAC_CL0 00EE                              MAC_CL1 00EF  
 HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
-                                                                                                           Sun Feb 15 21:55:05 2009
+                                                                                                           Tue May 05 10:09:42 2009
      1                          ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
      2                          ;;;
      3                          ;;;  M8C.INC -- M8C29000 Microcontroller Family System Declarations
@@ -22771,7 +22771,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    194                             RAM_EPILOGUE RAM_USE_CLASS_4
    195  377C  7F                   ret
 HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
-Symbol Table                                                                                               Sun Feb 15 21:55:05 2009
+Symbol Table                                                                                               Tue May 05 10:09:42 2009
              LED1_GetState 376A                    MAC0_CL0 00EE                    MAC0_CL1 00EF                    MAC1_CL0 00AE  
                   MAC1_CL1 00AF                       MAC_X 00EC                       MAC_Y 00ED                    LED1_Off 373D  
                     MAC0_X 00EC                      MAC0_Y 00ED                      MAC1_X 00AC                      MAC1_Y 00AD  
@@ -22784,7 +22784,7 @@ Symbol Table                                                                    
                 LED1_Start 373D                   _LED1_Off 373D                 _LED1_Start 373D              _LED1_GetState 376A  
 SYSTEM_IDXPG_TRACKS_IDX_PP 0001  SYSTEM_IDXPG_TRACKS_STK_PP 0000  
 HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
-                                                                                                           Sun Feb 15 21:55:05 2009
+                                                                                                           Tue May 05 10:09:42 2009
      1                          ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
      2                          ;;;
      3                          ;;;  M8C.INC -- M8C29000 Microcontroller Family System Declarations
@@ -22967,7 +22967,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    180  0054                    DBB31DR0:     equ 54h          ; data register 0                          (#)
    181  0055                    DBB31DR1:     equ 55h          ; data register 1                          (W)
    182  0056                    DBB31DR2:     equ 56h          ; data register 2                          (RW)
-   183  0057                    DBB31CR0:     equ 57h          ; control & status register 0              (#)
+   183+ 0057                    DBB31CR0:     equ 57h          ; control & status register 0              (#)
    184                          
    185                          ; Digital PSoC block 32, Communications Type B
    186  0058                    DCB32DR0:     equ 58h          ; data register 0                          (#)
@@ -22985,7 +22985,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    198                          ;  Analog Resource Control Registers
    199                          ;-------------------------------------
    200  0060                    AMX_IN:       equ 60h          ; Analog Input Multiplexor Control         (RW)
-   201+ 00C0                    AMX_IN_ACI3:          equ 0C0h    ; MASK: column 3 input mux
+   201  00C0                    AMX_IN_ACI3:          equ 0C0h    ; MASK: column 3 input mux
    202  0030                    AMX_IN_ACI2:          equ 30h    ; MASK: column 2 input mux
    203  000C                    AMX_IN_ACI1:          equ 0Ch    ; MASK: column 1 input mux
    204  0003                    AMX_IN_ACI0:          equ 03h    ; MASK: column 0 input mux
@@ -25655,7 +25655,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
   1400                             RAM_EPILOGUE RAM_USE_CLASS_4
   1401  3963  7F                   ret
 HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
-Symbol Table                                                                                               Sun Feb 15 21:55:05 2009
+Symbol Table                                                                                               Tue May 05 10:09:42 2009
               LTRX_RX_COMPLETE 0008          LTRX_szGetRestOfParams 3959                LTRX_RX_INT_MASK 0080  
                  LTRX_RX_ERROR 00E0                        MAC0_CL0 00EE                        MAC0_CL1 00EF  
                       MAC1_CL0 00AE                        MAC1_CL1 00AF                        CLEN_LSB FFFFFFFB  
@@ -25702,7 +25702,7 @@ Symbol Table                                                                    
            _bLTRX_ReadRxStatus 37B6                   _LTRX_PutChar 3811                 _LTRX_iReadChar 3838  
            _bLTRX_ReadTxStatus 37B0                 LTRX_bCmdLength 38F6  
 HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
-                                                                                                           Sun Feb 15 21:55:05 2009
+                                                                                                           Tue May 05 10:09:42 2009
      1                          ;;*****************************************************************************
      2                          ;;*****************************************************************************
      3                          ;;  FILENAME:   LTRX.inc
@@ -26440,7 +26440,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    199                          ;-------------------------------------
    200  0060                    AMX_IN:       equ 60h          ; Analog Input Multiplexor Control         (RW)
    201  00C0                    AMX_IN_ACI3:          equ 0C0h    ; MASK: column 3 input mux
-   202  0030                    AMX_IN_ACI2:          equ 30h    ; MASK: column 2 input mux
+   202+ 0030                    AMX_IN_ACI2:          equ 30h    ; MASK: column 2 input mux
    203  000C                    AMX_IN_ACI1:          equ 0Ch    ; MASK: column 1 input mux
    204  0003                    AMX_IN_ACI0:          equ 03h    ; MASK: column 0 input mux
    205                          
@@ -27426,7 +27426,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    252  39D8                    LTRX_RX_ISR_END:
    253  39D8  7E                   reti
 HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
-Symbol Table                                                                                               Sun Feb 15 21:55:05 2009
+Symbol Table                                                                                               Tue May 05 10:09:42 2009
              _LTRX_fStatus 0086               LTRX_RX_ERROR 00E0                    MAC0_CL0 00EE                    MAC0_CL1 00EF  
                   MAC1_CL0 00AE                    MAC1_CL1 00AF            LTRX_RX_REG_FULL 0008                       MAC_X 00EC  
                      MAC_Y 00ED          LTRX_RX_BUFFER_REG 003E       LTRX_RX_FRAMING_ERROR 0020              LTRX_RX_ENABLE 0001  
@@ -27438,7 +27438,7 @@ Symbol Table                                                                    
                    MAC_CL1 00EF         LTRX_RX_BUF_CMDTERM 0001              LTRX_aRxBuffer 0089            FLAG_PGMODE_MASK 00C0  
        LTRX_RX_BUF_OVERRUN 0010                LTRX_fStatus 0086             _LTRX_aRxBuffer 0089               LTRX_CMD_TERM 000D  
 HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
-                                                                                                           Sun Feb 15 21:55:05 2009
+                                                                                                           Tue May 05 10:09:43 2009
      1                          ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
      2                          ;;;
      3                          ;;;  M8C.INC -- M8C29000 Microcontroller Family System Declarations
@@ -30090,7 +30090,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
   1256                              RAM_EPILOGUE RAM_USE_CLASS_1
   1257  3CDD  7F                    ret
 HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
-Symbol Table                                                                                               Sun Feb 15 21:55:05 2009
+Symbol Table                                                                                               Tue May 05 10:09:43 2009
    OneWire_XCVR_RX_BUFFER_REG 005A              SPIM_SPI_COMPLETE 0020                    ONE_PATTERN 00FD  
                  RESET_PERIOD 00F9                  RESET_PATTERN 00F1      OneWire_BITCLK_PERIOD_REG 0055  
               _OneWire_GetROM 3A77             _OneWire_WriteByte 3A27                _OneWire_SetROM 3AA1  
@@ -30127,7 +30127,7 @@ OneWire_LastFamilyDiscrepancy 00A3        OneWire_LastDiscrepancy 00A2          
            OneWire_bCRC8Value 0099             _OneWire_bReadByte 3A42     SYSTEM_IDXPG_TRACKS_STK_PP 0000  
            _OneWire_fFindNext 3AE0     _OneWire_FamilyTargetSetup 3C96     OneWire_BITCLK_CONTROL_REG 0057  
 HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
-                                                                                                           Sun Feb 15 21:55:06 2009
+                                                                                                           Tue May 05 10:09:43 2009
      1                          ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
      2                          ;;;
      3                          ;;;  M8C.INC -- M8C29000 Microcontroller Family System Declarations
@@ -31155,14 +31155,14 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
     38                          ENDIF
     39  3CDE  7E                   reti
 HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
-Symbol Table                                                                                               Sun Feb 15 21:55:06 2009
+Symbol Table                                                                                               Tue May 05 10:09:43 2009
                   MAC0_CL0 00EE                    MAC0_CL1 00EF                    MAC1_CL0 00AE                    MAC1_CL1 00AF  
                      MAC_X 00EC                       MAC_Y 00ED                    INT_CLR2 00DC                    INT_MSK1 00E1  
                     MAC0_X 00EC                      MAC0_Y 00ED                      MAC1_X 00AC                      MAC1_Y 00AD  
        OneWire_BIT_INT_REG 00DF     OneWire_PARASITE_ENABLE 0000                     MAC_CL0 00EE                     MAC_CL1 00EF  
                    PRT0DM1 0001                _OneWire_ISR 3CDE  
 HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
-                                                                                                           Sun Feb 15 21:55:06 2009
+                                                                                                           Tue May 05 10:09:43 2009
      1                          ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
      2                          ;;;
      3                          ;;;  M8C.INC -- M8C29000 Microcontroller Family System Declarations
@@ -32835,7 +32835,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    185  0088                    _Port_3_Data_SHADE:
    186  0088                    Port_3_Data_SHADE:	BLK	1
 HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
-Symbol Table                                                                                               Sun Feb 15 21:55:06 2009
+Symbol Table                                                                                               Tue May 05 10:09:43 2009
                      _LoadConfigInit 03B1                              MAC0_CL0 00EE                              MAC0_CL1 00EF  
                             MAC1_CL0 00AE                              MAC1_CL1 00AF                                 MAC_X 00EC  
                                MAC_Y 00ED                                MAC0_X 00EC                                MAC0_Y 00ED  
@@ -32851,7 +32851,7 @@ Symbol Table                                                                    
           SYSTEM_IDXPG_TRACKS_IDX_PP 0001                          LoadConfigLp 03E7            SYSTEM_IDXPG_TRACKS_STK_PP 0000  
 LoadConfigTBL_sensor_gateway_Ordered 0200  
 HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
-                                                                                                           Sun Feb 15 21:55:06 2009
+                                                                                                           Tue May 05 10:09:43 2009
      1                          ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
      2                          ;;;
      3                          ;;;  M8C.INC -- M8C29000 Microcontroller Family System Declarations
@@ -34011,7 +34011,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    227  03AE  4E 40             	db		4eh, 40h		;Ticker_OUTPUT_MSB_REG(DCB23OU)
    228  03B0  FF                	db		ffh
 HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
-Symbol Table                                                                                               Sun Feb 15 21:55:06 2009
+Symbol Table                                                                                               Tue May 05 10:09:43 2009
                             MAC0_CL0 00EE                              MAC0_CL1 00EF                              MAC1_CL0 00AE  
                             MAC1_CL1 00AF                                 MAC_X 00EC                                 MAC_Y 00ED  
                               MAC0_X 00EC                                MAC0_Y 00ED                                MAC1_X 00AC  
@@ -34019,7 +34019,7 @@ Symbol Table                                                                    
                              MAC_CL0 00EE                               MAC_CL1 00EF                         FLAG_XIO_MASK 0010  
 LoadConfigTBL_sensor_gateway_Ordered 0200  
 HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
-                                                                                                           Sun Feb 15 21:55:06 2009
+                                                                                                           Tue May 05 10:09:44 2009
      1                          ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
      2                          ;;;
      3                          ;;;  M8C.INC -- M8C29000 Microcontroller Family System Declarations
@@ -36672,7 +36672,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    343  3D3C  70 3F                RAM_EPILOGUE RAM_USE_CLASS_2
    344  3D40  7F                   ret
 HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
-Symbol Table                                                                                               Sun Feb 15 21:55:06 2009
+Symbol Table                                                                                               Tue May 05 10:09:44 2009
           Ticker_WritePeriod 3CEF        Ticker_COMPARE_LSB_REG 004A        Ticker_COMPARE_MSB_REG 004E  
                     MAC0_CL0 00EE                      MAC0_CL1 00EF                      MAC1_CL0 00AE  
                     MAC1_CL1 00AF                         MAC_X 00EC                         MAC_Y 00ED  
@@ -36694,7 +36694,7 @@ Symbol Table                                                                    
                FLAG_XIO_MASK 0010    SYSTEM_IDXPG_TRACKS_IDX_PP 0001        Ticker_CONTROL_LSB_REG 004B  
   SYSTEM_IDXPG_TRACKS_STK_PP 0000                  Ticker_Start 3CE7                   Ticker_Stop 3CEB  
 HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
-                                                                                                           Sun Feb 15 21:55:06 2009
+                                                                                                           Tue May 05 10:09:44 2009
      1                          ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
      2                          ;;;
      3                          ;;;  M8C.INC -- M8C29000 Microcontroller Family System Declarations
@@ -39079,14 +39079,14 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
     75                          
     76  0000' 7E                   reti
 HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
-Symbol Table                                                                                               Sun Feb 15 21:55:06 2009
+Symbol Table                                                                                               Tue May 05 10:09:44 2009
                  _Ticker_ISR 0000                      MAC0_CL0 00EE                      MAC0_CL1 00EF  
                     MAC1_CL0 00AE                      MAC1_CL1 00AF                         MAC_X 00EC  
                        MAC_Y 00ED                        MAC0_X 00EC                        MAC0_Y 00ED  
                       MAC1_X 00AC                        MAC1_Y 00AD                        HITECH 0002  
                      MAC_CL0 00EE                       MAC_CL1 00EF  
 HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
-                                                                                                           Sun Feb 15 21:55:07 2009
+                                                                                                           Tue May 05 10:09:46 2009
      1                          ; Generated by PSoC Designer ???
      2                          ;
      3                          ;=============================================================================
@@ -39320,7 +39320,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
     80  0013                    PRT4DM2:      equ 13h          ; Port 4 Drive Mode 2                      (RW)
     81                          ; Port 5
     82  0014                    PRT5DR:       equ 14h          ; Port 5 Data Register                     (RW)
-    83  0015                    PRT5IE:       equ 15h          ; Port 5 Interrupt Enable Register         (RW)
+    83+ 0015                    PRT5IE:       equ 15h          ; Port 5 Interrupt Enable Register         (RW)
     84  0016                    PRT5GS:       equ 16h          ; Port 5 Global Select Register            (RW)
     85  0017                    PRT5DM2:      equ 17h          ; Port 5 Drive Mode 2                      (RW)
     86                          ; Port 6
@@ -41495,7 +41495,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    653  7FDC  50 08                 mov   A, POWER_SETTING
    654  7FDE  7F                    ret
 HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
-Symbol Table                                                                                               Sun Feb 15 21:55:07 2009
+Symbol Table                                                                                               Tue May 05 10:09:46 2009
               SELECT_32K_JUST 0000                       ACB00CR0 0071                       ACB01CR0 0075  
            _Counter8_ltrx_ISR 3738                       ACB02CR0 0079                       ACB03CR0 007D  
                    __Lstackps 0700             C_LANGUAGE_SUPPORT 0000                    _Ticker_ISR 7B88  
@@ -41523,7 +41523,7 @@ Symbol Table                                                                    
                    SELECT_32K 0000              TRIP_VOLTAGE_JUST 0000     SYSTEM_IDXPG_TRACKS_STK_PP 0000  
            bSSC_TABLE_TableId 00FA  
 HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
-                                                                                                           Sun Feb 15 21:55:10 2009
+                                                                                                           Tue May 05 10:09:50 2009
      1                          
      2                          	; HI-TECH C COMPILER (Cypress PSOC) V9.61PL1
      3                          	; Copyright (C) 1984-2008 HI-TECH Software
@@ -41690,7 +41690,7 @@ HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
    164                          
    165  7BFD  7D 7A27           	ljmp	_main
 HI-TECH Software Macro Assembler (PSoC MCU) V9.61PL1
-Symbol Table                                                                                               Sun Feb 15 21:55:10 2009
+Symbol Table                                                                                               Tue May 05 10:09:50 2009
     __Lramdata1 0100       __Lstackps 0700      __Lromdata1 0100            _main 7A27            start 0000        dataloop1 7BDF  
          CUR_PP 00D0           STK_PP 00D1        intlevel0 00A6        intlevel1 00A6        intlevel2 00A6        reset_vec 0000  
        bssloop2 7BF3          __Lbss0 0000          __Lbss2 0200          __Start 7F55          startup 7BC9  __stack_start__ 0700  

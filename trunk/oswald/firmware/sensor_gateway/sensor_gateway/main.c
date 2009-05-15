@@ -1,5 +1,18 @@
 //----------------------------------------------------------------------------
-// C main line
+// Sensor gateway on OSWALD PSoC ethernet board
+//
+// Supports OneWire temperature devices, Sensirion SHTxx devices and
+// the Orcon HRC ventilation system remote control for setting the 
+// working mode of the ventilation unit.
+//
+// Connect a Sensirion SHT11 or SHT15 sensor to 
+//   DATA on P21 with a 10k pullup to VDD
+//   CLK  on P47
+//
+// LTRX UART speed is 19200 bps
+//
+// Lieven Hollevoet, 2009.
+// http://electronics.lika.be
 //----------------------------------------------------------------------------
 
 #include <m8c.h>        // part specific constants and macros
