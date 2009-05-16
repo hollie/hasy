@@ -6,7 +6,7 @@
 ;/////////////////////////////////////////////////////////////////////////////////
 
 	include "P18F2320.inc"
-__HEAPSTART                      EQU	0x000000BA ; Start address of heap 
+__HEAPSTART                      EQU	0x000000BC ; Start address of heap 
 __HEAPEND                        EQU	0x000001FF ; End address of heap 
 gbl_porta                        EQU	0x00000F80 ; bytes:1
 gbl_portb                        EQU	0x00000F81 ; bytes:1
@@ -108,196 +108,200 @@ gbl_tosl                         EQU	0x00000FFD ; bytes:1
 gbl_tosh                         EQU	0x00000FFE ; bytes:1
 gbl_tosu                         EQU	0x00000FFF ; bytes:1
 gbl_tmr1if                       EQU	0x00000F9E ; bit:0
-tmr1_setup_00000_arg_irq_mode    EQU	0x00000078 ; bytes:1
-tmr1_set_00000_arg_value         EQU	0x0000007B ; bytes:2
+gbl_tmr3if                       EQU	0x00000FA1 ; bit:1
+tmr1_setup_00000_arg_irq_mode    EQU	0x00000079 ; bytes:1
+tmr1_set_00000_arg_value         EQU	0x0000007C ; bytes:2
 CompTempVarRet119                EQU	0x000000A0 ; bytes:2
-tmr1_value_00000_1_value         EQU	0x0000007D ; bytes:2
+tmr1_value_00000_1_value         EQU	0x0000007E ; bytes:2
+tmr3_setup_00000_arg_irq_mode    EQU	0x00000059 ; bytes:1
+tmr3_set_00000_arg_value         EQU	0x000000BA ; bytes:2
 gbl_stat0                        EQU	0x00000F80 ; bit:4
 gbl_uvr_data                     EQU	0x00000F82 ; bit:2
 gbl_interrupt_count              EQU	0x0000004B ; bytes:2
-init_00000_1_blink_count         EQU	0x00000056 ; bytes:1
-CompTempVar120                   EQU	0x00000057 ; bytes:1
-report_and_00022_1_count_shadow  EQU	0x00000056 ; bytes:2
-CompTempVar121                   EQU	0x00000062 ; bytes:27
-CompTempVar123                   EQU	0x00000062 ; bytes:13
-CompTempVar125                   EQU	0x00000059 ; bytes:4
-main_1_tmp                       EQU	0x00000051 ; bytes:1
-main_1_command_byte              EQU	0x00000052 ; bytes:1
-main_1_valid_data                EQU	0x00000053 ; bytes:1
-main_1_prev_count                EQU	0x00000054 ; bytes:2
+gbl_tmr3_count                   EQU	0x0000004D ; bytes:1
+init_00000_1_blink_count         EQU	0x00000057 ; bytes:1
+CompTempVar120                   EQU	0x00000058 ; bytes:1
+report_and_00022_1_count_shadow  EQU	0x00000057 ; bytes:2
+CompTempVar121                   EQU	0x00000063 ; bytes:27
+CompTempVar123                   EQU	0x00000063 ; bytes:13
+CompTempVar125                   EQU	0x0000005A ; bytes:4
+main_1_tmp                       EQU	0x00000052 ; bytes:1
+main_1_command_byte              EQU	0x00000053 ; bytes:1
+main_1_valid_data                EQU	0x00000054 ; bytes:1
+main_1_prev_count                EQU	0x00000055 ; bytes:2
 CompTempVar127                   EQU	0x00000080 ; bytes:56
-CompTempVar129                   EQU	0x00000062 ; bytes:16
-CompTempVar131                   EQU	0x00000062 ; bytes:13
-CompTempVar133                   EQU	0x00000056 ; bytes:4
-serial_ini_00007_arg_brg         EQU	0x00000058 ; bytes:1
+CompTempVar129                   EQU	0x00000063 ; bytes:16
+CompTempVar131                   EQU	0x00000063 ; bytes:13
+CompTempVar133                   EQU	0x00000057 ; bytes:4
+serial_ini_00007_arg_brg         EQU	0x00000059 ; bytes:1
 serial_pri_00008_arg_value       EQU	0x000000B9 ; bytes:1
-serial_pri_0000A_arg_text        EQU	0x00000060 ; bytes:2
+serial_pri_0000A_arg_text        EQU	0x00000061 ; bytes:2
 serial_pri_0000A_1_i             EQU	0x000000B8 ; bytes:1
-serial_pri_0000D_arg_number      EQU	0x0000005C ; bytes:1
-serial_pri_0000D_1_hexChar       EQU	0x0000005D ; bytes:1
-serial_pri_0000D_1_i             EQU	0x0000005E ; bytes:1
-serial_pri_0000B_arg_value       EQU	0x00000058 ; bytes:2
-serial_pri_0000B_1_value1        EQU	0x0000005A ; bytes:1
-serial_pri_0000B_1_value0        EQU	0x0000005B ; bytes:1
-serial_pri_0000E_arg_number      EQU	0x00000060 ; bytes:1
-CompTempVar140                   EQU	0x00000065 ; bytes:1
-CompTempVar142                   EQU	0x00000065 ; bytes:1
-CompTempVar144                   EQU	0x00000061 ; bytes:1
-serial_pri_0000F_arg_number      EQU	0x0000005D ; bytes:2
-CompTempVar150                   EQU	0x00000067 ; bytes:1
-CompTempVar151                   EQU	0x00000068 ; bytes:1
-CompTempVar152                   EQU	0x00000069 ; bytes:1
-CompTempVar153                   EQU	0x0000006A ; bytes:1
-CompTempVar159                   EQU	0x00000067 ; bytes:1
-CompTempVar160                   EQU	0x00000068 ; bytes:1
-CompTempVar161                   EQU	0x00000069 ; bytes:1
-CompTempVar162                   EQU	0x0000006A ; bytes:1
-CompTempVar168                   EQU	0x00000067 ; bytes:1
-CompTempVar169                   EQU	0x00000068 ; bytes:1
-CompTempVar170                   EQU	0x00000069 ; bytes:1
-CompTempVar171                   EQU	0x0000006A ; bytes:1
-CompTempVar177                   EQU	0x00000067 ; bytes:1
-CompTempVar178                   EQU	0x00000068 ; bytes:1
-CompTempVar179                   EQU	0x00000069 ; bytes:1
-CompTempVar180                   EQU	0x0000006A ; bytes:1
-CompTempVar181                   EQU	0x00000062 ; bytes:2
-CompTempVar183                   EQU	0x00000062 ; bytes:2
-CompTempVar187                   EQU	0x0000005F ; bytes:1
-CompTempVar188                   EQU	0x00000060 ; bytes:1
-serial_pri_00010_arg_number      EQU	0x00000057 ; bytes:1
-serial_pri_00010_arg_positions   EQU	0x00000058 ; bytes:1
-CompTempVar190                   EQU	0x00000059 ; bytes:1
-CompTempVar192                   EQU	0x00000059 ; bytes:1
-CompTempVar194                   EQU	0x00000059 ; bytes:1
-CompTempVarRet195                EQU	0x00000056 ; bytes:1
-CompTempVar197                   EQU	0x00000059 ; bytes:5
-gbl_ta_uvr_gotbit                EQU	0x0000004D ; bit:0
+serial_pri_0000D_arg_number      EQU	0x0000005D ; bytes:1
+serial_pri_0000D_1_hexChar       EQU	0x0000005E ; bytes:1
+serial_pri_0000D_1_i             EQU	0x0000005F ; bytes:1
+serial_pri_0000B_arg_value       EQU	0x00000059 ; bytes:2
+serial_pri_0000B_1_value1        EQU	0x0000005B ; bytes:1
+serial_pri_0000B_1_value0        EQU	0x0000005C ; bytes:1
+serial_pri_0000E_arg_number      EQU	0x00000061 ; bytes:1
+CompTempVar140                   EQU	0x00000066 ; bytes:1
+CompTempVar142                   EQU	0x00000066 ; bytes:1
+CompTempVar144                   EQU	0x00000062 ; bytes:1
+serial_pri_0000F_arg_number      EQU	0x0000005E ; bytes:2
+CompTempVar150                   EQU	0x00000068 ; bytes:1
+CompTempVar151                   EQU	0x00000069 ; bytes:1
+CompTempVar152                   EQU	0x0000006A ; bytes:1
+CompTempVar153                   EQU	0x0000006B ; bytes:1
+CompTempVar159                   EQU	0x00000068 ; bytes:1
+CompTempVar160                   EQU	0x00000069 ; bytes:1
+CompTempVar161                   EQU	0x0000006A ; bytes:1
+CompTempVar162                   EQU	0x0000006B ; bytes:1
+CompTempVar168                   EQU	0x00000068 ; bytes:1
+CompTempVar169                   EQU	0x00000069 ; bytes:1
+CompTempVar170                   EQU	0x0000006A ; bytes:1
+CompTempVar171                   EQU	0x0000006B ; bytes:1
+CompTempVar177                   EQU	0x00000068 ; bytes:1
+CompTempVar178                   EQU	0x00000069 ; bytes:1
+CompTempVar179                   EQU	0x0000006A ; bytes:1
+CompTempVar180                   EQU	0x0000006B ; bytes:1
+CompTempVar181                   EQU	0x00000063 ; bytes:2
+CompTempVar183                   EQU	0x00000063 ; bytes:2
+CompTempVar187                   EQU	0x00000060 ; bytes:1
+CompTempVar188                   EQU	0x00000061 ; bytes:1
+serial_pri_00010_arg_number      EQU	0x00000058 ; bytes:1
+serial_pri_00010_arg_positions   EQU	0x00000059 ; bytes:1
+CompTempVar190                   EQU	0x0000005A ; bytes:1
+CompTempVar192                   EQU	0x0000005A ; bytes:1
+CompTempVar194                   EQU	0x0000005A ; bytes:1
+CompTempVarRet195                EQU	0x00000057 ; bytes:1
+CompTempVar197                   EQU	0x0000005A ; bytes:5
+gbl_ta_uvr_gotbit                EQU	0x0000004E ; bit:0
 gbl_mydata                       EQU	0x00000005 ; bytes:35
 gbl_data_cache                   EQU	0x00000028 ; bytes:35
-gbl_ta_uvr_tmrl                  EQU	0x0000004E ; bytes:1
-gbl_ta_uvr_tmrh                  EQU	0x0000004F ; bytes:1
-gbl_ta_uvr_data_valid            EQU	0x00000050 ; bytes:1
-CompTempVarRet214                EQU	0x0000005F ; bytes:1
-ta_uvr_get_0001B_1_done          EQU	0x00000056 ; bit:0
-ta_uvr_get_0001B_1_firstrun      EQU	0x00000056 ; bit:1
-ta_uvr_get_0001B_1_counter       EQU	0x00000057 ; bytes:1
-ta_uvr_get_0001B_1_input         EQU	0x00000058 ; bytes:1
-ta_uvr_get_0001B_1_bytecount     EQU	0x00000059 ; bytes:1
-ta_uvr_get_0001B_1_databyte      EQU	0x0000005A ; bytes:1
-ta_uvr_get_0001B_1_bit_time      EQU	0x0000005B ; bytes:2
-ta_uvr_get_0001B_1_timer_wait    EQU	0x0000005D ; bytes:2
-CompTempVarRet241                EQU	0x0000007B ; bytes:2
-CompTempVar215                   EQU	0x00000060 ; bytes:1
-CompTempVar216                   EQU	0x00000061 ; bytes:1
-CompTempVarRet265                EQU	0x00000077 ; bytes:1
-CompTempVar219                   EQU	0x00000060 ; bytes:1
-CompTempVar220                   EQU	0x00000061 ; bytes:1
-CompTempVar221                   EQU	0x00000062 ; bytes:1
-CompTempVar222                   EQU	0x00000063 ; bytes:1
-CompTempVar225                   EQU	0x00000060 ; bytes:1
-CompTempVar226                   EQU	0x00000061 ; bytes:1
-CompTempVar229                   EQU	0x00000060 ; bytes:1
-CompTempVar230                   EQU	0x00000062 ; bytes:29
-CompTempVar232                   EQU	0x00000062 ; bytes:11
-CompTempVar234                   EQU	0x00000062 ; bytes:27
-CompTempVar236                   EQU	0x00000062 ; bytes:11
-CompTempVar239                   EQU	0x00000060 ; bytes:1
-CompTempVar240                   EQU	0x00000060 ; bytes:1
-CompTempVarRet289                EQU	0x00000058 ; bytes:1
-ta_uvr_ver_0001C_1_checksum      EQU	0x00000056 ; bytes:1
-ta_uvr_ver_0001C_1_byte_count    EQU	0x00000057 ; bytes:1
-CompTempVar294                   EQU	0x00000058 ; bytes:1
-CompTempVarRet295                EQU	0x00000056 ; bytes:1
-ta_uvr_sen_0001E_1_snd_count     EQU	0x00000056 ; bytes:1
-CompTempVar301                   EQU	0x00000062 ; bytes:30
-CompTempVar303                   EQU	0x00000062 ; bytes:26
-CompTempVar305                   EQU	0x00000062 ; bytes:15
-CompTempVar309                   EQU	0x00000057 ; bytes:2
-CompTempVar313                   EQU	0x00000057 ; bytes:2
-CompTempVar317                   EQU	0x00000057 ; bytes:2
-CompTempVar321                   EQU	0x00000057 ; bytes:2
-CompTempVar325                   EQU	0x00000062 ; bytes:15
-CompTempVar327                   EQU	0x00000059 ; bytes:5
-CompTempVar333                   EQU	0x00000059 ; bytes:5
-CompTempVar339                   EQU	0x00000059 ; bytes:5
-CompTempVar345                   EQU	0x00000059 ; bytes:5
-CompTempVar351                   EQU	0x00000059 ; bytes:5
-CompTempVar357                   EQU	0x00000059 ; bytes:5
-CompTempVar363                   EQU	0x00000062 ; bytes:21
-CompTempVar365                   EQU	0x00000057 ; bytes:3
-CompTempVar367                   EQU	0x00000057 ; bytes:4
-CompTempVar369                   EQU	0x00000059 ; bytes:5
-CompTempVar371                   EQU	0x00000057 ; bytes:3
-CompTempVar373                   EQU	0x00000057 ; bytes:4
-CompTempVar375                   EQU	0x00000059 ; bytes:5
-CompTempVar377                   EQU	0x00000057 ; bytes:3
-CompTempVar379                   EQU	0x00000057 ; bytes:4
-CompTempVar381                   EQU	0x00000059 ; bytes:7
-CompTempVar383                   EQU	0x00000062 ; bytes:24
-ta_uvr_pri_0001F_arg_low         EQU	0x00000057 ; bytes:1
-ta_uvr_pri_0001F_arg_high        EQU	0x00000058 ; bytes:1
-ta_uvr_pri_0001F_1_value_type    EQU	0x00000059 ; bytes:1
-ta_uvr_pri_0001F_1_temp          EQU	0x0000005A ; bytes:2
-ta_uvr_pri_0001F_1_high_restored EQU	0x0000005C ; bytes:1
-CompTempVar387                   EQU	0x00000062 ; bytes:14
-CompTempVar389                   EQU	0x00000062 ; bytes:4
-CompTempVar391                   EQU	0x0000005D ; bytes:3
-CompTempVar393                   EQU	0x0000005D ; bytes:2
-CompTempVar395                   EQU	0x0000005D ; bytes:1
-CompTempVar396                   EQU	0x0000005E ; bytes:1
-CompTempVar397                   EQU	0x0000005D ; bytes:2
-ta_uvr_cal_00021_1_timeout       EQU	0x00000060 ; bytes:2
+gbl_ta_uvr_tmrl                  EQU	0x0000004F ; bytes:1
+gbl_ta_uvr_tmrh                  EQU	0x00000050 ; bytes:1
+gbl_ta_uvr_data_valid            EQU	0x00000051 ; bytes:1
+CompTempVarRet214                EQU	0x00000060 ; bytes:1
+ta_uvr_get_0001B_1_done          EQU	0x00000057 ; bit:0
+ta_uvr_get_0001B_1_firstrun      EQU	0x00000057 ; bit:1
+ta_uvr_get_0001B_1_counter       EQU	0x00000058 ; bytes:1
+ta_uvr_get_0001B_1_input         EQU	0x00000059 ; bytes:1
+ta_uvr_get_0001B_1_bytecount     EQU	0x0000005A ; bytes:1
+ta_uvr_get_0001B_1_databyte      EQU	0x0000005B ; bytes:1
+ta_uvr_get_0001B_1_bit_time      EQU	0x0000005C ; bytes:2
+ta_uvr_get_0001B_1_timer_wait    EQU	0x0000005E ; bytes:2
+CompTempVarRet241                EQU	0x0000007C ; bytes:2
+CompTempVar215                   EQU	0x00000061 ; bytes:1
+CompTempVar216                   EQU	0x00000062 ; bytes:1
+CompTempVarRet265                EQU	0x00000078 ; bytes:1
+CompTempVar219                   EQU	0x00000061 ; bytes:1
+CompTempVar220                   EQU	0x00000062 ; bytes:1
+CompTempVar221                   EQU	0x00000063 ; bytes:1
+CompTempVar222                   EQU	0x00000064 ; bytes:1
+CompTempVar225                   EQU	0x00000061 ; bytes:1
+CompTempVar226                   EQU	0x00000062 ; bytes:1
+CompTempVar229                   EQU	0x00000061 ; bytes:1
+CompTempVar230                   EQU	0x00000063 ; bytes:29
+CompTempVar232                   EQU	0x00000063 ; bytes:11
+CompTempVar234                   EQU	0x00000063 ; bytes:27
+CompTempVar236                   EQU	0x00000063 ; bytes:11
+CompTempVar239                   EQU	0x00000061 ; bytes:1
+CompTempVar240                   EQU	0x00000061 ; bytes:1
+CompTempVarRet289                EQU	0x00000059 ; bytes:1
+ta_uvr_ver_0001C_1_checksum      EQU	0x00000057 ; bytes:1
+ta_uvr_ver_0001C_1_byte_count    EQU	0x00000058 ; bytes:1
+CompTempVar294                   EQU	0x00000059 ; bytes:1
+CompTempVarRet295                EQU	0x00000057 ; bytes:1
+ta_uvr_sen_0001E_1_snd_count     EQU	0x00000057 ; bytes:1
+CompTempVar301                   EQU	0x00000080 ; bytes:30
+CompTempVar303                   EQU	0x00000063 ; bytes:26
+CompTempVar305                   EQU	0x00000063 ; bytes:15
+CompTempVar309                   EQU	0x00000058 ; bytes:2
+CompTempVar313                   EQU	0x00000058 ; bytes:2
+CompTempVar317                   EQU	0x00000058 ; bytes:2
+CompTempVar321                   EQU	0x00000058 ; bytes:2
+CompTempVar325                   EQU	0x00000063 ; bytes:15
+CompTempVar327                   EQU	0x0000005A ; bytes:5
+CompTempVar333                   EQU	0x0000005A ; bytes:5
+CompTempVar339                   EQU	0x0000005A ; bytes:5
+CompTempVar345                   EQU	0x0000005A ; bytes:5
+CompTempVar351                   EQU	0x0000005A ; bytes:5
+CompTempVar357                   EQU	0x0000005A ; bytes:5
+CompTempVar363                   EQU	0x00000063 ; bytes:21
+CompTempVar365                   EQU	0x00000058 ; bytes:3
+CompTempVar367                   EQU	0x00000058 ; bytes:4
+CompTempVar369                   EQU	0x0000005A ; bytes:5
+CompTempVar371                   EQU	0x00000058 ; bytes:3
+CompTempVar373                   EQU	0x00000058 ; bytes:4
+CompTempVar375                   EQU	0x0000005A ; bytes:5
+CompTempVar377                   EQU	0x00000058 ; bytes:3
+CompTempVar379                   EQU	0x00000058 ; bytes:4
+CompTempVar381                   EQU	0x0000005A ; bytes:7
+CompTempVar383                   EQU	0x00000063 ; bytes:24
+ta_uvr_pri_0001F_arg_low         EQU	0x00000058 ; bytes:1
+ta_uvr_pri_0001F_arg_high        EQU	0x00000059 ; bytes:1
+ta_uvr_pri_0001F_1_value_type    EQU	0x0000005A ; bytes:1
+ta_uvr_pri_0001F_1_temp          EQU	0x0000005B ; bytes:2
+ta_uvr_pri_0001F_1_high_restored EQU	0x0000005D ; bytes:1
+CompTempVar387                   EQU	0x00000063 ; bytes:14
+CompTempVar389                   EQU	0x00000063 ; bytes:4
+CompTempVar391                   EQU	0x0000005E ; bytes:3
+CompTempVar393                   EQU	0x0000005E ; bytes:2
+CompTempVar395                   EQU	0x0000005E ; bytes:1
+CompTempVar396                   EQU	0x0000005F ; bytes:1
+CompTempVar397                   EQU	0x0000005E ; bytes:2
+ta_uvr_cal_00021_1_timeout       EQU	0x00000061 ; bytes:2
 ta_uvr_cal_00021_1_periods       EQU	0x00000080 ; bytes:32
-ta_uvr_cal_00021_1_count         EQU	0x00000062 ; bytes:1
-ta_uvr_cal_00021_5_instr_count   EQU	0x00000079 ; bytes:2
-CompTempVar243                   EQU	0x00000063 ; bytes:1
-CompTempVar247                   EQU	0x00000063 ; bytes:1
-CompTempVar250                   EQU	0x00000063 ; bytes:1
-CompTempVar256                   EQU	0x00000063 ; bytes:1
-CompTempVar257                   EQU	0x00000064 ; bytes:1
-CompTempVar259                   EQU	0x00000065 ; bytes:1
-CompTempVar260                   EQU	0x00000066 ; bytes:1
-CompTempVar263                   EQU	0x00000063 ; bytes:1
-ta_uvr_wai_00023_arg_bit_time    EQU	0x00000060 ; bytes:2
-ta_uvr_wai_00023_1_dataword      EQU	0x00000062 ; bytes:2
-ta_uvr_wai_00023_1_timer_w_00024 EQU	0x00000064 ; bytes:2
-CompTempVar266                   EQU	0x00000066 ; bytes:1
-CompTempVar267                   EQU	0x00000067 ; bytes:1
-ta_uvr_wai_00023_1_timer_w_00025 EQU	0x00000068 ; bytes:2
-CompTempVar270                   EQU	0x0000006A ; bytes:1
-CompTempVar271                   EQU	0x0000006B ; bytes:1
-CompTempVar272                   EQU	0x0000006C ; bytes:1
-CompTempVar273                   EQU	0x0000006D ; bytes:1
-ta_uvr_wai_00023_1_timer_w_00026 EQU	0x0000006E ; bytes:2
-CompTempVar274                   EQU	0x00000070 ; bytes:1
-ta_uvr_wai_00023_1_input         EQU	0x00000071 ; bytes:1
-ta_uvr_wai_00023_1_sync_bitcount EQU	0x00000072 ; bytes:1
-CompTempVar282                   EQU	0x00000073 ; bytes:1
-CompTempVar283                   EQU	0x00000074 ; bytes:1
-CompTempVar284                   EQU	0x00000075 ; bytes:1
-CompTempVar285                   EQU	0x00000076 ; bytes:1
-ta_uvr_wai_00023_1_start_found   EQU	0x00000056 ; bit:2
-__div_16_1_00003_arg_a           EQU	0x0000005F ; bytes:2
-__div_16_1_00003_arg_b           EQU	0x00000061 ; bytes:2
-CompTempVarRet409                EQU	0x0000006E ; bytes:2
-__div_16_1_00003_1_r             EQU	0x0000006B ; bytes:2
-__div_16_1_00003_1_i             EQU	0x0000006D ; bytes:1
-__rem_16_1_00004_arg_a           EQU	0x00000063 ; bytes:2
-__rem_16_1_00004_arg_b           EQU	0x00000065 ; bytes:2
-CompTempVarRet411                EQU	0x0000006D ; bytes:2
-__rem_16_1_00004_1_c             EQU	0x0000006A ; bytes:2
-__rem_16_1_00004_1_i             EQU	0x0000006C ; bytes:1
-__div_8_8_00000_arg_a            EQU	0x00000061 ; bytes:1
-__div_8_8_00000_arg_b            EQU	0x00000062 ; bytes:1
-CompTempVarRet413                EQU	0x00000068 ; bytes:1
-__div_8_8_00000_1_r              EQU	0x00000066 ; bytes:1
-__div_8_8_00000_1_i              EQU	0x00000067 ; bytes:1
-__rem_8_8_00000_arg_a            EQU	0x00000063 ; bytes:1
-__rem_8_8_00000_arg_b            EQU	0x00000064 ; bytes:1
-CompTempVarRet415                EQU	0x00000068 ; bytes:1
-__rem_8_8_00000_1_c              EQU	0x00000066 ; bytes:1
-__rem_8_8_00000_1_i              EQU	0x00000067 ; bytes:1
-delay_ms_00000_arg_del           EQU	0x00000058 ; bytes:1
+ta_uvr_cal_00021_1_count         EQU	0x00000063 ; bytes:1
+ta_uvr_cal_00021_5_instr_count   EQU	0x0000007A ; bytes:2
+CompTempVar243                   EQU	0x00000064 ; bytes:1
+CompTempVar247                   EQU	0x00000064 ; bytes:1
+CompTempVar250                   EQU	0x00000064 ; bytes:1
+CompTempVar256                   EQU	0x00000064 ; bytes:1
+CompTempVar257                   EQU	0x00000065 ; bytes:1
+CompTempVar259                   EQU	0x00000066 ; bytes:1
+CompTempVar260                   EQU	0x00000067 ; bytes:1
+CompTempVar263                   EQU	0x00000064 ; bytes:1
+ta_uvr_wai_00023_arg_bit_time    EQU	0x00000061 ; bytes:2
+ta_uvr_wai_00023_1_dataword      EQU	0x00000063 ; bytes:2
+ta_uvr_wai_00023_1_timer_w_00024 EQU	0x00000065 ; bytes:2
+CompTempVar266                   EQU	0x00000067 ; bytes:1
+CompTempVar267                   EQU	0x00000068 ; bytes:1
+ta_uvr_wai_00023_1_timer_w_00025 EQU	0x00000069 ; bytes:2
+CompTempVar270                   EQU	0x0000006B ; bytes:1
+CompTempVar271                   EQU	0x0000006C ; bytes:1
+CompTempVar272                   EQU	0x0000006D ; bytes:1
+CompTempVar273                   EQU	0x0000006E ; bytes:1
+ta_uvr_wai_00023_1_timer_w_00026 EQU	0x0000006F ; bytes:2
+CompTempVar274                   EQU	0x00000071 ; bytes:1
+ta_uvr_wai_00023_1_input         EQU	0x00000072 ; bytes:1
+ta_uvr_wai_00023_1_sync_bitcount EQU	0x00000073 ; bytes:1
+CompTempVar282                   EQU	0x00000074 ; bytes:1
+CompTempVar283                   EQU	0x00000075 ; bytes:1
+CompTempVar284                   EQU	0x00000076 ; bytes:1
+CompTempVar285                   EQU	0x00000077 ; bytes:1
+ta_uvr_wai_00023_1_start_found   EQU	0x00000057 ; bit:2
+__div_16_1_00003_arg_a           EQU	0x00000060 ; bytes:2
+__div_16_1_00003_arg_b           EQU	0x00000062 ; bytes:2
+CompTempVarRet409                EQU	0x0000006F ; bytes:2
+__div_16_1_00003_1_r             EQU	0x0000006C ; bytes:2
+__div_16_1_00003_1_i             EQU	0x0000006E ; bytes:1
+__rem_16_1_00004_arg_a           EQU	0x00000064 ; bytes:2
+__rem_16_1_00004_arg_b           EQU	0x00000066 ; bytes:2
+CompTempVarRet411                EQU	0x0000006E ; bytes:2
+__rem_16_1_00004_1_c             EQU	0x0000006B ; bytes:2
+__rem_16_1_00004_1_i             EQU	0x0000006D ; bytes:1
+__div_8_8_00000_arg_a            EQU	0x00000062 ; bytes:1
+__div_8_8_00000_arg_b            EQU	0x00000063 ; bytes:1
+CompTempVarRet413                EQU	0x00000069 ; bytes:1
+__div_8_8_00000_1_r              EQU	0x00000067 ; bytes:1
+__div_8_8_00000_1_i              EQU	0x00000068 ; bytes:1
+__rem_8_8_00000_arg_a            EQU	0x00000064 ; bytes:1
+__rem_8_8_00000_arg_b            EQU	0x00000065 ; bytes:1
+CompTempVarRet415                EQU	0x00000069 ; bytes:1
+__rem_8_8_00000_1_c              EQU	0x00000067 ; bytes:1
+__rem_8_8_00000_1_i              EQU	0x00000068 ; bytes:1
+delay_ms_00000_arg_del           EQU	0x00000059 ; bytes:1
 Int1Context                      EQU	0x00000001 ; bytes:4
 	ORG 0x00000000
 	GOTO	_startup
@@ -331,17 +335,27 @@ label4026531859
 ; } delay_ms function end
 
 	ORG 0x0000003A
+tmr3_set_00000
+; { tmr3_set ; function begin
+	MOVF tmr3_set_00000_arg_value+D'1', W, 1
+	MOVWF gbl_tmr3h
+	MOVF tmr3_set_00000_arg_value, W, 1
+	MOVWF gbl_tmr3l
+	RETURN
+; } tmr3_set function end
+
+	ORG 0x00000044
 serial_pri_00008
 ; { serial_printf ; function begin
-label268436335
+label268436400
 	BTFSS gbl_txsta,1
-	BRA	label268436335
+	BRA	label268436400
 	MOVF serial_pri_00008_arg_value, W, 1
 	MOVWF gbl_txreg
 	RETURN
 ; } serial_printf function end
 
-	ORG 0x00000044
+	ORG 0x0000004E
 tmr1_set_00000
 ; { tmr1_set ; function begin
 	MOVF tmr1_set_00000_arg_value+D'1', W
@@ -351,12 +365,12 @@ tmr1_set_00000
 	RETURN
 ; } tmr1_set function end
 
-	ORG 0x0000004E
+	ORG 0x00000058
 serial_pri_0000A
 ; { serial_printf ; function begin
 	MOVLB 0x00
 	CLRF serial_pri_0000A_1_i, 1
-label268436344
+label268436409
 	MOVF serial_pri_0000A_arg_text+D'1', W
 	MOVWF	FSR0H
 	MOVF serial_pri_0000A_arg_text, W
@@ -374,10 +388,10 @@ label268436344
 	MOVF INDF0, W
 	MOVWF serial_pri_00008_arg_value, 1
 	CALL serial_pri_00008
-	BRA	label268436344
+	BRA	label268436409
 ; } serial_printf function end
 
-	ORG 0x00000078
+	ORG 0x00000082
 __rem_16_1_00004
 ; { __rem_16_16 ; function begin
 	CLRF CompTempVarRet411
@@ -385,7 +399,7 @@ __rem_16_1_00004
 	CLRF __rem_16_1_00004_1_c
 	CLRF __rem_16_1_00004_1_c+D'1'
 	CLRF __rem_16_1_00004_1_i
-label268438165
+label268438235
 	BTFSC __rem_16_1_00004_1_i,4
 	RETURN
 	BCF STATUS,C
@@ -400,18 +414,18 @@ label268438165
 	MOVF __rem_16_1_00004_arg_b+D'1', W
 	CPFSEQ CompTempVarRet411+D'1'
 	SUBWF CompTempVarRet411+D'1', W
-	BNC	label268438170
+	BNC	label268438240
 	MOVF __rem_16_1_00004_arg_b, W
 	SUBWF CompTempVarRet411, F
 	MOVF __rem_16_1_00004_arg_b+D'1', W
 	SUBWFB CompTempVarRet411+D'1', F
 	BSF __rem_16_1_00004_1_c,0
-label268438170
+label268438240
 	INCF __rem_16_1_00004_1_i, F
-	BRA	label268438165
+	BRA	label268438235
 ; } __rem_16_16 function end
 
-	ORG 0x000000AE
+	ORG 0x000000B8
 __div_16_1_00003
 ; { __div_16_16 ; function begin
 	CLRF __div_16_1_00003_1_r
@@ -419,7 +433,7 @@ __div_16_1_00003
 	CLRF CompTempVarRet409
 	CLRF CompTempVarRet409+D'1'
 	CLRF __div_16_1_00003_1_i
-label268438141
+label268438211
 	BTFSC __div_16_1_00003_1_i,4
 	RETURN
 	BCF STATUS,C
@@ -434,18 +448,18 @@ label268438141
 	MOVF __div_16_1_00003_arg_b+D'1', W
 	CPFSEQ __div_16_1_00003_1_r+D'1'
 	SUBWF __div_16_1_00003_1_r+D'1', W
-	BNC	label268438146
+	BNC	label268438216
 	MOVF __div_16_1_00003_arg_b, W
 	SUBWF __div_16_1_00003_1_r, F
 	MOVF __div_16_1_00003_arg_b+D'1', W
 	SUBWFB __div_16_1_00003_1_r+D'1', F
 	BSF CompTempVarRet409,0
-label268438146
+label268438216
 	INCF __div_16_1_00003_1_i, F
-	BRA	label268438141
+	BRA	label268438211
 ; } __div_16_16 function end
 
-	ORG 0x000000E4
+	ORG 0x000000EE
 tmr1_value_00000
 ; { tmr1_value ; function begin
 	MOVF gbl_tmr1l, W
@@ -460,7 +474,7 @@ tmr1_value_00000
 	RETURN
 ; } tmr1_value function end
 
-	ORG 0x000000F8
+	ORG 0x00000102
 tmr1_setup_00000
 ; { tmr1_setup ; function begin
 	MOVLW 0x80
@@ -473,42 +487,47 @@ tmr1_setup_00000
 	BSF gbl_pie1,0
 	BTFSS tmr1_setup_00000_arg_irq_mode,0
 	BCF gbl_pie1,0
-	BTFSC tmr1_setup_00000_arg_irq_mode,0
+	DECF tmr1_setup_00000_arg_irq_mode, W
+	BNZ	label4026532889
+	BTFSS tmr1_setup_00000_arg_irq_mode,0
+	BRA	label268435643
 	BSF gbl_intcon,6
+label268435643
 	BTFSS tmr1_setup_00000_arg_irq_mode,0
 	BCF gbl_intcon,6
+label4026532889
 	MOVF tmr1_setup_00000_arg_irq_mode, F
 	BTFSS STATUS,Z
 	BSF gbl_intcon,7
 	RETURN
 ; } tmr1_setup function end
 
-	ORG 0x0000011E
+	ORG 0x0000012E
 serial_pri_0000F
 ; { serial_print_dec ; function begin
 	MOVF serial_pri_0000F_arg_number+D'1', W
 	SUBLW 0x27
-	BNZ	label268436442
+	BNZ	label268436507
 	MOVF serial_pri_0000F_arg_number, W
 	SUBLW 0x0F
-label268436442
-	BC	label268436443
+label268436507
+	BC	label268436508
 	BTFSC serial_pri_0000F_arg_number+D'1',7
-	BRA	label268436443
+	BRA	label268436508
 	CLRF CompTempVar153
 	MOVF serial_pri_0000F_arg_number, W
 	MOVWF __div_16_1_00003_arg_a
 	MOVF serial_pri_0000F_arg_number+D'1', W
 	MOVWF __div_16_1_00003_arg_a+D'1'
 	BTFSS serial_pri_0000F_arg_number+D'1',7
-	BRA	label268436468
+	BRA	label268436533
 	COMF __div_16_1_00003_arg_a, F
 	COMF __div_16_1_00003_arg_a+D'1', F
 	INCF __div_16_1_00003_arg_a, F
 	BTFSC STATUS,Z
 	INCF __div_16_1_00003_arg_a+D'1', F
 	INCF CompTempVar153, F
-label268436468
+label268436533
 	MOVLW 0x10
 	MOVWF __div_16_1_00003_arg_b
 	MOVLW 0x27
@@ -519,23 +538,23 @@ label268436468
 	MOVF CompTempVarRet409+D'1', W
 	MOVWF CompTempVar150
 	BTFSS CompTempVar153,0
-	BRA	label4026532871
+	BRA	label4026532895
 	COMF __rem_16_1_00004_arg_a, F
 	COMF CompTempVar150, F
 	INCF __rem_16_1_00004_arg_a, F
 	BTFSC STATUS,Z
 	INCF CompTempVar150, F
-label4026532871
+label4026532895
 	MOVF CompTempVar150, W
 	MOVWF __rem_16_1_00004_arg_a+D'1'
 	BTFSS CompTempVar150,7
-	BRA	label4026532873
+	BRA	label4026532897
 	COMF __rem_16_1_00004_arg_a, F
 	COMF __rem_16_1_00004_arg_a+D'1', F
 	INCF __rem_16_1_00004_arg_a, F
 	BTFSC STATUS,Z
 	INCF __rem_16_1_00004_arg_a+D'1', F
-label4026532873
+label4026532897
 	MOVLW 0x0A
 	MOVWF __rem_16_1_00004_arg_b
 	CLRF __rem_16_1_00004_arg_b+D'1'
@@ -545,42 +564,42 @@ label4026532873
 	MOVF CompTempVarRet411+D'1', W
 	MOVWF CompTempVar152
 	BTFSS CompTempVar150,7
-	BRA	label4026532875
+	BRA	label4026532899
 	COMF CompTempVar151, F
 	COMF CompTempVar152, F
 	INCF CompTempVar151, F
 	BTFSC STATUS,Z
 	INCF CompTempVar152, F
-label4026532875
+label4026532899
 	MOVLW 0x30
 	ADDWF CompTempVar151, W
 	MOVLB 0x00
 	MOVWF serial_pri_00008_arg_value, 1
 	CALL serial_pri_00008
-label268436443
+label268436508
 	MOVF serial_pri_0000F_arg_number+D'1', W
 	SUBLW 0x03
-	BNZ	label268436476
+	BNZ	label268436541
 	MOVF serial_pri_0000F_arg_number, W
 	SUBLW 0xE7
-label268436476
-	BC	label268436477
+label268436541
+	BC	label268436542
 	BTFSC serial_pri_0000F_arg_number+D'1',7
-	BRA	label268436477
+	BRA	label268436542
 	CLRF CompTempVar162
 	MOVF serial_pri_0000F_arg_number, W
 	MOVWF __div_16_1_00003_arg_a
 	MOVF serial_pri_0000F_arg_number+D'1', W
 	MOVWF __div_16_1_00003_arg_a+D'1'
 	BTFSS serial_pri_0000F_arg_number+D'1',7
-	BRA	label268436502
+	BRA	label268436567
 	COMF __div_16_1_00003_arg_a, F
 	COMF __div_16_1_00003_arg_a+D'1', F
 	INCF __div_16_1_00003_arg_a, F
 	BTFSC STATUS,Z
 	INCF __div_16_1_00003_arg_a+D'1', F
 	INCF CompTempVar162, F
-label268436502
+label268436567
 	MOVLW 0xE8
 	MOVWF __div_16_1_00003_arg_b
 	MOVLW 0x03
@@ -591,23 +610,23 @@ label268436502
 	MOVF CompTempVarRet409+D'1', W
 	MOVWF CompTempVar159
 	BTFSS CompTempVar162,0
-	BRA	label4026532880
+	BRA	label4026532904
 	COMF __rem_16_1_00004_arg_a, F
 	COMF CompTempVar159, F
 	INCF __rem_16_1_00004_arg_a, F
 	BTFSC STATUS,Z
 	INCF CompTempVar159, F
-label4026532880
+label4026532904
 	MOVF CompTempVar159, W
 	MOVWF __rem_16_1_00004_arg_a+D'1'
 	BTFSS CompTempVar159,7
-	BRA	label4026532882
+	BRA	label4026532906
 	COMF __rem_16_1_00004_arg_a, F
 	COMF __rem_16_1_00004_arg_a+D'1', F
 	INCF __rem_16_1_00004_arg_a, F
 	BTFSC STATUS,Z
 	INCF __rem_16_1_00004_arg_a+D'1', F
-label4026532882
+label4026532906
 	MOVLW 0x0A
 	MOVWF __rem_16_1_00004_arg_b
 	CLRF __rem_16_1_00004_arg_b+D'1'
@@ -617,41 +636,41 @@ label4026532882
 	MOVF CompTempVarRet411+D'1', W
 	MOVWF CompTempVar161
 	BTFSS CompTempVar159,7
-	BRA	label4026532884
+	BRA	label4026532908
 	COMF CompTempVar160, F
 	COMF CompTempVar161, F
 	INCF CompTempVar160, F
 	BTFSC STATUS,Z
 	INCF CompTempVar161, F
-label4026532884
+label4026532908
 	MOVLW 0x30
 	ADDWF CompTempVar160, W
 	MOVLB 0x00
 	MOVWF serial_pri_00008_arg_value, 1
 	CALL serial_pri_00008
-label268436477
+label268436542
 	MOVLW 0x63
 	CPFSGT serial_pri_0000F_arg_number
 	TSTFSZ serial_pri_0000F_arg_number+D'1'
-	BRA	label4026531931
-	BRA	label268436511
-label4026531931
+	BRA	label4026531939
+	BRA	label268436576
+label4026531939
 	BTFSC serial_pri_0000F_arg_number+D'1',7
-	BRA	label268436511
+	BRA	label268436576
 	CLRF CompTempVar171
 	MOVF serial_pri_0000F_arg_number, W
 	MOVWF __div_16_1_00003_arg_a
 	MOVF serial_pri_0000F_arg_number+D'1', W
 	MOVWF __div_16_1_00003_arg_a+D'1'
 	BTFSS serial_pri_0000F_arg_number+D'1',7
-	BRA	label268436536
+	BRA	label268436601
 	COMF __div_16_1_00003_arg_a, F
 	COMF __div_16_1_00003_arg_a+D'1', F
 	INCF __div_16_1_00003_arg_a, F
 	BTFSC STATUS,Z
 	INCF __div_16_1_00003_arg_a+D'1', F
 	INCF CompTempVar171, F
-label268436536
+label268436601
 	MOVLW 0x64
 	MOVWF __div_16_1_00003_arg_b
 	CLRF __div_16_1_00003_arg_b+D'1'
@@ -661,23 +680,23 @@ label268436536
 	MOVF CompTempVarRet409+D'1', W
 	MOVWF CompTempVar168
 	BTFSS CompTempVar171,0
-	BRA	label4026532891
+	BRA	label4026532915
 	COMF __rem_16_1_00004_arg_a, F
 	COMF CompTempVar168, F
 	INCF __rem_16_1_00004_arg_a, F
 	BTFSC STATUS,Z
 	INCF CompTempVar168, F
-label4026532891
+label4026532915
 	MOVF CompTempVar168, W
 	MOVWF __rem_16_1_00004_arg_a+D'1'
 	BTFSS CompTempVar168,7
-	BRA	label4026532893
+	BRA	label4026532917
 	COMF __rem_16_1_00004_arg_a, F
 	COMF __rem_16_1_00004_arg_a+D'1', F
 	INCF __rem_16_1_00004_arg_a, F
 	BTFSC STATUS,Z
 	INCF __rem_16_1_00004_arg_a+D'1', F
-label4026532893
+label4026532917
 	MOVLW 0x0A
 	MOVWF __rem_16_1_00004_arg_b
 	CLRF __rem_16_1_00004_arg_b+D'1'
@@ -687,41 +706,41 @@ label4026532893
 	MOVF CompTempVarRet411+D'1', W
 	MOVWF CompTempVar170
 	BTFSS CompTempVar168,7
-	BRA	label4026532895
+	BRA	label4026532919
 	COMF CompTempVar169, F
 	COMF CompTempVar170, F
 	INCF CompTempVar169, F
 	BTFSC STATUS,Z
 	INCF CompTempVar170, F
-label4026532895
+label4026532919
 	MOVLW 0x30
 	ADDWF CompTempVar169, W
 	MOVLB 0x00
 	MOVWF serial_pri_00008_arg_value, 1
 	CALL serial_pri_00008
-label268436511
+label268436576
 	MOVLW 0x09
 	CPFSGT serial_pri_0000F_arg_number
 	TSTFSZ serial_pri_0000F_arg_number+D'1'
-	BRA	label4026531944
-	BRA	label268436545
-label4026531944
+	BRA	label4026531952
+	BRA	label268436610
+label4026531952
 	BTFSC serial_pri_0000F_arg_number+D'1',7
-	BRA	label268436545
+	BRA	label268436610
 	CLRF CompTempVar180
 	MOVF serial_pri_0000F_arg_number, W
 	MOVWF __div_16_1_00003_arg_a
 	MOVF serial_pri_0000F_arg_number+D'1', W
 	MOVWF __div_16_1_00003_arg_a+D'1'
 	BTFSS serial_pri_0000F_arg_number+D'1',7
-	BRA	label268436570
+	BRA	label268436635
 	COMF __div_16_1_00003_arg_a, F
 	COMF __div_16_1_00003_arg_a+D'1', F
 	INCF __div_16_1_00003_arg_a, F
 	BTFSC STATUS,Z
 	INCF __div_16_1_00003_arg_a+D'1', F
 	INCF CompTempVar180, F
-label268436570
+label268436635
 	MOVLW 0x0A
 	MOVWF __div_16_1_00003_arg_b
 	CLRF __div_16_1_00003_arg_b+D'1'
@@ -731,23 +750,23 @@ label268436570
 	MOVF CompTempVarRet409+D'1', W
 	MOVWF CompTempVar177
 	BTFSS CompTempVar180,0
-	BRA	label4026532902
+	BRA	label4026532926
 	COMF __rem_16_1_00004_arg_a, F
 	COMF CompTempVar177, F
 	INCF __rem_16_1_00004_arg_a, F
 	BTFSC STATUS,Z
 	INCF CompTempVar177, F
-label4026532902
+label4026532926
 	MOVF CompTempVar177, W
 	MOVWF __rem_16_1_00004_arg_a+D'1'
 	BTFSS CompTempVar177,7
-	BRA	label4026532904
+	BRA	label4026532928
 	COMF __rem_16_1_00004_arg_a, F
 	COMF __rem_16_1_00004_arg_a+D'1', F
 	INCF __rem_16_1_00004_arg_a, F
 	BTFSC STATUS,Z
 	INCF __rem_16_1_00004_arg_a+D'1', F
-label4026532904
+label4026532928
 	MOVLW 0x0A
 	MOVWF __rem_16_1_00004_arg_b
 	CLRF __rem_16_1_00004_arg_b+D'1'
@@ -757,20 +776,20 @@ label4026532904
 	MOVF CompTempVarRet411+D'1', W
 	MOVWF CompTempVar179
 	BTFSS CompTempVar177,7
-	BRA	label4026532906
+	BRA	label4026532930
 	COMF CompTempVar178, F
 	COMF CompTempVar179, F
 	INCF CompTempVar178, F
 	BTFSC STATUS,Z
 	INCF CompTempVar179, F
-label4026532906
+label4026532930
 	MOVLW 0x30
 	ADDWF CompTempVar178, W
 	MOVLB 0x00
 	MOVWF serial_pri_00008_arg_value, 1
 	CALL serial_pri_00008
-	BRA	label268436578
-label268436545
+	BRA	label268436643
+label268436610
 	MOVLW 0x30
 	MOVWF CompTempVar181
 	CLRF CompTempVar181+D'1'
@@ -779,7 +798,7 @@ label268436545
 	MOVLW LOW(CompTempVar181+D'0')
 	MOVWF serial_pri_0000A_arg_text
 	CALL serial_pri_0000A
-label268436578
+label268436643
 	MOVLW 0x2E
 	MOVWF CompTempVar183
 	CLRF CompTempVar183+D'1'
@@ -793,13 +812,13 @@ label268436578
 	MOVF serial_pri_0000F_arg_number+D'1', W
 	MOVWF __rem_16_1_00004_arg_a+D'1'
 	BTFSS serial_pri_0000F_arg_number+D'1',7
-	BRA	label4026532908
+	BRA	label4026532932
 	COMF __rem_16_1_00004_arg_a, F
 	COMF __rem_16_1_00004_arg_a+D'1', F
 	INCF __rem_16_1_00004_arg_a, F
 	BTFSC STATUS,Z
 	INCF __rem_16_1_00004_arg_a+D'1', F
-label4026532908
+label4026532932
 	MOVLW 0x0A
 	MOVWF __rem_16_1_00004_arg_b
 	CLRF __rem_16_1_00004_arg_b+D'1'
@@ -809,13 +828,13 @@ label4026532908
 	MOVF CompTempVarRet411+D'1', W
 	MOVWF CompTempVar188
 	BTFSS serial_pri_0000F_arg_number+D'1',7
-	BRA	label4026532910
+	BRA	label4026532934
 	COMF CompTempVar187, F
 	COMF CompTempVar188, F
 	INCF CompTempVar187, F
 	BTFSC STATUS,Z
 	INCF CompTempVar188, F
-label4026532910
+label4026532934
 	MOVLW 0x30
 	ADDWF CompTempVar187, W
 	MOVWF serial_pri_00008_arg_value, 1
@@ -823,52 +842,52 @@ label4026532910
 	RETURN
 ; } serial_print_dec function end
 
-	ORG 0x000003A6
+	ORG 0x000003B6
 serial_pri_0000D
 ; { serial_print_hex ; function begin
 	CLRF serial_pri_0000D_1_i
-label268436359
+label268436424
 	MOVLW 0x02
 	CPFSLT serial_pri_0000D_1_i
 	RETURN
 	MOVF serial_pri_0000D_1_i, F
-	BNZ	label268436363
+	BNZ	label268436428
 	SWAPF serial_pri_0000D_arg_number, W
 	ANDLW 0x0F
 	MOVWF serial_pri_0000D_1_hexChar
-	BRA	label268436366
-label268436363
+	BRA	label268436431
+label268436428
 	MOVLW 0x0F
 	ANDWF serial_pri_0000D_arg_number, W
 	MOVWF serial_pri_0000D_1_hexChar
-label268436366
+label268436431
 	MOVLW 0x0A
 	CPFSLT serial_pri_0000D_1_hexChar
-	BRA	label268436368
+	BRA	label268436433
 	MOVLW 0x30
 	ADDWF serial_pri_0000D_1_hexChar, W
 	MOVWF serial_pri_0000D_1_hexChar
-	BRA	label268436371
-label268436368
+	BRA	label268436436
+label268436433
 	MOVLW 0x37
 	ADDWF serial_pri_0000D_1_hexChar, W
 	MOVWF serial_pri_0000D_1_hexChar
-label268436371
+label268436436
 	MOVF serial_pri_0000D_1_hexChar, W
 	MOVLB 0x00
 	MOVWF serial_pri_00008_arg_value, 1
 	CALL serial_pri_00008
 	INCF serial_pri_0000D_1_i, F
-	BRA	label268436359
+	BRA	label268436424
 ; } serial_print_hex function end
 
-	ORG 0x000003E2
+	ORG 0x000003F2
 __rem_8_8_00000
 ; { __rem_8_8 ; function begin
 	CLRF CompTempVarRet415
 	CLRF __rem_8_8_00000_1_c
 	CLRF __rem_8_8_00000_1_i
-label268438213
+label268438283
 	BTFSC __rem_8_8_00000_1_i,3
 	RETURN
 	BCF STATUS,C
@@ -877,24 +896,24 @@ label268438213
 	RLCF CompTempVarRet415, F
 	MOVF CompTempVarRet415, W
 	CPFSGT __rem_8_8_00000_arg_b
-	BRA	label268438218
-	BRA	label268438219
-label268438218
+	BRA	label268438288
+	BRA	label268438289
+label268438288
 	MOVF __rem_8_8_00000_arg_b, W
 	SUBWF CompTempVarRet415, F
 	BSF __rem_8_8_00000_1_c,0
-label268438219
+label268438289
 	INCF __rem_8_8_00000_1_i, F
-	BRA	label268438213
+	BRA	label268438283
 ; } __rem_8_8 function end
 
-	ORG 0x00000406
+	ORG 0x00000416
 __div_8_8_00000
 ; { __div_8_8 ; function begin
 	CLRF __div_8_8_00000_1_r
 	CLRF CompTempVarRet413
 	CLRF __div_8_8_00000_1_i
-label268438189
+label268438259
 	BTFSC __div_8_8_00000_1_i,3
 	RETURN
 	BCF STATUS,C
@@ -903,18 +922,40 @@ label268438189
 	RLCF __div_8_8_00000_1_r, F
 	MOVF __div_8_8_00000_1_r, W
 	CPFSGT __div_8_8_00000_arg_b
-	BRA	label268438194
-	BRA	label268438195
-label268438194
+	BRA	label268438264
+	BRA	label268438265
+label268438264
 	MOVF __div_8_8_00000_arg_b, W
 	SUBWF __div_8_8_00000_1_r, F
 	BSF CompTempVarRet413,0
-label268438195
+label268438265
 	INCF __div_8_8_00000_1_i, F
-	BRA	label268438189
+	BRA	label268438259
 ; } __div_8_8 function end
 
-	ORG 0x0000042A
+	ORG 0x0000043A
+tmr3_setup_00000
+; { tmr3_setup ; function begin
+	MOVLW 0xA0
+	MOVWF gbl_t3con
+	CLRF gbl_tmr3h
+	CLRF gbl_tmr3l
+	BCF gbl_tmr3if,1
+	BTFSC tmr3_setup_00000_arg_irq_mode,0
+	BSF gbl_pie2,1
+	BTFSS tmr3_setup_00000_arg_irq_mode,0
+	BCF gbl_pie2,1
+	BTFSC tmr3_setup_00000_arg_irq_mode,0
+	BSF gbl_intcon,6
+	BTFSS tmr3_setup_00000_arg_irq_mode,0
+	BCF gbl_intcon,6
+	MOVF tmr3_setup_00000_arg_irq_mode, F
+	BTFSS STATUS,Z
+	BSF gbl_intcon,7
+	RETURN
+; } tmr3_setup function end
+
+	ORG 0x0000045C
 ta_uvr_wai_00023
 ; { ta_uvr_waitforsync ; function begin
 	CLRF gbl_portb
@@ -974,17 +1015,17 @@ ta_uvr_wai_00023
 	MOVF ta_uvr_wai_00023_1_timer_w_00025+D'1', W
 	MOVWF gbl_ta_uvr_tmrh
 	CLRF ta_uvr_wai_00023_1_sync_bitcount
-label268437933
+label268438003
 	BTFSC gbl_uvr_data,2
-	BRA	label268437934
+	BRA	label268438004
 	NOP
-	BRA	label268437933
-label268437934
+	BRA	label268438003
+label268438004
 	BTFSS gbl_uvr_data,2
-	BRA	label268437943
+	BRA	label268438013
 	NOP
-	BRA	label268437934
-label268437943
+	BRA	label268438004
+label268438013
 	CLRF tmr1_setup_00000_arg_irq_mode
 	CALL tmr1_setup_00000
 	MOVF ta_uvr_wai_00023_1_timer_w_00024, W
@@ -994,12 +1035,12 @@ label268437943
 	CALL tmr1_set_00000
 	BSF gbl_t1con,0
 	BCF gbl_tmr1if,0
-label268437961
+label268438031
 	BTFSC gbl_tmr1if,0
-	BRA	label268437962
+	BRA	label268438032
 	NOP
-	BRA	label268437961
-label268437962
+	BRA	label268438031
+label268438032
 	MOVLW 0x01
 	MOVWF tmr1_setup_00000_arg_irq_mode
 	CALL tmr1_setup_00000
@@ -1009,17 +1050,17 @@ label268437962
 	MOVWF tmr1_set_00000_arg_value+D'1'
 	CALL tmr1_set_00000
 	BSF gbl_t1con,0
-label268437979
+label268438049
 	MOVF ta_uvr_wai_00023_1_dataword, W
 	MOVWF CompTempVar282
 	MOVF ta_uvr_wai_00023_1_dataword+D'1', W
 	ANDLW 0x3F
 	MOVWF CompTempVar283
 	MOVF CompTempVar282, F
-	BNZ	label4026532776
+	BNZ	label4026532798
 	MOVF CompTempVar283, F
-	BZ	label268437981
-label4026532776
+	BZ	label268438051
+label4026532798
 	MOVF ta_uvr_wai_00023_1_dataword, W
 	MOVWF CompTempVar284
 	MOVF ta_uvr_wai_00023_1_dataword+D'1', W
@@ -1028,17 +1069,17 @@ label4026532776
 	MOVF CompTempVar284, W
 	XORLW 0xFF
 	BTFSC CompTempVar285,7
-	BRA	label4026532779
-	BNZ	label4026532779
+	BRA	label4026532801
+	BNZ	label4026532801
 	MOVF CompTempVar285, W
 	XORLW 0x3F
-	BZ	label268437981
-label4026532779
+	BZ	label268438051
+label4026532801
 	BTFSC gbl_ta_uvr_gotbit,0
-	BRA	label268437985
+	BRA	label268438055
 	NOP
-	BRA	label4026532779
-label268437985
+	BRA	label4026532801
+label268438055
 	CLRF ta_uvr_wai_00023_1_input
 	BTFSC gbl_uvr_data,2
 	INCF ta_uvr_wai_00023_1_input, F
@@ -1054,61 +1095,61 @@ label268437985
 	INCF ta_uvr_wai_00023_1_sync_bitcount, F
 	MOVLW 0xC8
 	CPFSEQ ta_uvr_wai_00023_1_sync_bitcount
-	BRA	label268437979
+	BRA	label268438049
 	CLRF CompTempVarRet265
 	RETURN
-label268437981
+label268438051
 	BTFSS gbl_uvr_data,2
-	BRA	label268438011
+	BRA	label268438081
 	NOP
-	BRA	label268437981
-label268438011
+	BRA	label268438051
+label268438081
 	BTFSC gbl_uvr_data,2
-	BRA	label268438020
+	BRA	label268438090
 	NOP
-	BRA	label268438011
-label268438020
+	BRA	label268438081
+label268438090
 	BCF ta_uvr_wai_00023_1_start_found,2
 	BCF gbl_t1con,0
 	BCF gbl_tmr1if,0
 	CLRF tmr1_setup_00000_arg_irq_mode
 	CALL tmr1_setup_00000
-label268438034
+label268438104
 	BTFSC ta_uvr_wai_00023_1_start_found,2
-	BRA	label268438035
+	BRA	label268438105
 	MOVF ta_uvr_wai_00023_1_timer_w_00026, W
 	MOVWF tmr1_set_00000_arg_value
 	MOVF ta_uvr_wai_00023_1_timer_w_00026+D'1', W
 	MOVWF tmr1_set_00000_arg_value+D'1'
 	CALL tmr1_set_00000
-label268438042
+label268438112
 	BTFSS gbl_uvr_data,2
-	BRA	label268438043
+	BRA	label268438113
 	NOP
-	BRA	label268438042
-label268438043
+	BRA	label268438112
+label268438113
 	BSF gbl_t1con,0
 	NOP
-label268438057
+label268438127
 	BTFSC gbl_uvr_data,2
-	BRA	label268438058
+	BRA	label268438128
 	NOP
-	BRA	label268438057
-label268438058
+	BRA	label268438127
+label268438128
 	BTFSS gbl_tmr1if,0
-	BRA	label268438066
+	BRA	label268438136
 	BSF ta_uvr_wai_00023_1_start_found,2
-	BRA	label268438034
-label268438066
+	BRA	label268438104
+label268438136
 	BCF gbl_t1con,0
-	BRA	label268438034
-label268438035
+	BRA	label268438104
+label268438105
 	MOVLW 0x01
 	MOVWF CompTempVarRet265
 	RETURN
 ; } ta_uvr_waitforsync function end
 
-	ORG 0x0000058A
+	ORG 0x000005BC
 ta_uvr_pri_0001F
 ; { ta_uvr_print_sensor_value ; function begin
 	MOVLW 0x70
@@ -1118,17 +1159,17 @@ ta_uvr_pri_0001F
 	CLRF ta_uvr_pri_0001F_1_temp+D'1'
 	CLRF ta_uvr_pri_0001F_1_high_restored
 	MOVF ta_uvr_pri_0001F_1_value_type, F
-	BZ	label268437663
+	BZ	label268437729
 	MOVLW 0x10
 	CPFSEQ ta_uvr_pri_0001F_1_value_type
-	BRA	label268437664
-	BRA	label268437665
-label268437664
+	BRA	label268437730
+	BRA	label268437731
+label268437730
 	MOVLW 0x20
 	CPFSEQ ta_uvr_pri_0001F_1_value_type
-	BRA	label268437668
-	BRA	label268437667
-label268437663
+	BRA	label268437734
+	BRA	label268437733
+label268437729
 	MOVLW 0x20
 	MOVWF CompTempVar387+D'3'
 	MOVLW 0x4E
@@ -1156,10 +1197,10 @@ label268437663
 	MOVLW LOW(CompTempVar387+D'0')
 	MOVWF serial_pri_0000A_arg_text
 	CALL serial_pri_0000A
-	BRA	label268437675
-label268437665
+	BRA	label268437741
+label268437731
 	BTFSC ta_uvr_pri_0001F_arg_high,7
-	BRA	label268437676
+	BRA	label268437742
 	MOVLW 0x6F
 	MOVWF CompTempVar389
 	MOVLW 0x66
@@ -1171,8 +1212,8 @@ label268437665
 	MOVLW LOW(CompTempVar389+D'0')
 	MOVWF serial_pri_0000A_arg_text
 	CALL serial_pri_0000A
-	BRA	label268437675
-label268437676
+	BRA	label268437741
+label268437742
 	MOVLW 0x6F
 	MOVWF CompTempVar391
 	MOVLW 0x6E
@@ -1183,25 +1224,25 @@ label268437676
 	MOVLW LOW(CompTempVar391+D'0')
 	MOVWF serial_pri_0000A_arg_text
 	CALL serial_pri_0000A
-	BRA	label268437675
-label268437667
+	BRA	label268437741
+label268437733
 	MOVF ta_uvr_pri_0001F_arg_high, W
 	MOVWF ta_uvr_pri_0001F_1_high_restored
 	BTFSS ta_uvr_pri_0001F_1_high_restored,7
-	BRA	label268437694
+	BRA	label268437760
 	MOVLW 0x70
 	IORWF ta_uvr_pri_0001F_1_high_restored, F
-	BRA	label268437698
-label268437694
+	BRA	label268437764
+label268437760
 	MOVLW 0x8F
 	ANDWF ta_uvr_pri_0001F_1_high_restored, F
-label268437698
+label268437764
 	MOVF ta_uvr_pri_0001F_arg_low, W
 	MOVWF ta_uvr_pri_0001F_1_temp
 	MOVF ta_uvr_pri_0001F_1_high_restored, W
 	MOVWF ta_uvr_pri_0001F_1_temp+D'1'
 	BTFSS ta_uvr_pri_0001F_arg_high,7
-	BRA	label4026532937
+	BRA	label4026532966
 	MOVLW 0x2D
 	MOVWF CompTempVar393
 	CLRF CompTempVar393+D'1'
@@ -1222,14 +1263,14 @@ label268437698
 	MOVWF ta_uvr_pri_0001F_1_temp+D'1'
 	INFSNZ ta_uvr_pri_0001F_1_temp, F
 	INCF ta_uvr_pri_0001F_1_temp+D'1', F
-label4026532937
+label4026532966
 	MOVF ta_uvr_pri_0001F_1_temp, W
 	MOVWF serial_pri_0000F_arg_number
 	MOVF ta_uvr_pri_0001F_1_temp+D'1', W
 	MOVWF serial_pri_0000F_arg_number+D'1'
 	CALL serial_pri_0000F
-	BRA	label268437675
-label268437668
+	BRA	label268437741
+label268437734
 	MOVLW 0x23
 	MOVWF CompTempVar397
 	CLRF CompTempVar397+D'1'
@@ -1238,7 +1279,7 @@ label268437668
 	MOVLW LOW(CompTempVar397+D'0')
 	MOVWF serial_pri_0000A_arg_text
 	CALL serial_pri_0000A
-label268437675
+label268437741
 	MOVLW 0x0A
 	MOVWF serial_pri_00008_arg_value, 1
 	CALL serial_pri_00008
@@ -1248,7 +1289,7 @@ label268437675
 	RETURN
 ; } ta_uvr_print_sensor_value function end
 
-	ORG 0x00000694
+	ORG 0x000006C6
 ta_uvr_cal_00021
 ; { ta_uvr_calibrate_timer ; function begin
 	CLRF ta_uvr_cal_00021_1_timeout
@@ -1256,51 +1297,51 @@ ta_uvr_cal_00021
 	CLRF ta_uvr_cal_00021_1_count
 	CLRF tmr1_setup_00000_arg_irq_mode
 	CALL tmr1_setup_00000
-label268437773
+label268437839
 	MOVLW 0x10
 	CPFSLT ta_uvr_cal_00021_1_count
-	BRA	label268437774
+	BRA	label268437840
 	CLRF tmr1_set_00000_arg_value
 	CLRF tmr1_set_00000_arg_value+D'1'
 	CALL tmr1_set_00000
-label268437782
+label268437848
 	BTFSC gbl_uvr_data,2
-	BRA	label268437783
+	BRA	label268437849
 	INFSNZ ta_uvr_cal_00021_1_timeout, F
 	INCF ta_uvr_cal_00021_1_timeout+D'1', F
 	MOVF ta_uvr_cal_00021_1_timeout+D'1', W
 	SUBLW 0xFD
-	BNZ	label268437787
+	BNZ	label268437853
 	MOVF ta_uvr_cal_00021_1_timeout, W
 	SUBLW 0xE8
-label268437787
-	BC	label268437782
+label268437853
+	BC	label268437848
 	CLRF CompTempVarRet241
 	CLRF CompTempVarRet241+D'1'
 	RETURN
-label268437783
+label268437849
 	CLRF ta_uvr_cal_00021_1_timeout
 	CLRF ta_uvr_cal_00021_1_timeout+D'1'
-label268437794
+label268437860
 	BTFSS gbl_uvr_data,2
-	BRA	label268437795
+	BRA	label268437861
 	INFSNZ ta_uvr_cal_00021_1_timeout, F
 	INCF ta_uvr_cal_00021_1_timeout+D'1', F
 	MOVF ta_uvr_cal_00021_1_timeout+D'1', W
 	SUBLW 0xFD
-	BNZ	label268437799
+	BNZ	label268437865
 	MOVF ta_uvr_cal_00021_1_timeout, W
 	SUBLW 0xE8
-label268437799
-	BC	label268437794
+label268437865
+	BC	label268437860
 	CLRF CompTempVarRet241
 	CLRF CompTempVarRet241+D'1'
 	RETURN
-label268437795
+label268437861
 	BSF gbl_t1con,0
-label268437805
+label268437871
 	BTFSS gbl_uvr_data,2
-	BRA	label268437805
+	BRA	label268437871
 	BCF gbl_t1con,0
 	NOP
 	CALL tmr1_value_00000
@@ -1310,20 +1351,20 @@ label268437805
 	MOVWF ta_uvr_cal_00021_5_instr_count+D'1'
 	MOVF ta_uvr_cal_00021_5_instr_count+D'1', W
 	SUBLW 0x0B
-	BNZ	label268437817
+	BNZ	label268437883
 	MOVF ta_uvr_cal_00021_5_instr_count, W
 	SUBLW 0xB8
-label268437817
-	BC	label268437818
+label268437883
+	BC	label268437884
 	BTFSC ta_uvr_cal_00021_5_instr_count+D'1',7
-	BRA	label268437818
+	BRA	label268437884
 	MOVF ta_uvr_cal_00021_5_instr_count, W
 	MOVWF CompTempVar243
 	RLCF ta_uvr_cal_00021_5_instr_count+D'1', W
 	RRCF ta_uvr_cal_00021_5_instr_count+D'1', F
 	RRCF CompTempVar243, W
 	MOVWF ta_uvr_cal_00021_5_instr_count
-label268437818
+label268437884
 	MOVLW	HIGH(ta_uvr_cal_00021_1_periods)
 
 	MOVWF	FSR0H
@@ -1339,8 +1380,8 @@ label268437818
 	MOVF ta_uvr_cal_00021_5_instr_count+D'1', W
 	MOVWF PREINC0
 	INCF ta_uvr_cal_00021_1_count, F
-	BRA	label268437773
-label268437774
+	BRA	label268437839
+label268437840
 	MOVLW 0x01
 	MOVWF ta_uvr_cal_00021_1_count
 	MOVF ta_uvr_cal_00021_1_periods, W, 1
@@ -1349,10 +1390,10 @@ label268437774
 	RRCF ta_uvr_cal_00021_1_periods+D'1', F, 1
 	RRCF CompTempVar250, W
 	MOVWF ta_uvr_cal_00021_1_periods, 1
-label268437835
+label268437901
 	MOVLW 0x10
 	CPFSLT ta_uvr_cal_00021_1_count
-	BRA	label268437836
+	BRA	label268437902
 	MOVLW	HIGH(ta_uvr_cal_00021_1_periods)
 
 	MOVWF	FSR0H
@@ -1379,8 +1420,8 @@ label268437835
 	MOVF CompTempVar260, W
 	MOVWF ta_uvr_cal_00021_1_periods+D'1', 1
 	INCF ta_uvr_cal_00021_1_count, F
-	BRA	label268437835
-label268437836
+	BRA	label268437901
+label268437902
 	MOVF ta_uvr_cal_00021_1_periods, W, 1
 	MOVWF CompTempVar263
 	RLCF ta_uvr_cal_00021_1_periods+D'1', W, 1
@@ -1400,12 +1441,12 @@ label268437836
 	RETURN
 ; } ta_uvr_calibrate_timer function end
 
-	ORG 0x000007A2
+	ORG 0x000007D4
 serial_pri_00010
 ; { serial_print_dec ; function begin
 	MOVLW 0x63
 	CPFSGT serial_pri_00010_arg_number
-	BRA	label268436612
+	BRA	label268436677
 	MOVF serial_pri_00010_arg_number, W
 	MOVWF __div_8_8_00000_arg_a
 	MOVLW 0x64
@@ -1423,19 +1464,19 @@ serial_pri_00010
 	MOVLB 0x00
 	MOVWF serial_pri_00008_arg_value, 1
 	CALL serial_pri_00008
-	BRA	label268436631
-label268436612
+	BRA	label268436696
+label268436677
 	MOVLW 0x02
 	CPFSGT serial_pri_00010_arg_positions
-	BRA	label268436631
+	BRA	label268436696
 	MOVLW 0x30
 	MOVLB 0x00
 	MOVWF serial_pri_00008_arg_value, 1
 	CALL serial_pri_00008
-label268436631
+label268436696
 	MOVLW 0x09
 	CPFSGT serial_pri_00010_arg_number
-	BRA	label268436638
+	BRA	label268436703
 	MOVF serial_pri_00010_arg_number, W
 	MOVWF __div_8_8_00000_arg_a
 	MOVLW 0x0A
@@ -1453,16 +1494,16 @@ label268436631
 	MOVLB 0x00
 	MOVWF serial_pri_00008_arg_value, 1
 	CALL serial_pri_00008
-	BRA	label268436657
-label268436638
+	BRA	label268436722
+label268436703
 	MOVLW 0x01
 	CPFSGT serial_pri_00010_arg_positions
-	BRA	label268436657
+	BRA	label268436722
 	MOVLW 0x30
 	MOVLB 0x00
 	MOVWF serial_pri_00008_arg_value, 1
 	CALL serial_pri_00008
-label268436657
+label268436722
 	MOVF serial_pri_00010_arg_number, W
 	MOVWF __rem_8_8_00000_arg_a
 	MOVLW 0x0A
@@ -1478,12 +1519,12 @@ label268436657
 	RETURN
 ; } serial_print_dec function end
 
-	ORG 0x00000840
+	ORG 0x00000872
 serial_pri_0000E
 ; { serial_print_dec ; function begin
 	MOVLW 0x63
 	CPFSGT serial_pri_0000E_arg_number
-	BRA	label268436395
+	BRA	label268436460
 	MOVF serial_pri_0000E_arg_number, W
 	MOVWF __div_8_8_00000_arg_a
 	MOVLW 0x64
@@ -1501,10 +1542,10 @@ serial_pri_0000E
 	MOVLB 0x00
 	MOVWF serial_pri_00008_arg_value, 1
 	CALL serial_pri_00008
-label268436395
+label268436460
 	MOVLW 0x09
 	CPFSGT serial_pri_0000E_arg_number
-	BRA	label268436412
+	BRA	label268436477
 	MOVF serial_pri_0000E_arg_number, W
 	MOVWF __div_8_8_00000_arg_a
 	MOVLW 0x0A
@@ -1522,7 +1563,7 @@ label268436395
 	MOVLB 0x00
 	MOVWF serial_pri_00008_arg_value, 1
 	CALL serial_pri_00008
-label268436412
+label268436477
 	MOVF serial_pri_0000E_arg_number, W
 	MOVWF __rem_8_8_00000_arg_a
 	MOVLW 0x0A
@@ -1538,7 +1579,7 @@ label268436412
 	RETURN
 ; } serial_print_dec function end
 
-	ORG 0x000008BA
+	ORG 0x000008EC
 serial_pri_0000B
 ; { serial_print_hex ; function begin
 	MOVF serial_pri_0000B_arg_value+D'1', W
@@ -1554,7 +1595,7 @@ serial_pri_0000B
 	RETURN
 ; } serial_print_hex function end
 
-	ORG 0x000008D4
+	ORG 0x00000906
 serial_ini_00007
 ; { serial_init ; function begin
 	BSF gbl_trisc,7
@@ -1572,15 +1613,15 @@ serial_ini_00007
 	RETURN
 ; } serial_init function end
 
-	ORG 0x000008EE
+	ORG 0x00000920
 ta_uvr_ver_0001C
 ; { ta_uvr_verify_checksum ; function begin
 	CLRF ta_uvr_ver_0001C_1_checksum
 	CLRF ta_uvr_ver_0001C_1_byte_count
-label268437271
+label268437337
 	MOVLW 0x22
 	CPFSLT ta_uvr_ver_0001C_1_byte_count
-	BRA	label268437272
+	BRA	label268437338
 	MOVLW	HIGH(gbl_mydata)
 
 	MOVWF	FSR0H
@@ -1591,8 +1632,8 @@ label268437271
 	INCF ta_uvr_ver_0001C_1_byte_count, F
 	MOVF INDF0, W
 	ADDWF ta_uvr_ver_0001C_1_checksum, F
-	BRA	label268437271
-label268437272
+	BRA	label268437337
+label268437338
 	MOVLW	HIGH(gbl_mydata)
 
 	MOVWF	FSR0H
@@ -1602,12 +1643,12 @@ label268437272
 	ADDWF FSR0L, F
 	MOVF INDF0, W
 	CPFSEQ ta_uvr_ver_0001C_1_checksum
-	BRA	label268437277
+	BRA	label268437343
 	CLRF ta_uvr_ver_0001C_1_byte_count
-label268437281
+label268437347
 	MOVLW 0x23
 	CPFSLT ta_uvr_ver_0001C_1_byte_count
-	BRA	label268437282
+	BRA	label268437348
 	MOVLW	HIGH(gbl_mydata)
 
 	MOVWF	FSR0H
@@ -1627,85 +1668,86 @@ label268437281
 	MOVF CompTempVar294, W
 	MOVWF INDF0
 	INCF ta_uvr_ver_0001C_1_byte_count, F
-	BRA	label268437281
-label268437282
+	BRA	label268437347
+label268437348
 	MOVLW 0x01
 	MOVWF gbl_ta_uvr_data_valid
 	CLRF CompTempVarRet289
 	RETURN
-label268437277
+label268437343
 	MOVLW 0x01
 	MOVWF CompTempVarRet289
 	RETURN
 ; } ta_uvr_verify_checksum function end
 
-	ORG 0x00000958
+	ORG 0x0000098A
 ta_uvr_sen_0001E
 ; { ta_uvr_send_data ; function begin
 	CLRF ta_uvr_sen_0001E_1_snd_count
 	MOVLW 0x90
 	CPFSEQ gbl_data_cache
-	BRA	label268437308
-	BRA	label268437309
-label268437308
+	BRA	label268437374
+	BRA	label268437375
+label268437374
 	MOVLW 0x0A
-	MOVWF CompTempVar301+D'1'
-	MOVWF CompTempVar301+D'28'
+	MOVLB 0x00
+	MOVWF CompTempVar301+D'1', 1
+	MOVWF CompTempVar301+D'28', 1
 	MOVLW 0x0D
-	MOVWF CompTempVar301
-	MOVWF CompTempVar301+D'27'
+	MOVWF CompTempVar301, 1
+	MOVWF CompTempVar301+D'27', 1
 	MOVLW 0x20
-	MOVWF CompTempVar301+D'8'
-	MOVWF CompTempVar301+D'11'
-	MOVWF CompTempVar301+D'15'
-	MOVWF CompTempVar301+D'18'
+	MOVWF CompTempVar301+D'8', 1
+	MOVWF CompTempVar301+D'11', 1
+	MOVWF CompTempVar301+D'15', 1
+	MOVWF CompTempVar301+D'18', 1
 	MOVLW 0x21
-	MOVWF CompTempVar301+D'26'
+	MOVWF CompTempVar301+D'26', 1
 	MOVLW 0x2D
-	MOVWF CompTempVar301+D'24'
+	MOVWF CompTempVar301+D'24', 1
 	MOVLW 0x31
-	MOVWF CompTempVar301+D'23'
+	MOVWF CompTempVar301+D'23', 1
 	MOVLW 0x33
-	MOVWF CompTempVar301+D'25'
+	MOVWF CompTempVar301+D'25', 1
 	MOVLW 0x36
-	MOVWF CompTempVar301+D'22'
+	MOVWF CompTempVar301+D'22', 1
 	MOVLW 0x44
-	MOVWF CompTempVar301+D'2'
+	MOVWF CompTempVar301+D'2', 1
 	MOVLW 0x52
-	MOVWF CompTempVar301+D'21'
+	MOVWF CompTempVar301+D'21', 1
 	MOVLW 0x55
-	MOVWF CompTempVar301+D'19'
+	MOVWF CompTempVar301+D'19', 1
 	MOVLW 0x56
-	MOVWF CompTempVar301+D'20'
+	MOVWF CompTempVar301+D'20', 1
 	MOVLW 0x61
-	MOVWF CompTempVar301+D'16'
+	MOVWF CompTempVar301+D'16', 1
 	MOVLW 0x63
-	MOVWF CompTempVar301+D'6'
+	MOVWF CompTempVar301+D'6', 1
 	MOVLW 0x65
-	MOVWF CompTempVar301+D'3'
-	MOVWF CompTempVar301+D'7'
+	MOVWF CompTempVar301+D'3', 1
+	MOVWF CompTempVar301+D'7', 1
 	MOVLW 0x69
-	MOVWF CompTempVar301+D'5'
-	MOVWF CompTempVar301+D'9'
+	MOVWF CompTempVar301+D'5', 1
+	MOVWF CompTempVar301+D'9', 1
 	MOVLW 0x6E
-	MOVWF CompTempVar301+D'12'
-	MOVWF CompTempVar301+D'17'
+	MOVWF CompTempVar301+D'12', 1
+	MOVWF CompTempVar301+D'17', 1
 	MOVLW 0x6F
-	MOVWF CompTempVar301+D'13'
+	MOVWF CompTempVar301+D'13', 1
 	MOVLW 0x73
-	MOVWF CompTempVar301+D'10'
+	MOVWF CompTempVar301+D'10', 1
 	MOVLW 0x74
-	MOVWF CompTempVar301+D'14'
+	MOVWF CompTempVar301+D'14', 1
 	MOVLW 0x76
-	MOVWF CompTempVar301+D'4'
-	CLRF CompTempVar301+D'29'
+	MOVWF CompTempVar301+D'4', 1
+	CLRF CompTempVar301+D'29', 1
 	MOVLW HIGH(CompTempVar301+D'0')
 	MOVWF serial_pri_0000A_arg_text+D'1'
 	MOVLW LOW(CompTempVar301+D'0')
 	MOVWF serial_pri_0000A_arg_text
 	CALL serial_pri_0000A
-	BRA	label268437317
-label268437309
+	BRA	label268437383
+label268437375
 	MOVLW 0x0A
 	MOVWF CompTempVar303+D'1'
 	MOVWF CompTempVar303+D'24'
@@ -1755,7 +1797,7 @@ label268437309
 	MOVLW LOW(CompTempVar303+D'0')
 	MOVWF serial_pri_0000A_arg_text
 	CALL serial_pri_0000A
-label268437317
+label268437383
 	MOVLW 0x20
 	MOVWF CompTempVar305+D'5'
 	MOVWF CompTempVar305+D'11'
@@ -2059,7 +2101,7 @@ label268437317
 	MOVWF serial_pri_0000A_arg_text
 	CALL serial_pri_0000A
 	BTFSS gbl_data_cache+D'20',0
-	BRA	label268437537
+	BRA	label268437603
 	MOVLW 0x6F
 	MOVWF CompTempVar365
 	MOVLW 0x6E
@@ -2070,8 +2112,8 @@ label268437317
 	MOVLW LOW(CompTempVar365+D'0')
 	MOVWF serial_pri_0000A_arg_text
 	CALL serial_pri_0000A
-	BRA	label268437546
-label268437537
+	BRA	label268437612
+label268437603
 	MOVLW 0x6F
 	MOVWF CompTempVar367
 	MOVLW 0x66
@@ -2083,7 +2125,7 @@ label268437537
 	MOVLW LOW(CompTempVar367+D'0')
 	MOVWF serial_pri_0000A_arg_text
 	CALL serial_pri_0000A
-label268437546
+label268437612
 	MOVLW 0x0A
 	MOVWF serial_pri_00008_arg_value, 1
 	CALL serial_pri_00008
@@ -2105,7 +2147,7 @@ label268437546
 	MOVWF serial_pri_0000A_arg_text
 	CALL serial_pri_0000A
 	BTFSS gbl_data_cache+D'20',1
-	BRA	label268437568
+	BRA	label268437634
 	MOVLW 0x6F
 	MOVWF CompTempVar371
 	MOVLW 0x6E
@@ -2116,8 +2158,8 @@ label268437546
 	MOVLW LOW(CompTempVar371+D'0')
 	MOVWF serial_pri_0000A_arg_text
 	CALL serial_pri_0000A
-	BRA	label268437577
-label268437568
+	BRA	label268437643
+label268437634
 	MOVLW 0x6F
 	MOVWF CompTempVar373
 	MOVLW 0x66
@@ -2129,7 +2171,7 @@ label268437568
 	MOVLW LOW(CompTempVar373+D'0')
 	MOVWF serial_pri_0000A_arg_text
 	CALL serial_pri_0000A
-label268437577
+label268437643
 	MOVLW 0x0A
 	MOVWF serial_pri_00008_arg_value, 1
 	CALL serial_pri_00008
@@ -2151,7 +2193,7 @@ label268437577
 	MOVWF serial_pri_0000A_arg_text
 	CALL serial_pri_0000A
 	BTFSS gbl_data_cache+D'20',2
-	BRA	label268437599
+	BRA	label268437665
 	MOVLW 0x6F
 	MOVWF CompTempVar377
 	MOVLW 0x6E
@@ -2162,8 +2204,8 @@ label268437577
 	MOVLW LOW(CompTempVar377+D'0')
 	MOVWF serial_pri_0000A_arg_text
 	CALL serial_pri_0000A
-	BRA	label268437608
-label268437599
+	BRA	label268437674
+label268437665
 	MOVLW 0x6F
 	MOVWF CompTempVar379
 	MOVLW 0x66
@@ -2175,7 +2217,7 @@ label268437599
 	MOVLW LOW(CompTempVar379+D'0')
 	MOVWF serial_pri_0000A_arg_text
 	CALL serial_pri_0000A
-label268437608
+label268437674
 	MOVLW 0x0A
 	MOVWF serial_pri_00008_arg_value, 1
 	CALL serial_pri_00008
@@ -2201,7 +2243,7 @@ label268437608
 	MOVWF serial_pri_0000A_arg_text
 	CALL serial_pri_0000A
 	BTFSS gbl_data_cache+D'21',7
-	BRA	label268437630
+	BRA	label268437696
 	MOVLW 0x20
 	MOVWF CompTempVar383+D'8'
 	MOVWF CompTempVar383+D'12'
@@ -2245,13 +2287,13 @@ label268437608
 	MOVLW LOW(CompTempVar383+D'0')
 	MOVWF serial_pri_0000A_arg_text
 	CALL serial_pri_0000A
-	BRA	label268437639
-label268437630
+	BRA	label268437705
+label268437696
 	MOVLW 0x1F
 	ANDWF gbl_data_cache+D'21', W
 	MOVWF serial_pri_0000E_arg_number
 	CALL serial_pri_0000E
-label268437639
+label268437705
 	MOVLW 0x0A
 	MOVWF serial_pri_00008_arg_value, 1
 	CALL serial_pri_00008
@@ -2262,7 +2304,7 @@ label268437639
 	RETURN
 ; } ta_uvr_send_data function end
 
-	ORG 0x00000E80
+	ORG 0x00000EB4
 ta_uvr_get_0001B
 ; { ta_uvr_getinfo ; function begin
 	BCF ta_uvr_get_0001B_1_done,0
@@ -2277,13 +2319,13 @@ ta_uvr_get_0001B
 	MOVF CompTempVarRet241+D'1', W
 	MOVWF ta_uvr_get_0001B_1_bit_time+D'1'
 	MOVF ta_uvr_get_0001B_1_bit_time, F
-	BNZ	label268437094
+	BNZ	label268437160
 	MOVF ta_uvr_get_0001B_1_bit_time+D'1', F
-	BNZ	label268437094
+	BNZ	label268437160
 	MOVLW 0x01
 	MOVWF CompTempVarRet214
 	RETURN
-label268437094
+label268437160
 	MOVF ta_uvr_get_0001B_1_bit_time, W
 	MOVWF CompTempVar215
 	MOVF ta_uvr_get_0001B_1_bit_time+D'1', W
@@ -2296,14 +2338,14 @@ label268437094
 	MOVLW 0xFF
 	SUBFWB CompTempVar216, W
 	MOVWF ta_uvr_get_0001B_1_timer_wait+D'1'
-label268437104
+label268437170
 	MOVF ta_uvr_get_0001B_1_bit_time, W
 	MOVWF ta_uvr_wai_00023_arg_bit_time
 	MOVF ta_uvr_get_0001B_1_bit_time+D'1', W
 	MOVWF ta_uvr_wai_00023_arg_bit_time+D'1'
 	CALL ta_uvr_wai_00023
 	TSTFSZ CompTempVarRet265
-	BRA	label268437110
+	BRA	label268437176
 	CALL ta_uvr_cal_00021
 	MOVF CompTempVarRet241, W
 	MOVWF ta_uvr_get_0001B_1_bit_time
@@ -2325,8 +2367,8 @@ label268437104
 	MOVWF ta_uvr_get_0001B_1_timer_wait
 	MOVF CompTempVar222, W
 	MOVWF ta_uvr_get_0001B_1_timer_wait+D'1'
-	BRA	label268437104
-label268437110
+	BRA	label268437170
+label268437176
 	MOVF ta_uvr_get_0001B_1_timer_wait, W
 	MOVWF tmr1_set_00000_arg_value
 	MOVF ta_uvr_get_0001B_1_timer_wait+D'1', W
@@ -2334,12 +2376,12 @@ label268437110
 	CALL tmr1_set_00000
 	BSF gbl_t1con,0
 	BCF gbl_tmr1if,0
-label268437127
+label268437193
 	BTFSC gbl_tmr1if,0
-	BRA	label268437128
+	BRA	label268437194
 	NOP
-	BRA	label268437127
-label268437128
+	BRA	label268437193
+label268437194
 	MOVLW 0x01
 	MOVWF tmr1_setup_00000_arg_irq_mode
 	CALL tmr1_setup_00000
@@ -2360,18 +2402,18 @@ label268437128
 	BSF gbl_t1con,0
 	BSF ta_uvr_get_0001B_1_firstrun,1
 	CLRF ta_uvr_get_0001B_1_bytecount
-label268437154
+label268437220
 	MOVLW 0x23
 	CPFSLT ta_uvr_get_0001B_1_bytecount
-	BRA	label268437155
-label4026532962
+	BRA	label268437221
+label4026532991
 	BTFSC gbl_ta_uvr_gotbit,0
-	BRA	label268437159
+	BRA	label268437225
 	BTFSC ta_uvr_get_0001B_1_firstrun,1
-	BRA	label268437159
+	BRA	label268437225
 	NOP
-	BRA	label4026532962
-label268437159
+	BRA	label4026532991
+label268437225
 	CLRF CompTempVar229
 	BTFSC gbl_uvr_data,2
 	INCF CompTempVar229, F
@@ -2382,9 +2424,9 @@ label268437159
 	BCF ta_uvr_get_0001B_1_firstrun,1
 	BCF gbl_ta_uvr_gotbit,0
 	MOVF ta_uvr_get_0001B_1_counter, F
-	BNZ	label268437175
+	BNZ	label268437241
 	MOVF ta_uvr_get_0001B_1_input, F
-	BNZ	label268437178
+	BNZ	label268437244
 	MOVLW 0x20
 	MOVWF CompTempVar230+D'5'
 	MOVWF CompTempVar230+D'9'
@@ -2467,16 +2509,16 @@ label268437159
 	MOVLW 0x01
 	MOVWF CompTempVarRet214
 	RETURN
-label268437178
+label268437244
 	CLRF ta_uvr_get_0001B_1_databyte
 	INCF ta_uvr_get_0001B_1_counter, F
-	BRA	label268437154
-label268437175
+	BRA	label268437220
+label268437241
 	MOVLW 0x09
 	CPFSEQ ta_uvr_get_0001B_1_counter
-	BRA	label268437211
+	BRA	label268437277
 	DECF ta_uvr_get_0001B_1_input, W
-	BNZ	label268437214
+	BNZ	label268437280
 	MOVLW 0x20
 	MOVWF CompTempVar234+D'4'
 	MOVWF CompTempVar234+D'8'
@@ -2556,7 +2598,7 @@ label268437175
 	MOVLW 0x01
 	MOVWF CompTempVarRet214
 	RETURN
-label268437214
+label268437280
 	CLRF ta_uvr_get_0001B_1_counter
 	MOVLW 0xFF
 	XORWF ta_uvr_get_0001B_1_databyte, W
@@ -2577,12 +2619,12 @@ label268437214
 	MOVF ta_uvr_get_0001B_1_timer_wait+D'1', W
 	MOVWF tmr1_set_00000_arg_value+D'1'
 	CALL tmr1_set_00000
-label268437256
+label268437322
 	BTFSS gbl_uvr_data,2
-	BRA	label268437256
+	BRA	label268437322
 	BSF gbl_t1con,0
-	BRA	label268437154
-label268437211
+	BRA	label268437220
+label268437277
 	MOVF ta_uvr_get_0001B_1_databyte, W
 	MOVWF CompTempVar240
 	BCF STATUS,C
@@ -2592,13 +2634,13 @@ label268437211
 	BTFSC ta_uvr_get_0001B_1_input,0
 	BSF ta_uvr_get_0001B_1_databyte,7
 	INCF ta_uvr_get_0001B_1_counter, F
-	BRA	label268437154
-label268437155
+	BRA	label268437220
+label268437221
 	CLRF CompTempVarRet214
 	RETURN
 ; } ta_uvr_getinfo function end
 
-	ORG 0x0000111A
+	ORG 0x0000114E
 ta_uvr_dat_0001D
 ; { ta_uvr_data_available ; function begin
 	MOVF gbl_ta_uvr_data_valid, W
@@ -2606,11 +2648,11 @@ ta_uvr_dat_0001D
 	RETURN
 ; } ta_uvr_data_available function end
 
-	ORG 0x00001120
+	ORG 0x00001154
 serial_get_00012
 ; { serial_getch ; function begin
 	BTFSS gbl_rcsta,1
-	BRA	label268436701
+	BRA	label268436766
 	MOVLW 0x4F
 	MOVWF CompTempVar197
 	MOVLW 0x45
@@ -2626,15 +2668,15 @@ serial_get_00012
 	CALL serial_pri_0000A
 	BCF gbl_rcsta,4
 	BSF gbl_rcsta,4
-label268436701
+label268436766
 	BTFSS gbl_pir1,5
-	BRA	label268436701
+	BRA	label268436766
 	MOVF gbl_rcreg, W
 	MOVWF CompTempVarRet195
 	RETURN
 ; } serial_getch function end
 
-	ORG 0x0000114E
+	ORG 0x00001182
 report_and_00022
 ; { report_and_reset_int_count ; function begin
 	CLRF report_and_00022_1_count_shadow
@@ -2755,7 +2797,7 @@ report_and_00022
 	RETURN
 ; } report_and_reset_int_count function end
 
-	ORG 0x00001246
+	ORG 0x0000127A
 init_00000
 ; { init ; function begin
 	CLRF init_00000_1_blink_count
@@ -2775,13 +2817,13 @@ init_00000
 	MOVLW 0x0C
 	MOVWF serial_ini_00007_arg_brg
 	CALL serial_ini_00007
-label268435887
+label268435929
 	MOVF init_00000_1_blink_count, W
 	MOVWF CompTempVar120
 	INCF init_00000_1_blink_count, F
 	MOVLW 0x05
 	CPFSLT CompTempVar120
-	BRA	label268435889
+	BRA	label268435931
 	MOVLW 0x32
 	MOVWF delay_ms_00000_arg_del
 	CALL delay_ms_00000
@@ -2790,8 +2832,8 @@ label268435887
 	MOVWF delay_ms_00000_arg_del
 	CALL delay_ms_00000
 	BSF gbl_stat0,4
-	BRA	label268435887
-label268435889
+	BRA	label268435929
+label268435931
 	MOVLW 0x0A
 	MOVLB 0x00
 	MOVWF serial_pri_00008_arg_value, 1
@@ -2799,14 +2841,18 @@ label268435889
 	MOVLW 0x0D
 	MOVWF serial_pri_00008_arg_value, 1
 	CALL serial_pri_00008
+	BCF gbl_intcon2,7
 	BCF gbl_intcon2,6
 	BCF gbl_intcon,1
 	BSF gbl_intcon,4
 	BSF gbl_intcon,7
+	MOVLW 0x01
+	MOVWF tmr3_setup_00000_arg_irq_mode
+	CALL tmr3_setup_00000
 	RETURN
 ; } init function end
 
-	ORG 0x000012A8
+	ORG 0x000012E6
 main
 ; { main ; function begin
 	CLRF main_1_tmp
@@ -2814,52 +2860,44 @@ main
 	CLRF main_1_prev_count
 	CLRF main_1_prev_count+D'1'
 	CALL init_00000
-label268436028
+	BCF gbl_stat0,4
+label268436080
 	MOVF gbl_interrupt_count, W
 	CPFSEQ main_1_prev_count
-	BRA	label4026532974
+	BRA	label4026533003
 	MOVF gbl_interrupt_count+D'1', W
 	CPFSEQ main_1_prev_count+D'1'
 	CPFSEQ gbl_interrupt_count+D'1'
-	BRA	label268436032
-label4026532974
-	BCF gbl_portb,1
+	BRA	label268436084
+label4026533003
 	MOVF gbl_interrupt_count, W
 	MOVWF main_1_prev_count
 	MOVF gbl_interrupt_count+D'1', W
 	MOVWF main_1_prev_count+D'1'
-label268436032
+label268436084
 	CALL ta_uvr_get_0001B
 	MOVF CompTempVarRet214, F
-	BNZ	label268436045
+	BNZ	label268436093
 	CALL ta_uvr_ver_0001C
 	MOVF CompTempVarRet289, F
-	BNZ	label268436041
-	BCF gbl_stat0,4
-	BRA	label268436045
-label268436041
-	BSF gbl_stat0,4
-label268436045
-	BSF gbl_portb,1
+label268436093
 	BTFSS gbl_pir1,5
-	BRA	label268436028
-	BCF gbl_stat0,4
+	BRA	label268436080
 	CALL serial_get_00012
 	MOVF CompTempVarRet195, W
 	MOVWF main_1_command_byte
 	MOVLW 0x53
 	CPFSEQ main_1_command_byte
-	BRA	label268436055
+	BRA	label268436100
 	CALL report_and_00022
-	BRA	label268436028
-label268436055
+	BRA	label268436080
+label268436100
 	CALL ta_uvr_dat_0001D
 	MOVF CompTempVarRet295, F
-	BZ	label268436062
-	BSF gbl_stat0,4
+	BZ	label268436107
 	CALL ta_uvr_sen_0001E
-	BRA	label268436068
-label268436062
+	BRA	label268436112
+label268436107
 	MOVLW 0x20
 	MOVLB 0x00
 	MOVWF CompTempVar127+D'2', 1
@@ -2948,7 +2986,7 @@ label268436062
 	MOVLW 0x0D
 	MOVWF serial_pri_00008_arg_value, 1
 	CALL serial_pri_00008
-label268436068
+label268436112
 	MOVLW 0x0A
 	MOVWF serial_pri_00008_arg_value, 1
 	CALL serial_pri_00008
@@ -3047,14 +3085,14 @@ label268436068
 	MOVLW LOW(CompTempVar133+D'0')
 	MOVWF serial_pri_0000A_arg_text
 	CALL serial_pri_0000A
-	BRA	label268436028
+	BRA	label268436080
 ; } main function end
 
-	ORG 0x0000149E
+	ORG 0x000014CE
 _startup
 	CLRF gbl_ta_uvr_data_valid
 	GOTO	main
-	ORG 0x000014A4
+	ORG 0x000014D4
 interrupt
 ; { interrupt ; function begin
 	MOVFF FSR0H,  Int1Context
@@ -3062,20 +3100,43 @@ interrupt
 	MOVFF PRODH,  Int1Context+D'2'
 	MOVFF PRODL,  Int1Context+D'3'
 	BTFSS gbl_tmr1if,0
-	BRA	label268436133
+	BRA	label268436177
 	MOVF gbl_ta_uvr_tmrh, W
 	MOVWF gbl_tmr1h
 	MOVF gbl_ta_uvr_tmrl, W
 	MOVWF gbl_tmr1l
 	BSF gbl_ta_uvr_gotbit,0
 	BCF gbl_pir1,0
-label268436133
+label268436177
 	BTFSS gbl_intcon,1
-	BRA	label268436140
+	BRA	label268436184
+	BTFSS gbl_intcon,4
+	BRA	label268436184
+	BSF gbl_stat0,4
 	INFSNZ gbl_interrupt_count, F
 	INCF gbl_interrupt_count+D'1', F
+	BCF gbl_intcon,4
+	MOVLB 0x00
+	CLRF tmr3_set_00000_arg_value, 1
+	CLRF tmr3_set_00000_arg_value+D'1', 1
+	CALL tmr3_set_00000
+	CLRF gbl_tmr3_count
+	BSF gbl_t3con,0
 	BCF gbl_intcon,1
-label268436140
+label268436184
+	BTFSS gbl_tmr3if,1
+	BRA	label268436198
+	INCF gbl_tmr3_count, F
+	MOVLW 0x04
+	CPFSEQ gbl_tmr3_count
+	BRA	label268436202
+	BCF gbl_t3con,0
+	BCF gbl_intcon,1
+	BSF gbl_intcon,4
+	BCF gbl_stat0,4
+label268436202
+	BCF gbl_tmr3if,1
+label268436198
 	MOVFF Int1Context+D'3',  PRODL
 	MOVFF Int1Context+D'2',  PRODH
 	MOVFF Int1Context+D'1',  FSR0L

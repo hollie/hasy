@@ -3,6 +3,10 @@
 *
 * Has an additional counter input on RB0. Add a pullup 
 * to RB0, counter increments on falling edge on RB0.
+* The interrupt for the falling edge is disabled when the 
+* interrupt occurs. It is re-enabled 525 ms later by timer3.
+* The reason is that else noise on the data line caused
+* false counts.
 *
 * (c) 2004-2009, Lieven Hollevoet.
 **************************************************************
@@ -52,6 +56,7 @@ extern char mydata[NR_DATA_BYTES];
 extern char ta_uvr_tmrl;
 extern char ta_uvr_tmrh;
 short interrupt_count;
+char tmr3_count;
 
 void main()
 {
@@ -63,12 +68,14 @@ void main()
 	// Hardware initialisation
 	init();
 	
+	stat0 = 0;
+
 	// Main loop
 	while (1){
 
 		// Set the counter LED on if we got an interrupt
 		if (prev_count != interrupt_count) {
-			portb.1 = 0;
+			//portb.1 = 0;
 			prev_count = interrupt_count;
 		}
 		
@@ -76,24 +83,24 @@ void main()
 		if (ta_uvr_getinfo() == 0) {
 			if (ta_uvr_verify_checksum() == 0) {
 				// Data checksum is OK, clear for TX of UVR status			
-				stat0 = 0;
+//				stat0 = 0;
 			} else {
 				// Retry on next packet
-				stat0 = 1;
+//				stat0 = 1;
 			}
 		}
 
 		// Reset the LED
-		portb.1 = 1;
+		//portb.1 = 1;
 
 		if (serial_peek()){
-			stat0=0;
+			//stat0=0;
 			command_byte = serial_getch();
 			if (command_byte == 'S') {
 				report_and_reset_int_count();
 				continue;
 			} else if (ta_uvr_data_available()) {
-				stat0=1;
+				//stat0=1;
 				// Report UVR status
 				ta_uvr_send_data();
 			} else {
@@ -168,17 +175,24 @@ void init(void)
 	serial_print_lf();
 
 	// Enable interrupt on falling edge of RB0
+	intcon2.RBPU    = 0; // Enable weak pull ups
 	intcon2.INTEDG0 = 0; // Falling edge
 	intcon.INT0IF   = 0; // Reset interrupt
 	intcon.INT0IE   = 1; // Clear mask bit
 	intcon.GIE      = 1; // Global interrupt enable
-	
+
+	// Setup the timer that will be used by the edge detection interrupt 
+	// for counting those interrupts. When an edge is detected, the interrupt is 
+	// disabled for ~ 525 ms to avoid false triggers.
+	// The timer used for this purpose is timer3
+	tmr3_setup(TMR_IRQ_ON);
+		
 }
 
 
 // ISR
 void interrupt(){
-
+	
 	// TMR1 interrupt
 	if (tmr1if){
 		// Reload the timer
@@ -191,13 +205,34 @@ void interrupt(){
 	}
 	
 	// RB0 interrupt
-	if (intcon.INT0IF){
-	
+	if (intcon.INT0IF && intcon.INT0IE){
+		stat0 = 1;
 		// Increment the Wh counter
 		interrupt_count++;
+
+		// Disable this interrupt, will be re-enabled by timer3 400 ms later
+		intcon.INT0IE = 0;
 		
+		// Enable tmr3
+		tmr3_set(0x0000);
+		tmr3_count = 0;
+		tmr3_start();
+
 		// Clear IF
 		intcon.INT0IF = 0;
+	}
+
+	if (tmr3if){
+		tmr3_count++;
+		if (tmr3_count == 4){
+			tmr3_stop();
+			intcon.INT0IF = 0;
+			intcon.INT0IE = 1;
+			stat0 = 0;
+		}
+		// Clear interrupt flag
+		tmr3if = 0;
+
 	}
 	
 }

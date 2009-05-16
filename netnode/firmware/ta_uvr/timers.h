@@ -37,4 +37,15 @@ short tmr1_value();
 
 volatile bit tmr1if @ PIR1 . TMR1IF;
  
+
+// Timer 3 controlling functions
+void tmr3_setup(tmr_irq_t irq_mode);
+
+void tmr3_set(short value);
+#define tmr3_start() set_bit(t3con, TMR3ON);
+#define tmr3_stop()  clear_bit(t3con, TMR3ON);
+#define tmr3_clrif() clear_bit(pir2, TMR3IF);
+
+volatile bit tmr3if @ PIR2 . TMR3IF;
+
 #endif // _TIMERS_H_
