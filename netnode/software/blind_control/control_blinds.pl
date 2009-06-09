@@ -349,7 +349,7 @@ sub parse_sensor_report {
 	# Convert to decimal
 	my $solar = hex($hex1);
 
-	my $command;
+	my $command = '';
 	
 	# If level goes > 20 and it is morning: send first up
 	#               > 80 and it is morming: send second up
