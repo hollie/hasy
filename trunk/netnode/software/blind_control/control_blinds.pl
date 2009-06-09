@@ -67,13 +67,11 @@ if (sensor_value_valid($response)){
     $next_command = determine_calculated_command();
 }
 
-
-
 # Get the last command we sent to the blind controller
 my $last_command = get_last_command($state_file);
 
 # If the command and the status file don't match, update!
-if ($last_command ne $next_command){
+if (($next_command ne '') && ($last_command ne $next_command)){
 	
 	print "[$cmd_time] New command '$next_command' sent to blinds based on ";
 	if (sensor_value_valid($response)){
@@ -353,15 +351,28 @@ sub parse_sensor_report {
 
 	my $command;
 	
-	# If level goes > 20: send first up
-	#               > 80: send second up
-	#               < 15: send down
-	if ($solar > 20 && $solar < 80){
-		$command = 'u1';
-	} elsif ( $solar >= 80 ) {
-		$command = 'u2';
-	} elsif ( $solar <= 16 ) { 
-		$command = 'd';
+	# If level goes > 20 and it is morning: send first up
+	#               > 80 and it is morming: send second up
+	#               < 15 and it is evening: send down
+	
+	my ($sec, $min, $hour) = localtime(time);
+	
+	if ($hour < 12) {
+		if ($solar > 20 && $solar < 80){
+			$command = 'u1';
+		} elsif ( $solar >= 80 ) {
+			# In the summer, $solar will already be > 80 when the script is running the first time. So if we get here
+			# and time < 06:35, then we send u1 first.
+			if ($min < 35 && $hour == 6){
+				$command = 'u1';
+			} else {
+				$command = 'u2';
+			}
+		}
+	} else {
+		if ( $solar <= 16 ) { 
+			$command = 'd';
+		}
 	}
 
 	return $command;
