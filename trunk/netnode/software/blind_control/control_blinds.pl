@@ -38,12 +38,16 @@ my $gateway_port = '10001';				# Port to connect to
 my $state_file   = 'last_command.txt';	# File where the last sent command has been sent to
 my $blinds_host  = 'netnode02';			# Host on the network that controls the blinds
 my $blinds_port  = '10001';				# Port to connect to on the blind controller
+my $debug        = '0';                 # Set to not '0' to print debug messages and to send the command to the blind controller
 
 # Global variables
 my $next_command;
 my $socket = 0;
+my $response = 0;
 
-my $cmd_time = get_current_time();
+my $cmd_time = get_current_time();      # Time of day for computation purposes
+my $timestamp = date_time();            # For printing purpose, human readible with date
+
 
 # Check if we need to run, we should not during the night, and we don't want to
 # send the blinds up too early in the morning :-)
@@ -51,29 +55,39 @@ verify_activation_time($cmd_time);
 
 
 # First try to get and parse the ambient light level from the garden sensor
-open_socket($gateway_host, $gateway_port); # Open the socket with possibility to retry if the target port is in use (can happen on the Lantronix XPORT)
-$socket->send("?\r");
-my $response = read_socket(10);
+$socket = open_socket($gateway_host, $gateway_port); # Open the socket with possibility to retry if the target port is in use (can happen on the Lantronix XPORT)
+if ($socket) {
+	$socket->send("?\r");
+	$response = read_socket(10);
 
-# Close the socket again, we don't need it anymore
-close_socket();
+	# Close the socket again, we don't need it anymore
+	close_socket();
+	
+	# If we could not connect, the response is marked as invalid in the sensor_value_valid() function.
+}
 
-
+# Example expired response from light sensor (last byte is FF) for debuggin purposes
+#$response = "Node 1: FF 8A 4F FF";
 
 # Determine the command to send, either based on sensor readings (if valid), or on calculated value
 if (sensor_value_valid($response)){
+	print "Sensor value seems not expired, parsing...\n" if ($debug);
     $next_command = parse_sensor_report($response);
 } else {
+	print "Sensor value expired, using XML fallback...\n" if ($debug);
     $next_command = determine_calculated_command();
 }
 
 # Get the last command we sent to the blind controller
 my $last_command = get_last_command($state_file);
 
+print "Last command sent to blinds was '$last_command', next one is '$next_command'\n" if ($debug);
+
 # If the command and the status file don't match, update!
+# Unless the $next_command is empty, in case no action is required
 if (($next_command ne '') && ($last_command ne $next_command)){
 	
-	print "[$cmd_time] New command '$next_command' sent to blinds based on ";
+	print "$timestamp New command '$next_command' sent to blinds based on ";
 	if (sensor_value_valid($response)){
 		print "sensor";
 	} else {
@@ -100,11 +114,16 @@ exit(0);
 #
 sub command_blinds  {
 	my $blind_command = shift();
-
-	print "[$cmd_time] Connecting to socket $blinds_host... ";
+	
+	if ($debug) {
+		print "     but not actually sent to blinds since debug mode is active...\n";
+		return 0;
+	}
+	
+	print "$timestamp Connecting to socket $blinds_host... ";
 		
 	# Open the socket to send the command
-	open_socket($blinds_host, $blinds_port);
+	my $socket = open_socket($blinds_host, $blinds_port);
 
     print " Connected on port $blinds_port\n";
 	
@@ -167,8 +186,10 @@ sub verify_activation_time {
 		my $hr = $1; # Current hour
 		my $mn = $2; # Current minute
 		if ($hr < 6) {
+			print "Time is before 6 a.m., exit!\n" if ($debug);
 			exit(0);
 		} elsif ($hr == 6 && $mn < 30) {
+			print "Time is before 6.30 a.m., exit!\n" if ($debug);
 			exit(0);
 		}
 	}
@@ -232,6 +253,8 @@ sub open_socket {
     my $client_host = shift(); 
     my $client_port = shift();
 
+	my $socket = 0;
+	
     # Connect to the remote device 
     # create a tcp connection to the specified host and port
     my ($kidpid, $handle, $line);
@@ -240,6 +263,8 @@ sub open_socket {
 	
 	my $cmd_time = get_current_time();
 	
+	print "Opening socket to $client_host" . "[" . "$client_port]\n" if ($debug);
+	
     while () {
         if ($socket = IO::Socket::INET->new(Proto     => "tcp",
 					PeerAddr  => $client_host,
@@ -247,17 +272,19 @@ sub open_socket {
 					Type      => SOCK_STREAM)){
 	   		last;
         } else {
-	   		print "Waiting for server to become available...\n";
+	   		print "Waiting for server to become available, timeout 10 seconds\n" if ($timeout == 0);
+	   		print ".";
 	   		$timeout++;
 	   		if ($timeout == 10){
-	     		die "Server not available for 10 seconds, exit...\n";
+	     		print "\nServer not available, exit...\n";
+	     		return 0;
 	   		}
 	   
 	  		sleep 1;
         }
     }
     
-    
+    return $socket;
     
 }
 
@@ -319,15 +346,17 @@ sub sensor_value_valid {
 	my $data = shift();
 	my $result_age;
 	
-	if ($data =~ /Node 1: [0-9A-F]{2} [0-9A-F]{2} [0-9A-F]{2} ([0-9A-F]{2})/) { $result_age = $1;}
+	if ($data =~ /Node 1: [0-9A-F]{2} [0-9A-F]{2} [0-9A-F]{2} ([0-9A-F]{2})/) { $result_age = $1;} else { $result_age = 'FF'};
 	
 	# Convert to decimal
 	my $age_dec = hex($result_age);
+	
 	
 	# If age < 0xF0 then we assume we have a 'fresh' report waiting
 	if ($age_dec < 0xF0){
 		return 1;
 	} else {
+	    #print "Sensor report age: " . $age_dec . " returning zero\n";
 		return 0;
 	}
 	
@@ -406,22 +435,35 @@ sub determine_calculated_command {
 	# Get the actual command of the last programmed command (up or down)
 	my $lastmatch_command = $config->{command}->{$lastmatch}->{direction};
 	
+	print "Direction to send: $lastmatch_command\n";
 	return $lastmatch_command;
 }
 
 sub get_current_time {
 	
-	# Get the local time
-	my ($sec, $min, $hour) = localtime(time);
+       # Get the local time
+        my ($sec, $min, $hour) = localtime(time);
 
-	# Make sure to append a '0' if required, this is done so that the
-	# time is easily readible/comparable
-	my $minutes = $min > 9 ? "$min" : "0$min"; 
-	my $hours = $hour > 9 ? "$hour" : "0$hour";
+        # Make sure to append a '0' if required, this is done so that the
+        # time is easily readible/comparable
+        my $minutes = $min > 9 ? "$min" : "0$min"; 
+        my $hours = $hour > 9 ? "$hour" : "0$hour";
 
-	my $current_time = $hours . ':' . $minutes;
+        my $current_time = $hours . ':' . $minutes;
+        
+        return $current_time;
 	
-	return $current_time;
-	
+}
+
+sub date_time {
+
+	# Get localtime	
+    my ($second, $minute, $hour, $dayOfMonth, $month, $yearOffset, $dayOfWeek, $dayOfYear, $daylightSavings) = localtime();
+    my $year = 1900 + $yearOffset;
+    # Convert to nicely formatted strings
+    my $hms  = sprintf("%02i:%02i:%02i", $hour, $minute, $second);
+    my $ymd  = sprintf("%04i%02i%02i", $year, $month, $dayOfMonth);
+    my $theTime = "[$ymd $hms]";
+    return $theTime;
 	
 }
