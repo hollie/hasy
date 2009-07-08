@@ -4,7 +4,7 @@
 <port>10001</port>
 </target>
 <command>
-<time>06:45</time>
+<time>06:38</time>
 <direction>u</direction>
 </command>
 <command>
@@ -12,6 +12,3 @@
 <direction>d</direction>
 </command>
 </config>
-
-    0K                                                       100%    1.15 MB/s
-
