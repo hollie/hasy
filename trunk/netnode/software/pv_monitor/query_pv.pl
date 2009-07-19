@@ -86,7 +86,7 @@ sub process_report {
 	
 	# Add value to the database
 	print(the_date());
-	print("Production: $watt_hours Watt-hours sine last read, adding to $db\n");
+	print("PV production: $watt_hours Watt-hours since last read, adding to $db\n");
 	
 	# Store in RRD database
 	RRDs::update($db,"N:$watt_hours");
@@ -123,7 +123,7 @@ sub the_date {
     my $year = 1900 + $yearOffset;
     my $hms  = sprintf("%02i:%02i:%02i", $hour, $minute, $second);
     my $ymd  = sprintf("%04i%02i%02i", $year, $month, $dayOfMonth);
-    my $theTime = "[$ymd $hms]\n";
+    my $theTime = "[$ymd $hms] ";
     return $theTime;
 }
 
