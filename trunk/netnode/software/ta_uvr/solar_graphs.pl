@@ -102,7 +102,7 @@ print "Figures uploaded to website...\n";
 sub put_graph() 
 {
 	my $name = shift();
-	$ftp->put($name) or die "Could not put $name\n";
+	$ftp->put($name) or die "Could not put $name: ", $ftp->message;
 }
 
 sub config_string() {
@@ -126,6 +126,7 @@ sub config_string() {
     "DEF:top_min=$db:t_top:MIN",
     "DEF:top_max=$db:t_top:MAX",
     "DEF:pump=$db:pump:AVERAGE",
+    "CDEF:pump_sc=pump,30,/,20,*",
     "COMMENT:Meetpunt                \t   min          max          gem\\n",
     "AREA:top#FFCCCC",
     "LINE:top#990000:bovenkant boiler    ",
@@ -147,8 +148,8 @@ sub config_string() {
     "GPRINT:panels:MIN:\t%5.1lf",
     "GPRINT:panels:MAX:\t%5.1lf",
     "GPRINT:panels:AVERAGE:\t%5.1lf\\n",
-    "AREA:pump#8F8FFF",
-    "LINE:pump#5252FF:pompaansturing (30 == MAX)",
+    "AREA:pump_sc#8F8FFF",
+    "LINE:pump_sc#5252FF:pompaansturing (20 == MAX)",
     
 }
 
@@ -173,6 +174,7 @@ sub config_string_nopanels() {
     "DEF:top_min=$db:t_top:MIN",
     "DEF:top_max=$db:t_top:MAX",
     "DEF:pump=$db:pump:AVERAGE",
+    "CDEF:pump_sc=pump,30,/,20,*",
     "COMMENT:Meetpunt                \t   min          max          gem\\n",
     "AREA:top#FFCCCC",
     "LINE:top#990000:bovenkant boiler    ",
@@ -190,7 +192,7 @@ sub config_string_nopanels() {
     "GPRINT:bottom:MAX:\t%5.1lf",
     "GPRINT:bottom:AVERAGE:\t%5.1lf\\n",
     "LINE:top#990000",
-    "AREA:pump#8F8FFF",
-    "LINE:pump#5252FF:pompaansturing (30 == MAX)",
+    "AREA:pump_sc#8F8FFF",
+    "LINE:pump_sc#5252FF:pompaansturing (20 == MAX)",
     
 }
