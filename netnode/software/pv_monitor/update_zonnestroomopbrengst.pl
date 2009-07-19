@@ -34,7 +34,7 @@ if (defined($ARGV[0])){
 
 
 
-my ($start,$step,$names,$data) = RRDs::fetch ("pv.rrd", "AVERAGE", "-r", "86400", "-s", "01.04", "-e", "midnight");
+my ($start,$step,$names,$data) = RRDs::fetch ("pv.rrd", "AVERAGE", "-r", "86400", "-s", "01.04.2009,", "-e", "midnight");
 my $ERR=RRDs::error;
 die "ERROR while fetching: $ERR\n" if $ERR;
 
@@ -67,13 +67,13 @@ for my $line ((@$data)) {
 my $production = generate_months_js();
 
 # Convert prodction to kWh
-$production = floor($production/1000);
+$production = floor($production/100)/10;
 
-#print "Total energy produced: $production kWh\n";
-
-
-upload_file();
-
+if ($ftp_password eq "report" ) {
+	print "Total energy produced: $production kWh\n";
+} else {
+	upload_file();
+}
 
 exit(0);
 
@@ -128,6 +128,11 @@ sub generate_months_js {
 sub init_offsets {
 	$log->{'09'}->{'04'}->{day} = 0;
 	$log->{'09'}->{'04'}->{value} = 30850;
+	$log->{'09'}->{'05'}->{day} = 0;
+	$log->{'09'}->{'05'}->{value} = 830;
+	$log->{'09'}->{'07'}->{day} = 0;
+	$log->{'09'}->{'07'}->{value} = 45100;
+
 }
 
 sub upload_file {
