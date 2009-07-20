@@ -107,14 +107,19 @@ sub process_onewire {
 	my $db;
 	
 	if (exists($config->{onewire}->{node}->{$id})){
-		$db = $config->{onewire}->{node}->{$id};
+		$db = $config->{onewire}->{node}->{$id}->{db};
 	} else {
 		print("Unknown OneWire sensor $id reports $temperature degrees\n");
 		return;
 	}
 	
 	# Add value to the database
-	print("Storing reading $temperature degrees in database '$db'");
+	print("Storing TEMP: $temperature degrees in database '$db'\n");
+	
+	# Store in RRD database
+	RRDs::update($db,"N:$temperature");
+	my $err = RRDs::error;
+	die "Error while updating $db: $err\n" if $err;
 	
 	return;
 	
@@ -129,7 +134,7 @@ sub process_sht {
 	
 	my $db = $config->{sht}->{node}->{db};
 	
-	print("Storing $temp degrees, RH $humi %, dewpt $dewpt degrees in database '$db'\n");
+	print("Storing RHUMI: $temp degrees, RH $humi %, dewpt $dewpt degrees in database '$db'\n");
 	
 	# Store in RRD database
 	RRDs::update($db,"N:$temp:$humi:$dewpt");
