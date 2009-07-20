@@ -8,17 +8,18 @@
 
 <!-- Files to back up -->
 <folder name="ventilatie">
-<item name="../../../hasy/onewire/ventilatie/aww_uit.rrd"      />
-<item name="../../../hasy/onewire/ventilatie/ebos.rrd"         />
-<item name="../../../hasy/onewire/ventilatie/unit_int_in.rrd"  />
-<item name="../../../hasy/onewire/ventilatie/unit_int_uit.rrd" />
+<item name="../../oswald/software/sensorhub/ventilatie/aww_uit.rrd"      />
+<item name="../../oswald/software/sensorhub/ventilatie/ebos.rrd"         />
+<item name="../../oswald/software/sensorhub/ventilatie/unit_ext_in.rrd"  />
+<item name="../../oswald/software/sensorhub/ventilatie/unit_int_in.rrd"  />
+<item name="../../oswald/software/sensorhub/ventilatie/unit_int_uit.rrd" />
 <item name="../../oswald/software/sensorhub/ventilatie/humi_binnen.rrd"  />
 </folder>
 
 <folder name="solar">
-<item name="../../netnode/software/pv_monitor/pv.rrd"          />
-<item name="../../../hasy/solar/solar.rrd"                     />
-<item name="../../../hasy/light_level/node01.rrd"              />
+<item name="../../netnode/software/pv_monitor/pv.rrd"                    />
+<item name="../../netnode/software/ta_uvr/solar.rrd"                     />
+<item name="../../oswald/software/lightlevel/light_level/node01.rrd"     />
 </folder>
 
 </backup>
