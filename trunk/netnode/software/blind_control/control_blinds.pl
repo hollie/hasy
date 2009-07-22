@@ -272,7 +272,7 @@ sub open_socket {
 					Type      => SOCK_STREAM)){
 	   		last;
         } else {
-	   		print "Waiting for server to become available, timeout 10 seconds\n" if ($timeout == 0);
+	   		print "$timestamp Waiting for server '$client_host' to become available, timeout 10 seconds\n" if ($timeout == 0);
 	   		print ".";
 	   		$timeout++;
 	   		if ($timeout == 10){
@@ -435,7 +435,7 @@ sub determine_calculated_command {
 	# Get the actual command of the last programmed command (up or down)
 	my $lastmatch_command = $config->{command}->{$lastmatch}->{direction};
 	
-	print "Direction to send: $lastmatch_command\n";
+	print "Calculated direction to send: $lastmatch_command\n" if ($debug);
 	return $lastmatch_command;
 }
 
