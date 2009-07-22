@@ -125,17 +125,25 @@ sub command_blinds  {
 	# Open the socket to send the command
 	my $socket = open_socket($blinds_host, $blinds_port);
 
-    print " Connected on port $blinds_port\n";
+	# If we got a valid socket
+	if ($socket) {
+	    print " Connected on port $blinds_port\n";
 	
-	$socket->send('?');
-	$blind_command = substr($blind_command, 0, 1);
-	$socket->send($blind_command);
+		$socket->send('?');
+		$blind_command = substr($blind_command, 0, 1);
+		$socket->send($blind_command);
 	
-	print "$blind_command sent to host...\n";
+		print "$blind_command sent to host...\n";
 	
-	close_socket();
+		close_socket();
 
-	return 1;						
+		return 1;						
+	
+	} else {
+		
+		return 0;
+	}
+
 }
 
 #
@@ -276,7 +284,7 @@ sub open_socket {
 	   		print ".";
 	   		$timeout++;
 	   		if ($timeout == 10){
-	     		print "\nServer not available, exit...\n";
+	     		print "\nServer not available, returning 0...\n";
 	     		return 0;
 	   		}
 	   
