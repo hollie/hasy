@@ -39,7 +39,7 @@ if ($err = RRDs::error) {
 RRDs::graph "light_year.png",
     "--start", "end-1year",
     "--title", "Ambient lightlevel (year)", 
-    #"--lazy",
+    "--lazy",
     light_minmax();
     
     ;
