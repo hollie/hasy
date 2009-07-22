@@ -161,10 +161,14 @@ sub process_wireless {
 	
 	my $temperature = ((hex($temp_adc) / 255 * 2.5) - .6) * 100;
 	
-	print "Storing WRLS: solar $solar_adc, vcc $vcc_adc, temp $temperature in database '$db'\n";
+	# Convert solar/vcc to voltage values
+	my $solar = hex($solar_adc) * 5 / 255;
+	my $vcc   = 2.5 * 255 / hex($vcc_adc);
+	
+	print "Storing WRLS: solar $solar, vcc $vcc, temp $temperature in database '$db'\n";
 	
 	# Store in RRD database
-	RRDs::update($db,"N:$solar_adc:$vcc_adc:$temperature");
+	RRDs::update($db,"N:$solar:$vcc:$temperature");
 	my $err = RRDs::error;
 	die "Error while updating $db: $err\n" if $err;
 	
