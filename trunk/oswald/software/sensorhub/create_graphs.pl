@@ -51,6 +51,27 @@ if ($err = RRDs::error) {
     die "ERROR: $err\n";
 };
 
+RRDs::graph "humi_year.png",
+    "--end", "now",
+    "--start", "end-365days",
+    "--title", "Luchtvochtigheid jaaroverzicht", 
+    "--vertical-label", "graden C / %",
+    "--imgformat","PNG",
+    "--lower-limit","0",
+    #"--lazy",
+    #"--slope-mode",
+    "--color","BACK#EEF0F0",
+    "--interlaced",
+    "--watermark","http://bouw.lika.be",
+    "DEF:rv=$humi:rhumi:AVERAGE",
+    "DEF:dewpt=$humi:dewpt:AVERAGE",
+    "LINE:rv#0000FF:Relatieve vochtigheid (%)",
+    "LINE:dewpt#00FF00:Dauwpunt (graden C)",
+    ;
+
+if ($err = RRDs::error) {
+    die "ERROR: $err\n";
+};
 	
 # Create the weekly temp graph
 RRDs::graph "ventilatie_week.png",
@@ -271,6 +292,7 @@ $ftp->login($ftp_user, $ftp_password) or die "Could not login :", $ftp->message;
 &put_graph("rendement_week.png");
 &put_graph("rendement_year.png");
 &put_graph("humi_week.png");
+&put_graph("humi_year.png");
 
 $ftp->quit;
 
