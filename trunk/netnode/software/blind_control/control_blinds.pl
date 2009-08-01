@@ -87,7 +87,7 @@ print "Last command sent to blinds was '$last_command', next one is '$next_comma
 # Unless the $next_command is empty, in case no action is required
 if (($next_command ne '') && ($last_command ne $next_command)){
 	
-	print "$timestamp New command '$next_command' sent to blinds based on ";
+	print "$timestamp New command '$next_command' will be sent to blinds based on ";
 	if (sensor_value_valid($response)){
 		print "sensor";
 	} else {
@@ -127,20 +127,21 @@ sub command_blinds  {
 
 	# If we got a valid socket
 	if ($socket) {
-	    print " Connected on port $blinds_port\n";
+	    print " Connected on port $blinds_port... ";
 	
 		$socket->send('?');
+		sleep(1);
 		$blind_command = substr($blind_command, 0, 1);
 		$socket->send($blind_command);
 	
-		print "$blind_command sent to host...\n";
+		print "'$blind_command' sent to host...\n";
 	
 		close_socket();
 
 		return 1;						
 	
 	} else {
-		
+		print "Could not open socket\n";
 		return 0;
 	}
 
