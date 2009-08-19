@@ -408,7 +408,7 @@ sub parse_sensor_report {
 			}
 		}
 	} else {
-		if ( $solar <= 16 ) { 
+		if ( $solar <= 30 ) { 
 			$command = 'd';
 		}
 	}
