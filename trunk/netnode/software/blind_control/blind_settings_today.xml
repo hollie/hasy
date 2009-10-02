@@ -1,14 +1,14 @@
-<config created="Mon May 18 01:00:01 2009">
+<config created="Mon Sep 14 21:18:35 2009">
 <target>
 <host>netnode02</host>
 <port>10001</port>
 </target>
 <command>
-<time>06:38</time>
+<time>07:01</time>
 <direction>u</direction>
 </command>
 <command>
-<time>21:57</time>
+<time>20:21</time>
 <direction>d</direction>
 </command>
 </config>
