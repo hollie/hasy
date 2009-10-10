@@ -88,128 +88,109 @@ sub device_id_list {
 
 sub request_stat {
     my ($self) = @_;
-
-   	for my $light ($self->find_members('xPL_Plugwise')) {
-        if ($light) {
-        	$light->request_stat();
+    
+    for my $circle ($self->find_members('xPL_Plugwise')) {
+        if ($circle) {
+	    my $name =  $circle->get_object_name();
+	    &::print_log("[xPL_PlugwiseGateway] Requesting state for $name over xPL") if $main::Debug{xpl_plugwise};
+	    $circle->request_stat();
         }
     }
 }
 
+# Not sure what to do with this sub, as the gateway is merely a collector for the device ID's
 sub default_setstate
 {
     my ($self, $state, $substate, $set_by) = @_;
     if ($set_by =~ /^xpl/i) {
-    	if ($$self{changed} =~ /lighting\.gateinfo/) {
-	   &::print_log("[xPL_LightGateway] Received lighting.gateinfo message."
-           	. " Preferred network id= " . $$self{'lighting.gateinfo'}{'preferred-net'})
-                if $main::Debug{xpl_light};
-           $$self{'preferred-net'} = $$self{'lighting.gateinfo'}{'preferred-net'};
-           # send out a request to get info about the supported device list
-           $self->SUPER::send_cmnd('lighting.request' => { 'request' => 'devlist' });
-    	} elsif ($$self{changed} =~ /lighting\.devlist/) {
-    	   &::print_log("[xPL_LightGateway] Received lighting.devlist message: status "
-           	. $$self{'lighting.devlist'}{status}) if $main::Debug{xpl_light};
-           if ($$self{'lighting.devlist'}{'device'}) {
-    	      my @list = split(/,/,$$self{'lighting.devlist'}{'device'});
-              @{$$self{'device_id_list'}} = (@{$$self{'device_id_list'}}, @list);
-    	   }
-    	} elsif ($$self{changed} =~ /lighting\.netlist/) {
-		&::print_log("[xPL_LightGateway] Received lighting.netlist message") if $main::Debug{xpl_light};
-    	} elsif ($$self{changed} =~ /lighting\.netinfo/) {
-		&::print_log("[xPL_LightGateway] Received lighting.netinfo message") if $main::Debug{xpl_light};
-    	} elsif ($$self{changed} =~ /lighting\.gateway/) {
-		&::print_log("[xPL_LightGateway] Received lighting.gateway message") if $main::Debug{xpl_light};
-    	}
     } else {
-    	&::print_log("[xPL_LightGateway] WARN: Gateway state may not be explicitely set.  Ignoring.")
-        	if $main::Debug{xpl_light};
+    	&::print_log("[xPL_PlugwiseGateway] WARN: Gateway state may not be explicitely set.  Ignoring.")
+	    if $main::Debug{xpl_plugwise};
     	# return a -1 if not changed by xpl so that state is not revised until receipt of gateinfo
     	return -1;
     }
 }
 
+# Basically, ignore all messages directed to the gateway
 sub ignore_message {
-	my ($self, $p_data) = @_;
-        my $ignore_message = 0;
-        if (!(defined($$p_data{'lighting.gateinfo'}) or defined($$p_data{'lighting.gateway'})
-        	or defined($$p_data{'lighting.devlist'}) or defined($$p_data{'lighting.netinfo'})
-                or defined($$p_data{'lighting.netlist'})
-           )) {
-            $ignore_message = 1;
-        }
-        return $ignore_message;
+    my ($self, $p_data) = @_;
+    my $ignore_message = 1;
+    
+    # Might add a filter here if required
+    
+
+    return $ignore_message;
 }
 
 sub add
 {
-	my ($self,@p_objects) = @_;
+    my ($self,@p_objects) = @_;
 
-	my @l_objects;
+    my @l_objects;
 
-	for my $l_object (@p_objects) {
-		if ($l_object->isa('Group_Item') ) {
-			@l_objects = $$l_object{members};
-			for my $obj (@l_objects) {
-				$self->add($obj);
-			}
-		} else {
-		    $self->add_item($l_object);
-		}
+    for my $l_object (@p_objects) {
+	if ($l_object->isa('Group_Item') ) {
+	    @l_objects = $$l_object{members};
+	    for my $obj (@l_objects) {
+		$self->add($obj);
+	    }
+	} else {
+	    $self->add_item($l_object);
 	}
+    }
 }
 
 sub add_item
 {
-    	my ($self,$p_object) = @_;
-	push @{$$self{objects}}, $p_object;
-	return $p_object;
+    my ($self,$p_object) = @_;
+    push @{$$self{objects}}, $p_object;
+    return $p_object;
 }
 
 sub remove_all_items {
-   my ($self) = @_;
+    my ($self) = @_;
 
-   if (ref $$self{objects}) {
-      foreach (@{$$self{objects}}) {
- #        $_->untie_items($self);
-      }
-   }
-   delete $self->{objects};
+    if (ref $$self{objects}) {
+	foreach (@{$$self{objects}}) {
+	    #        $_->untie_items($self);
+	}
+    }
+    delete $self->{objects};
 }
 
 sub add_item_if_not_present {
-   my ($self, $p_object) = @_;
+    my ($self, $p_object) = @_;
 
-   if (ref $$self{objects}) {
-      foreach (@{$$self{objects}}) {
-         if ($_ eq $p_object) {
-            return 0;
-         }
-      }
-   }
-   $self->add_item($p_object);
-   return 1;
+    if (ref $$self{objects}) {
+	foreach (@{$$self{objects}}) {
+	    if ($_ eq $p_object) {
+		return 0;
+	    }
+	}
+    }
+    $self->add_item($p_object);
+    return 1;
 }
 
 sub remove_item {
-   my ($self, $p_object) = @_;
+    my ($self, $p_object) = @_;
 
-   if (ref $$self{objects}) {
-      for (my $i = 0; $i < scalar(@{$$self{objects}}); $i++) {
-         if ($$self{objects}->[$i] eq $p_object) {
-            splice @{$$self{objects}}, $i, 1;
- #           $p_object->untie_items($self);
-            return 1;
-         }
-      }
-   }
-   return 0;
+    if (ref $$self{objects}) {
+	for (my $i = 0; $i < scalar(@{$$self{objects}}); $i++) {
+	    if ($$self{objects}->[$i] eq $p_object) {
+		splice @{$$self{objects}}, $i, 1;
+		#           $p_object->untie_items($self);
+		return 1;
+	    }
+	}
+    }
+    return 0;
 }
 
 
 sub is_member {
     my ($self, $p_object) = @_;
-
+    
     my @l_objects = @{$$self{objects}};
     for my $l_object (@l_objects) {
 	if ($l_object eq $p_object) {
@@ -220,16 +201,16 @@ sub is_member {
 }
 
 sub find_members {
-	my ($self,$p_type) = @_;
-
-	my @l_found;
-	my @l_objects = @{$$self{objects}};
-	for my $l_object (@l_objects) {
-		if ($l_object->isa($p_type)) {
-			push @l_found, $l_object;
-		}
+    my ($self,$p_type) = @_;
+    
+    my @l_found;
+    my @l_objects = @{$$self{objects}};
+    for my $l_object (@l_objects) {
+	if ($l_object->isa($p_type)) {
+	    push @l_found, $l_object;
 	}
-	return @l_found;
+    }
+    return @l_found;
 }
 
 
@@ -251,9 +232,6 @@ sub new {
 
     $self->addStates ('on', 'off');
 	
-    #$self->state_overload('on');
-    #$self->restore_data('ramp_rate'); # keep track
-
     return $self;
 }
 
@@ -269,17 +247,17 @@ sub id {
 }
 
 sub addStates {
-  my $self = shift;
-  push(@{$$self{states}}, @_) unless $self->{displayonly};
+    my $self = shift;
+    push(@{$$self{states}}, @_) unless $self->{displayonly};
 }
 
 sub ignore_message {
-	my ($self, $p_data) = @_;
-        my $ignore_msg = 0;
-        if (!((defined($$p_data{'plugwise.basic'}) and $$p_data{'plugwise.basic'}{'device'} eq $self->id)))        {
-            $ignore_msg = 1;
-        }
-        return $ignore_msg;
+    my ($self, $p_data) = @_;
+    my $ignore_msg = 0;
+    if (!((defined($$p_data{'plugwise.basic'}) and $$p_data{'plugwise.basic'}{'device'} eq $self->id)))        {
+	$ignore_msg = 1;
+    }
+    return $ignore_msg;
 }
 
 sub default_setstate
@@ -287,30 +265,25 @@ sub default_setstate
     my ($self, $state, $substate, $set_by) = @_;
     if ($set_by =~ /^xpl/i) {
     	if ($$self{changed} =~ /plugwise\.basic/) {
-           &::print_log("[xPL_Light] light: " . $self->get_object_name
-                . " state is $state") if $main::Debug{xpl_light};
+           &::print_log("[xPL_Plugwise] " . $self->get_object_name
+                . " state is $state") if $main::Debug{xpl_plugwise};
            # TO-DO: process all of the other pertinent attributes available
     	   return -1 if $self->state eq $state; # don't propagate state unless it has changed
-    	} #elsif ($$self{changed} =~ /plugwise\.basic/) {
-          #  &::print_log("[xPL_Light] light: " . $self->get_object_name
-          #      . " state is $state") if $main::Debug{xpl_light};
-          # # TO-DO: process all of the other pertinent attributes available
-    	  # return -1 if $self->state eq $state; # don't propagate state unless it has changed
-    	#}
+	}
     } else {
     	my $cmnd = ($state =~ /^off/i) ? 'off' : 'on';
     	
     	return -1 if ($self->state eq $state); # Don't propagate state unless it has changed.
-        &::print_log("[xPL_Light] Request light: " . $self->get_object_name
-                	. " turn " . $cmnd 
-                        ) if $main::Debug{xpl_light};
+        &::print_log("[xPL_Plugwise] Request " . $self->get_object_name
+		     . " turn " . $cmnd 
+	    ) if $main::Debug{xpl_plugwise};
         my $cmd_block;
     	$$cmd_block{'command'} = $cmnd;
     	$$cmd_block{'device'} = $self->id;
     	$self->SUPER::send_cmnd('plugwise.basic', $cmd_block);
     	return;
     }
-
+	
 }
-
+    
 1;
