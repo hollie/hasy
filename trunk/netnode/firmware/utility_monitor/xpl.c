@@ -14,33 +14,63 @@
 #include "eeprom.h"
 
 char instance_id[17];
+char rx_buffer[40];
+
+// Used by xpl_handler to keep track of the current state
 enum XPL_STATE_TYPE { NOT_CONFIGURED = 0, CONFIGURED };
 enum XPL_STATE_TYPE xpl_state;
 
-// Following variable has to be declared in the main function and shoudl be incremented every second.
+// Used by the print_header function.
+enum XPL_MSG_TYPE {STAT, TRIG};
+
+// Following variable has to be declared in the main function and should be incremented every second.
 extern volatile int time_ticks;
 
-void xpl_print_header(void){
-	printf("xpl-stat\n{\nhop=1\nsource=hollie-");
+//////////////////////////////////////////////////////////
+// xpl_print_header
+//  Prints the header of the xpl messages sent out
+//  This is a separate function to reduce the 
+//  program memory size (reuse this function)
+void xpl_print_header(enum XPL_MSG_TYPE type){
+
+	printf("xpl-");
+	if (type == STAT) {
+		printf("stat");
+	} else {
+		printf("trig");
+	}
+	printf("\n{\nhop=1\nsource=hollie-");
 	printf(XPL_DEVICE_ID);
 	printf(".");
 	printf("%s", instance_id); 
 	printf("\ntarget=*\n}\n");
 }
 
+//////////////////////////////////////////////////////////
+// xpl_send_hbeat
+//  Send out a normal heartbeat
 void xpl_send_hbeat(void){
-	xpl_print_header();
+	xpl_print_header(STAT);
 	printf("hbeat.basic\n{\ninterval=5\n}\n");
 	return;
 }
+
+//////////////////////////////////////////////////////////
+// xpl_send_hbeat
+//  Request configuration by the config manager
+//  This function is called by xpl_handler when no valid 
+//  INSTANCE_ID is found in EEPROM by the xpl_init function.
 void xpl_send_config_hbeat(void){
-	xpl_print_header();
+	xpl_print_header(STAT);
 	printf("config.basic\n{\ninterval=1\n}\n");
 	return;
 }
 
 
-// Initialisation of the xPL library.
+//////////////////////////////////////////////////////////
+// xpl_init
+// Initialisation of the xPL library. Tries to restore the
+// INSTANCE_ID from EEPROM
 void xpl_init(void){
 
 	// Get the instance ID from EEPROM
@@ -68,11 +98,14 @@ void xpl_init(void){
 	
 }
 
+//////////////////////////////////////////////////////////
 // xPL handler
-// This code is called in the main program loop to process xPL events and generate heartbeats.
-// It keeps track of the time through the time_ticks variable (volatile int) that is 
-// defined in the main c file and that is incremented once per second through a timer
-// interrupt.
+// This code is called in the main program loop to process
+// xPL events and generate heartbeats.
+// It keeps track of the time through the time_ticks 
+// variable (volatile int) that is defined in the main c 
+// file and that is incremented once per second through 
+// a timer interrupt.
 void xpl_handler(void) {
 	switch (xpl_state) {
 		case CONFIGURED:

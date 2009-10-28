@@ -5,8 +5,7 @@
 *
 * Warning! Interrupts are disabled during write !
 *
-* Tested on PIC16F876
-*           PIC18F2320
+* Tested on PIC18F2320
 *
 * (c) Lieven Hollevoet
 *************************************************************/
