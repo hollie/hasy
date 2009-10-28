@@ -37,24 +37,23 @@ volatile int time_ticks = 0;
 void main()
 {
 
-	// fake a little bit, set an initial ID in the EEPROM
-	eeprom_write(0x00, '0');
-	eeprom_write(0x01, 'F');
-	eeprom_write(0x02, '\0');
+	// Test code: set an initial ID in the EEPROM
+	//eeprom_write(0x00, 'A');
+	//eeprom_write(0x01, 'F');
+	//eeprom_write(0x02, '\0');
 
 	// Hardware initialisation
 	init();
 
 	// Init the xPL library
 	xpl_init();
-	
+	// Set time_ticks to 295 so that we send a heartbeat message withing 5 seconds
+	time_ticks = 295;
+
 	while (1){
 
-		// Send a heartbeat every 5 minutes
-		if (time_ticks > 300){
-			xpl_send_hbeat();
-			time_ticks = 0;
-		}
+		// Call the xPL message handler
+		xpl_handler();
 	
 	}
 	

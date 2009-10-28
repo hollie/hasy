@@ -18,7 +18,8 @@
 #define XPL_INSTANCE_ID_OFFSET 0x00
 
 void xpl_init(void);
-void xpl_send_hbeat(void);
+void xpl_handler(void);
+
 
 #endif // _XPL_H_
 
