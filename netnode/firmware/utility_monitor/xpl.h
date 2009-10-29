@@ -19,6 +19,7 @@
 
 void xpl_init(void);
 void xpl_handler(void);
+void xpl_addbyte(char);
 
 
 #endif // _XPL_H_
