@@ -82,7 +82,7 @@ void init(void)
 	// Serial interface init (38400 @ 8 MHz, BRGH = 1 => 0x0C)
 	OpenUSART(USART_ASYNCH_MODE & 
 			USART_TX_INT_OFF &
-			USART_RX_INT_OFF &
+			USART_RX_INT_ON &
 			USART_EIGHT_BIT & 
 			USART_CONT_RX & 
 			USART_BRGH_HIGH, 
@@ -109,7 +109,8 @@ void init(void)
 	//intcon2.INTEDG0 = 0; // Falling edge
 	//intcon.INT0IF   = 0; // Reset interrupt
 	//intcon.INT0IE   = 1; // Clear mask bit
-	INTCONbits.GIE      = 1; // Global interrupt enable
+	INTCONbits.PEIE   = 1; // Peripheral interrupt enable for USART RX interrupt
+	INTCONbits.GIE    = 1; // Global interrupt enable
 
 	// Setup the timer that will be used by the edge detection interrupt 
 	// for counting those interrupts. When an edge is detected, the interrupt is 
@@ -145,6 +146,12 @@ void high_isr(void){
 		time_ticks++;
  	}
 
+	/* USART RX INTERRUPT HANDLING */
+	if (PIR1bits.RCIF==1){
+		xpl_addbyte(ReadUSART());
+	}
+
+	return;
 }
 
 // Generate low-priority interrupt vector, and put a goto low_isr there
