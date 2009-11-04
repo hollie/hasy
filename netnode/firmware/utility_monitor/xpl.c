@@ -14,18 +14,23 @@
 #include "eeprom.h"
 #include "string.h"
 
+
 char xpl_instance_id[17];
-char xpl_rx_buffer[40];
-char xpl_rx_buffer_shadow[40];
+char xpl_target[32];
+
 char xpl_rx_pointer;
-//char xpl_nodename[34];
+// TODO 2 40 must be defined as constant and then used in the code, replace 40 by constant 
+// but i do not know how to do it #define a 10 is not working, buffer can be decreased but to what?
+char xpl_rx_buffer[40];
+
+struct xpl_message xpl_received_msg;
 
 // Used by xpl_handler to keep track of the current state
-enum XPL_STATE_TYPE { WAITING = 0, PROCESS_BUFFER};
+enum XPL_STATE_TYPE { WAITING = 0, PROCESS_INCOMMING_MESSAGE};
 enum XPL_STATE_TYPE xpl_state;
 char configured = 0;
 
-enum XPL_PARSE_TYPE { WAITING = 0, CMND_RECEIVED, WAITING_CMND_TYPE };
+enum XPL_PARSE_TYPE { WAITING_CMND = 0, CMND_RECEIVED, WAITING_HEADER_END,WAITING_CMND_TYPE };
 enum XPL_PARSE_TYPE xpl_msg_state;
 
 // Used by the print_header function.
@@ -57,8 +62,8 @@ void xpl_print_header(enum XPL_MSG_TYPE type){
 		printf("trig");
 	}
 	printf("\n{\nhop=1\nsource=hollie-");
-	printf(XPL_DEVICE_ID);
-	printf(".%s", xpl_instance_id);
+    printf(XPL_DEVICE_ID);	
+	printf(".%s",xpl_instance_id);
 	printf("\ntarget=*\n}\n");
 }
 
@@ -86,6 +91,24 @@ void xpl_send_stat_config(void){
 	xpl_print_header(STAT);
 	printf("config.list\n{\nreconf=newconf\n}\n");
 }
+
+//////////////////////////////////////////////////////////
+// xpl_init_state
+// Initialisation of the xPL states and message buffer
+void xpl_reset_rx_buffer(void) {
+    xpl_rx_pointer = 0;
+    xpl_rx_buffer[xpl_rx_pointer] = '\0';
+}    
+
+//////////////////////////////////////////////////////////
+// xpl_init_state
+// Initialisation of the xPL states and message buffer
+void xpl_init_state(void) {
+    xpl_state      = WAITING; 
+	xpl_msg_state  = WAITING_CMND;
+	xpl_reset_rx_buffer();
+}	
+
 //////////////////////////////////////////////////////////
 // xpl_init
 // Initialisation of the xPL library. Tries to restore the
@@ -94,10 +117,9 @@ void xpl_init(void){
 
 	char count;
 
-	xpl_state      = WAITING; 
-	xpl_msg_state  = WAITING;
-	xpl_rx_pointer = 0;
-	configured     = 0;
+	xpl_init_state();
+	
+	configured = 0;
 
 	// Get the instance ID from EEPROM
 	// Maximum size = 16 chars + 1 null char
@@ -107,16 +129,17 @@ void xpl_init(void){
 		// When we encounter the null, stop reading
 		if (xpl_instance_id[count] == '\0') { 
 			configured = 1;
-			return;
+			break;
 		} 
 
 		// When the first char is 0xFF, flash is uninitialised
 		if (count == 0 && xpl_instance_id[0] == 0xFF) {
 			sprintf(xpl_instance_id, "default");
-			return;
+			break;
 		}
 	}
-	
+	// TODO 1 must be XPL_DEVICE_ID but do not know how to get this in var nodeIdentification
+	sprintf(xpl_target,"target=hollie-utilmon.%s",xpl_instance_id);
 }
 
 //////////////////////////////////////////////////////////
@@ -130,44 +153,10 @@ void xpl_init(void){
 void xpl_handler(void) {
 
 	switch (xpl_state) {
-		case PROCESS_BUFFER:
-			// Check what we have in the buffer
-			// If we're awaiting message reception, check if we receive a command
-			if (xpl_msg_state == WAITING) {
-				// If it is a command header -> set buffer state to CMD_RECEIVED
-				if (strcmpram2pgm("xpl-cmnd", xpl_rx_buffer_shadow)==0){
-					xpl_msg_state = CMND_RECEIVED;
-					xpl_state     = WAITING;
-					return;
-				}
-			} 
-			if (xpl_msg_state == CMND_RECEIVED){
-				// Check if we are the target destination
-				if (memcmpram2pgm("target=hollie-utilmon.", xpl_rx_buffer_shadow, 22)==0){
-					// Todo: compare type, instance_id
-					if (strcmp(xpl_instance_id, xpl_rx_buffer_shadow+22) == 0){
-						// We have a match on our ID, go get the command
-						xpl_msg_state = WAITING_CMND_TYPE;
-						xpl_state     = WAITING;
-						//return;
-					} else {
-						// Too bad, message is not for us. Wait for the next one
-						xpl_msg_state = WAITING;
-						xpl_state     = WAITING;
-						return;
-					}
- 				} else if (strcmpram2pgm("target=*", xpl_rx_buffer_shadow)==0){
-					// Yes, message is wildcard and hence destined to us
-					xpl_msg_state = WAITING_CMND_TYPE;
-				} 
-			}
-			
-			if (xpl_msg_state == WAITING_CMND_TYPE){
-				if (strcmpram2pgm("config.list", xpl_rx_buffer_shadow) == 0){
-					xpl_send_stat_config();
-				}
-
-			}
+		case PROCESS_INCOMMING_MESSAGE:		    
+		    if (strcmpram2pgm("config.list", xpl_received_msg.cmnd) == 0) {
+		        xpl_send_stat_config();
+		    }    		    	
 			xpl_state = WAITING;
 			break;
 		case WAITING:
@@ -194,26 +183,51 @@ void xpl_handler(void) {
 void xpl_addbyte(char data){
 
 	char res;
-
-	if (data == '\n'){
-		// If we receive end of line, terminate the string in memory and copy it 
-        // to the 'buffer-to-be-processed'
-
-		// Drop curly braces messages
-		if (xpl_rx_buffer[0] == '{' || xpl_rx_buffer[0] == '}') {
-			// Drop this
-			xpl_rx_pointer = 0; 
-			return;
-		}
-
-		xpl_rx_buffer[xpl_rx_pointer] = '\0';
-		strcpy(xpl_rx_buffer_shadow, xpl_rx_buffer);
-		xpl_rx_pointer = 0;
-
-		// Notify the xpl_handler there is something to process
-		xpl_state = PROCESS_BUFFER;
-
-	} else {
-		xpl_rx_buffer[xpl_rx_pointer++] = data;
-	}
+	
+	if (xpl_rx_pointer >= 40) {
+	    // reset all - msg is to long
+	    xpl_init_state();
+	}    
+	if (data != '\n') {
+	    xpl_rx_buffer[xpl_rx_pointer++] = data;
+	    xpl_rx_buffer[xpl_rx_pointer] = '\0';
+	} else {    
+        switch (xpl_msg_state) {
+        	case WAITING_CMND:
+        	    // If it is a command header -> set buffer state to CMD_RECEIVED
+    			if (strcmpram2pgm("xpl-cmnd", xpl_rx_buffer)==0) {
+    			    xpl_msg_state = CMND_RECEIVED;
+    			}
+    			break;
+    		case CMND_RECEIVED:  
+        		// check if we have the target in the buffer
+        		if (strcmpram2pgm("target=*", xpl_rx_buffer) == 0){
+    				// Yes, message is wildcard and hence destined to us
+    			    xpl_msg_state = WAITING_CMND_TYPE;
+    			} else if (strcmp(xpl_target, xpl_rx_buffer)==0){
+        		    // bingo message if for us
+    				xpl_msg_state = WAITING_HEADER_END;    				
+        		}                 		  
+    		    break;
+    	    case WAITING_HEADER_END:
+    			if (xpl_rx_buffer[0] == '}') {
+    			   xpl_msg_state = WAITING_CMND_TYPE;    			    
+    			}
+    			break;    		 
+    		case WAITING_CMND_TYPE:    		    
+        		if (strcmpram2pgm("config.list", xpl_rx_buffer) == 0) {
+            	    xpl_state = PROCESS_INCOMMING_MESSAGE;  
+            	    xpl_msg_state = WAITING_CMND;
+            	    strcpy(xpl_received_msg.cmnd,xpl_rx_buffer); 
+            	}   
+            	// TODO 3: variables are not stored here but do not know yet how to store them.
+            	// assume we receive x=y
+            	// I would like to define 2 arrays 1 for storing the x values and one for the y
+            	// but how long do we need to take the chars of arrays x and y
+            	// and how long will the arrays be
+            	// can we dynamicaly allocate?
+    		    break;   		    
+        }
+        xpl_reset_rx_buffer();			    
+    }        	
 }

@@ -17,6 +17,12 @@
 // The offset in EEPROM where the INSTANCE_ID is stored 
 #define XPL_INSTANCE_ID_OFFSET 0x00
 
+struct xpl_message
+{
+char cmnd[15];
+};
+
+
 void xpl_init(void);
 void xpl_handler(void);
 void xpl_addbyte(char);
