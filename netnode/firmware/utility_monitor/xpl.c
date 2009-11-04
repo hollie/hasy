@@ -16,13 +16,8 @@
 
 
 char xpl_instance_id[17];
-char xpl_target[36];
 
 char xpl_rx_pointer;
-// TODO 2 40 must be defined as constant and then used in the code, replace 40 by constant 
-// but i do not know how to do it #define a 10 is not working, buffer can be decreased but to what?
-// -> Feedback LH: * constant declared in header file and used here.
-//              * buffersize cannot be decreased, as max string size can be up to 40 characters (target=hollie-yyyyyyyy.zzzzzzzzzzzzzzzz\n)
 char xpl_rx_buffer[RX_BUFSIZE];
 
 struct xpl_message xpl_received_msg;
@@ -46,7 +41,7 @@ extern volatile int time_ticks;
 //  Update the vendor-device_id.instance_id string 
 //  to the current values
 void xpl_update_nodename(void){
-	sprintf(xpl_target, "target=hollie-%s.%s", XPL_DEVICE_ID, xpl_instance_id);
+	//sprintf(xpl_target, "target=hollie-%s.%s", XPL_DEVICE_ID, xpl_instance_id);
 	return;
 }
 
@@ -143,14 +138,6 @@ void xpl_init(void){
 			break;
 		}
 	}
-	// TODO 1 must be XPL_DEVICE_ID but do not know how to get this in var nodeIdentification
-    // Feedback -> I had already added a function to do this at the top of this file. But I had not used it yet because it was too time consuming.
-    // This problem is gone now we can use flow control, however, I don't think it is a good idea to put the complete string in RAM.
-    // 'target=hollie-' will never change, and hence we can put it in ROM to conserve RAM. Right now, the xpl_target char array is not big enough 
-    // to be compliant with the standard, but I cannot make it bigger becaue then it does no longer fit the data memory page.
-    // I would rename xpl_target to xpl_nodename and let it contain only XPL_DEVICE_ID.xpl_instance_id.
-	// Then of course, the handler function needs to be updated (ref code is present in a previous version).
-	//sprintf(xpl_target,"target=hollie-utilmon.%s",xpl_instance_id);
     xpl_update_nodename();
 	
 }
@@ -223,10 +210,15 @@ void xpl_addbyte(char data){
         		if (strcmpram2pgm("target=*", xpl_rx_buffer) == 0){
     				// Yes, message is wildcard and hence destined to us
     			    xpl_msg_state = WAITING_CMND_TYPE;
-    			} else if (strcmp(xpl_target, xpl_rx_buffer)==0){
-        		    // bingo message if for us
-    				xpl_msg_state = WAITING_HEADER_END;    				
-        		}                 		  
+    			} else if (memcmpram2pgm("target=hollie-utilmon.", xpl_rx_buffer, 22)==0){
+					if (strcmp(xpl_instance_id, xpl_rx_buffer + 22) == 0){
+						// bingo message if for us
+    				    xpl_msg_state = WAITING_HEADER_END;
+					} else {
+						// Too bad, message is not for us. Wait for the next one
+						xpl_msg_state = WAITING_CMND;
+					}
+    			}                            	  
     		    break;
     	    case WAITING_HEADER_END:
     			if (xpl_rx_buffer[0] == '}') {
