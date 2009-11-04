@@ -1,21 +1,31 @@
 wait 10 sec
 "xpl-cmnd"
 0A
+wait 1 sec
 "{"
 0A
+wait 1 sec
 "hop=1"
 0A
+wait 1 sec
 "source=xpl-xplhal.myhouse"
 0A
+wait 1 sec
 "target=hollie-utilmon.default"
 0A
+wait 1 sec
 "}"
 0A
+wait 1 sec
 "config.list"
 0A
+wait 1 sec
 "{"
 0A
+wait 1 sec
 "command=request"
 0A
+wait 1 sec
 "}"
 0A
+wait 1 sec
