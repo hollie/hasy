@@ -16,12 +16,14 @@
 
 
 char xpl_instance_id[17];
-char xpl_target[32];
+char xpl_target[36];
 
 char xpl_rx_pointer;
 // TODO 2 40 must be defined as constant and then used in the code, replace 40 by constant 
 // but i do not know how to do it #define a 10 is not working, buffer can be decreased but to what?
-char xpl_rx_buffer[40];
+// -> Feedback LH: * constant declared in header file and used here.
+//              * buffersize cannot be decreased, as max string size can be up to 40 characters (target=hollie-yyyyyyyy.zzzzzzzzzzzzzzzz\n)
+char xpl_rx_buffer[RX_BUFSIZE];
 
 struct xpl_message xpl_received_msg;
 
@@ -43,10 +45,10 @@ extern volatile int time_ticks;
 // xpl_update_nodename
 //  Update the vendor-device_id.instance_id string 
 //  to the current values
-//void xpl_update_nodename(void){
-//	sprintf(xpl_nodename, "%s.%s", XPL_DEVICE_ID, xpl_instance_id);
-//	return;
-//}
+void xpl_update_nodename(void){
+	sprintf(xpl_target, "target=hollie-%s.%s", XPL_DEVICE_ID, xpl_instance_id);
+	return;
+}
 
 //////////////////////////////////////////////////////////
 // xpl_print_header
@@ -98,6 +100,9 @@ void xpl_send_stat_config(void){
 void xpl_reset_rx_buffer(void) {
     xpl_rx_pointer = 0;
     xpl_rx_buffer[xpl_rx_pointer] = '\0';
+
+	// Every time we reset the buffer, we also need to re-enable the flow control
+	_usart_putc(XON);
 }    
 
 //////////////////////////////////////////////////////////
@@ -139,7 +144,15 @@ void xpl_init(void){
 		}
 	}
 	// TODO 1 must be XPL_DEVICE_ID but do not know how to get this in var nodeIdentification
-	sprintf(xpl_target,"target=hollie-utilmon.%s",xpl_instance_id);
+    // Feedback -> I had already added a function to do this at the top of this file. But I had not used it yet because it was too time consuming.
+    // This problem is gone now we can use flow control, however, I don't think it is a good idea to put the complete string in RAM.
+    // 'target=hollie-' will never change, and hence we can put it in ROM to conserve RAM. Right now, the xpl_target char array is not big enough 
+    // to be compliant with the standard, but I cannot make it bigger becaue then it does no longer fit the data memory page.
+    // I would rename xpl_target to xpl_nodename and let it contain only XPL_DEVICE_ID.xpl_instance_id.
+	// Then of course, the handler function needs to be updated (ref code is present in a previous version).
+	//sprintf(xpl_target,"target=hollie-utilmon.%s",xpl_instance_id);
+    xpl_update_nodename();
+	
 }
 
 //////////////////////////////////////////////////////////
@@ -184,6 +197,12 @@ void xpl_addbyte(char data){
 
 	char res;
 	
+	// Flow control: send 0x13 to XPORT to stop the reception of serial data
+	// We use direct _usart function here for speed reasons.
+	if (data == '\n') {
+		_usart_putc(XOFF);
+	}
+
 	if (xpl_rx_pointer >= 40) {
 	    // reset all - msg is to long
 	    xpl_init_state();
@@ -226,6 +245,9 @@ void xpl_addbyte(char data){
             	// but how long do we need to take the chars of arrays x and y
             	// and how long will the arrays be
             	// can we dynamicaly allocate?
+				// Feedback -> well, remember we're runing this code on a PIC ;-)
+				// I would just check for 'command' and put that into the struct. 
+ 				// The only messages we should support are 'rename your instance ID', 'broadcast your heartbeat'  and 'report your sensor readings' (this is pseudocode of course).
     		    break;   		    
         }
         xpl_reset_rx_buffer();			    
