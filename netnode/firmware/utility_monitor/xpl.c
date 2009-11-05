@@ -163,7 +163,7 @@ void xpl_reset_rx_buffer(void) {
     xpl_rx_buffer[xpl_rx_pointer] = '\0';
 
 	// Every time we reset the buffer, we also need to re-enable the flow control
-	_usart_putc(XON);
+	putc(XON, _H_USART);
 }    
 
 //////////////////////////////////////////////////////////
@@ -337,7 +337,7 @@ void xpl_addbyte(char data){
 	// Flow control: send 0x13 to XPORT to stop the reception of serial data
 	// We use direct _usart function here for speed reasons.
 	if (data == '\n') {
-		_usart_putc(XOFF);
+		putc(XOFF, _H_USART);
 	}
 	
 	// keep the processing short to not loose any data
