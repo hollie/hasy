@@ -24,7 +24,7 @@
 void xpl_init(void);
 void xpl_handler(void);
 void xpl_addbyte(char);
-short xpl_handle_message_part(void);
+
 
 // For flow control of the UART
 #define XON  0x11
