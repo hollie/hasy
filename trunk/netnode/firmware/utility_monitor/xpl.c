@@ -34,6 +34,8 @@ enum XPL_MSG_TYPE {STAT, TRIG};
 
 enum XPL_CMD_MSG_TYPE {HEARTBEAT_MSG_TYPE = 0,STATUS_MSG_TYPE,CONFIGURATION_CAPABILITIES_MSG_TYPE};
 
+enum XPL_CMD_MSG_TYPE xpl_handle_message_part(void);
+
 /*
 
 xpl-cmnd
@@ -138,12 +140,16 @@ void xpl_send_config_hbeat(void){
 //////////////////////////////////////////////////////////
 // xpl_send_status
 //  Request status by the config manager
-//  send the current status of the node to the node manager
+//  send the current status of the node to the config manager
 void xpl_send_status(void) {
     xpl_print_header(STAT);
     printf("config.current\n{\ninterval=1\n}\n");
 }    
 
+//////////////////////////////////////////////////////////
+// xpl_send_stat_config
+//  Request config by the config manager
+//  send the current configuration possibilities of the node to the config manager
 void xpl_send_stat_config(void){
 	xpl_print_header(STAT);
 	printf("config.list\n{\nreconf=newconf\n}\n");
@@ -164,8 +170,11 @@ void xpl_reset_rx_buffer(void) {
 // xpl_init_state
 // Initialisation of the xPL states and message buffer
 void xpl_init_state(void) {
+    // reset all states
     xpl_state      = WAITING; 
 	xpl_msg_state  = WAITING_CMND;
+	
+	// initialize the rx buffer
 	xpl_reset_rx_buffer();
 }	
 
@@ -209,7 +218,7 @@ void xpl_init(void){
 // file and that is incremented once per second through 
 // a timer interrupt.
 void xpl_handler(void) {
-    short xpl_cmd_msg_type;
+    enum XPL_CMD_MSG_TYPE xpl_cmd_msg_type;
 
 	switch (xpl_state) {
 		case PROCESS_INCOMMING_MESSAGE_PART:		    
@@ -247,7 +256,7 @@ void xpl_handler(void) {
 	return;
 }
 
-short xpl_handle_message_part(void) {
+enum XPL_CMD_MSG_TYPE xpl_handle_message_part(void) {
  
     switch (xpl_msg_state) {
        	case WAITING_CMND:
@@ -309,7 +318,8 @@ short xpl_handle_message_part(void) {
     		}    
 		    break;	
 		case WAITING_CMND_CONFIG_RESPONSE:
-		    // what we write here depends in the node type, this is not yet generic code :(
+		    // what we write here depends off the node type, this is not yet generic code :(
+		    // maybe we need to implement here a function from the xpl_impl.c file
 		    if (strcmpram2pgm("newconf=", xpl_rx_buffer_shadow) == 0, 9) {
     		    // we need to strip off the new xpl_instance_id
     		    strcpy(xpl_instance_id,xpl_rx_buffer_shadow + 9);
@@ -329,18 +339,26 @@ void xpl_addbyte(char data){
 	if (data == '\n') {
 		_usart_putc(XOFF);
 	}
-
-	if (xpl_rx_pointer >= 40) {
-	    // reset all - msg is to long
-	    xpl_init_state();
-	}    
+	
+	// keep the processing short to not loose any data
 	if (data != '\n') {
+    	if (xpl_rx_pointer >= RX_BUFSIZE) {
+	        // reset all - msg is to long
+	        xpl_init_state();
+	    }    
+    	
 	    xpl_rx_buffer[xpl_rx_pointer++] = data;
-	    xpl_rx_buffer[xpl_rx_pointer] = '\0';
+	    
+	    if (xpl_rx_pointer >= RX_BUFSIZE) {
+	        xpl_rx_buffer[xpl_rx_pointer] = '\0';
+	    }    
 	} else {
-	    // keep the processing short to not loose any data
-	    strcmp(xpl_rx_buffer_shadow,xpl_rx_buffer);
+	    // copy to shadow buffer, like this we free up the rx buffer for other events from the uart port
+	    strcpy(xpl_rx_buffer_shadow,xpl_rx_buffer);
+	    
+	    // This will enable the handling in the handler function of the received string
 	    xpl_state = PROCESS_INCOMMING_MESSAGE_PART;    
+	    
         xpl_reset_rx_buffer();			    
     }        	
 }
