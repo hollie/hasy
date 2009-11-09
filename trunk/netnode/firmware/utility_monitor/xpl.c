@@ -263,6 +263,7 @@ enum XPL_CMD_MSG_TYPE xpl_handle_message_part(void) {
        	    // If it is a command header -> set buffer state to CMD_RECEIVED
 			if (strcmpram2pgm("xpl-cmnd", xpl_rx_buffer_shadow)==0) {
 			    xpl_msg_state = CMND_RECEIVED;
+				//printf("Command received");
 			}
 			break;
 		case CMND_RECEIVED:  
@@ -338,6 +339,7 @@ void xpl_addbyte(char data){
 	// We use direct _usart function here for speed reasons.
 	if (data == '\n') {
 		putc(XOFF, _H_USART);
+		xpl_rx_buffer[xpl_rx_pointer] = '\0';
 	}
 	
 	// keep the processing short to not loose any data
