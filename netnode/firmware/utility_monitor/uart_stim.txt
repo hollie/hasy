@@ -1,6 +1,47 @@
 wait 10 sec
 "xpl-cmnd"
 0A
+"{"
+0A
+"hop=1"
+0A
+"sour"
+wait 100 ms
+"ce=me-test.send"
+wait 100 ms
+"er"
+0A
+"target=*"
+0A
+"}"
+0A
+"config"
+wait 100 ms
+".list"
+0A
+"{"
+0A
+"command=r"
+wait 50 ms
+"equest"
+0A
+"}"
+0A
+wait 1 s
+
+"xpl-stat"
+0A
+"{"
+0A
+"hopladitis"
+wait 50 ms
+"eengrotetestomtezienwatdefifodoet"
+wait 50 ms
+"op=1"
+0A
+wait 50 ms
+"xpl-cmnd"
+0A
 wait 1 sec
 "{"
 0A

@@ -148,7 +148,7 @@ void high_isr(void){
 
 	/* USART RX INTERRUPT HANDLING */
 	if (PIR1bits.RCIF==1){
-		xpl_addbyte(ReadUSART());
+		xpl_fifo_push_byte(ReadUSART());
 	}
 
 	return;

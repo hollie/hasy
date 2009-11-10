@@ -9,16 +9,20 @@
 *************************************************************/
 
 #include <stdio.h>
+#include <delays.h>
 
 #include "xpl.h"
 #include "eeprom.h"
 #include "string.h"
 
 
+char xpl_rx_fifo[XPL_RXFIFO_SIZE];
+signed char xpl_rx_fifo_pointer;
+
 char xpl_instance_id[17];
 
 char xpl_rx_pointer;
-char xpl_rx_buffer[RX_BUFSIZE];
+//char xpl_rx_buffer[RX_BUFSIZE];
 char xpl_rx_buffer_shadow[RX_BUFSIZE];
 
 // Used by xpl_handler to keep track of the current state
@@ -35,6 +39,9 @@ enum XPL_MSG_TYPE {STAT, TRIG};
 enum XPL_CMD_MSG_TYPE {HEARTBEAT_MSG_TYPE = 0,STATUS_MSG_TYPE,CONFIGURATION_CAPABILITIES_MSG_TYPE};
 
 enum XPL_CMD_MSG_TYPE xpl_handle_message_part(void);
+
+enum XPL_FLOW_TYPE {FLOW_OFF = 0, FLOW_ON};
+enum XPL_FLOW_TYPE xpl_flow;
 
 /*
 
@@ -88,6 +95,63 @@ interval=30
 
 // Following variable has to be declared in the main function and should be incremented every second.
 extern volatile int time_ticks;
+
+
+
+// We need a FIFO to cover for the latency between sending a XOFF and the XPORT to react on this
+void xpl_fifo_push_byte(char data){
+	xpl_rx_fifo[xpl_rx_fifo_pointer++] = data;
+	xpl_rx_fifo[xpl_rx_fifo_pointer] = '\0';
+
+	// Disable reception when the FIFO is almost full
+	// The -4 here comes from the response time of the XPORT on a software flow control
+	// XOFF command. This takes at least 3 chars
+	if ((xpl_rx_fifo_pointer > XPL_RXFIFO_SIZE-5) && (xpl_flow == FLOW_ON)){
+		putc(XOFF, _H_USART);
+		xpl_flow = FLOW_OFF;
+	}
+	if (xpl_rx_fifo_pointer > XPL_RXFIFO_SIZE){
+		printf("OVERFLOW");
+	}
+}
+
+char xpl_fifo_pop_byte(void){
+	char popbyte;
+	
+	// Disable serial interrupt
+	INTCONbits.PEIE   = 0;
+
+	// Pop byte from fifo
+	popbyte = xpl_rx_fifo[0];
+	
+	// And shift the stack one char
+	// TODO: check if we can make this more efficient e.g. by using a circular buffer instead
+	// of a FIFO. Right now, we first need something that works ;-)
+	strcpy(xpl_rx_fifo, &xpl_rx_fifo[1]);
+
+	// Decrement pointer
+	xpl_rx_fifo_pointer--;	
+
+	if (xpl_rx_fifo_pointer < 0){
+		printf("UNDERFLOW");
+	}
+	
+	// Enable the software flow control if FIFO is almost empty and if the flow control is OFF
+	if ((xpl_rx_fifo_pointer < 5) && (xpl_flow == FLOW_OFF)){
+		putc(XON, _H_USART);	
+		xpl_flow = FLOW_ON;
+	}
+
+	// Re-enable USART interrupt and check if we had overfow
+	INTCONbits.PEIE   = 1;
+
+	if (RCSTAbits.OERR == 1) {
+		printf("OERR");
+	}
+	return popbyte;
+ 
+}
+
 
 //////////////////////////////////////////////////////////
 // xpl_update_nodename
@@ -160,10 +224,7 @@ void xpl_send_stat_config(void){
 // Initialisation of the xPL states and message buffer
 void xpl_reset_rx_buffer(void) {
     xpl_rx_pointer = 0;
-    xpl_rx_buffer[xpl_rx_pointer] = '\0';
-
-	// Every time we reset the buffer, we also need to re-enable the flow control
-	putc(XON, _H_USART);
+    xpl_rx_buffer_shadow[xpl_rx_pointer] = '\0';
 }    
 
 //////////////////////////////////////////////////////////
@@ -171,11 +232,17 @@ void xpl_reset_rx_buffer(void) {
 // Initialisation of the xPL states and message buffer
 void xpl_init_state(void) {
     // reset all states
-    xpl_state      = WAITING; 
-	xpl_msg_state  = WAITING_CMND;
-	
+    xpl_state           = WAITING; 
+	xpl_msg_state       = WAITING_CMND;
+	xpl_rx_fifo_pointer = 0;
+
 	// initialize the rx buffer
 	xpl_reset_rx_buffer();
+
+	// Enable software flow control
+	xpl_flow            = FLOW_ON;
+	putc(XON, _H_USART);
+
 }	
 
 //////////////////////////////////////////////////////////
@@ -236,9 +303,16 @@ void xpl_handler(void) {
                     xpl_send_stat_config();
     		        break;
     		}    
+			// Once the message is processed, reset the buffer and return to waiting state.
 		    xpl_state = WAITING;
+			xpl_reset_rx_buffer();
 			break;
 		case WAITING:
+			// If there is data in the rx fifo, add it to the RX buffer
+			if (xpl_rx_fifo_pointer){
+				xpl_addbyte(xpl_fifo_pop_byte());
+			}
+
 			// Send hbeat every 5 minutes when configured
 			if (time_ticks > 300 && configured) {
 				xpl_send_hbeat();
@@ -270,7 +344,7 @@ enum XPL_CMD_MSG_TYPE xpl_handle_message_part(void) {
     		// check if we have the target in the buffer
     		if (strcmpram2pgm("target=*", xpl_rx_buffer_shadow) == 0){
 				// Yes, message is wildcard and hence destined to us
-			    xpl_msg_state = WAITING_CMND_TYPE;
+			    xpl_msg_state = WAITING_HEADER_END;
 			} else if (memcmpram2pgm("target=hollie-utilmon.", xpl_rx_buffer_shadow, XPL_TARGET_VENDOR_DEVICEID_INSTANCE_ID_OFFSET)==0){
 				if (strcmp(xpl_instance_id, xpl_rx_buffer_shadow + XPL_TARGET_VENDOR_DEVICEID_INSTANCE_ID_OFFSET) == 0){
 					// bingo message if for us
@@ -288,7 +362,10 @@ enum XPL_CMD_MSG_TYPE xpl_handle_message_part(void) {
 			break;    		 
 		case WAITING_CMND_TYPE:    		    
     		if (strcmpram2pgm("config.list", xpl_rx_buffer_shadow) == 0) {
-        	    xpl_msg_state = WAITING_CMND_CONFIG_LIST; 
+				// No need to wait for the command here, this is a simple device, we only support one command
+        	    //xpl_msg_state = WAITING_CMND_CONFIG_LIST; 
+				xpl_msg_state = WAITING_CMND;
+    		    return CONFIGURATION_CAPABILITIES_MSG_TYPE;
         	} else if (strcmpram2pgm("config.response", xpl_rx_buffer_shadow) == 0) {
         	    xpl_msg_state = WAITING_CMND_CONFIG_RESPONSE;
         	} else if (strcmpram2pgm("sensor.request", xpl_rx_buffer_shadow) == 0) {
@@ -311,13 +388,14 @@ enum XPL_CMD_MSG_TYPE xpl_handle_message_part(void) {
     		    return STATUS_MSG_TYPE;
     		}    
 		    break;
-		
+		/*
 		case WAITING_CMND_CONFIG_LIST:
 		    if (strcmpram2pgm("command=request", xpl_rx_buffer_shadow) == 0) {
     		    xpl_msg_state = WAITING_CMND;
     		    return CONFIGURATION_CAPABILITIES_MSG_TYPE;
     		}    
 		    break;	
+*/
 		case WAITING_CMND_CONFIG_RESPONSE:
 		    // what we write here depends off the node type, this is not yet generic code :(
 		    // maybe we need to implement here a function from the xpl_impl.c file
@@ -335,32 +413,28 @@ enum XPL_CMD_MSG_TYPE xpl_handle_message_part(void) {
 // xpl_addbyte
 // Add a new byte from the USART to the receive buffer
 void xpl_addbyte(char data){	
-	// Flow control: send 0x13 to XPORT to stop the reception of serial data
-	// We use direct _usart function here for speed reasons.
-	if (data == '\n') {
-		putc(XOFF, _H_USART);
-		xpl_rx_buffer[xpl_rx_pointer] = '\0';
-	}
-	
-	// keep the processing short to not loose any data
+
 	if (data != '\n') {
     	if (xpl_rx_pointer >= RX_BUFSIZE) {
 	        // reset all - msg is to long
 	        xpl_init_state();
+			return;
 	    }    
     	
-	    xpl_rx_buffer[xpl_rx_pointer++] = data;
+	    xpl_rx_buffer_shadow[xpl_rx_pointer++] = data;
 	    
-	    if (xpl_rx_pointer >= RX_BUFSIZE) {
-	        xpl_rx_buffer[xpl_rx_pointer] = '\0';
-	    }    
+	    //if (xpl_rx_pointer >= RX_BUFSIZE) {
+	    //    xpl_rx_buffer[xpl_rx_pointer] = '\0';
+	    //}    
 	} else {
 	    // copy to shadow buffer, like this we free up the rx buffer for other events from the uart port
-	    strcpy(xpl_rx_buffer_shadow,xpl_rx_buffer);
-	    
+	    //strcpy(xpl_rx_buffer_shadow,xpl_rx_buffer);
+	    xpl_rx_buffer_shadow[xpl_rx_pointer] = '\0';
+
 	    // This will enable the handling in the handler function of the received string
 	    xpl_state = PROCESS_INCOMMING_MESSAGE_PART;    
 	    
-        xpl_reset_rx_buffer();			    
+        //xpl_reset_rx_buffer();			    
     }        	
 }
+

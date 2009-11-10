@@ -20,10 +20,12 @@
 // The offset in EEPROM where the INSTANCE_ID is stored 
 #define XPL_EEPROM_INSTANCE_ID_OFFSET 0x00
 #define RX_BUFSIZE 40
+#define XPL_RXFIFO_SIZE 20
 
 void xpl_init(void);
 void xpl_handler(void);
 void xpl_addbyte(char);
+void xpl_fifo_push_byte(char);
 
 
 // For flow control of the UART
