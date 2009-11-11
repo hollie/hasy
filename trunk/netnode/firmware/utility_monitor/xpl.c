@@ -100,6 +100,11 @@ extern volatile int time_ticks;
 
 // We need a FIFO to cover for the latency between sending a XOFF and the XPORT to react on this
 void xpl_fifo_push_byte(char data){
+
+	if (xpl_rx_fifo_pointer == XPL_RXFIFO_SIZE-1){
+		printf("OVERFLOW");
+	}
+
 	xpl_rx_fifo[xpl_rx_fifo_pointer++] = data;
 	xpl_rx_fifo[xpl_rx_fifo_pointer] = '\0';
 
@@ -109,9 +114,6 @@ void xpl_fifo_push_byte(char data){
 	if ((xpl_rx_fifo_pointer > XPL_RXFIFO_SIZE-5) && (xpl_flow == FLOW_ON)){
 		putc(XOFF, _H_USART);
 		xpl_flow = FLOW_OFF;
-	}
-	if (xpl_rx_fifo_pointer > XPL_RXFIFO_SIZE){
-		printf("OVERFLOW");
 	}
 }
 
@@ -202,6 +204,17 @@ void xpl_send_config_hbeat(void){
 }
 
 //////////////////////////////////////////////////////////
+// xpl_send_hbeat
+//  Request configuration by the config manager
+//  This function is called by xpl_handler when no valid 
+//  INSTANCE_ID is found in EEPROM by the xpl_init function.
+void xpl_send_config_end(void){
+	xpl_print_header(STAT);
+	printf("config.end\n{\ninterval=1\n}\n");
+	return;
+}
+
+//////////////////////////////////////////////////////////
 // xpl_send_status
 //  Request status by the config manager
 //  send the current status of the node to the config manager
@@ -253,8 +266,6 @@ void xpl_init(void){
 
 	char count;
 
-	xpl_init_state();
-	
 	configured = 0;
 
 	// Get the instance ID from EEPROM
@@ -274,6 +285,11 @@ void xpl_init(void){
 			break;
 		}
 	}
+
+	// Only apply this function after we have read the EEPROM, as we enable serial reception
+	// in this function and when we do that we need to know our ID.
+	xpl_init_state();
+
 }
 
 //////////////////////////////////////////////////////////
@@ -332,6 +348,9 @@ void xpl_handler(void) {
 
 enum XPL_CMD_MSG_TYPE xpl_handle_message_part(void) {
  
+	char lpcount;
+	char strlength;
+
     switch (xpl_msg_state) {
        	case WAITING_CMND:
        	    // If it is a command header -> set buffer state to CMD_RECEIVED
@@ -345,7 +364,7 @@ enum XPL_CMD_MSG_TYPE xpl_handle_message_part(void) {
     		if (strcmpram2pgm("target=*", xpl_rx_buffer_shadow) == 0){
 				// Yes, message is wildcard and hence destined to us
 			    xpl_msg_state = WAITING_HEADER_END;
-			} else if (memcmpram2pgm("target=hollie-utilmon.", xpl_rx_buffer_shadow, XPL_TARGET_VENDOR_DEVICEID_INSTANCE_ID_OFFSET)==0){
+			} else if (strncmpram2pgm("target=hollie-utilmon.", xpl_rx_buffer_shadow, XPL_TARGET_VENDOR_DEVICEID_INSTANCE_ID_OFFSET)==0){
 				if (strcmp(xpl_instance_id, xpl_rx_buffer_shadow + XPL_TARGET_VENDOR_DEVICEID_INSTANCE_ID_OFFSET) == 0){
 					// bingo message if for us
 				    xpl_msg_state = WAITING_HEADER_END;
@@ -399,10 +418,32 @@ enum XPL_CMD_MSG_TYPE xpl_handle_message_part(void) {
 		case WAITING_CMND_CONFIG_RESPONSE:
 		    // what we write here depends off the node type, this is not yet generic code :(
 		    // maybe we need to implement here a function from the xpl_impl.c file
-		    if (strcmpram2pgm("newconf=", xpl_rx_buffer_shadow) == 0, 9) {
-    		    // we need to strip off the new xpl_instance_id
-    		    strcpy(xpl_instance_id,xpl_rx_buffer_shadow + 9);
+			// For now we just parse the instance_id and put it in EEPROM
+		    if (strncmpram2pgm("newconf=", xpl_rx_buffer_shadow, 8) == 0) {
+				// Make sure we're not receiving data right now, as interrupts will be disabled during EEPROM write later in this function
+				if (xpl_flow == FLOW_ON) { putc(XOFF, _H_USART); }
+
+				// We are about to change our ID here, so send an end message to notify the network
+				xpl_send_config_end();
+
+    		    // Copy the new instance id to the correct variable
+    		    strcpy(xpl_instance_id,xpl_rx_buffer_shadow + 8);
+				// Put the new instance id name in EEPROM so that it retains value after a power cycle
+				strlength = strlen(xpl_instance_id); // We put this in a local variable because else it it re-calculated every loop cycle
+				for (lpcount=0; lpcount < strlength; lpcount++){
+					eeprom_write(lpcount+XPL_EEPROM_INSTANCE_ID_OFFSET, xpl_instance_id[lpcount]);
+				}
+
+				// End with a '\0' in EEPROM
+				eeprom_write(lpcount+XPL_EEPROM_INSTANCE_ID_OFFSET, 0x00);
+
+
+				// Reset the xpl function to apply the new name
+				// Buffer content gets lost here, but we don't mind as we need to start again
+				xpl_init();
+				
     		    xpl_msg_state = WAITING_CMND;
+				return HEARTBEAT_MSG_TYPE;
     		}    
 		    break;	    
     }   
