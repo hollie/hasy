@@ -20,7 +20,7 @@
 // The offset in EEPROM where the INSTANCE_ID is stored 
 #define XPL_EEPROM_INSTANCE_ID_OFFSET 0x00
 #define RX_BUFSIZE 40
-#define XPL_RXFIFO_SIZE 20
+#define XPL_RXFIFO_SIZE 40
 
 void xpl_init(void);
 void xpl_handler(void);

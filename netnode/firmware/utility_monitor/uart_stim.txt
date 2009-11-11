@@ -28,6 +28,35 @@ wait 50 ms
 "}"
 0A
 wait 1 s
+"xpl-cmnd"
+0A
+"{"
+0A
+"hop=1"
+0A
+wait 100 ms
+"source=cdp1802-dcm.0000011e2g043"
+0A
+wait 100 ms
+"target=hollie-utilmon.default"
+0A
+wait 100 ms
+"}"
+0A
+"config.response"
+0A
+wait 100 ms
+"{"
+0a
+"filter="
+0a
+"group="
+0a
+wait 100 ms
+"newconf=test"
+0a
+"}"
+wait 1 s
 
 "xpl-stat"
 0A

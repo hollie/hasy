@@ -74,6 +74,9 @@ void eeprom_write(char address, char data){
 	// Disable write
 	EECON1bits.WREN = 0;
 
+	// Wait for the write operation to complete
+	while (EECON1bits.WR){};
+
 	// Enable interrupts if they were on before we entered this function
 	if (enable_gie) {
 		INTCONbits.GIE = 1;
