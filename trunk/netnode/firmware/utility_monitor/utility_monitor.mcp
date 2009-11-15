@@ -1,7 +1,7 @@
 [HEADER]
 magic_cookie={66E99B07-E706-4689-9E80-9B2582898A13}
 file_version=1.0
-device=PIC18F2320
+device=PIC18F2520
 [PATH_INFO]
 BuildDirPolicy=BuildDirIsProjectDir
 dir_src=
@@ -61,7 +61,7 @@ file_003=utility_monitor.h
 file_004=fuses.h
 file_005=xpl.h
 file_006=eeprom.h
-file_007=C:\mcc18\lkr\18f2320.lkr
+file_007=C:\mcc18\lkr\18f2520.lkr
 file_008=uart_stim.txt
 [SUITE_INFO]
 suite_guid={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
