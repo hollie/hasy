@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Blind control</title>
+<meta name="viewport" content="width=320; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
+<style type="text/css" media="screen">@import "./iui/iui.css";</style>
+<script type="application/x-javascript" src="./iui/iui.js"></script>
+<!--
+<script type="application/x-javascript" src="http://10.0.1.2:1840/ibug.js"></script>
+-->
+</head>
+
+<body onclick="console.log('Hello', event.target);">
+    <div class="toolbar">
+        <h1 id="pageTitle"></h1>
+        <a id="backButton" class="button" href="#"></a>
+        <!--a class="button" href="#searchForm">Search</a-->
+    </div>
+    
+    <ul id="home" title="Blind control" selected="true">
+        <li><a href="#all">All</a></li>
+        <li><a href="#sun">Sunscreen</a></li>
+        <li><a href="#single">Control single blind</a></li>
+    </ul>
+    <ul id="all" title="All blinds">
+        <li><a href="all_up.cgi">Up</a></li>
+        <li><a href="test.php">Down</a></li>
+        <li><a href="">Stop</a></li>
+	</ul>    
+	<ul id="sun" title="Sunscreen">
+		<li><a href="">Morning mode</a></li>
+		<li><a href="">Afternoon mode</a></li>
+	</ul>
+	
+	<div id="single" title="Single" class="panel">
+        <h2>Blinds</h2>
+        <fieldset>
+            <div class="row">
+                <label>Schuifdeur</label>
+                <div class="toggle" onclick="" toggled="true"><span class="thumb"></span><span class="toggleOn">UP</span><span class="toggleOff">DOWN</span></div>
+            </div>
+            <div class="row">
+                <label>Groot venster</label>
+                <div class="toggle" onclick="" toggled="true"><span class="thumb"></span><span class="toggleOn">UP</span><span class="toggleOff">DOWN</span></div>
+            </div>
+            <div class="row">
+                <label>Zithoek links</label>
+                <div class="toggle" onclick="" toggled="true"><span class="thumb"></span><span class="toggleOn">UP</span><span class="toggleOff">DOWN</span></div>
+            </div>
+            <div class="row">
+                <label>Zithoek midden</label>
+                <div class="toggle" onclick="" toggled="true"><span class="thumb"></span><span class="toggleOn">UP</span><span class="toggleOff">DOWN</span></div>
+            </div>
+            <div class="row">
+                <label>Zithoek rechts</label>
+                <div class="toggle" onclick="" toggled="true"><span class="thumb"></span><span class="toggleOn">UP</span><span class="toggleOff">DOWN</span></div>
+            </div>
+
+        </fieldset>
+    </div>
+</body>
+</html>

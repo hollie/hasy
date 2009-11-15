@@ -1,0 +1,21 @@
+#! /bin/sh
+
+# Keep average/min/max for:
+#   15 minutes for 1 month (3000 *   1  * 15 minutes)
+#    1 day for 20 year     (7320 *  96  * 15 minutes)
+#    1 month for 20 years  (240  * 2976 * 15 minutes)
+
+rrdtool create pv.rrd    \
+ --step 900                       \
+ DS:watthour:ABSOLUTE:3600:0:65536 \
+ RRA:AVERAGE:0.5:1:3000            \
+ RRA:AVERAGE:0.5:96:7320            \
+ RRA:AVERAGE:0.5:2976:240          \
+ RRA:MIN:0.5:1:3000                \
+ RRA:MIN:0.5:96:7320                \
+ RRA:MIN:0.5:2976:240              \
+ RRA:MAX:0.5:1:3000                \
+ RRA:MAX:0.5:96:7320                \
+ RRA:MAX:0.5:2976:240
+
+
