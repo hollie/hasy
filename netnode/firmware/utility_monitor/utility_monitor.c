@@ -14,7 +14,7 @@
 * mplink.exe      : v4.34
 * mcc18.exe       : v3.34*************************************************************/
 
-#include <p18f2320.h>
+#include <p18cxxx.h>
 #include <usart.h>
 #include <delays.h>
 #include <timers.h>
