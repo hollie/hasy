@@ -30,73 +30,55 @@ enum XPL_STATE_TYPE { WAITING = 0, PROCESS_INCOMMING_MESSAGE_PART};
 enum XPL_STATE_TYPE xpl_state;
 char configured = 0;
 
-enum XPL_PARSE_TYPE { WAITING_CMND = 0, CMND_RECEIVED, WAITING_HEADER_END,WAITING_CMND_TYPE,WAITING_CMND_SENSOR_REQUEST, WAITING_CMND_CONFIG_LIST,WAITING_CMND_CONFIG_RESPONSE,WAITING_CMND_HBEAT_REQUEST};
+enum XPL_PARSE_TYPE {   WAITING_CMND = 0,                   \\
+                        CMND_RECEIVED,                      \\
+                        WAITING_HEADER_END,                 \\
+                        WAITING_CMND_TYPE,                  \\
+                        WAITING_CMND_SENSOR_REQUEST,        \\
+                        WAITING_CMND_CONFIG_RESPONSE,       \\
+                        WAITING_CMND_HBEAT_REQUEST,         \\
+                        WAITING_CMND_CONFIG_CURRENT,        \\
+                        WAITING_CMND_SENSOR_REQUEST_DEVICE  \\
+                        };
+                        
 enum XPL_PARSE_TYPE xpl_msg_state;
 
 // Used by the print_header function.
 enum XPL_MSG_TYPE {STAT, TRIG};
 
-enum XPL_CMD_MSG_TYPE {HEARTBEAT_MSG_TYPE = 0,STATUS_MSG_TYPE,CONFIGURATION_CAPABILITIES_MSG_TYPE};
+enum XPL_CMD_MSG_TYPE_RSP {HEARTBEAT_MSG_TYPE = 0,              \\
+                           STATUS_MSG_TYPE,                     \\
+                           CONFIGURATION_CAPABILITIES_MSG_TYPE, \\
+                           CONFIG_STATUS_MSG_TYPE,              \\
+                           GAS_DEVICE_CURRENT_MSG_TYPE,         \\
+                           WATER_DEVICE_CURRENT_MSG_TYPE,       \\
+                           ELEC_DAY_DEVICE_CURRENT_MSG_TYPE,    \\
+                           ELEC_NIGTH_DEVICE_CURRENT_MSG_TYPE   \\
+                           };
 
-enum XPL_CMD_MSG_TYPE xpl_handle_message_part(void);
+enum XPL_DEVICE_TYPE      {GAS = 1,     \\
+                           WATER = 2,       \\
+                           ELEC_DAY = 4,    \\
+                           ELEC_NIGTH = 8   \\
+                           };
+
+enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void);
 
 enum XPL_FLOW_TYPE {FLOW_OFF = 0, FLOW_ON};
 enum XPL_FLOW_TYPE xpl_flow;
 
-/*
-
-xpl-cmnd
-{
-hop=1
-source=xpl-xplhal.myhouse
-target=*
-}
-hbeat.request
-{
-command=request
-}
-
-
-xpl-cmnd
-{
-hop=1
-source=xpl-xplhal.myhouse
-target=acme-tempsens.garage
-}
-sensor.request
-{
-command=status
-}
-
-
-xpl-cmnd
-{
-hop=1
-source=xpl-xplhal.myhouse
-target=acme-lamp.default
-}
-config.list
-{
-command=request
-}
-
-xpl-cmnd
-{
-hop=1
-source=xpl-xplhal.myhouse
-target=acme-lamp.default
-}
-config.response
-{
-newconf=lounge
-interval=30
-} 
-*/
+char xpl_trig_register = 0;   /* bit 0 = GAS                              
+                                 bit 1 = WATER
+                                 bit 2 = ELEC_DAY
+                                 bit 3 = ELEC_NIGTH */
 
 // Following variable has to be declared in the main function and should be incremented every second.
 extern volatile int time_ticks;
 
-
+int xpl_count_gas;
+int xpl_count_water;
+int xpl_count_elec_nigth;
+int xpl_count_elec_day;
 
 // We need a FIFO to cover for the latency between sending a XOFF and the XPORT to react on this
 void xpl_fifo_push_byte(char data){
@@ -154,16 +136,6 @@ char xpl_fifo_pop_byte(void){
  
 }
 
-
-//////////////////////////////////////////////////////////
-// xpl_update_nodename
-//  Update the vendor-device_id.instance_id string 
-//  to the current values
-//void xpl_update_nodename(void){
-	//sprintf(xpl_target, "target=hollie-%s.%s", XPL_DEVICE_ID, xpl_instance_id);
-//	return;
-//}
-
 //////////////////////////////////////////////////////////
 // xpl_print_header
 //  Prints the header of the xpl messages sent out
@@ -179,8 +151,7 @@ void xpl_print_header(enum XPL_MSG_TYPE type){
 	}
 	printf("\n{\nhop=1\nsource=hollie-");
     printf(XPL_DEVICE_ID);	
-	printf(".%s",xpl_instance_id);
-	printf("\ntarget=*\n}\n");
+	printf(".%s\ntarget=*\n}\n",xpl_instance_id);
 }
 
 //////////////////////////////////////////////////////////
@@ -221,16 +192,56 @@ void xpl_send_config_end(void){
 void xpl_send_status(void) {
     xpl_print_header(STAT);
     printf("config.current\n{\ninterval=1\n}\n");
+    return;
 }    
+
+//////////////////////////////////////////////////////////
+// xpl_send_stat_configuration_capabilities
+//  Request config by the config manager
+//  send the current configuration possibilities of the node to the config manager
+void xpl_send_stat_configuration_capabilities(void){
+	xpl_print_header(STAT);
+	printf("config.list\n{\nreconf=newconf\n}\n");
+	return;
+}
 
 //////////////////////////////////////////////////////////
 // xpl_send_stat_config
 //  Request config by the config manager
-//  send the current configuration possibilities of the node to the config manager
+//  send the current configuration of the node to the config manager
 void xpl_send_stat_config(void){
 	xpl_print_header(STAT);
-	printf("config.list\n{\nreconf=newconf\n}\n");
+	printf("config.current\n{\nnewconf=%s\n}\n",xpl_instance_id);
+	return;
 }
+
+void xpl_send_device_current(enum XPL_MSG_TYPE msg_type,enum XPL_DEVICE_TYPE type) {
+    /*NOT ENOUGH STORAGE int count;
+    xpl_print_header(msg_type);
+    
+    printf(XPL_MSG_PART_DEVICE);
+    switch (type) {
+        case GAS:
+            printf("gas");
+            count = xpl_count_gas;        
+            break;   
+        case WATER:
+            printf("water");
+            count = xpl_count_water;                
+            break;
+        case ELEC_DAY:
+            printf("elec-day");
+            count = xpl_count_elec_day;
+            break;
+        case ELEC_NIGTH:
+            printf("elec-nigth");
+            count = xpl_count_elec_nigth;        
+            break;        
+    }   
+    printf("\ntype=count\ncurrent=%s\n}\n",count);
+    */
+    return;
+}    
 
 //////////////////////////////////////////////////////////
 // xpl_init_state
@@ -285,6 +296,11 @@ void xpl_init(void){
 			break;
 		}
 	}
+	
+	xpl_count_gas = 0;
+    xpl_count_water = 0;
+    xpl_count_elec_nigth = 0;
+    xpl_count_elec_day = 0;
 
 	// Only apply this function after we have read the EEPROM, as we enable serial reception
 	// in this function and when we do that we need to know our ID.
@@ -301,7 +317,7 @@ void xpl_init(void){
 // file and that is incremented once per second through 
 // a timer interrupt.
 void xpl_handler(void) {
-    enum XPL_CMD_MSG_TYPE xpl_cmd_msg_type;
+    enum XPL_CMD_MSG_TYPE_RSP xpl_cmd_msg_type;
 
 	switch (xpl_state) {
 		case PROCESS_INCOMMING_MESSAGE_PART:		    
@@ -316,8 +332,23 @@ void xpl_handler(void) {
     		        xpl_send_status();
     		        break;
     		    case CONFIGURATION_CAPABILITIES_MSG_TYPE:
-                    xpl_send_stat_config();
+                    xpl_send_stat_configuration_capabilities();
     		        break;
+    		    case CONFIG_STATUS_MSG_TYPE:
+    		        xpl_send_stat_config();
+    		        break;
+    		    case GAS_DEVICE_CURRENT_MSG_TYPE:
+    		        xpl_send_device_current(STAT,GAS);
+    		        break;
+    		    case WATER_DEVICE_CURRENT_MSG_TYPE:
+    		        xpl_send_device_current(STAT,WATER);
+    		        break;
+    		    /* NOT ENOUGH STORAGE case ELEC_DAY_DEVICE_CURRENT_MSG_TYPE:
+    		        xpl_send_device_current(STAT,ELEC_DAY);
+    		        break;
+    		    case ELEC_NIGTH_DEVICE_CURRENT_MSG_TYPE:
+    		        xpl_send_device_current(STAT,ELEC_NIGTH);
+    		        break;  */  
     		}    
 			// Once the message is processed, reset the buffer and return to waiting state.
 		    xpl_state = WAITING;
@@ -340,13 +371,32 @@ void xpl_handler(void) {
 				time_ticks = 0;
 				return;
 			}
+			
+			// send trig message out once we receice the interrupt
+			if (xpl_trig_register != 0) {
+    			/* NOT ENOUGH STORAGE if ((xpl_trig_register & GAS) == 1) {
+        		    xpl_send_device_current(TRIG,GAS);	
+        		    // TODO: swith bit of xpl_trig_register = 	
+                } else if ((xpl_trig_register & WATER) == 1) {
+        		    xpl_send_device_current(TRIG,WATER);	
+        		    // TODO: swith bit of xpl_trig_register = 	
+        		} else if ((xpl_trig_register & ELEC_DAY) == 1) {
+        		    xpl_send_device_current(TRIG,ELEC_DAY);	
+        		    // TODO: swith bit of xpl_trig_register = 	
+        		} else if ((xpl_trig_register & ELEC_NIGTH) == 1) {
+        		    xpl_send_device_current(TRIG,ELEC_NIGTH);
+        		    // TODO: swith bit of xpl_trig_register = 	
+        		} else {
+        		    xpl_trig_register = 0;
+        		} */
+            } 			
 			break;
 	}
 
 	return;
 }
 
-enum XPL_CMD_MSG_TYPE xpl_handle_message_part(void) {
+enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
  
 	char lpcount;
 	char strlength;
@@ -356,7 +406,6 @@ enum XPL_CMD_MSG_TYPE xpl_handle_message_part(void) {
        	    // If it is a command header -> set buffer state to CMD_RECEIVED
 			if (strcmpram2pgm("xpl-cmnd", xpl_rx_buffer_shadow)==0) {
 			    xpl_msg_state = CMND_RECEIVED;
-				//printf("Command received");
 			}
 			break;
 		case CMND_RECEIVED:  
@@ -381,8 +430,7 @@ enum XPL_CMD_MSG_TYPE xpl_handle_message_part(void) {
 			break;    		 
 		case WAITING_CMND_TYPE:    		    
     		if (strcmpram2pgm("config.list", xpl_rx_buffer_shadow) == 0) {
-				// No need to wait for the command here, this is a simple device, we only support one command
-        	    //xpl_msg_state = WAITING_CMND_CONFIG_LIST; 
+				// No need to wait for the command here, this is a simple device, we only support one command        	
 				xpl_msg_state = WAITING_CMND;
     		    return CONFIGURATION_CAPABILITIES_MSG_TYPE;
         	} else if (strcmpram2pgm("config.response", xpl_rx_buffer_shadow) == 0) {
@@ -391,9 +439,17 @@ enum XPL_CMD_MSG_TYPE xpl_handle_message_part(void) {
         	    xpl_msg_state = WAITING_CMND_SENSOR_REQUEST;
         	} else if (strcmpram2pgm("hbeat.request", xpl_rx_buffer_shadow) == 0) {
         	    xpl_msg_state = WAITING_CMND_HBEAT_REQUEST;
+        	} else if (strcmpram2pgm("config.current", xpl_rx_buffer_shadow) == 0) {
+        	    xpl_msg_state = WAITING_CMND_CONFIG_CURRENT;
             } else {
         	    xpl_msg_state = WAITING_CMND;
         	}
+		    break;
+		case WAITING_CMND_CONFIG_CURRENT:
+		    if (strcmpram2pgm("command=request", xpl_rx_buffer_shadow) == 0) {
+    		    xpl_msg_state = WAITING_CMND;
+    		    return CONFIG_STATUS_MSG_TYPE;
+    		} 
 		    break;
 		case WAITING_CMND_HBEAT_REQUEST:
 		    if (strcmpram2pgm("command=request", xpl_rx_buffer_shadow) == 0) {
@@ -405,16 +461,32 @@ enum XPL_CMD_MSG_TYPE xpl_handle_message_part(void) {
 		    if (strcmpram2pgm("command=status", xpl_rx_buffer_shadow) == 0) {
     		    xpl_msg_state = WAITING_CMND;
     		    return STATUS_MSG_TYPE;
+    		} else if (strcmpram2pgm("command=current", xpl_rx_buffer_shadow) == 0) {
+    		    xpl_msg_state = WAITING_CMND_SENSOR_REQUEST_DEVICE;    		
     		}    
 		    break;
-		/*
-		case WAITING_CMND_CONFIG_LIST:
-		    if (strcmpram2pgm("command=request", xpl_rx_buffer_shadow) == 0) {
-    		    xpl_msg_state = WAITING_CMND;
-    		    return CONFIGURATION_CAPABILITIES_MSG_TYPE;
-    		}    
-		    break;	
-*/
+		
+		case WAITING_CMND_SENSOR_REQUEST_DEVICE:
+		    if (strncmpram2pgm("device=", xpl_rx_buffer_shadow,XPL_DEVICE_OFFSET) == 0) {
+    		    if (strncmpram2pgm("gas", xpl_rx_buffer_shadow+XPL_DEVICE_OFFSET,XPL_DEVICE_GAS_VALUE_OFFSET)) {
+        		    xpl_msg_state = WAITING_CMND;
+    		        return GAS_DEVICE_CURRENT_MSG_TYPE;
+        		} else if (strncmpram2pgm("water", xpl_rx_buffer_shadow+XPL_DEVICE_OFFSET,XPL_DEVICE_WATER_VALUE_OFFSET)) {
+        		    xpl_msg_state = WAITING_CMND;
+    		        return WATER_DEVICE_CURRENT_MSG_TYPE;
+        		} else if (strncmpram2pgm("elec-day", xpl_rx_buffer_shadow+XPL_DEVICE_OFFSET,XPL_DEVICE_ELEC_DAY_VALUE_OFFSET)) {
+        		    xpl_msg_state = WAITING_CMND;
+    		        return ELEC_DAY_DEVICE_CURRENT_MSG_TYPE;
+        		} else if (strncmpram2pgm("elec-nigth", xpl_rx_buffer_shadow+XPL_DEVICE_OFFSET,XPL_DEVICE_ELEC_NIGTH_VALUE_OFFSET)) {
+        		    xpl_msg_state = WAITING_CMND;
+    		        return ELEC_NIGTH_DEVICE_CURRENT_MSG_TYPE;
+        		} else {       
+        		    // TODO what if do not know the device
+        		}   
+    		}
+    		xpl_msg_state = WAITING_CMND;		  
+		    break;
+		
 		case WAITING_CMND_CONFIG_RESPONSE:
 		    // what we write here depends off the node type, this is not yet generic code :(
 		    // maybe we need to implement here a function from the xpl_impl.c file
@@ -463,19 +535,11 @@ void xpl_addbyte(char data){
 	    }    
     	
 	    xpl_rx_buffer_shadow[xpl_rx_pointer++] = data;
-	    
-	    //if (xpl_rx_pointer >= RX_BUFSIZE) {
-	    //    xpl_rx_buffer[xpl_rx_pointer] = '\0';
-	    //}    
 	} else {
-	    // copy to shadow buffer, like this we free up the rx buffer for other events from the uart port
-	    //strcpy(xpl_rx_buffer_shadow,xpl_rx_buffer);
 	    xpl_rx_buffer_shadow[xpl_rx_pointer] = '\0';
 
 	    // This will enable the handling in the handler function of the received string
 	    xpl_state = PROCESS_INCOMMING_MESSAGE_PART;    
-	    
-        //xpl_reset_rx_buffer();			    
     }        	
 }
 
