@@ -145,13 +145,14 @@ void xpl_print_header(enum XPL_MSG_TYPE type){
 
 	printf("xpl-");
 	if (type == STAT) {
-		printf("stat");
+		printf("stat\n{\nhop=1\nsource=hollie-utilmon.%s\ntarget=*\n}\n",xpl_instance_id);
 	} else {
-		printf("trig");
+		printf("trig\n{\nhop=1\nsource=hollie-utilmon.%s\ntarget=*\n}\n",xpl_instance_id);
 	}
-	printf("\n{\nhop=1\nsource=hollie-");
-    printf(XPL_DEVICE_ID);	
-	printf(".%s\ntarget=*\n}\n",xpl_instance_id);
+	// code to reduce memory utilimon is now hard coded!
+	// printf("\n{\nhop=1\nsource=hollie-");
+    // printf(XPL_DEVICE_ID);	
+	// printf(".%s\ntarget=*\n}\n",xpl_instance_id);
 }
 
 //////////////////////////////////////////////////////////
@@ -216,8 +217,10 @@ void xpl_send_stat_config(void){
 }
 
 void xpl_send_device_current(enum XPL_MSG_TYPE msg_type,enum XPL_DEVICE_TYPE type) {
-    /*NOT ENOUGH STORAGE int count;
+    int count;
     xpl_print_header(msg_type);
+    
+    // code looks strange here but its to fit into program memory
     
     printf(XPL_MSG_PART_DEVICE);
     switch (type) {
@@ -225,21 +228,27 @@ void xpl_send_device_current(enum XPL_MSG_TYPE msg_type,enum XPL_DEVICE_TYPE typ
             printf("gas");
             count = xpl_count_gas;        
             break;   
-        case WATER:
+        /*case WATER:
             printf("water");
             count = xpl_count_water;                
             break;
         case ELEC_DAY:
-            printf("elec-day");
+            //printf("elec-day");
             count = xpl_count_elec_day;
             break;
         case ELEC_NIGTH:
             printf("elec-nigth");
             count = xpl_count_elec_nigth;        
-            break;        
+            break; */       
     }   
     printf("\ntype=count\ncurrent=%s\n}\n",count);
-    */
+    
+    switch (type) {
+        case GAS:
+            xpl_count_gas = xpl_count_gas - count;
+            break;
+    }
+    
     return;
 }    
 
@@ -340,10 +349,10 @@ void xpl_handler(void) {
     		    case GAS_DEVICE_CURRENT_MSG_TYPE:
     		        xpl_send_device_current(STAT,GAS);
     		        break;
-    		    case WATER_DEVICE_CURRENT_MSG_TYPE:
+    		    /* NOT ENOUGH STORAGE case WATER_DEVICE_CURRENT_MSG_TYPE:
     		        xpl_send_device_current(STAT,WATER);
     		        break;
-    		    /* NOT ENOUGH STORAGE case ELEC_DAY_DEVICE_CURRENT_MSG_TYPE:
+    		     case ELEC_DAY_DEVICE_CURRENT_MSG_TYPE:
     		        xpl_send_device_current(STAT,ELEC_DAY);
     		        break;
     		    case ELEC_NIGTH_DEVICE_CURRENT_MSG_TYPE:
@@ -471,7 +480,7 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
     		    if (strncmpram2pgm("gas", xpl_rx_buffer_shadow+XPL_DEVICE_OFFSET,XPL_DEVICE_GAS_VALUE_OFFSET)) {
         		    xpl_msg_state = WAITING_CMND;
     		        return GAS_DEVICE_CURRENT_MSG_TYPE;
-        		} else if (strncmpram2pgm("water", xpl_rx_buffer_shadow+XPL_DEVICE_OFFSET,XPL_DEVICE_WATER_VALUE_OFFSET)) {
+        		} /* not enough storage else if (strncmpram2pgm("water", xpl_rx_buffer_shadow+XPL_DEVICE_OFFSET,XPL_DEVICE_WATER_VALUE_OFFSET)) {
         		    xpl_msg_state = WAITING_CMND;
     		        return WATER_DEVICE_CURRENT_MSG_TYPE;
         		} else if (strncmpram2pgm("elec-day", xpl_rx_buffer_shadow+XPL_DEVICE_OFFSET,XPL_DEVICE_ELEC_DAY_VALUE_OFFSET)) {
@@ -482,7 +491,7 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
     		        return ELEC_NIGTH_DEVICE_CURRENT_MSG_TYPE;
         		} else {       
         		    // TODO what if do not know the device
-        		}   
+        		}   */
     		}
     		xpl_msg_state = WAITING_CMND;		  
 		    break;
