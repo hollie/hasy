@@ -1,4 +1,4 @@
-wait 7 sec
+wait 20 sec
 "C"
 wait 500 ms
 "HTTP/1.1 200 OK"
@@ -16,9 +16,30 @@ wait 500 ms
 0a
 "c"
 0a  
-"<6-14:44:43>"
+"<6-21:57:43>"
 0a
 "0"
-"0a"
+0a
 wait 5 sec
 "D"
+
+wait 1 sec
+"C"
+wait 500 ms
+"HTTP/1.1 200 OK"
+0a
+"<OK>"
+wait 1 sec
+"D"
+
+wait 1 sec
+"C"
+wait 500 ms
+"HTTP/1.1 200 OK"
+0a
+"<OK>"
+wait 1 sec
+"D"
+
+wait 10 sec
+"CI192.168.1.100"

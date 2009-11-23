@@ -33,7 +33,7 @@
 
 
 // -----------------------------------------------------------------------------------------
-// The switchpoints are stored in FLASH memory and use a simple dataformat.
+// The switchpoints are stored in EEPROM memory and use a simple dataformat.
 // There is a counter that keeps track of the number of switch points that are valid.
 // That counter is located @ 0x0000 in EEPROM.
 // In the next code block, the switchpoints are stored. 
@@ -41,22 +41,25 @@
 // and has the following structure:
 //  word 1 = hour
 //  word 2 = minutes
-//  word 3 = day mask (7 LSB's, bit = 1 -> switch point is active on that day, MTWTFSS)
+//  word 3 = day mask (7 LSB's, bit = 1 -> switch point is active on that day, SMTWTFS)
 //  word 4 = state the switch should take.
 // -----------------------------------------------------------------------------------------
 // Default switching points
 // Weekdays: on @ 07:00, off @ 22:00
 // Weekend : on @ 07:30, off @ 22:00
-//#pragma DATA 0x2100, 0x03
-//#pragma DATA 0x2104, 0x07, 0x00, 0x7C, 0x01, 0x07, 30, 0x03, 0x01, 22, 0x00, 0x7F, 0x00
+#pragma romdata eedata_scn=0xf00000
+rom char eedata_values[16] = {3, 0, 0, 0, 0x07, 0x00, 0x3E, 0x01, 0x07, 30, 0x41, 0x01, 22, 0x00, 0xFF, 0x00};
+#pragma romdata
 
 // Used by xpl_handler to keep track of the current state
-enum UART_STATE_TYPE { IDLE = 0, CONNECTED, INCOMING, WAITING_INFO, STORE_STRING, STRING_RECEIVED, WAIT_FOR_DISCONNECT};
+enum UART_STATE_TYPE { IDLE = 0, WAIT_CONNECT, CONNECTED, INCOMING, WAITING_INFO, STORE_STRING, STRING_RECEIVED, WAIT_FOR_DISCONNECT};
 enum UART_STATE_TYPE uart_state;
 
 #define RX_BUFSIZE 11
 char rx_buffer[RX_BUFSIZE];
 char rx_pointer;
+
+char output = 0;
 
 ///////////////////////////////////////////////////////////////////////
 // Main function
@@ -69,6 +72,8 @@ void main()
 	char uart_min;
 	char uart_sec;
 	char uart_day;
+	char report_clock_was_set = 0;
+	char switch_updated;
 	
 	// Some hardware init first
 	init();
@@ -137,21 +142,36 @@ void main()
 			if (rx_buffer[1] == '-' && rx_buffer[4] == ':') {
 				// We have received a valid string, parse it
 				uart_state = WAIT_FOR_DISCONNECT;
-				uart_day = rx_buffer[0] - 0x30;
+				uart_day = rx_buffer[0] - 0x30 + 1;
 				uart_hour = (rx_buffer[2] - 0x30) * 10 + (rx_buffer[3] - 0x30);
 				uart_min  = (rx_buffer[5] - 0x30) * 10 + (rx_buffer[6] - 0x30);
 				uart_sec  = (rx_buffer[8] - 0x30) * 10 + (rx_buffer[9] - 0x30);
-				clock_set(uart_hour, uart_min, uart_sec);
+				clock_set(uart_day, uart_hour, uart_min, uart_sec);
+				report_clock_was_set = 1;
+				check_timer_table    = 1;
+			} else if (rx_buffer[0] == 'O' && rx_buffer[1] == 'K') {
+				uart_state = WAIT_FOR_DISCONNECT;
 			}
 		}
 
 		// Update the switch status if there is need to
 		if (check_timer_table){
 			check_timer_table = 0;
-			update_switch_state(clock_get_day(), clock_get_hours(), clock_get_minutes());
+			switch_updated = update_switch_state(clock_get_day(), clock_get_hours(), clock_get_minutes());
 		}
 
+		if (uart_state == IDLE && clock_get_minutes() == 0x01) {
+			web_request_time();
+		}
 		
+		if (uart_state == IDLE && report_clock_was_set) {
+			report_clock_was_set = 0;
+			web_report_clock_set();
+		}
+		if (uart_state == IDLE && switch_updated) {
+			switch_updated = 0;
+			web_report_switch_state(output);
+		}
 	}
 	
 }
@@ -166,7 +186,7 @@ void init(void)
 	
 	// Oscillator selection
 	OSCCONbits.IRCF0 = 1;
-	OSCCONbits.IRCF1 = 0;
+	OSCCONbits.IRCF1 = 1;
 	OSCCONbits.IRCF2 = 1;
 
 	// All digital pins on porta
@@ -196,18 +216,18 @@ void init(void)
 	OpenTimer0(TIMER_INT_ON & 
 			T0_16BIT & 
 			T0_SOURCE_INT & 
-			T0_PS_1_128);	
+			T0_PS_1_32);	
 
 	WriteTimer0(TMR0_VAL);		// Load initial timer value
 
-	// Serial interface init (9600 @ 2 MHz, BRGH = 1 => 0x0C)
+	// Serial interface init (9600 @ 8 MHz, BRGH = 1 => 51)
 	OpenUSART(USART_ASYNCH_MODE & 
 			USART_TX_INT_OFF &
 			USART_RX_INT_ON &
 			USART_EIGHT_BIT & 
 			USART_CONT_RX & 
 			USART_BRGH_HIGH, 
-			0x0C);
+			51);
 	
 	uart_state = IDLE;
 	rx_pointer = 0;
@@ -225,21 +245,24 @@ void init(void)
 	PIR1bits.TMR1IF = 0;
 	
 	output = 0;
-	status_led = 1;
+	//status_led = 1;
 	
 	
 	switchpoint_init();
 }
 
 
-// process_uart
+// State machine to process that UART input
+// This function takes care of the interface towards the XPORT 
+// that has been put in 'manual connection' mode.
 void process_uart(char data){
 
 	switch (data) {
 	case 'C':
-		if (uart_state == IDLE) {
+		if (uart_state == WAIT_CONNECT || uart_state == IDLE) {
 			uart_state = CONNECTED;
 		}
+
 		return;
 	case 'I':
 		if (uart_state == CONNECTED) {
@@ -272,8 +295,19 @@ void process_uart(char data){
 		case WAIT_FOR_DISCONNECT:
 			if (data == 'D') {
 				uart_state = IDLE;
+				rx_pointer = 0;
 			}
 			return;
+		case WAIT_CONNECT:
+			if (data == 'N') {		// If the connection failed, reset the state machine
+				uart_state = IDLE;
+				rx_pointer = 0;
+			}
+		case INCOMING:
+			if (data == '?') {
+				clock_print();
+				uart_state = IDLE;
+			}
 		default:
 			return;
 
@@ -282,6 +316,47 @@ void process_uart(char data){
 	}
 
 }	
+
+// Open a TCP connection through the XPORT
+void web_connect(void){
+	if (uart_state == IDLE){
+		printf("Clika.be/80\n");
+		uart_state = WAIT_CONNECT;
+		while (uart_state == WAIT_CONNECT){
+			// TODO: implement a timeout here
+		}
+	}
+}
+
+// Report that the state of the clock has been set to the web
+void web_report_clock_set(void){
+	web_connect();
+	if (uart_state != CONNECTED) { return ;}
+
+	printf("GET /micro/debug.php?msg=3");
+	//clock_print();
+	printf("\" HTTP/1.1\nHost: lika.be\n\n");
+
+}
+
+// Report that the state of the output has been changed to the web
+void web_report_switch_state(char state){
+	web_connect();
+	if (uart_state != CONNECTED) { return ;}
+
+	printf("GET /micro/debug.php?msg=%d ", state);
+	printf("HTTP/1.1\nHost: lika.be\n\n");
+}
+
+// Send a request for the current time to the web
+void web_request_time(void){
+	web_connect();
+	if (uart_state != CONNECTED) { return ;}
+
+	printf("GET /micro/time.php HTTP/1.1\nHost: lika.be\n\n");
+
+}
+
 //////////////////////////////////////////////////////////////////
 // Interrupt service routines
 // 
@@ -303,18 +378,9 @@ void high_isr(void){
 	// TMR0 expires every 125 ms
 	if (INTCONbits.TMR0IF) {
 		WriteTimer0(TMR0_VAL);
-		if (tmr0_count == 0){
-			WriteTimer0(TMR0_VAL+7);
-		}
-		// We need 8 expires before we will execute some code.
-		tmr0_count ++;
-		if (tmr0_count == 8){
-			clock_increment();
-			//debug_print_time = 1;
-			tmr0_count = 0;
-			if (clock_get_seconds()==0){
-				check_timer_table = 1;
-			}
+		clock_increment();
+		if (clock_get_seconds()==0){
+			check_timer_table = 1;
 		}
 		
 		INTCONbits.TMR0IF = 0;
