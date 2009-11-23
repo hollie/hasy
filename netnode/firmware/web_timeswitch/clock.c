@@ -15,6 +15,7 @@
 
 #include "clock.h"
 
+char clock_day;
 char clock_hours;
 char clock_mins;
 char clock_secs;
@@ -32,12 +33,17 @@ void clock_increment(){
 	}
 	if (clock_hours >= 24) {
 		clock_hours = 0;
+		clock_day++;
+		if (clock_day > 6) {
+			clock_day = 0;
+		}
 	}
 		
 	return;
 }
 
-void clock_set(char hours, char mins, char secs){
+void clock_set(char day, char hours, char mins, char secs){
+	clock_day   = day;
 	clock_hours = hours;
 	clock_mins  = mins;
 	clock_secs  = secs;
@@ -46,8 +52,9 @@ void clock_set(char hours, char mins, char secs){
 }
 
 void clock_clear(){
-	clock_secs = 0;
-	clock_mins = 0;
+	clock_day   = 0;
+	clock_secs  = 45;
+	clock_mins  = 0;
 	clock_hours = 0;
 	
 	return;
@@ -55,6 +62,7 @@ void clock_clear(){
 
 void clock_print(){
 
+	printf("%d-", clock_day);
 	printf("%02d:", clock_hours);
 	printf("%02d.", clock_mins);
 	printf("%02d", clock_secs);
@@ -81,5 +89,5 @@ char clock_get_hours(){
 }
 
 char clock_get_day(){
-	return 1;
+	return clock_day;
 }

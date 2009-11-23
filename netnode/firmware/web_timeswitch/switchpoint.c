@@ -6,6 +6,7 @@
 #include "clock.h"
 
 switch_point current_switchpoint;
+extern char output;
 
 void switchpoint_init(void){
 
@@ -30,7 +31,7 @@ char serial_get_decimal(void){
 ///////////////////////////////////////////////////////////////////////
 // Print a list of all the switch point in memory.
 ///////////////////////////////////////////////////////////////////////
-/*void print_switch_list(){
+void print_switch_list(){
 
 	switch_point a;
 
@@ -56,7 +57,7 @@ char serial_get_decimal(void){
 	
 	return;
 }
-*/
+
 // Read a switch point from program memory
 switch_point get_switch_point(char index){
 	switch_point point;
@@ -77,7 +78,7 @@ switch_point get_switch_point(char index){
 	return point;
 	
 }
-/*
+
 // Write a switch point to program memory at the provided index
 void put_switch_point(switch_point point){
 	
@@ -112,7 +113,7 @@ void print_switch_point(switch_point a){
 	
 }
 
-
+/*
 void add_switch_point(){
 	switch_point point;
 	point.position = eeprom_read(POINT_COUNT_ADDRESS);
@@ -177,7 +178,8 @@ void print_event_entry(void){
 	return;
 }
 
-void update_switch_state(char d_now, char h_now, char m_now){
+// This function returns '1' if the switch state was updated
+char update_switch_state(char d_now, char h_now, char m_now){
 		
 	char  day_match;
 
@@ -186,8 +188,10 @@ void update_switch_state(char d_now, char h_now, char m_now){
 		
 	char update_last_switch;
 	
+    char retval = 0;
+
 	// Go through the table with timer entries
-	short address = DATA_START_ADDRESS;
+	char address = DATA_START_ADDRESS;
 	switch_point a, last_switch;
 
 	last_switch.hour   = 0;
@@ -240,20 +244,21 @@ void update_switch_state(char d_now, char h_now, char m_now){
 	// Perform the required action
 	if ((last_switch.position != current_switchpoint.position) && (last_switch.position != -1)){
 		
-		print_event_entry();
+		retval = 1;
+		//print_event_entry();
 		
 		output = last_switch.action;
 			
-		if (last_switch.action){
+		//if (last_switch.action){
 			//printf("on");
-		} else {
+		//} else {
 			//printf("off");
-		}
+		//}
 		//printf(" @ rule %03d", last_switch.position);
 		//printf("\n");
 		
 		current_switchpoint = last_switch;
 	}
 
-	return;
+	return retval;
 }

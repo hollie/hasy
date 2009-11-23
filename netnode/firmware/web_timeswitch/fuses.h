@@ -2,7 +2,7 @@
 // Device configuration section
 // For PIC18F2320 on netnode hardware v1
 
-/*#pragma config OSC = INTIO2, IESO = OFF
+#pragma config OSC = INTIO2, IESO = OFF
 #pragma config PWRT = OFF, BOR = ON, BORV = 20
 #pragma config WDT = OFF, WDTPS = 32768
 #pragma config MCLRE = ON
@@ -15,4 +15,3 @@
 #pragma config WRTB = OFF, WRTC = OFF, WRTD = OFF
 #pragma config EBTR0 = OFF, EBTR1 = OFF, EBTR2 = OFF, EBTR3 = OFF
 #pragma config EBTRB = OFF
-*/

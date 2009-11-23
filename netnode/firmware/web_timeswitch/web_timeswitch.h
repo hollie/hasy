@@ -10,13 +10,13 @@
 #define _TIMESWITCH_H_
 
 // Define port directions
-#define PortAConfig  0x00  //  1=input
-#define PortBConfig  0xC1  //  1=input 
-#define PortCConfig  0xD0	
+#define PortAConfig  0xEF  //  1=input
+#define PortBConfig  0x01  //  1=input 
+#define PortCConfig  0xDE	
 
 // Inputs and outputs
-#define output_led PORTBbits.RB2
-#define status_led (PORTAbits.RA3)
+#define output_led PORTAbits.RA4
+//#define status_led (PORTAbits.RA3)
 
 // Function declarations
 /// Global
@@ -24,25 +24,15 @@
 void init(void);
 void high_isr(void);
 void low_isr(void);
-
-
+void web_connect(void);
+void web_report_clock_set(void);
+void web_request_time(void);
+void web_report_switch_state(char);
 
 // Global variables
-char  tmr1_expiredflag  	= 0;
-char  tmr2_expiredflag  	= 0;
 char  check_timer_table 	= 0;
 
-int  tmr0_count 		= 0;
-int  tmr1_count 		= 0;
-int  tmr2_count 		= 0; 
-
-char  debug_print_time 	= 0;
-
-
-
 // Constants
-#define TMR0_VAL 0x0B
-#define TMR1_VAL 0x48E5
-#define TMR2_VAL 0x00
+#define TMR0_VAL 3043
 
 #endif //_TIMESWITCH_H_
