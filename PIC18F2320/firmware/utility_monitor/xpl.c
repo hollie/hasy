@@ -76,19 +76,19 @@ char xpl_trig_register = 0;   /* bit 0 = GAS
 extern volatile int time_ticks;
 
 int xpl_count_gas;
-int xpl_count_water;
+/*int xpl_count_water;
 int xpl_count_elec_nigth;
-int xpl_count_elec_day;
+int xpl_count_elec_day;*/
 
 // We need a FIFO to cover for the latency between sending a XOFF and the XPORT to react on this
 void xpl_fifo_push_byte(char data){
 
 	if (xpl_rx_fifo_pointer == XPL_RXFIFO_SIZE-1){
-		printf("OVERFLOW");
-	}
-
-	xpl_rx_fifo[xpl_rx_fifo_pointer++] = data;
-	xpl_rx_fifo[xpl_rx_fifo_pointer] = '\0';
+		printf("OVERFLOW: %s-%c",xpl_rx_fifo,data);
+	} else {
+    	xpl_rx_fifo[xpl_rx_fifo_pointer++] = data;
+	    xpl_rx_fifo[xpl_rx_fifo_pointer] = '\0';
+	}    
 
 	// Disable reception when the FIFO is almost full
 	// The -4 here comes from the response time of the XPORT on a software flow control
@@ -307,9 +307,9 @@ void xpl_init(void){
 	}
 	
 	xpl_count_gas = 0;
-    xpl_count_water = 0;
-    xpl_count_elec_nigth = 0;
-    xpl_count_elec_day = 0;
+    //xpl_count_water = 0;
+    //xpl_count_elec_nigth = 0;
+    //xpl_count_elec_day = 0;
 
 	// Only apply this function after we have read the EEPROM, as we enable serial reception
 	// in this function and when we do that we need to know our ID.
@@ -382,8 +382,9 @@ void xpl_handler(void) {
 			}
 			
 			// send trig message out once we receice the interrupt
+			/* NOT ENOUGH STORAGE 
 			if (xpl_trig_register != 0) {
-    			/* NOT ENOUGH STORAGE if ((xpl_trig_register & GAS) == 1) {
+    			if ((xpl_trig_register & GAS) == 1) {
         		    xpl_send_device_current(TRIG,GAS);	
         		    // TODO: swith bit of xpl_trig_register = 	
                 } else if ((xpl_trig_register & WATER) == 1) {
@@ -397,8 +398,8 @@ void xpl_handler(void) {
         		    // TODO: swith bit of xpl_trig_register = 	
         		} else {
         		    xpl_trig_register = 0;
-        		} */
-            } 			
+        		} 
+            } */			
 			break;
 	}
 
@@ -410,11 +411,14 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
 	char lpcount;
 	char strlength;
 
+    printf("mp: %d-%s",xpl_msg_state, xpl_rx_buffer_shadow);
+    
     switch (xpl_msg_state) {
        	case WAITING_CMND:
        	    // If it is a command header -> set buffer state to CMD_RECEIVED
 			if (strcmpram2pgm("xpl-cmnd", xpl_rx_buffer_shadow)==0) {
 			    xpl_msg_state = CMND_RECEIVED;
+			 
 			}
 			break;
 		case CMND_RECEIVED:  
@@ -476,11 +480,11 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
 		    break;
 		
 		case WAITING_CMND_SENSOR_REQUEST_DEVICE:
-		    if (strncmpram2pgm("device=", xpl_rx_buffer_shadow,XPL_DEVICE_OFFSET) == 0) {
+		    /*if (strncmpram2pgm("device=", xpl_rx_buffer_shadow,XPL_DEVICE_OFFSET) == 0) {
     		    if (strncmpram2pgm("gas", xpl_rx_buffer_shadow+XPL_DEVICE_OFFSET,XPL_DEVICE_GAS_VALUE_OFFSET)) {
         		    xpl_msg_state = WAITING_CMND;
-    		        return GAS_DEVICE_CURRENT_MSG_TYPE;
-        		} /* not enough storage else if (strncmpram2pgm("water", xpl_rx_buffer_shadow+XPL_DEVICE_OFFSET,XPL_DEVICE_WATER_VALUE_OFFSET)) {
+    		        return GAS_DEVICE_CURRENT_MSG_TYPE; 
+        		} else if (strncmpram2pgm("water", xpl_rx_buffer_shadow+XPL_DEVICE_OFFSET,XPL_DEVICE_WATER_VALUE_OFFSET)) {
         		    xpl_msg_state = WAITING_CMND;
     		        return WATER_DEVICE_CURRENT_MSG_TYPE;
         		} else if (strncmpram2pgm("elec-day", xpl_rx_buffer_shadow+XPL_DEVICE_OFFSET,XPL_DEVICE_ELEC_DAY_VALUE_OFFSET)) {
@@ -491,8 +495,8 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
     		        return ELEC_NIGTH_DEVICE_CURRENT_MSG_TYPE;
         		} else {       
         		    // TODO what if do not know the device
-        		}   */
-    		}
+        		}   
+    		} */
     		xpl_msg_state = WAITING_CMND;		  
 		    break;
 		
