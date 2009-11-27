@@ -39,9 +39,9 @@ void print_switch_list(){
 	char nr_of_points;
 	char count = 0;
 
-	printf("Switch point overview:\n\r\n\r");
-	printf("Index Time   xMTWTFSS  Activity\n\r");
-	printf("-------------------------------\n\r");
+	printf("Switch point overview:\n\n");
+	printf("Index Time   SMTWTFSx  Activity\n");
+	printf("-------------------------------\n");
 
 	nr_of_points = eeprom_read(POINT_COUNT_ADDRESS);	
 
@@ -100,16 +100,7 @@ void print_switch_point(switch_point a){
 
 	char index = a.position;
 	
-	printf("%03d   ", index);
-	printf("%02d:$02d   ", a.hour, a.minute);
-
-	printf("%b   ", a.mask);
-
-	if (a.action == 1){
-		//printf("ON\n\r");
-	} else {
-		//printf("OFF\n\r");
-	}
+	printf("%03d   %02d:%02d   %08b  %d\n", index, a.hour, a.minute, a.mask, a.action);
 	
 }
 
@@ -170,14 +161,14 @@ void delete_switch_point(){
 
 	return;
 }
-*/
+
 void print_event_entry(void){
 	//printf("[");
 	clock_print();
 	//printf("] Action: ");
 	return;
 }
-
+*/
 // This function returns '1' if the switch state was updated
 char update_switch_state(char d_now, char h_now, char m_now){
 		

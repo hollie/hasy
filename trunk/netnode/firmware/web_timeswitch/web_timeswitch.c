@@ -47,8 +47,10 @@
 // Default switching points
 // Weekdays: on @ 07:00, off @ 22:00
 // Weekend : on @ 07:30, off @ 22:00
+// Days: 0=sunday, 6=saturday.
+
 #pragma romdata eedata_scn=0xf00000
-rom char eedata_values[16] = {3, 0, 0, 0, 0x07, 0x00, 0x3E, 0x01, 0x07, 30, 0x41, 0x01, 22, 0x00, 0xFF, 0x00};
+rom char eedata_values[16] = {3, 0, 0, 0, 0x07, 0x00, 0x7C, 0x01, 0x07, 30, 0x82, 0x01, 22, 0x00, 0xFE, 0x00};
 #pragma romdata
 
 // Used by xpl_handler to keep track of the current state
@@ -58,6 +60,7 @@ enum UART_STATE_TYPE uart_state;
 #define RX_BUFSIZE 11
 char rx_buffer[RX_BUFSIZE];
 char rx_pointer;
+int  connection_string_length;
 
 char output = 0;
 
@@ -74,6 +77,8 @@ void main()
 	char uart_day;
 	char report_clock_was_set = 0;
 	char switch_updated;
+	char new_incoming;
+    char new_update;
 	
 	// Some hardware init first
 	init();
@@ -84,65 +89,12 @@ void main()
 		// Set output LED indicator
 		output_led = !output;
 		
-
-		// Some fancy time output
-/*		if (debug_print_time){
-			serial_printf("Day: ");
-			serial_print_dec(dcf_day);
-			serial_printf("  ");
-
-			clock_print();
-			serial_printf(" output: ");
-			if (output){
-				serial_printf("on");
-			} else {
-				serial_printf("off");
-			}
-			
-			//serial_printf("FSM state: ");
-			//serial_print_dec(fsm_state);
-			
-			
-		}
-*/		
-		// Check if something was received from the serial port
-	/*	if (DataRdyUSART()){
-			// If it was, go get it...
-			input = ReadUSART();
-			
-			if (input == 'p'){
-				//print_switch_list();
-			} else if (input == 's'){
-				debug_print_time = 1;
-			} else if (input == 't'){
-				output = !(output);
-				debug_print_time = 1;
-			} else if (input == 'a'){
-				//print_switch_list();
-				//add_switch_point();
-			} else if (input == 'd'){
-				//print_switch_list();
-				//delete_switch_point();
-			} else if (input == 'u'){
-				update_switch_state(clock_get_day(), clock_get_hours(), clock_get_minutes());
-			}
-			else {
-				printf("\r\nCommand overview:\r\n");
-				printf("\t[p] print switch point list\r\n");
-				printf("\t[s] print current status\r\n");
-				printf("\t[t] toggle the output\r\n");
-				printf("\t[a] add switchpoint\r\n");
-				printf("\t[d] delete switchpoint\r\n");
-			}
-			
-		}
-
-*/	
+		// Act depending on the UART state
 		if (uart_state == STRING_RECEIVED){
 			if (rx_buffer[1] == '-' && rx_buffer[4] == ':') {
 				// We have received a valid string, parse it
 				uart_state = WAIT_FOR_DISCONNECT;
-				uart_day = rx_buffer[0] - 0x30 + 1;
+				uart_day = rx_buffer[0] - 0x30;
 				uart_hour = (rx_buffer[2] - 0x30) * 10 + (rx_buffer[3] - 0x30);
 				uart_min  = (rx_buffer[5] - 0x30) * 10 + (rx_buffer[6] - 0x30);
 				uart_sec  = (rx_buffer[8] - 0x30) * 10 + (rx_buffer[9] - 0x30);
@@ -154,14 +106,28 @@ void main()
 			}
 		}
 
+		// Report status to incoming connection
+		if (uart_state == INCOMING && new_incoming){
+			clock_print();
+			print_switch_list();
+			new_incoming = 0;
+		}
+		if (uart_state == IDLE) {
+			new_incoming = 1;
+		}
+
 		// Update the switch status if there is need to
 		if (check_timer_table){
 			check_timer_table = 0;
 			switch_updated = update_switch_state(clock_get_day(), clock_get_hours(), clock_get_minutes());
 		}
 
-		if (uart_state == IDLE && clock_get_minutes() == 0x01) {
+		if (uart_state == IDLE && clock_get_minutes() == 0x01 && new_update) {
 			web_request_time();
+			new_update = 0;
+		}
+		if (clock_get_minutes() == 0x00) {
+			new_update = 1;
 		}
 		
 		if (uart_state == IDLE && report_clock_was_set) {
@@ -257,15 +223,18 @@ void init(void)
 // that has been put in 'manual connection' mode.
 void process_uart(char data){
 
+	connection_string_length++;
+
 	switch (data) {
 	case 'C':
 		if (uart_state == WAIT_CONNECT || uart_state == IDLE) {
 			uart_state = CONNECTED;
+			connection_string_length = 0;
 		}
 
 		return;
 	case 'I':
-		if (uart_state == CONNECTED) {
+		if (uart_state == CONNECTED && connection_string_length == 1) {
 			uart_state = INCOMING;
 		}
 		return;
@@ -304,9 +273,12 @@ void process_uart(char data){
 				rx_pointer = 0;
 			}
 		case INCOMING:
-			if (data == '?') {
-				clock_print();
+			if (data == 'u') {
+				// TODO add updating of the switchpoint list here.
+			}
+			if (data == 'D') {
 				uart_state = IDLE;
+				rx_pointer = 0;
 			}
 		default:
 			return;
@@ -319,11 +291,22 @@ void process_uart(char data){
 
 // Open a TCP connection through the XPORT
 void web_connect(void){
+
+	char timeout_minute = clock_get_minutes();
+	timeout_minute++;
+	if (timeout_minute >= 60) {
+		timeout_minute = 0;
+	}
+
 	if (uart_state == IDLE){
-		printf("Clika.be/80\n");
 		uart_state = WAIT_CONNECT;
+		printf("Clika.be/80\n");
 		while (uart_state == WAIT_CONNECT){
-			// TODO: implement a timeout here
+			// Timeout, just in case we get stuck here.
+			if (timeout_minute == clock_get_minutes()){
+				uart_state = IDLE;
+				return;
+			}
 		}
 	}
 }
@@ -333,9 +316,9 @@ void web_report_clock_set(void){
 	web_connect();
 	if (uart_state != CONNECTED) { return ;}
 
-	printf("GET /micro/debug.php?msg=3");
+	printf("GET /micro/debug.php?msg=clk_set ");
 	//clock_print();
-	printf("\" HTTP/1.1\nHost: lika.be\n\n");
+	printf("HTTP/1.1\nHost: lika.be\n\n");
 
 }
 

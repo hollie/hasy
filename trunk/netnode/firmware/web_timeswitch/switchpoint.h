@@ -16,7 +16,7 @@
 typedef struct s_switch_point {
                  char hour;
 				 char minute;
-				 char mask;
+				 unsigned char mask;
 				 char action;
 				 char position;
               } switch_point;
