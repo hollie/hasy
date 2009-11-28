@@ -61,18 +61,7 @@ void clock_clear(){
 }
 
 void clock_print(){
-
-	printf("%d-", clock_day);
-	printf("%02d:", clock_hours);
-	printf("%02d.", clock_mins);
-	printf("%02d\n\r", clock_secs);
-
-	//serial_print_dec(clock_hours, 2);		
-	//serial_printf(":");
-	//serial_print_dec(clock_mins, 2);
-	//serial_printf(".");
-	//serial_print_dec(clock_secs, 2);
-		
+	printf("%d-%02d:%02d.%02d\n\r", clock_day, clock_hours, clock_mins, clock_secs);
 	return;	
 }
 
