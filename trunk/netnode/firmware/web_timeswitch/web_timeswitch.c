@@ -8,10 +8,12 @@
 * (c) 2009, Lieven Hollevoet
 *     http://electronics.lika.be
 * 
-* License  : http://license.lika.be
+* Note that currently setting the switchpoints is done by 
+* reprogramming the EEPROM due to lack of code space in 
+* the PIC18F2320.
 **************************************************************
 * target device   : PIC18F2320
-* clockfreq       : 2 MHz (internal oscillator)
+* clockfreq       : 8 MHz (internal oscillator)
 * target hardware : NetNode
 * UART speed      : 9600 bps
 * mpasmwin.exe    : v5.34
@@ -21,7 +23,7 @@
 
 #include <p18cxxx.h>
 #include <usart.h>
-#include <delays.h>
+//#include <delays.h>
 #include <timers.h>
 #include <stdio.h>
 
@@ -41,20 +43,16 @@
 // and has the following structure:
 //  word 1 = hour
 //  word 2 = minutes
-//  word 3 = day mask (7 LSB's, bit = 1 -> switch point is active on that day, SMTWTFS)
+//  word 3 = day mask (7 LSB's, bit = 1 -> switch point is active on that day, SMTW TFSx)
 //  word 4 = state the switch should take.
 // -----------------------------------------------------------------------------------------
-// Default switching points
-// Weekdays: on @ 07:00, off @ 22:00
-// Weekend : on @ 07:30, off @ 22:00
-// Days: 0=sunday, 6=saturday.
+// Days: char 0=sunday, 6=saturday.
 
 #pragma romdata eedata_scn=0xf00000
-rom char eedata_values[16] = {3, 0, 0, 0, 0x07, 0x00, 0x7C, 0x01, 0x07, 30, 0x82, 0x01, 22, 0x00, 0xFE, 0x00};
+// Default switch points:      3 points  , MF on @6.45   , STWTS on @7.45, all off @22.00
+rom char eedata_values[16] = {3, 0, 0, 0, 6, 45, 0x44, 1, 7, 30, 0xB6, 1, 22, 0x00, 0xFE, 0};
 #pragma romdata
 
-// Used by xpl_handler to keep track of the current state
-enum UART_STATE_TYPE { IDLE = 0, WAIT_CONNECT, CONNECTED, INCOMING, WAITING_INFO, STORE_STRING, STRING_RECEIVED, WAIT_FOR_DISCONNECT};
 enum UART_STATE_TYPE uart_state;
 
 #define RX_BUFSIZE 11
@@ -66,6 +64,8 @@ char output = 0;
 
 ///////////////////////////////////////////////////////////////////////
 // Main function
+//  The code works interrupt based, so the main loop just goes over
+//  the state variables to check if action is required.
 ///////////////////////////////////////////////////////////////////////
 void main()
 {
@@ -79,7 +79,7 @@ void main()
 	char switch_updated;
 	char new_incoming;
     char new_update;
-	
+
 	// Some hardware init first
 	init();
 		
@@ -92,7 +92,7 @@ void main()
 		// Act depending on the UART state
 		if (uart_state == STRING_RECEIVED){
 			if (rx_buffer[1] == '-' && rx_buffer[4] == ':') {
-				// We have received a valid string, parse it
+				// We have received a valid string with time information, parse it
 				uart_state = WAIT_FOR_DISCONNECT;
 				uart_day = rx_buffer[0] - 0x30;
 				uart_hour = (rx_buffer[2] - 0x30) * 10 + (rx_buffer[3] - 0x30);
@@ -102,11 +102,14 @@ void main()
 				report_clock_was_set = 1;
 				check_timer_table    = 1;
 			} else if (rx_buffer[0] == 'O' && rx_buffer[1] == 'K') {
+				// We received an OK response, wait for disconnect
 				uart_state = WAIT_FOR_DISCONNECT;
-			}
+			} 
 		}
 
 		// Report status to incoming connection
+		// When a user telnets into the XPORT, current internal time and
+        // switch points are reported.
 		if (uart_state == INCOMING && new_incoming){
 			clock_print();
 			print_switch_list();
@@ -116,27 +119,36 @@ void main()
 			new_incoming = 1;
 		}
 
-		// Update the switch status if there is need to
+		// Update the switch status if there is need to, based on the current time
+        // and the rules defined in the EEPROM
 		if (check_timer_table){
 			check_timer_table = 0;
 			switch_updated = update_switch_state(clock_get_day(), clock_get_hours(), clock_get_minutes());
 		}
 
-		if (uart_state == IDLE && clock_get_minutes() == 0x01 && new_update) {
-			web_request_time();
+		// Check if we need to sync our internal clock to the web server.
+		// This is done one minute after the odd hour mark when the UART is IDLE
+		if ( (uart_state == IDLE) && (clock_get_minutes() == 0x01) && /*(clock_get_hours() & 0x01 == 0) &&*/ new_update) {
+			web_php_interface(REQUEST_TIME);
+			//web_request_time();
 			new_update = 0;
 		}
 		if (clock_get_minutes() == 0x00) {
-			new_update = 1;
+			new_update = 1;      // Set at minute 0 so that we only request time once after the one minute mark
 		}
 		
+		// Report to the web that the clock was set
 		if (uart_state == IDLE && report_clock_was_set) {
 			report_clock_was_set = 0;
-			web_report_clock_set();
+			web_php_interface(REPORT_CLOCK_SET);
+			//web_report_clock_set();
 		}
+
+		// Report to the web that the switch state changed
 		if (uart_state == IDLE && switch_updated) {
 			switch_updated = 0;
-			web_report_switch_state(output);
+			//web_report_switch_state(output);
+			web_php_interface(REPORT_SWITCH_STATE);
 		}
 	}
 	
@@ -148,7 +160,6 @@ void main()
 ///////////////////////////////////////////////////////////////////////
 void init(void) 
 {
-	char blink_count = 0;
 	
 	// Oscillator selection
 	OSCCONbits.IRCF0 = 1;
@@ -169,14 +180,6 @@ void init(void)
 	
 	// PortB pullups enable
 	INTCON2bits.NOT_RBPU = 0;
-
-	// Do the status LED flicker
-	while (blink_count++ < 5){
-		Delay10KTCYx(10);
-		output_led = 0;
-		Delay10KTCYx(10);
-		output_led = 1;
-	}
 	
 	// Enable the main 1-sec timer that will interrupt every second
 	OpenTimer0(TIMER_INT_ON & 
@@ -204,50 +207,49 @@ void init(void)
 	// Clear the clock
 	clock_clear();
 	
-
 	// Clear possible existing interrupt flags
 	INTCONbits.INT0IF = 0;
 	INTCONbits.TMR0IF = 0;
 	PIR1bits.TMR1IF = 0;
 	
 	output = 0;
-	//status_led = 1;
-	
-	
+
 	switchpoint_init();
+
 }
 
-
+///////////////////////////////////////////////////////////////////////
 // State machine to process that UART input
 // This function takes care of the interface towards the XPORT 
 // that has been put in 'manual connection' mode.
+///////////////////////////////////////////////////////////////////////
 void process_uart(char data){
 
 	connection_string_length++;
 
 	switch (data) {
-	case 'C':
+	case 'C':  // When a connection is made, the XPORT sends a 'C'
 		if (uart_state == WAIT_CONNECT || uart_state == IDLE) {
 			uart_state = CONNECTED;
 			connection_string_length = 0;
 		}
 
 		return;
-	case 'I':
+	case 'I':  // When the next character is an 'I', it is an active incoming connection. Handle it...
 		if (uart_state == CONNECTED && connection_string_length == 1) {
 			uart_state = INCOMING;
 		}
 		return;
-	case '<':
+	case '<': // When we get the start of a string that needs to be stored
 		if (uart_state == WAITING_INFO) {
 			uart_state = STORE_STRING;
 		}
 		return;
-	case '>':
+	case '>': // End of the string that needs to be stored
 		if (uart_state == STORE_STRING){
 			uart_state = STRING_RECEIVED;
 		}
-	default:
+	default: 
 		switch (uart_state){
 		case CONNECTED:
 			// I we get here, we're connected but not to an incoming connection
@@ -289,6 +291,7 @@ void process_uart(char data){
 
 }	
 
+
 // Open a TCP connection through the XPORT
 void web_connect(void){
 
@@ -311,33 +314,25 @@ void web_connect(void){
 	}
 }
 
-// Report that the state of the clock has been set to the web
-void web_report_clock_set(void){
+void web_php_interface(enum PHP_IF_TYPE msgtype){
 	web_connect();
 	if (uart_state != CONNECTED) { return ;}
 
-	printf("GET /micro/debug.php?msg=clk_set ");
-	//clock_print();
-	printf("HTTP/1.1\nHost: lika.be\n\n");
+	printf("GET /micro/webtmr.php?msg=");
 
-}
-
-// Report that the state of the output has been changed to the web
-void web_report_switch_state(char state){
-	web_connect();
-	if (uart_state != CONNECTED) { return ;}
-
-	printf("GET /micro/debug.php?msg=%d ", state);
-	printf("HTTP/1.1\nHost: lika.be\n\n");
-}
-
-// Send a request for the current time to the web
-void web_request_time(void){
-	web_connect();
-	if (uart_state != CONNECTED) { return ;}
-
-	printf("GET /micro/time.php HTTP/1.1\nHost: lika.be\n\n");
-
+	switch (msgtype) {
+	case REQUEST_TIME:
+		printf("time");
+		break;
+	case REPORT_CLOCK_SET:
+		printf("clk_set");
+		break;
+	case REPORT_SWITCH_STATE:
+		printf("%01d", output);
+		break;
+	}
+	printf(" HTTP/1.1\nHost: lika.be\n\n");
+	
 }
 
 //////////////////////////////////////////////////////////////////
