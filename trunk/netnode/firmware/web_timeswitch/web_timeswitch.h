@@ -22,7 +22,7 @@
 // Used to keep track of the current state
 enum UART_STATE_TYPE { IDLE = 0, WAIT_CONNECT, CONNECTED, INCOMING, WAITING_INFO, STORE_STRING, STRING_RECEIVED, WAIT_FOR_DISCONNECT};
 // Used for the php interface
-enum PHP_IF_TYPE { REQUEST_TIME = 0, REPORT_CLOCK_SET, REPORT_SWITCH_STATE, REQUEST_SETTINGS, SETTINGS_STORED};
+enum PHP_IF_TYPE { REQUEST_TIME = 0, REPORT_CLOCK_SET, REPORT_SWITCH_STATE, REQUEST_SETTINGS, SETTINGS_RETRIEVED};
 
 // Function declarations
 /// Global
@@ -39,5 +39,6 @@ char  check_timer_table 	= 0;
 
 // Constants
 #define TMR0_VAL 3043
+#define RX_BUFSIZE 40
 
 #endif //_TIMESWITCH_H_
