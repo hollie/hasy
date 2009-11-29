@@ -123,14 +123,13 @@ void main()
         // and the rules defined in the EEPROM
 		if (check_timer_table){
 			check_timer_table = 0;
-			switch_updated = update_switch_state(clock_get_day(), clock_get_hours(), clock_get_minutes());
+			switch_updated |= update_switch_state(clock_get_day(), clock_get_hours(), clock_get_minutes());
 		}
 
 		// Check if we need to sync our internal clock to the web server.
 		// This is done one minute after the odd hour mark when the UART is IDLE
 		if ( (uart_state == IDLE) && (clock_get_minutes() == 0x01) && /*(clock_get_hours() & 0x01 == 0) &&*/ new_update) {
 			web_php_interface(REQUEST_TIME);
-			//web_request_time();
 			new_update = 0;
 		}
 		if (clock_get_minutes() == 0x00) {
@@ -141,13 +140,11 @@ void main()
 		if (uart_state == IDLE && report_clock_was_set) {
 			report_clock_was_set = 0;
 			web_php_interface(REPORT_CLOCK_SET);
-			//web_report_clock_set();
 		}
 
 		// Report to the web that the switch state changed
 		if (uart_state == IDLE && switch_updated) {
 			switch_updated = 0;
-			//web_report_switch_state(output);
 			web_php_interface(REPORT_SWITCH_STATE);
 		}
 	}
