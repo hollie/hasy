@@ -32,6 +32,7 @@
 #include "web_timeswitch.h"
 #include "switchpoint.h"
 #include "clock.h"
+#include "eeprom.h"
 
 
 // -----------------------------------------------------------------------------------------
@@ -55,12 +56,12 @@ rom char eedata_values[16] = {3, 0, 0, 0, 6, 45, 0x44, 1, 7, 30, 0xB6, 1, 22, 0x
 
 enum UART_STATE_TYPE uart_state;
 
-#define RX_BUFSIZE 11
 char rx_buffer[RX_BUFSIZE];
 char rx_pointer;
 int  connection_string_length;
 
 char output = 0;
+char request_settings = 0;
 
 ///////////////////////////////////////////////////////////////////////
 // Main function
@@ -79,6 +80,9 @@ void main()
 	char switch_updated;
 	char new_incoming;
     char new_update;
+	char settings_retrieved = 0;
+	char i;
+	switch_point swpoint;
 
 	// Some hardware init first
 	init();
@@ -94,6 +98,8 @@ void main()
 			if (rx_buffer[1] == '-' && rx_buffer[4] == ':') {
 				// We have received a valid string with time information, parse it
 				uart_state = WAIT_FOR_DISCONNECT;
+
+				// Get the info
 				uart_day = rx_buffer[0] - 0x30;
 				uart_hour = (rx_buffer[2] - 0x30) * 10 + (rx_buffer[3] - 0x30);
 				uart_min  = (rx_buffer[5] - 0x30) * 10 + (rx_buffer[6] - 0x30);
@@ -104,7 +110,18 @@ void main()
 			} else if (rx_buffer[0] == 'O' && rx_buffer[1] == 'K') {
 				// We received an OK response, wait for disconnect
 				uart_state = WAIT_FOR_DISCONNECT;
-			} 
+			} else if (rx_buffer[1] == '*') {
+				for (i=0; i<rx_buffer[0]; i++){
+					swpoint.hour   = rx_buffer[2+(i*4)];
+					swpoint.minute = rx_buffer[3+(i*4)];
+					swpoint.mask   = rx_buffer[4+(i*4)];
+					swpoint.action = rx_buffer[5+(i*4)];
+					swpoint.position = i; 
+					put_switch_point(swpoint);
+				}
+				eeprom_write(POINT_COUNT_ADDRESS, rx_buffer[0]);
+				settings_retrieved = 1;
+			}
 		}
 
 		// Report status to incoming connection
@@ -146,6 +163,18 @@ void main()
 		if (uart_state == IDLE && switch_updated) {
 			switch_updated = 0;
 			web_php_interface(REPORT_SWITCH_STATE);
+		}
+
+		// Request the new settings from the web server
+		if (uart_state == IDLE && request_settings) {
+			request_settings = 0;
+			web_php_interface(REQUEST_SETTINGS);
+		}
+
+		// Report that new settings were loaded
+		if (uart_state == IDLE && settings_retrieved) {
+			settings_retrieved = 0;
+			web_php_interface(SETTINGS_RETRIEVED);
 		}
 	}
 	
@@ -199,17 +228,19 @@ void init(void)
 	rx_pointer = 0;
 
 	// Enable interrupts
-	INTCONbits.GIE = 1;
-	INTCONbits.PEIE = 1;	
+	//INTCONbits.GIE = 1;
+	//INTCONbits.PEIE = 1;	
+	INTCON |= 0xC0;
+
 	// Clear the clock
 	clock_clear();
 	
 	// Clear possible existing interrupt flags
-	INTCONbits.INT0IF = 0;
-	INTCONbits.TMR0IF = 0;
+	//INTCONbits.INT0IF = 0;
+	//INTCONbits.TMR0IF = 0;
 	PIR1bits.TMR1IF = 0;
 	
-	output = 0;
+    //	output = 0;
 
 	switchpoint_init();
 
@@ -274,6 +305,8 @@ void process_uart(char data){
 		case INCOMING:
 			if (data == 'u') {
 				// TODO add updating of the switchpoint list here.
+				uart_state = WAIT_FOR_DISCONNECT;
+				request_settings = 1;
 			}
 			if (data == 'D') {
 				uart_state = IDLE;
@@ -288,8 +321,9 @@ void process_uart(char data){
 
 }	
 
-
+//////////////////////////////////////////////////////////////////
 // Open a TCP connection through the XPORT
+//////////////////////////////////////////////////////////////////
 void web_connect(void){
 
 	char timeout_minute = clock_get_minutes();
@@ -311,6 +345,10 @@ void web_connect(void){
 	}
 }
 
+//////////////////////////////////////////////////////////////////
+// Generate the get requests to the PHP script to get the time info 
+// and to post status information
+//////////////////////////////////////////////////////////////////
 void web_php_interface(enum PHP_IF_TYPE msgtype){
 	web_connect();
 	if (uart_state != CONNECTED) { return ;}
@@ -326,6 +364,12 @@ void web_php_interface(enum PHP_IF_TYPE msgtype){
 		break;
 	case REPORT_SWITCH_STATE:
 		printf("%01d", output);
+		break;
+	case REQUEST_SETTINGS:
+		printf("req");
+		break;
+	case SETTINGS_RETRIEVED:
+		printf("store");
 		break;
 	}
 	printf(" HTTP/1.1\nHost: lika.be\n\n");
@@ -372,7 +416,7 @@ void high_isr(void){
 }
 
 // Generate low-priority interrupt vector, and put a goto low_isr there
-#pragma code low_vector=0x18
+/*#pragma code low_vector=0x18
 void low_interrupt(void){
 	_asm GOTO low_isr _endasm
 }
@@ -382,5 +426,5 @@ void low_interrupt(void){
 void low_isr(void){
 	return;
 }
-
+*/
 

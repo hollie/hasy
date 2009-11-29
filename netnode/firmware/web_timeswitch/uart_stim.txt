@@ -44,7 +44,33 @@ wait 1 sec
 wait 10 sec
 "CI192.168.1.100"
 wait 1 sec
+"u"
+wait 100 ms
 "D"
+
+wait 1 sec
+"C"
+wait 500 ms
+"HTTP/1.1 200 OK"
+0a
+"<"
+03
+"*"
+06
+2D
+44
+01
+07
+1E
+B6
+01
+16
+00
+FE
+00
+">"
+wait 1 sec
+0a
 
 wait 120 sec
 "C"
