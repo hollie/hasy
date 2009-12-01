@@ -22,8 +22,7 @@ signed char xpl_rx_fifo_pointer;
 char xpl_instance_id[17];
 
 char xpl_rx_pointer;
-//char xpl_rx_buffer[RX_BUFSIZE];
-char xpl_rx_buffer_shadow[RX_BUFSIZE];
+char xpl_rx_buffer_shadow[XPL_RX_BUFSIZE];
 
 // Used by xpl_handler to keep track of the current state
 enum XPL_STATE_TYPE { WAITING = 0, PROCESS_INCOMMING_MESSAGE_PART};
@@ -82,13 +81,12 @@ int xpl_count_elec_day;*/
 
 // We need a FIFO to cover for the latency between sending a XOFF and the XPORT to react on this
 void xpl_fifo_push_byte(char data){
-
-	if (xpl_rx_fifo_pointer == XPL_RXFIFO_SIZE-1){
-		printf("OVERFLOW: %s-%c",xpl_rx_fifo,data);
+	if (xpl_rx_fifo_pointer >= XPL_RXFIFO_SIZE){
+		printf("OVERFLOW:@%s@%c@%d@%d@",xpl_rx_fifo,data,xpl_flow,xpl_rx_fifo_pointer);
 	} else {
     	xpl_rx_fifo[xpl_rx_fifo_pointer++] = data;
-	    xpl_rx_fifo[xpl_rx_fifo_pointer] = '\0';
-	}    
+    	xpl_rx_fifo[xpl_rx_fifo_pointer] = '\0';
+	}
 
 	// Disable reception when the FIFO is almost full
 	// The -4 here comes from the response time of the XPORT on a software flow control
@@ -119,8 +117,8 @@ char xpl_fifo_pop_byte(void){
 	if (xpl_rx_fifo_pointer < 0){
 		printf("UNDERFLOW");
 	}
-	
-	// Enable the software flow control if FIFO is almost empty and if the flow control is OFF
+
+    // Enable the software flow control if FIFO is almost empty and if the flow control is OFF
 	if ((xpl_rx_fifo_pointer < 5) && (xpl_flow == FLOW_OFF)){
 		putc(XON, _H_USART);	
 		xpl_flow = FLOW_ON;
@@ -131,6 +129,7 @@ char xpl_fifo_pop_byte(void){
 
 	if (RCSTAbits.OERR == 1) {
 		printf("OERR");
+		RCSTAbits.OERR = 0;
 	}
 	return popbyte;
  
@@ -160,7 +159,7 @@ void xpl_print_header(enum XPL_MSG_TYPE type){
 //  Send out a normal heartbeat
 void xpl_send_hbeat(void){
 	xpl_print_header(STAT);
-	printf("hbeat.basic\n{\ninterval=5\n}\n");
+	printf("hbeat.basic\n{\ninterval=5\nversion=1.0a\n}\n");
 	return;
 }
 
@@ -171,7 +170,7 @@ void xpl_send_hbeat(void){
 //  INSTANCE_ID is found in EEPROM by the xpl_init function.
 void xpl_send_config_hbeat(void){
 	xpl_print_header(STAT);
-	printf("config.basic\n{\ninterval=1\n}\n");
+	printf("config.basic\n{\ninterval=1\nversion=1.0a\n}\n");
 	return;
 }
 
@@ -217,7 +216,7 @@ void xpl_send_stat_config(void){
 }
 
 void xpl_send_device_current(enum XPL_MSG_TYPE msg_type,enum XPL_DEVICE_TYPE type) {
-    int count;
+    /*int count;
     xpl_print_header(msg_type);
     
     // code looks strange here but its to fit into program memory
@@ -228,7 +227,7 @@ void xpl_send_device_current(enum XPL_MSG_TYPE msg_type,enum XPL_DEVICE_TYPE typ
             printf("gas");
             count = xpl_count_gas;        
             break;   
-        /*case WATER:
+        case WATER:
             printf("water");
             count = xpl_count_water;                
             break;
@@ -239,7 +238,7 @@ void xpl_send_device_current(enum XPL_MSG_TYPE msg_type,enum XPL_DEVICE_TYPE typ
         case ELEC_NIGTH:
             printf("elec-nigth");
             count = xpl_count_elec_nigth;        
-            break; */       
+            break;       
     }   
     printf("\ntype=count\ncurrent=%s\n}\n",count);
     
@@ -249,7 +248,7 @@ void xpl_send_device_current(enum XPL_MSG_TYPE msg_type,enum XPL_DEVICE_TYPE typ
             break;
     }
     
-    return;
+    return;*/
 }    
 
 //////////////////////////////////////////////////////////
@@ -329,7 +328,10 @@ void xpl_handler(void) {
     enum XPL_CMD_MSG_TYPE_RSP xpl_cmd_msg_type;
 
 	switch (xpl_state) {
-		case PROCESS_INCOMMING_MESSAGE_PART:		    
+		case PROCESS_INCOMMING_MESSAGE_PART:
+		    /* disable recieving data */
+			putc(XOFF, _H_USART);
+			
 		    xpl_cmd_msg_type = xpl_handle_message_part();
 		    
 		    // depending on the message part we send out 3 type of messages
@@ -362,10 +364,13 @@ void xpl_handler(void) {
 			// Once the message is processed, reset the buffer and return to waiting state.
 		    xpl_state = WAITING;
 			xpl_reset_rx_buffer();
+			
+			/* enable back data reception */
+			putc(XON, _H_USART);			
 			break;
 		case WAITING:
 			// If there is data in the rx fifo, add it to the RX buffer
-			if (xpl_rx_fifo_pointer){
+			if (xpl_rx_fifo_pointer > 0){
 				xpl_addbyte(xpl_fifo_pop_byte());
 			}
 
@@ -411,7 +416,7 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
 	char lpcount;
 	char strlength;
 
-    printf("mp: %d-%s",xpl_msg_state, xpl_rx_buffer_shadow);
+    printf("mp@%d@%s@%d@%d",xpl_msg_state, xpl_rx_buffer_shadow,xpl_flow,xpl_rx_fifo_pointer);
     
     switch (xpl_msg_state) {
        	case WAITING_CMND:
@@ -505,9 +510,6 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
 		    // maybe we need to implement here a function from the xpl_impl.c file
 			// For now we just parse the instance_id and put it in EEPROM
 		    if (strncmpram2pgm("newconf=", xpl_rx_buffer_shadow, 8) == 0) {
-				// Make sure we're not receiving data right now, as interrupts will be disabled during EEPROM write later in this function
-				if (xpl_flow == FLOW_ON) { putc(XOFF, _H_USART); }
-
 				// We are about to change our ID here, so send an end message to notify the network
 				xpl_send_config_end();
 
@@ -528,6 +530,7 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
 				xpl_init();
 				
     		    xpl_msg_state = WAITING_CMND;
+    		       		  
 				return HEARTBEAT_MSG_TYPE;
     		}    
 		    break;	    
@@ -538,15 +541,13 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
 //////////////////////////////////////////////////////////
 // xpl_addbyte
 // Add a new byte from the USART to the receive buffer
-void xpl_addbyte(char data){	
-
+void xpl_addbyte(char data){
 	if (data != '\n') {
-    	if (xpl_rx_pointer >= RX_BUFSIZE) {
-	        // reset all - msg is to long
+    	if (xpl_rx_pointer >= XPL_RX_BUFSIZE) {
+            printf("RX OVERFLOW: %s",xpl_rx_buffer_shadow);
 	        xpl_init_state();
 			return;
-	    }    
-    	
+	    }
 	    xpl_rx_buffer_shadow[xpl_rx_pointer++] = data;
 	} else {
 	    xpl_rx_buffer_shadow[xpl_rx_pointer] = '\0';
