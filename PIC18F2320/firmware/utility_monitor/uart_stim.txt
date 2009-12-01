@@ -57,13 +57,10 @@ wait 100 ms
 0a
 "}"
 wait 1 s
-
 "xpl-stat"
 0A
 "{"
 0A
-"hopladitis"
-wait 50 ms
 "eengrotetestomtezienwatdefifodoet"
 wait 50 ms
 "op=1"

@@ -28,8 +28,8 @@
 // INSTANCE_ID must be 16 characters or less !!
 // The offset in EEPROM where the INSTANCE_ID is stored 
 #define XPL_EEPROM_INSTANCE_ID_OFFSET 0x00
-#define RX_BUFSIZE 40
-#define XPL_RXFIFO_SIZE 40
+#define XPL_RX_BUFSIZE 40
+#define XPL_RXFIFO_SIZE 46
 
 void xpl_init(void);
 void xpl_handler(void);
