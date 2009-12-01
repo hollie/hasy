@@ -17,7 +17,8 @@
 
 
 char xpl_rx_fifo[XPL_RXFIFO_SIZE];
-signed char xpl_rx_fifo_pointer;
+signed char xpl_rx_write_fifo_pointer;
+signed char xpl_rx_read_fifo_pointer;
 
 char xpl_instance_id[17];
 
@@ -81,55 +82,52 @@ int xpl_count_elec_day;*/
 
 // We need a FIFO to cover for the latency between sending a XOFF and the XPORT to react on this
 void xpl_fifo_push_byte(char data){
-	if (xpl_rx_fifo_pointer >= XPL_RXFIFO_SIZE){
-		printf("OVERFLOW:@%s@%c@%d@%d@",xpl_rx_fifo,data,xpl_flow,xpl_rx_fifo_pointer);
-	} else {
-    	xpl_rx_fifo[xpl_rx_fifo_pointer++] = data;
-    	xpl_rx_fifo[xpl_rx_fifo_pointer] = '\0';
-	}
-
+	char read_write_dif;
+	char read_write_dif_over;
+	
+    xpl_rx_fifo[xpl_rx_write_fifo_pointer++] = data;
+    	
+    if (xpl_rx_write_fifo_pointer == XPL_RXFIFO_SIZE) {
+       	xpl_rx_write_fifo_pointer = 0;
+    }
+    
+    read_write_dif = xpl_rx_read_fifo_pointer - xpl_rx_write_fifo_pointer;
+    read_write_dif_over = read_write_dif + XPL_RXFIFO_SIZE;
+    
 	// Disable reception when the FIFO is almost full
 	// The -4 here comes from the response time of the XPORT on a software flow control
 	// XOFF command. This takes at least 3 chars
-	if ((xpl_rx_fifo_pointer > XPL_RXFIFO_SIZE-5) && (xpl_flow == FLOW_ON)){
+	if (((read_write_dif < 5 && read_write_dif > 0) || 
+	     (read_write_dif_over < 5 && read_write_dif_over > 0)) && 
+        	   (xpl_flow == FLOW_ON)){
 		putc(XOFF, _H_USART);
 		xpl_flow = FLOW_OFF;
+		printf("FLOW OFF:@%d@%d@",xpl_rx_read_fifo_pointer,xpl_rx_write_fifo_pointer);
 	}
 }
 
 char xpl_fifo_pop_byte(void){
 	char popbyte;
+	char write_read_dif;
+	char write_read_dif_over;
 	
-	// Disable serial interrupt
-	INTCONbits.PEIE   = 0;
-
 	// Pop byte from fifo
-	popbyte = xpl_rx_fifo[0];
+	popbyte = xpl_rx_fifo[xpl_rx_read_fifo_pointer++];
 	
-	// And shift the stack one char
-	// TODO: check if we can make this more efficient e.g. by using a circular buffer instead
-	// of a FIFO. Right now, we first need something that works ;-)
-	strcpy(xpl_rx_fifo, &xpl_rx_fifo[1]);
-
-	// Decrement pointer
-	xpl_rx_fifo_pointer--;	
-
-	if (xpl_rx_fifo_pointer < 0){
-		printf("UNDERFLOW");
-	}
-
+	if (xpl_rx_read_fifo_pointer == XPL_RXFIFO_SIZE) {
+    	xpl_rx_read_fifo_pointer = 0;
+    }   	
+	
+	write_read_dif = xpl_rx_write_fifo_pointer - xpl_rx_read_fifo_pointer;
+	write_read_dif_over = write_read_dif + XPL_RXFIFO_SIZE;
+	
     // Enable the software flow control if FIFO is almost empty and if the flow control is OFF
-	if ((xpl_rx_fifo_pointer < 5) && (xpl_flow == FLOW_OFF)){
+	if (((write_read_dif < 5 && write_read_dif > 0) || 
+	     (write_read_dif_over < 5 && write_read_dif_over > 0)) && 
+    	    (xpl_flow == FLOW_OFF)){
 		putc(XON, _H_USART);	
 		xpl_flow = FLOW_ON;
-	}
-
-	// Re-enable USART interrupt and check if we had overfow
-	INTCONbits.PEIE   = 1;
-
-	if (RCSTAbits.OERR == 1) {
-		printf("OERR");
-		RCSTAbits.OERR = 0;
+		//printf("FLOW ON:@%d@%d@",xpl_rx_read_fifo_pointer,xpl_rx_write_fifo_pointer);
 	}
 	return popbyte;
  
@@ -159,7 +157,7 @@ void xpl_print_header(enum XPL_MSG_TYPE type){
 //  Send out a normal heartbeat
 void xpl_send_hbeat(void){
 	xpl_print_header(STAT);
-	printf("hbeat.basic\n{\ninterval=5\nversion=1.0a\n}\n");
+	printf("hbeat.basic\n{\ninterval=5\nversion=1.0b\n}\n");
 	return;
 }
 
@@ -170,7 +168,7 @@ void xpl_send_hbeat(void){
 //  INSTANCE_ID is found in EEPROM by the xpl_init function.
 void xpl_send_config_hbeat(void){
 	xpl_print_header(STAT);
-	printf("config.basic\n{\ninterval=1\nversion=1.0a\n}\n");
+	printf("config.basic\n{\ninterval=1\nversion=1.0b\n}\n");
 	return;
 }
 
@@ -189,11 +187,11 @@ void xpl_send_config_end(void){
 // xpl_send_status
 //  Request status by the config manager
 //  send the current status of the node to the config manager
-void xpl_send_status(void) {
+/* NOT ENOUGH STORAGE void xpl_send_status(void) {
     xpl_print_header(STAT);
     printf("config.current\n{\ninterval=1\n}\n");
     return;
-}    
+}    */
 
 //////////////////////////////////////////////////////////
 // xpl_send_stat_configuration_capabilities
@@ -266,24 +264,15 @@ void xpl_init_state(void) {
     // reset all states
     xpl_state           = WAITING; 
 	xpl_msg_state       = WAITING_CMND;
-	xpl_rx_fifo_pointer = 0;
+	xpl_rx_write_fifo_pointer = 0;
+	xpl_rx_read_fifo_pointer = 0;
 
 	// initialize the rx buffer
 	xpl_reset_rx_buffer();
-
-	// Enable software flow control
-	xpl_flow            = FLOW_ON;
-	putc(XON, _H_USART);
-
 }	
 
-//////////////////////////////////////////////////////////
-// xpl_init
-// Initialisation of the xPL library. Tries to restore the
-// INSTANCE_ID from EEPROM
-void xpl_init(void){
-
-	char count;
+void xpl_init_instance_id(void) {
+    char count;
 
 	configured = 0;
 
@@ -304,16 +293,24 @@ void xpl_init(void){
 			break;
 		}
 	}
-	
-	xpl_count_gas = 0;
+}    
+
+//////////////////////////////////////////////////////////
+// xpl_init
+// Initialisation of the xPL library. Tries to restore the
+// INSTANCE_ID from EEPROM
+void xpl_init(void){
+
+    xpl_init_instance_id();
+    
+    xpl_count_gas = 0;
     //xpl_count_water = 0;
     //xpl_count_elec_nigth = 0;
     //xpl_count_elec_day = 0;
-
-	// Only apply this function after we have read the EEPROM, as we enable serial reception
+    
+    // Only apply this function after we have read the EEPROM, as we enable serial reception
 	// in this function and when we do that we need to know our ID.
 	xpl_init_state();
-
 }
 
 //////////////////////////////////////////////////////////
@@ -340,7 +337,7 @@ void xpl_handler(void) {
     		        xpl_send_hbeat();
     		        break;
     		    case STATUS_MSG_TYPE:
-    		        xpl_send_status();
+    		        //NOT ENOUGH STORAG xpl_send_status();
     		        break;
     		    case CONFIGURATION_CAPABILITIES_MSG_TYPE:
                     xpl_send_stat_configuration_capabilities();
@@ -349,7 +346,7 @@ void xpl_handler(void) {
     		        xpl_send_stat_config();
     		        break;
     		    case GAS_DEVICE_CURRENT_MSG_TYPE:
-    		        xpl_send_device_current(STAT,GAS);
+    		        //NOT ENOUGH STORAG xpl_send_device_current(STAT,GAS);
     		        break;
     		    /* NOT ENOUGH STORAGE case WATER_DEVICE_CURRENT_MSG_TYPE:
     		        xpl_send_device_current(STAT,WATER);
@@ -370,7 +367,7 @@ void xpl_handler(void) {
 			break;
 		case WAITING:
 			// If there is data in the rx fifo, add it to the RX buffer
-			if (xpl_rx_fifo_pointer > 0){
+			if (xpl_rx_write_fifo_pointer != xpl_rx_read_fifo_pointer){
 				xpl_addbyte(xpl_fifo_pop_byte());
 			}
 
@@ -416,14 +413,13 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
 	char lpcount;
 	char strlength;
 
-    printf("mp@%d@%s@%d@%d",xpl_msg_state, xpl_rx_buffer_shadow,xpl_flow,xpl_rx_fifo_pointer);
+    printf("mp@%d@%s@%d@%d@%d",xpl_msg_state, xpl_rx_buffer_shadow,xpl_flow,xpl_rx_write_fifo_pointer,xpl_rx_read_fifo_pointer);
     
     switch (xpl_msg_state) {
        	case WAITING_CMND:
        	    // If it is a command header -> set buffer state to CMD_RECEIVED
 			if (strcmpram2pgm("xpl-cmnd", xpl_rx_buffer_shadow)==0) {
 			    xpl_msg_state = CMND_RECEIVED;
-			 
 			}
 			break;
 		case CMND_RECEIVED:  
@@ -480,7 +476,7 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
     		    xpl_msg_state = WAITING_CMND;
     		    return STATUS_MSG_TYPE;
     		} else if (strcmpram2pgm("command=current", xpl_rx_buffer_shadow) == 0) {
-    		    xpl_msg_state = WAITING_CMND_SENSOR_REQUEST_DEVICE;    		
+    		    // xpl_msg_state = WAITING_CMND_SENSOR_REQUEST_DEVICE;    		
     		}    
 		    break;
 		
@@ -524,10 +520,9 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
 				// End with a '\0' in EEPROM
 				eeprom_write(lpcount+XPL_EEPROM_INSTANCE_ID_OFFSET, 0x00);
 
-
 				// Reset the xpl function to apply the new name
 				// Buffer content gets lost here, but we don't mind as we need to start again
-				xpl_init();
+				xpl_init_instance_id();
 				
     		    xpl_msg_state = WAITING_CMND;
     		       		  
