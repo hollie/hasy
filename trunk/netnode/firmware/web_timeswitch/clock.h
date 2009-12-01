@@ -6,9 +6,7 @@
 * (c) 2006, Lieven Hollevoet
 *     http://electronics.lika.be
 *
-* Toolsuite: Boostc compiler
-* 
-* License  : http://license.lika.be
+* Toolsuite: Microchip C18
 *************************************************************/
 
 #ifndef _CLOCK_H_

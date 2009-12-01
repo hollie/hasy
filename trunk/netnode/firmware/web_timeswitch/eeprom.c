@@ -5,7 +5,7 @@
 *
 * Warning! Interrupts are disabled during write !
 *
-* (c) Lieven Hollevoet
+* (c) 2009 Lieven Hollevoet
 *************************************************************/
 
 #include <p18cxxx.h>
