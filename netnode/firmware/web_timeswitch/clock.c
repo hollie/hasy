@@ -7,8 +7,6 @@
 *     http://electronics.lika.be
 *
 * Toolsuite: Microchip C18
-* 
-* License  : http://license.lika.be
 *************************************************************/
 
 #include <stdio.h>

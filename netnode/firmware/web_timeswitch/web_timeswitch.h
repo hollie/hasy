@@ -10,13 +10,12 @@
 #define _TIMESWITCH_H_
 
 // Define port directions
-#define PortAConfig  0xEF  //  1=input
-#define PortBConfig  0x01  //  1=input 
+#define PortAConfig  0xEB  //  1=input
+#define PortBConfig  0xFF  //  1=input 
 #define PortCConfig  0xDE	
 
 // Inputs and outputs
 #define output_led PORTAbits.RA4
-//#define status_led (PORTAbits.RA3)
 
 // Enumerations
 // Used to keep track of the current state

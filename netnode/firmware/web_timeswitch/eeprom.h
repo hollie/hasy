@@ -7,7 +7,7 @@
 *
 * Tested on PIC18F2320
 *
-* (c) Lieven Hollevoet
+* (c) 2009 Lieven Hollevoet
 *************************************************************/
 
 #ifndef _EEPROM_H_

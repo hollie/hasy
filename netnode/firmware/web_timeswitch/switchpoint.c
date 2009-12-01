@@ -1,3 +1,10 @@
+/*************************************************************
+* Helper functions for interfacing with the switchpoints 
+* stored in EEPROM
+*
+* (c) 2009 Lieven Hollevoet
+*************************************************************/
+
 #include <stdio.h>
 #include <USART.h>
 
@@ -6,8 +13,11 @@
 #include "clock.h"
 
 switch_point current_switchpoint;
-extern char output;
 
+///////////////////////////////////////////////////////////////////////
+// Init function to make sure we don't assume 256 switchpoints are
+// present in uninitialised EEPROM
+///////////////////////////////////////////////////////////////////////
 void switchpoint_init(void){
 
 	char data;
@@ -38,7 +48,6 @@ void print_switch_list(){
 
 	printf("Switch point overview:\n\n");
 	printf("Index Time   SMTWTFSx  Activity\n");
-	printf("-------------------------------\n");
 
 	nr_of_points = eeprom_read(POINT_COUNT_ADDRESS);	
 
@@ -55,7 +64,9 @@ void print_switch_list(){
 	return;
 }
 
+///////////////////////////////////////////////////////////////////////
 // Read a switch point from program memory
+///////////////////////////////////////////////////////////////////////
 switch_point get_switch_point(char index){
 	switch_point point;
 	char address = DATA_START_ADDRESS + (index * 4);
@@ -76,7 +87,9 @@ switch_point get_switch_point(char index){
 	
 }
 
+///////////////////////////////////////////////////////////////////////
 // Write a switch point to program memory at the provided index
+///////////////////////////////////////////////////////////////////////
 void put_switch_point(switch_point point){
 	
 	// Write switchpoint to memory
@@ -92,81 +105,23 @@ void put_switch_point(switch_point point){
 	return;
 }
 
+///////////////////////////////////////////////////////////////////////
 // Print a switch point to the serial port
+///////////////////////////////////////////////////////////////////////
 void print_switch_point(switch_point a){
 
 	char index = a.position;
 	
-	printf("%03d   %02d:%02d   %08b  %d\n", index, a.hour, a.minute, a.mask, a.action);
+	printf("%03d  %02d:%02d  %08b  %d\n", index, a.hour, a.minute, a.mask, a.action);
 	
 }
 
-/*
-void add_switch_point(){
-	switch_point point;
-	point.position = eeprom_read(POINT_COUNT_ADDRESS);
-	
-	printf("Adding switchpoint @ %03d\n", point.position);
 
-	printf("-> H? ");
-	point.hour   = serial_get_decimal();
-	//printf("-> Enter minute: ");
-	point.minute = serial_get_decimal();
-	//printf("-> Enter mask  : ");
-	point.mask   = serial_get_decimal();
-	//printf("-> Enter action: ");
-	point.action = serial_get_decimal();
-	
-	
-	// Write switchpoint to memory
-	put_switch_point(point);
-	
-	// Update the switchpoint counter
-	eeprom_write(POINT_COUNT_ADDRESS, point.position+1);
-
-	//printf("Switch point added to switch table!\r\n\r\n");
-	
-	return;
-	
-}
-
-void delete_switch_point(){
-
-	char i, nr_of_points, nr;
-	
-	//printf("-> Remove point @ location? ");
-	nr = serial_get_decimal();
-	//printf("Removing switchpoint @ %03d\n", nr);
-	//printf("Sure (y/n)? ");
-	if (getcUSART() != 'y'){
-		//printf("\nAborted...\n");
-		return;
-	}
-	
-	// Removing is done by copying all entries that come after the point
-	// one location up and decrementing the point counter
-	nr_of_points = eeprom_read(POINT_COUNT_ADDRESS);
-
-	for (i = nr; i < nr_of_points; i++){
-		switch_point p = get_switch_point(i+1);
-		p.position--;
-		put_switch_point(p);
-	}
-	
-	// Decrement the point counter
-	eeprom_write(POINT_COUNT_ADDRESS, nr_of_points - 1);
-
-	return;
-}
-
-void print_event_entry(void){
-	//printf("[");
-	clock_print();
-	//printf("] Action: ");
-	return;
-}
-*/
+///////////////////////////////////////////////////////////////////////
+// Update the switch state based on current time and the switchpoints
+// in EEPROM. Call this function onze every minute
 // This function returns '1' if the switch state was updated
+///////////////////////////////////////////////////////////////////////
 char update_switch_state(char d_now, char h_now, char m_now){
 		
 	char  day_match;
@@ -233,18 +188,9 @@ char update_switch_state(char d_now, char h_now, char m_now){
 	if ((last_switch.position != current_switchpoint.position) && (last_switch.position != -1)){
 		
 		retval = 1;
-		//print_event_entry();
 		
 		output = last_switch.action;
 			
-		//if (last_switch.action){
-			//printf("on");
-		//} else {
-			//printf("off");
-		//}
-		//printf(" @ rule %03d", last_switch.position);
-		//printf("\n");
-		
 		current_switchpoint = last_switch;
 	}
 

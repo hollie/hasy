@@ -1,13 +1,15 @@
 /*************************************************************
-* Helper functions for storing switchpoints in EEPROM
-* (c) Lieven Hollevoet
+* Helper functions for interfacing with the switchpoints 
+* stored in EEPROM
+*
+* (c) 2009 Lieven Hollevoet
 *************************************************************/
 
 #ifndef _SWITCHPOINT_H_
 #define _SWITCHPOINT_H_
 
 // The switch is connected to this output bit
-//#define output (PORTBbits.RB4)
+#define output     PORTAbits.RA2
 
 #define DATA_START_ADDRESS 0x04
 #define POINT_COUNT_ADDRESS 0x00

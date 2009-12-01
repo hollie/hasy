@@ -5,12 +5,14 @@
 * The time is synced to a webserver (through a php script) and
 * toggling of the relay is reported to the webserver.
 *
+* Programmnig of the timing schedule is also done via the web.
+* A php script contains the switching schedule and that one is
+* requested by the time switch by telnetting into is and 
+* sending 'u'.
+* 
 * (c) 2009, Lieven Hollevoet
 *     http://electronics.lika.be
 * 
-* Note that currently setting the switchpoints is done by 
-* reprogramming the EEPROM due to lack of code space in 
-* the PIC18F2320.
 **************************************************************
 * target device   : PIC18F2320
 * clockfreq       : 8 MHz (internal oscillator)
@@ -23,7 +25,6 @@
 
 #include <p18cxxx.h>
 #include <usart.h>
-//#include <delays.h>
 #include <timers.h>
 #include <stdio.h>
 
@@ -60,7 +61,7 @@ char rx_buffer[RX_BUFSIZE];
 char rx_pointer;
 int  connection_string_length;
 
-char output = 0;
+
 char request_settings = 0;
 
 ///////////////////////////////////////////////////////////////////////
@@ -81,6 +82,7 @@ void main()
 	char new_incoming;
     char new_update;
 	char settings_retrieved = 0;
+	char update_eeprom = 0;
 	char i;
 	switch_point swpoint;
 
@@ -95,9 +97,10 @@ void main()
 		
 		// Act depending on the UART state
 		if (uart_state == STRING_RECEIVED){
+			uart_state == WAIT_FOR_DISCONNECT;
 			if (rx_buffer[1] == '-' && rx_buffer[4] == ':') {
 				// We have received a valid string with time information, parse it
-				uart_state = WAIT_FOR_DISCONNECT;
+				//uart_state = WAIT_FOR_DISCONNECT;
 
 				// Get the info
 				uart_day = rx_buffer[0] - 0x30;
@@ -107,21 +110,9 @@ void main()
 				clock_set(uart_day, uart_hour, uart_min, uart_sec);
 				report_clock_was_set = 1;
 				check_timer_table    = 1;
-			} else if (rx_buffer[0] == 'O' && rx_buffer[1] == 'K') {
-				// We received an OK response, wait for disconnect
-				uart_state = WAIT_FOR_DISCONNECT;
-			} else if (rx_buffer[1] == '*') {
-				for (i=0; i<rx_buffer[0]; i++){
-					swpoint.hour   = rx_buffer[2+(i*4)];
-					swpoint.minute = rx_buffer[3+(i*4)];
-					swpoint.mask   = rx_buffer[4+(i*4)];
-					swpoint.action = rx_buffer[5+(i*4)];
-					swpoint.position = i; 
-					put_switch_point(swpoint);
-				}
-				eeprom_write(POINT_COUNT_ADDRESS, rx_buffer[0]);
-				settings_retrieved = 1;
-			}
+			}  else if (rx_buffer[1] == '*') {
+				update_eeprom = 1;
+			}	
 		}
 
 		// Report status to incoming connection
@@ -169,6 +160,23 @@ void main()
 		if (uart_state == IDLE && request_settings) {
 			request_settings = 0;
 			web_php_interface(REQUEST_SETTINGS);
+		}
+
+		// We can only update the EEPROM after we're in IDLE state because interrupts get disabled during 
+        // EEPROM write and we would otherwise miss UART RX interrupts.
+		if (uart_state == IDLE && update_eeprom) {
+			for (i=0; i<rx_buffer[0]; i++){
+				swpoint.hour   = rx_buffer[2+(i*4)];
+				swpoint.minute = rx_buffer[3+(i*4)];
+				swpoint.mask   = rx_buffer[4+(i*4)];
+				swpoint.action = rx_buffer[5+(i*4)];
+				swpoint.position = i; 
+				put_switch_point(swpoint);
+			}
+			eeprom_write(POINT_COUNT_ADDRESS, rx_buffer[0]);
+			settings_retrieved = 1;
+			update_eeprom = 0;
+			
 		}
 
 		// Report that new settings were loaded
@@ -227,20 +235,18 @@ void init(void)
 	uart_state = IDLE;
 	rx_pointer = 0;
 
-	// Enable interrupts
-	//INTCONbits.GIE = 1;
-	//INTCONbits.PEIE = 1;	
+	// Enable interrupts GIE and PEIE
 	INTCON |= 0xC0;
 
 	// Clear the clock
 	clock_clear();
 	
 	// Clear possible existing interrupt flags
-	//INTCONbits.INT0IF = 0;
-	//INTCONbits.TMR0IF = 0;
+	INTCONbits.INT0IF = 0;
+	INTCONbits.TMR0IF = 0;
 	PIR1bits.TMR1IF = 0;
 	
-    //	output = 0;
+    output = 0;
 
 	switchpoint_init();
 
@@ -416,7 +422,7 @@ void high_isr(void){
 }
 
 // Generate low-priority interrupt vector, and put a goto low_isr there
-/*#pragma code low_vector=0x18
+#pragma code low_vector=0x18
 void low_interrupt(void){
 	_asm GOTO low_isr _endasm
 }
@@ -426,5 +432,5 @@ void low_interrupt(void){
 void low_isr(void){
 	return;
 }
-*/
+
 
