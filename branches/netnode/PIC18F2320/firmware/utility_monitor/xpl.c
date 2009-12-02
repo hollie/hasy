@@ -84,7 +84,7 @@ int xpl_count_elec_day;*/
 // We need a FIFO to cover for the latency between sending a XOFF and the XPORT to react on this
 void xpl_fifo_push_byte(char data){
     xpl_rx_fifo[xpl_rx_write_fifo_pointer++] = data;
-    xpl_rx_fifo_data_count = xpl_rx_fifo_data_count + 1;
+    xpl_rx_fifo_data_count++;
     	
     if (xpl_rx_write_fifo_pointer == XPL_RXFIFO_SIZE) {
        	xpl_rx_write_fifo_pointer = 0;
@@ -101,7 +101,7 @@ char xpl_fifo_pop_byte(void){
 
 	// Pop byte from fifo
 	popbyte = xpl_rx_fifo[xpl_rx_read_fifo_pointer++];
-	xpl_rx_fifo_data_count = xpl_rx_fifo_data_count - 1;
+	xpl_rx_fifo_data_count--;
 	
 	if (xpl_rx_read_fifo_pointer == XPL_RXFIFO_SIZE) {
     	xpl_rx_read_fifo_pointer = 0;
