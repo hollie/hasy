@@ -250,8 +250,8 @@ void xpl_send_device_current(enum XPL_MSG_TYPE msg_type,enum XPL_DEVICE_TYPE typ
 }    
 
 //////////////////////////////////////////////////////////
-// xpl_init_state
-// Initialisation of the xPL states and message buffer
+// xpl_reset_rx_buffer
+// Initialisation of the xPL rx buffer
 void xpl_reset_rx_buffer(void) {
     xpl_rx_pointer = 0;
     xpl_rx_buffer_shadow[xpl_rx_pointer] = '\0';
@@ -523,10 +523,9 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
 				// Reset the xpl function to apply the new name
 				// Buffer content gets lost here, but we don't mind as we need to start again
 				xpl_init_instance_id();
-				
+				    		       		    
     		    xpl_msg_state = WAITING_CMND;
-    		    
-    		    putc(XON, _H_USART);
+				putc(XON, _H_USART);
     		       		  
 				return HEARTBEAT_MSG_TYPE;
     		}    
