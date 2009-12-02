@@ -19,6 +19,7 @@
 char xpl_rx_fifo[XPL_RXFIFO_SIZE];
 signed char xpl_rx_write_fifo_pointer;
 signed char xpl_rx_read_fifo_pointer;
+signed char xpl_rx_fifo_data_count;
 
 char xpl_instance_id[17];
 
@@ -82,53 +83,62 @@ int xpl_count_elec_day;*/
 
 // We need a FIFO to cover for the latency between sending a XOFF and the XPORT to react on this
 void xpl_fifo_push_byte(char data){
-	char read_write_dif;
-	char read_write_dif_over;
+	//char read_write_dif;
+	//char read_write_dif_over;
 	
     xpl_rx_fifo[xpl_rx_write_fifo_pointer++] = data;
+    xpl_rx_fifo_data_count = xpl_rx_fifo_data_count + 1;
     	
     if (xpl_rx_write_fifo_pointer == XPL_RXFIFO_SIZE) {
        	xpl_rx_write_fifo_pointer = 0;
     }
     
-    read_write_dif = xpl_rx_read_fifo_pointer - xpl_rx_write_fifo_pointer;
-    read_write_dif_over = read_write_dif + XPL_RXFIFO_SIZE;
+    if (xpl_rx_fifo_data_count + 6 > XPL_RXFIFO_SIZE && xpl_flow == FLOW_ON) {
+        putc(XOFF, _H_USART);
+		xpl_flow = FLOW_OFF; 
+    }    
+    
+    //read_write_dif = xpl_rx_read_fifo_pointer - xpl_rx_write_fifo_pointer;
+    //read_write_dif_over = read_write_dif + XPL_RXFIFO_SIZE;
     
 	// Disable reception when the FIFO is almost full
 	// The -4 here comes from the response time of the XPORT on a software flow control
 	// XOFF command. This takes at least 3 chars
-	if (((read_write_dif < 5 && read_write_dif > 0) || 
+	/*if (((read_write_dif < 5 && read_write_dif > 0) || 
 	     (read_write_dif_over < 5 && read_write_dif_over > 0)) && 
         	   (xpl_flow == FLOW_ON)){
 		putc(XOFF, _H_USART);
 		xpl_flow = FLOW_OFF;
 		//printf("FLOW OFF:@%d@%d@",xpl_rx_read_fifo_pointer,xpl_rx_write_fifo_pointer);
-	}
+	}*/
 }
 
 char xpl_fifo_pop_byte(void){
 	char popbyte;
-	char write_read_dif;
-	char write_read_dif_over;
-	
+
 	// Pop byte from fifo
 	popbyte = xpl_rx_fifo[xpl_rx_read_fifo_pointer++];
+	xpl_rx_fifo_data_count = xpl_rx_fifo_data_count - 1;
 	
 	if (xpl_rx_read_fifo_pointer == XPL_RXFIFO_SIZE) {
     	xpl_rx_read_fifo_pointer = 0;
+    }
+	
+	if (xpl_rx_fifo_data_count < 15 && xpl_flow == FLOW_OFF) {
+        putc(XON, _H_USART);	
+		xpl_flow = FLOW_ON;
+		
+		printf("FLOW ON:@%d@%d@",xpl_rx_read_fifo_pointer,xpl_rx_write_fifo_pointer);	
     }   	
 	
-	write_read_dif = xpl_rx_write_fifo_pointer - xpl_rx_read_fifo_pointer;
-	write_read_dif_over = write_read_dif + XPL_RXFIFO_SIZE;
-	
     // Enable the software flow control if FIFO is almost empty and if the flow control is OFF
-	if (((write_read_dif < 5 && write_read_dif > 0) || 
+	/*if (((write_read_dif < 5 && write_read_dif > 0) || 
 	     (write_read_dif_over < 5 && write_read_dif_over > 0)) && 
     	    (xpl_flow == FLOW_OFF)){
 		putc(XON, _H_USART);	
 		xpl_flow = FLOW_ON;
 		//printf("FLOW ON:@%d@%d@",xpl_rx_read_fifo_pointer,xpl_rx_write_fifo_pointer);
-	}
+	}*/
 	return popbyte;
  
 }
@@ -311,6 +321,7 @@ void xpl_init(void){
 	
 	xpl_rx_write_fifo_pointer = 0;
 	xpl_rx_read_fifo_pointer = 0;
+	xpl_rx_fifo_data_count = 0;
 	
 	putc(XON, _H_USART);	
 	xpl_flow = FLOW_ON;
@@ -410,7 +421,7 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
 	char lpcount;
 	char strlength;
 
-    printf("mp@%d@%s@%d@%d@%d@%s@",xpl_msg_state, xpl_rx_buffer_shadow,xpl_flow,xpl_rx_write_fifo_pointer,xpl_rx_read_fifo_pointer,xpl_rx_fifo);
+    printf("mp@st%d@flc%d@fd%d@fwp%d@fwr%d@%s@%s@",xpl_msg_state,xpl_flow,xpl_rx_fifo_data_count,xpl_rx_write_fifo_pointer,xpl_rx_read_fifo_pointer,xpl_rx_buffer_shadow,xpl_rx_fifo);
     
     switch (xpl_msg_state) {
        	case WAITING_CMND:
