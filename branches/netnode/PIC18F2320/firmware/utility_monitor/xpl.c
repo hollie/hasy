@@ -329,9 +329,6 @@ void xpl_handler(void) {
 
 	switch (xpl_state) {
 		case PROCESS_INCOMMING_MESSAGE_PART:
-		    /* disable recieving data */
-			putc(XOFF, _H_USART);
-			
 		    xpl_cmd_msg_type = xpl_handle_message_part();
 		    
 		    // depending on the message part we send out 3 type of messages
@@ -364,9 +361,6 @@ void xpl_handler(void) {
 			// Once the message is processed, reset the buffer and return to waiting state.
 		    xpl_state = WAITING;
 			xpl_reset_rx_buffer();
-			
-			/* enable back data reception */
-			putc(XON, _H_USART);			
 			break;
 		case WAITING:
 			// If there is data in the rx fifo, add it to the RX buffer
@@ -509,6 +503,9 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
 		    // maybe we need to implement here a function from the xpl_impl.c file
 			// For now we just parse the instance_id and put it in EEPROM
 		    if (strncmpram2pgm("newconf=", xpl_rx_buffer_shadow, 8) == 0) {
+    		    // Make sure we're not receiving data right now, as interrupts will be disabled during EEPROM write later in this function
+				if (xpl_flow == FLOW_ON) { putc(XOFF, _H_USART); }
+				
 				// We are about to change our ID here, so send an end message to notify the network
 				xpl_send_config_end();
 
@@ -528,6 +525,8 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
 				xpl_init_instance_id();
 				
     		    xpl_msg_state = WAITING_CMND;
+    		    
+    		    putc(XON, _H_USART);
     		       		  
 				return HEARTBEAT_MSG_TYPE;
     		}    
