@@ -64,7 +64,7 @@ enum XPL_DEVICE_TYPE      {GAS = 1,     \\
 
 enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void);
 
-enum XPL_FLOW_TYPE {FLOW_OFF = 0, FLOW_ON};
+enum XPL_FLOW_TYPE {FLOW_OFF = 0, FLOW_ON = 1};
 enum XPL_FLOW_TYPE xpl_flow;
 
 char xpl_trig_register = 0;   /* bit 0 = GAS                              
@@ -102,7 +102,7 @@ void xpl_fifo_push_byte(char data){
         	   (xpl_flow == FLOW_ON)){
 		putc(XOFF, _H_USART);
 		xpl_flow = FLOW_OFF;
-		printf("FLOW OFF:@%d@%d@",xpl_rx_read_fifo_pointer,xpl_rx_write_fifo_pointer);
+		//printf("FLOW OFF:@%d@%d@",xpl_rx_read_fifo_pointer,xpl_rx_write_fifo_pointer);
 	}
 }
 
@@ -264,9 +264,6 @@ void xpl_init_state(void) {
     // reset all states
     xpl_state           = WAITING; 
 	xpl_msg_state       = WAITING_CMND;
-	xpl_rx_write_fifo_pointer = 0;
-	xpl_rx_read_fifo_pointer = 0;
-
 	// initialize the rx buffer
 	xpl_reset_rx_buffer();
 }	
@@ -311,6 +308,12 @@ void xpl_init(void){
     // Only apply this function after we have read the EEPROM, as we enable serial reception
 	// in this function and when we do that we need to know our ID.
 	xpl_init_state();
+	
+	xpl_rx_write_fifo_pointer = 0;
+	xpl_rx_read_fifo_pointer = 0;
+	
+	putc(XON, _H_USART);	
+	xpl_flow = FLOW_ON;
 }
 
 //////////////////////////////////////////////////////////
@@ -413,7 +416,7 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
 	char lpcount;
 	char strlength;
 
-    printf("mp@%d@%s@%d@%d@%d",xpl_msg_state, xpl_rx_buffer_shadow,xpl_flow,xpl_rx_write_fifo_pointer,xpl_rx_read_fifo_pointer);
+    printf("mp@%d@%s@%d@%d@%d@%s@",xpl_msg_state, xpl_rx_buffer_shadow,xpl_flow,xpl_rx_write_fifo_pointer,xpl_rx_read_fifo_pointer,xpl_rx_fifo);
     
     switch (xpl_msg_state) {
        	case WAITING_CMND:
