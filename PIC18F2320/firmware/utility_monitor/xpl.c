@@ -15,11 +15,11 @@
 #include "eeprom.h"
 #include "string.h"
 
-
-char xpl_rx_fifo[XPL_RXFIFO_SIZE];
 signed char xpl_rx_write_fifo_pointer;
 signed char xpl_rx_read_fifo_pointer;
 signed char xpl_rx_fifo_data_count;
+
+char xpl_rx_fifo[XPL_RXFIFO_SIZE];
 
 char xpl_instance_id[17];
 
@@ -33,7 +33,6 @@ char configured = 0;
 
 enum XPL_PARSE_TYPE {   WAITING_CMND = 0,                   \\
                         CMND_RECEIVED,                      \\
-                        WAITING_HEADER_END,                 \\
                         WAITING_CMND_TYPE,                  \\
                         WAITING_CMND_SENSOR_REQUEST,        \\
                         WAITING_CMND_CONFIG_RESPONSE,       \\
@@ -89,8 +88,8 @@ void xpl_fifo_push_byte(char data){
     if (xpl_rx_write_fifo_pointer == XPL_RXFIFO_SIZE) {
        	xpl_rx_write_fifo_pointer = 0;
     }
-    
-    if (xpl_rx_fifo_data_count + 6 > XPL_RXFIFO_SIZE && xpl_flow == FLOW_ON) {
+    // the value that we add here may not be lower than 10 otherwise its not working
+    if ((xpl_rx_fifo_data_count + 10) > XPL_RXFIFO_SIZE && xpl_flow == FLOW_ON) {
         putc(XOFF, _H_USART);
 		xpl_flow = FLOW_OFF; 
     }    
@@ -108,14 +107,11 @@ char xpl_fifo_pop_byte(void){
     }
 	
 	// Enable the software flow control if FIFO is almost empty and if the flow control is OFF
-	if (xpl_rx_fifo_data_count < 15 && xpl_flow == FLOW_OFF) {
+	if (xpl_rx_fifo_data_count < 20 && xpl_flow == FLOW_OFF) {
         putc(XON, _H_USART);	
 		xpl_flow = FLOW_ON;
-		
-		printf("FLOW ON:@%d@%d@",xpl_rx_read_fifo_pointer,xpl_rx_write_fifo_pointer);	
     }
 	return popbyte;
- 
 }
 
 //////////////////////////////////////////////////////////
@@ -142,7 +138,7 @@ void xpl_print_header(enum XPL_MSG_TYPE type){
 //  Send out a normal heartbeat
 void xpl_send_hbeat(void){
 	xpl_print_header(STAT);
-	printf("hbeat.basic\n{\ninterval=5\nversion=1.0b\n}\n");
+	printf("hbeat.basic\n{\ninterval=5\nversion=1.0c\n}\n");
 	return;
 }
 
@@ -153,7 +149,7 @@ void xpl_send_hbeat(void){
 //  INSTANCE_ID is found in EEPROM by the xpl_init function.
 void xpl_send_config_hbeat(void){
 	xpl_print_header(STAT);
-	printf("config.basic\n{\ninterval=1\nversion=1.0b\n}\n");
+	printf("config.basic\n{\ninterval=1\nversion=1.0c\n}\n");
 	return;
 }
 
@@ -199,18 +195,17 @@ void xpl_send_stat_config(void){
 }
 
 void xpl_send_device_current(enum XPL_MSG_TYPE msg_type,enum XPL_DEVICE_TYPE type) {
-    /*int count;
+    int count;
+    
     xpl_print_header(msg_type);
     
-    // code looks strange here but its to fit into program memory
-    
-    printf(XPL_MSG_PART_DEVICE);
     switch (type) {
         case GAS:
-            printf("gas");
-            count = xpl_count_gas;        
+            count = xpl_count_gas;      
+            xpl_count_gas = xpl_count_gas - count;  
+            printf("sensor.basic\n{\ndevice=gas\ntype=count\ncurrent=%d\n}\n",count);
             break;   
-        case WATER:
+        /*case WATER:
             printf("water");
             count = xpl_count_water;                
             break;
@@ -221,17 +216,9 @@ void xpl_send_device_current(enum XPL_MSG_TYPE msg_type,enum XPL_DEVICE_TYPE typ
         case ELEC_NIGTH:
             printf("elec-nigth");
             count = xpl_count_elec_nigth;        
-            break;       
-    }   
-    printf("\ntype=count\ncurrent=%s\n}\n",count);
-    
-    switch (type) {
-        case GAS:
-            xpl_count_gas = xpl_count_gas - count;
-            break;
-    }
-    
-    return;*/
+            break;    */   
+    }    
+    return;
 }    
 
 //////////////////////////////////////////////////////////
@@ -332,7 +319,7 @@ void xpl_handler(void) {
     		        xpl_send_stat_config();
     		        break;
     		    case GAS_DEVICE_CURRENT_MSG_TYPE:
-    		        //NOT ENOUGH STORAG xpl_send_device_current(STAT,GAS);
+    		        xpl_send_device_current(STAT,GAS);
     		        break;
     		    /* NOT ENOUGH STORAGE case WATER_DEVICE_CURRENT_MSG_TYPE:
     		        xpl_send_device_current(STAT,WATER);
@@ -391,12 +378,9 @@ void xpl_handler(void) {
 	return;
 }
 
-enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
- 
+enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) { 
 	char lpcount;
 	char strlength;
-
-    printf("mp@st%d@flc%d@fd%d@fwp%d@fwr%d@%s@%s@",xpl_msg_state,xpl_flow,xpl_rx_fifo_data_count,xpl_rx_write_fifo_pointer,xpl_rx_read_fifo_pointer,xpl_rx_buffer_shadow,xpl_rx_fifo);
     
     switch (xpl_msg_state) {
        	case WAITING_CMND:
@@ -409,21 +393,16 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
     		// check if we have the target in the buffer
     		if (strcmpram2pgm("target=*", xpl_rx_buffer_shadow) == 0){
 				// Yes, message is wildcard and hence destined to us
-			    xpl_msg_state = WAITING_HEADER_END;
+			    xpl_msg_state = WAITING_CMND_TYPE;
 			} else if (strncmpram2pgm("target=hollie-utilmon.", xpl_rx_buffer_shadow, XPL_TARGET_VENDOR_DEVICEID_INSTANCE_ID_OFFSET)==0){
 				if (strcmp(xpl_instance_id, xpl_rx_buffer_shadow + XPL_TARGET_VENDOR_DEVICEID_INSTANCE_ID_OFFSET) == 0){
 					// bingo message if for us
-				    xpl_msg_state = WAITING_HEADER_END;
+				    xpl_msg_state = WAITING_CMND_TYPE;
 				} else {
 					// Too bad, message is not for us. Wait for the next one
 					xpl_msg_state = WAITING_CMND;
 				}
 			}                            	  
-		    break;
-	    case WAITING_HEADER_END:
-			if (xpl_rx_buffer_shadow[0] == '}') {
-			   xpl_msg_state = WAITING_CMND_TYPE;    			    
-			}
 			break;    		 
 		case WAITING_CMND_TYPE:    		    
     		if (strcmpram2pgm("config.list", xpl_rx_buffer_shadow) == 0) {
@@ -438,6 +417,8 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
         	    xpl_msg_state = WAITING_CMND_HBEAT_REQUEST;
         	} else if (strcmpram2pgm("config.current", xpl_rx_buffer_shadow) == 0) {
         	    xpl_msg_state = WAITING_CMND_CONFIG_CURRENT;
+            } else if (strcmpram2pgm("}", xpl_rx_buffer_shadow) == 0) {
+                // just wait for command
             } else {
         	    xpl_msg_state = WAITING_CMND;
         	}
@@ -459,16 +440,16 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
     		    xpl_msg_state = WAITING_CMND;
     		    return STATUS_MSG_TYPE;
     		} else if (strcmpram2pgm("command=current", xpl_rx_buffer_shadow) == 0) {
-    		    // xpl_msg_state = WAITING_CMND_SENSOR_REQUEST_DEVICE;    		
+    		    xpl_msg_state = WAITING_CMND_SENSOR_REQUEST_DEVICE;    		
     		}    
 		    break;
 		
 		case WAITING_CMND_SENSOR_REQUEST_DEVICE:
-		    /*if (strncmpram2pgm("device=", xpl_rx_buffer_shadow,XPL_DEVICE_OFFSET) == 0) {
+		    if (strncmpram2pgm("device=", xpl_rx_buffer_shadow,XPL_DEVICE_OFFSET) == 0) {
     		    if (strncmpram2pgm("gas", xpl_rx_buffer_shadow+XPL_DEVICE_OFFSET,XPL_DEVICE_GAS_VALUE_OFFSET)) {
         		    xpl_msg_state = WAITING_CMND;
     		        return GAS_DEVICE_CURRENT_MSG_TYPE; 
-        		} else if (strncmpram2pgm("water", xpl_rx_buffer_shadow+XPL_DEVICE_OFFSET,XPL_DEVICE_WATER_VALUE_OFFSET)) {
+        		} /*else if (strncmpram2pgm("water", xpl_rx_buffer_shadow+XPL_DEVICE_OFFSET,XPL_DEVICE_WATER_VALUE_OFFSET)) {
         		    xpl_msg_state = WAITING_CMND;
     		        return WATER_DEVICE_CURRENT_MSG_TYPE;
         		} else if (strncmpram2pgm("elec-day", xpl_rx_buffer_shadow+XPL_DEVICE_OFFSET,XPL_DEVICE_ELEC_DAY_VALUE_OFFSET)) {
@@ -479,8 +460,8 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
     		        return ELEC_NIGTH_DEVICE_CURRENT_MSG_TYPE;
         		} else {       
         		    // TODO what if do not know the device
-        		}   
-    		} */
+        		}   */
+    		} 
     		xpl_msg_state = WAITING_CMND;		  
 		    break;
 		
@@ -490,7 +471,9 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
 			// For now we just parse the instance_id and put it in EEPROM
 		    if (strncmpram2pgm("newconf=", xpl_rx_buffer_shadow, 8) == 0) {
     		    // Make sure we're not receiving data right now, as interrupts will be disabled during EEPROM write later in this function
-				if (xpl_flow == FLOW_ON) { putc(XOFF, _H_USART); }
+				if (xpl_flow == FLOW_ON) { 
+				    putc(XOFF, _H_USART); 
+				}
 				
 				// We are about to change our ID here, so send an end message to notify the network
 				xpl_send_config_end();
@@ -526,7 +509,7 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
 void xpl_addbyte(char data){
 	if (data != '\n') {
     	if (xpl_rx_pointer >= XPL_RX_BUFSIZE) {
-            printf("RX OVERFLOW: %s",xpl_rx_buffer_shadow);
+            // reduce code base printf("RX OVERFLOW: %s",xpl_rx_buffer_shadow);
 	        xpl_init_state();
 			return;
 	    }

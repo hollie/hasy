@@ -22,9 +22,6 @@
 #define XPL_DEVICE_ELEC_DAY_VALUE_OFFSET 8
 #define XPL_DEVICE_ELEC_NIGTH_VALUE_OFFSET 10
 
-#define XPL_MSG_PART_DEVICE "sensor.basic\n{\ndevice="
-
-
 // INSTANCE_ID must be 16 characters or less !!
 // The offset in EEPROM where the INSTANCE_ID is stored 
 #define XPL_EEPROM_INSTANCE_ID_OFFSET 0x00
