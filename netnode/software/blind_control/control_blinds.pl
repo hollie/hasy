@@ -33,7 +33,7 @@ use Net::hostent;
 $SIG{ALRM} = sub { die "timeout" };
 
 # Settings
-my $gateway_host = 'oswald-03';			# Host on the network that has light level values
+my $gateway_host = 'rfgate';			# Host on the network that has light level values
 my $gateway_port = '10001';				# Port to connect to
 my $state_file   = 'last_command.txt';	# File where the last sent command has been sent to
 my $blinds_host  = 'netnode02';			# Host on the network that controls the blinds
@@ -136,7 +136,7 @@ sub command_blinds  {
 	
 		print "'$blind_command' sent to host...\n";
 	
-		close_socket();
+		close($socket);
 
 		return 1;						
 	

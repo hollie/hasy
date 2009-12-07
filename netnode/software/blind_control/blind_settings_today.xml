@@ -4,11 +4,11 @@
 <port>10001</port>
 </target>
 <command>
-<time>07:01</time>
+<time>08:00</time>
 <direction>u</direction>
 </command>
 <command>
-<time>20:21</time>
+<time>17:00</time>
 <direction>d</direction>
 </command>
 </config>
