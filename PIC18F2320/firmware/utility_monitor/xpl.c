@@ -74,10 +74,10 @@ char xpl_trig_register = 0;   /* bit 0 = GAS
 // Following variable has to be declared in the main function and should be incremented every second.
 extern volatile int time_ticks;
 
-int xpl_count_gas;
-/*int xpl_count_water;
-int xpl_count_elec_nigth;
-int xpl_count_elec_day;*/
+unsigned short xpl_count_gas;
+/*unsigned short xpl_count_water;
+unsigned short xpl_count_elec_nigth;
+unsigned short xpl_count_elec_day;*/
 
 // We need a FIFO to cover for the latency between sending a XOFF and the XPORT to react on this
 void xpl_fifo_push_byte(char data){
@@ -183,29 +183,36 @@ void xpl_send_stat_config(void){
 	return;
 }
 
+void xpl_send_sensor_basic(char *device, unsigned short count) {
+    printf("sensor.basic\n{\ndevice=%s\ntype=count\ncurrent=%d\n}\n",*device,count);
+}    
+
 void xpl_send_device_current(enum XPL_MSG_TYPE msg_type,enum XPL_DEVICE_TYPE type) {
-    int count;
+    unsigned short count;
     
     xpl_print_header(msg_type);
     
     switch (type) {
         case GAS:
             count = xpl_count_gas;      
-            xpl_count_gas = xpl_count_gas - count;  
-            printf("sensor.basic\n{\ndevice=gas\ntype=count\ncurrent=%d\n}\n",count);
+            xpl_count_gas = xpl_count_gas - count; 
+            xpl_send_sensor_basic("gas",count);
             break;   
         /*case WATER:
-            printf("water");
-            count = xpl_count_water;                
+            count = xpl_count_water;  
+            xpl_count_water = xpl_count_water - count; 
+            xpl_send_sensor_basic("water",count);              
             break;
         case ELEC_DAY:
-            //printf("elec-day");
             count = xpl_count_elec_day;
+            xpl_count_elec_day = xpl_count_elec_day - count; 
+            xpl_send_sensor_basic("elec-day",count);
             break;
         case ELEC_NIGTH:
-            printf("elec-nigth");
-            count = xpl_count_elec_nigth;        
-            break;    */   
+            count = xpl_count_elec_nigth;      
+            xpl_count_elec_nigth = xpl_count_elec_nigth - count; 
+            xpl_send_sensor_basic("elec-nigth",count);  
+            break;      */
     }    
     return;
 }    
@@ -262,9 +269,9 @@ void xpl_init(void){
     xpl_init_instance_id();
     
     xpl_count_gas = 0;
-    //xpl_count_water = 0;
-    //xpl_count_elec_nigth = 0;
-    //xpl_count_elec_day = 0;
+    /*xpl_count_water = 0;
+    xpl_count_elec_nigth = 0;
+    xpl_count_elec_day = 0;*/
     
     // Only apply this function after we have read the EEPROM, as we enable serial reception
 	// in this function and when we do that we need to know our ID.
