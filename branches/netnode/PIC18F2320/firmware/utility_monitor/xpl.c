@@ -279,6 +279,25 @@ void xpl_init(void){
 }
 
 //////////////////////////////////////////////////////////
+// xpl_addbyte
+// Add a new byte from the USART to the receive buffer
+void xpl_addbyte(char data){
+	if (data != '\n') {
+    	if (xpl_rx_pointer >= XPL_RX_BUFSIZE) {
+            // reduce code base printf("RX OVERFLOW: %s",xpl_rx_buffer_shadow);
+	        xpl_init_state();
+			return;
+	    }
+	    xpl_rx_buffer_shadow[xpl_rx_pointer++] = data;
+	} else {
+	    xpl_rx_buffer_shadow[xpl_rx_pointer] = '\0';
+
+	    // This will enable the handling in the handler function of the received string
+	    xpl_state = PROCESS_INCOMMING_MESSAGE_PART;    
+    }        	
+}
+
+//////////////////////////////////////////////////////////
 // xPL handler
 // This code is called in the main program loop to process
 // xPL events and generate heartbeats.
@@ -487,24 +506,5 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
 		    break;	    
     }   
     return -1;
-}    
-
-//////////////////////////////////////////////////////////
-// xpl_addbyte
-// Add a new byte from the USART to the receive buffer
-void xpl_addbyte(char data){
-	if (data != '\n') {
-    	if (xpl_rx_pointer >= XPL_RX_BUFSIZE) {
-            // reduce code base printf("RX OVERFLOW: %s",xpl_rx_buffer_shadow);
-	        xpl_init_state();
-			return;
-	    }
-	    xpl_rx_buffer_shadow[xpl_rx_pointer++] = data;
-	} else {
-	    xpl_rx_buffer_shadow[xpl_rx_pointer] = '\0';
-
-	    // This will enable the handling in the handler function of the received string
-	    xpl_state = PROCESS_INCOMMING_MESSAGE_PART;    
-    }        	
 }
 
