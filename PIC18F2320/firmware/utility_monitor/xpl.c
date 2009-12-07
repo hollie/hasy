@@ -382,6 +382,8 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
 	char lpcount;
 	char strlength;
     
+    //printf("\nmp@st%d@flc%d@fd%d@fwp%d@fwr%d@%s",xpl_msg_state,xpl_flow,xpl_rx_fifo_data_count,xpl_rx_write_fifo_pointer,xpl_rx_read_fifo_pointer,xpl_rx_buffer_shadow);
+        
     switch (xpl_msg_state) {
        	case WAITING_CMND:
        	    // If it is a command header -> set buffer state to CMD_RECEIVED
@@ -441,28 +443,29 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
     		    return STATUS_MSG_TYPE;
     		} else if (strcmpram2pgm("command=current", xpl_rx_buffer_shadow) == 0) {
     		    xpl_msg_state = WAITING_CMND_SENSOR_REQUEST_DEVICE;    		
-    		}    
+    		} else if (xpl_rx_buffer_shadow[0] == '{') {
+    		    //do nothing
+    		} else {
+    		    xpl_msg_state = WAITING_CMND;
+    		}
 		    break;
 		
 		case WAITING_CMND_SENSOR_REQUEST_DEVICE:
-		    if (strncmpram2pgm("device=", xpl_rx_buffer_shadow,XPL_DEVICE_OFFSET) == 0) {
-    		    if (strncmpram2pgm("gas", xpl_rx_buffer_shadow+XPL_DEVICE_OFFSET,XPL_DEVICE_GAS_VALUE_OFFSET)) {
-        		    xpl_msg_state = WAITING_CMND;
-    		        return GAS_DEVICE_CURRENT_MSG_TYPE; 
-        		} /*else if (strncmpram2pgm("water", xpl_rx_buffer_shadow+XPL_DEVICE_OFFSET,XPL_DEVICE_WATER_VALUE_OFFSET)) {
-        		    xpl_msg_state = WAITING_CMND;
-    		        return WATER_DEVICE_CURRENT_MSG_TYPE;
-        		} else if (strncmpram2pgm("elec-day", xpl_rx_buffer_shadow+XPL_DEVICE_OFFSET,XPL_DEVICE_ELEC_DAY_VALUE_OFFSET)) {
-        		    xpl_msg_state = WAITING_CMND;
-    		        return ELEC_DAY_DEVICE_CURRENT_MSG_TYPE;
-        		} else if (strncmpram2pgm("elec-nigth", xpl_rx_buffer_shadow+XPL_DEVICE_OFFSET,XPL_DEVICE_ELEC_NIGTH_VALUE_OFFSET)) {
-        		    xpl_msg_state = WAITING_CMND;
-    		        return ELEC_NIGTH_DEVICE_CURRENT_MSG_TYPE;
-        		} else {       
-        		    // TODO what if do not know the device
-        		}   */
-    		} 
-    		xpl_msg_state = WAITING_CMND;		  
+		    if (strcmpram2pgm("device=gas", xpl_rx_buffer_shadow) == 0) {
+                xpl_msg_state = WAITING_CMND;
+    		    return GAS_DEVICE_CURRENT_MSG_TYPE; 
+    		} /*else if (strcmpram2pgm("device=water", xpl_rx_buffer_shadow) == 0) {
+    		    xpl_msg_state = WAITING_CMND;
+		        return WATER_DEVICE_CURRENT_MSG_TYPE;
+    		} else if (strcmpram2pgm("device=elec-day", xpl_rx_buffer_shadow) == 0) {
+    		    xpl_msg_state = WAITING_CMND;
+		        return ELEC_DAY_DEVICE_CURRENT_MSG_TYPE;
+    		} else if (strcmpram2pgm("device=elec-nigth", xpl_rx_buffer_shadow) == 0) {
+    		    xpl_msg_state = WAITING_CMND;
+		        return ELEC_NIGTH_DEVICE_CURRENT_MSG_TYPE;
+    		}*/ else {
+    		    xpl_msg_state = WAITING_CMND;		  
+    		}   
 		    break;
 		
 		case WAITING_CMND_CONFIG_RESPONSE:

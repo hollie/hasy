@@ -96,3 +96,34 @@ wait 1 sec
 "}"
 0A
 wait 1 sec
+"xpl-cmnd"
+0A
+"{"
+0A
+"hop=1"
+0A
+"sour"
+wait 100 ms
+"ce=me-test.send"
+wait 100 ms
+"er"
+0A
+"target=*"
+0A
+"}"
+0A
+"sensor"
+wait 100 ms
+".request"
+0A
+"{"
+0A
+"command=c"
+wait 50 ms
+"urrent"
+0A
+wait 100 ms
+"device=gas"
+0A
+"}"
+0A
