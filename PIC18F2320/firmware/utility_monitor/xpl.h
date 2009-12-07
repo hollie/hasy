@@ -22,9 +22,9 @@
 #define XPL_RX_BUFSIZE 40
 #define XPL_RXFIFO_SIZE 44
 
+// public functions called outside xpl lib
 void xpl_init(void);
 void xpl_handler(void);
-void xpl_addbyte(char);
 void xpl_fifo_push_byte(char);
 
 
