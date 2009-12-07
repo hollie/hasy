@@ -47,7 +47,6 @@ enum XPL_PARSE_TYPE xpl_msg_state;
 enum XPL_MSG_TYPE {STAT, TRIG};
 
 enum XPL_CMD_MSG_TYPE_RSP {HEARTBEAT_MSG_TYPE = 0,              \\
-                           STATUS_MSG_TYPE,                     \\
                            CONFIGURATION_CAPABILITIES_MSG_TYPE, \\
                            CONFIG_STATUS_MSG_TYPE,              \\
                            GAS_DEVICE_CURRENT_MSG_TYPE,         \\
@@ -163,16 +162,6 @@ void xpl_send_config_end(void){
 	printf("config.end\n{\ninterval=1\n}\n");
 	return;
 }
-
-//////////////////////////////////////////////////////////
-// xpl_send_status
-//  Request status by the config manager
-//  send the current status of the node to the config manager
-/* NOT ENOUGH STORAGE void xpl_send_status(void) {
-    xpl_print_header(STAT);
-    printf("config.current\n{\ninterval=1\n}\n");
-    return;
-}    */
 
 //////////////////////////////////////////////////////////
 // xpl_send_stat_configuration_capabilities
@@ -309,9 +298,6 @@ void xpl_handler(void) {
     		    case HEARTBEAT_MSG_TYPE:
     		        xpl_send_hbeat();
     		        break;
-    		    case STATUS_MSG_TYPE:
-    		        //NOT ENOUGH STORAG xpl_send_status();
-    		        break;
     		    case CONFIGURATION_CAPABILITIES_MSG_TYPE:
                     xpl_send_stat_configuration_capabilities();
     		        break;
@@ -438,10 +424,7 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
     		}    
 		    break;   
 		case WAITING_CMND_SENSOR_REQUEST:
-		    if (strcmpram2pgm("command=status", xpl_rx_buffer_shadow) == 0) {
-    		    xpl_msg_state = WAITING_CMND;
-    		    return STATUS_MSG_TYPE;
-    		} else if (strcmpram2pgm("command=current", xpl_rx_buffer_shadow) == 0) {
+            if (strcmpram2pgm("command=current", xpl_rx_buffer_shadow) == 0) {
     		    xpl_msg_state = WAITING_CMND_SENSOR_REQUEST_DEVICE;    		
     		} else if (xpl_rx_buffer_shadow[0] == '{') {
     		    //do nothing
