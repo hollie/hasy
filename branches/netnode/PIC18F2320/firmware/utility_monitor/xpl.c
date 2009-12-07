@@ -137,7 +137,7 @@ void xpl_print_header(enum XPL_MSG_TYPE type){
 //  Send out a normal heartbeat
 void xpl_send_hbeat(void){
 	xpl_print_header(STAT);
-	printf("hbeat.basic\n{\ninterval=5\nversion=1.0c\n}\n");
+	printf("hbeat.basic\n{\ninterval=5\nversion=1.0d\n}\n");
 	return;
 }
 
@@ -148,7 +148,7 @@ void xpl_send_hbeat(void){
 //  INSTANCE_ID is found in EEPROM by the xpl_init function.
 void xpl_send_config_hbeat(void){
 	xpl_print_header(STAT);
-	printf("config.basic\n{\ninterval=1\nversion=1.0c\n}\n");
+	printf("config.basic\n{\ninterval=1\nversion=1.0d\n}\n");
 	return;
 }
 
@@ -184,7 +184,7 @@ void xpl_send_stat_config(void){
 }
 
 void xpl_send_sensor_basic(char *device, unsigned short count) {
-    printf("sensor.basic\n{\ndevice=%s\ntype=count\ncurrent=%d\n}\n",*device,count);
+    printf("sensor.basic\n{\ndevice=%s\ntype=count\ncurrent=%u\n}\n",*device,count);
 }    
 
 void xpl_send_device_current(enum XPL_MSG_TYPE msg_type,enum XPL_DEVICE_TYPE type) {
@@ -291,7 +291,7 @@ void xpl_init(void){
 void xpl_addbyte(char data){
 	if (data != '\n') {
     	if (xpl_rx_pointer >= XPL_RX_BUFSIZE) {
-            // reduce code base printf("RX OVERFLOW: %s",xpl_rx_buffer_shadow);
+            printf("RX OVERFLOW: %s",xpl_rx_buffer_shadow);
 	        xpl_init_state();
 			return;
 	    }
@@ -357,6 +357,11 @@ void xpl_handler(void) {
 			if (time_ticks > 300 && configured) {
 				xpl_send_hbeat();
 				time_ticks = 0;
+				
+// TEST CODE BEGIN
+				xpl_trig_register |= GAS;
+				xpl_count_gas++;				
+// TEST CODE END BEGIN				
 				return;
  			}
 			if (time_ticks > 60 && !configured) {
@@ -366,24 +371,23 @@ void xpl_handler(void) {
 			}
 			
 			// send trig message out once we receice the interrupt
-			/* NOT ENOUGH STORAGE 
 			if (xpl_trig_register != 0) {
     			if ((xpl_trig_register & GAS) == 1) {
-        		    xpl_send_device_current(TRIG,GAS);	
-        		    // TODO: swith bit of xpl_trig_register = 	
+        		    xpl_send_device_current(TRIG,GAS);
+        		    xpl_trig_register &= !GAS;
                 } else if ((xpl_trig_register & WATER) == 1) {
-        		    xpl_send_device_current(TRIG,WATER);	
-        		    // TODO: swith bit of xpl_trig_register = 	
+        		    xpl_send_device_current(TRIG,WATER);
+        		    xpl_trig_register &= !WATER;
         		} else if ((xpl_trig_register & ELEC_DAY) == 1) {
         		    xpl_send_device_current(TRIG,ELEC_DAY);	
-        		    // TODO: swith bit of xpl_trig_register = 	
+        		    xpl_trig_register &= !ELEC_DAY;
         		} else if ((xpl_trig_register & ELEC_NIGTH) == 1) {
         		    xpl_send_device_current(TRIG,ELEC_NIGTH);
-        		    // TODO: swith bit of xpl_trig_register = 	
+        		    xpl_trig_register &= !ELEC_NIGTH;
         		} else {
         		    xpl_trig_register = 0;
         		} 
-            } */			
+            }			
 			break;
 	}
 
