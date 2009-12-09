@@ -183,35 +183,34 @@ void xpl_send_stat_config(void){
 	return;
 }
 
-void xpl_send_sensor_basic(char *device, unsigned short count) {
-    printf("sensor.basic\n{\ndevice=%s\ntype=count\ncurrent=%u\n}\n",*device,count);
+void xpl_send_sensor_basic(enum XPL_MSG_TYPE msg_type,const rom far char *sdevice, unsigned short count) {
+    xpl_print_header(msg_type);
+    printf("sensor.basic\n{\ndevice=%s\ntype=count\ncurrent=%u\n}\n",sdevice,count);
 }    
 
 void xpl_send_device_current(enum XPL_MSG_TYPE msg_type,enum XPL_DEVICE_TYPE type) {
-    unsigned short count;
-    
-    xpl_print_header(msg_type);
-    
+    unsigned short count; 
+   
     switch (type) {
         case GAS:
             count = xpl_count_gas;      
             xpl_count_gas = xpl_count_gas - count; 
-            xpl_send_sensor_basic("gas",count);
+            xpl_send_sensor_basic(msg_type,"gas",count);
             break;   
         /*case WATER:
             count = xpl_count_water;  
             xpl_count_water = xpl_count_water - count; 
-            xpl_send_sensor_basic("water",count);              
+            xpl_send_sensor_basic(msg_type,"water",count);              
             break;
         case ELEC_DAY:
             count = xpl_count_elec_day;
             xpl_count_elec_day = xpl_count_elec_day - count; 
-            xpl_send_sensor_basic("elec-day",count);
+            xpl_send_sensor_basic(msg_type,"elec-day",count);
             break;
         case ELEC_NIGTH:
             count = xpl_count_elec_nigth;      
             xpl_count_elec_nigth = xpl_count_elec_nigth - count; 
-            xpl_send_sensor_basic("elec-nigth",count);  
+            xpl_send_sensor_basic(msg_type,"elec-nigth",count);  
             break;      */
     }    
     return;
