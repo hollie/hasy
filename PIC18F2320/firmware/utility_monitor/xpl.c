@@ -184,8 +184,12 @@ void xpl_send_stat_config(void){
 }
 
 void xpl_send_sensor_basic(enum XPL_MSG_TYPE msg_type,const rom far char* device, unsigned short count) {
+    char device_array[11];
+    
+    strcpypgm2ram(device_array,device);
+    
     xpl_print_header(msg_type);
-    printf("sensor.basic\n{\ndevice=%s\ntype=count\ncurrent=%u\n}\n",device,count);
+    printf("sensor.basic\n{\ndevice=%s\ntype=count\ncurrent=%u\n}\n",device_array,count);
 }    
 
 void xpl_send_device_current(enum XPL_MSG_TYPE msg_type,enum XPL_DEVICE_TYPE type) {
@@ -351,29 +355,9 @@ void xpl_handler(void) {
 			if (xpl_rx_write_fifo_pointer != xpl_rx_read_fifo_pointer){
 				xpl_addbyte(xpl_fifo_pop_byte());
 			}
-
-			// Send hbeat every 5 minutes when configured
-			if (time_ticks > 300 && configured) {
-				xpl_send_hbeat();
-				time_ticks = 0;
-				return;
- 			}
- 			
-// TEST CODE BEGIN 			
- 			if (time_ticks == 250 && configured) {
-     			xpl_trig_register |= GAS;
-				xpl_count_gas++;				
-            } 			
-// TEST CODE END BEGIN	
-			
-    		if (time_ticks > 60 && !configured) {
-				xpl_send_config_hbeat();
-				time_ticks = 0;
-				return;
-			}
 			
 			// send trig message out once we receice the interrupt
-			if (xpl_trig_register != 0) {
+			if (xpl_trig_register != 0 && time_ticks == 1 /* last && is for test only */) {
     			if ((xpl_trig_register & GAS) == 1) {
         		    xpl_send_device_current(TRIG,GAS);
         		    xpl_trig_register &= !GAS;
@@ -389,7 +373,24 @@ void xpl_handler(void) {
         		} else {
         		    xpl_trig_register = 0;
         		} 
-            }			
+            }
+
+			// Send hbeat every 5 minutes when configured
+			if (time_ticks > 300 && configured) {
+				xpl_send_hbeat();
+				time_ticks = 0;
+// TEST CODE BEGIN 			
+     			xpl_trig_register |= GAS;
+				xpl_count_gas++;				
+// TEST CODE END BEGIN
+				return;
+ 			}
+			
+    		if (time_ticks > 60 && !configured) {
+				xpl_send_config_hbeat();
+				time_ticks = 0;
+				return;
+			}
 			break;
 	}
 
@@ -429,7 +430,7 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
 				// No need to wait for the command here, this is a simple device, we only support one command        	
 				xpl_msg_state = WAITING_CMND;
     		    return CONFIGURATION_CAPABILITIES_MSG_TYPE;
-        	} else if (strcmpram2pgm("config.response", xpl_rx_buffer_shadow) == 0) {
+        	} /*else if (strcmpram2pgm("config.response", xpl_rx_buffer_shadow) == 0) {
         	    xpl_msg_state = WAITING_CMND_CONFIG_RESPONSE;
         	} else if (strcmpram2pgm("sensor.request", xpl_rx_buffer_shadow) == 0) {
         	    xpl_msg_state = WAITING_CMND_SENSOR_REQUEST;
@@ -439,7 +440,7 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
         	    xpl_msg_state = WAITING_CMND_CONFIG_CURRENT;
             } else if (strcmpram2pgm("}", xpl_rx_buffer_shadow) == 0) {
                 // just wait for command
-            } else {
+            } */ else {
         	    xpl_msg_state = WAITING_CMND;
         	}
 		    break;
