@@ -183,9 +183,9 @@ void xpl_send_stat_config(void){
 	return;
 }
 
-void xpl_send_sensor_basic(enum XPL_MSG_TYPE msg_type,const rom far char *sdevice, unsigned short count) {
+void xpl_send_sensor_basic(enum XPL_MSG_TYPE msg_type,const rom far char* device, unsigned short count) {
     xpl_print_header(msg_type);
-    printf("sensor.basic\n{\ndevice=%s\ntype=count\ncurrent=%u\n}\n",sdevice,count);
+    printf("sensor.basic\n{\ndevice=%s\ntype=count\ncurrent=%u\n}\n",device,count);
 }    
 
 void xpl_send_device_current(enum XPL_MSG_TYPE msg_type,enum XPL_DEVICE_TYPE type) {
@@ -356,14 +356,17 @@ void xpl_handler(void) {
 			if (time_ticks > 300 && configured) {
 				xpl_send_hbeat();
 				time_ticks = 0;
-				
-// TEST CODE BEGIN
-				xpl_trig_register |= GAS;
-				xpl_count_gas++;				
-// TEST CODE END BEGIN				
 				return;
  			}
-			if (time_ticks > 60 && !configured) {
+ 			
+// TEST CODE BEGIN 			
+ 			if (time_ticks == 250 && configured) {
+     			xpl_trig_register |= GAS;
+				xpl_count_gas++;				
+            } 			
+// TEST CODE END BEGIN	
+			
+    		if (time_ticks > 60 && !configured) {
 				xpl_send_config_hbeat();
 				time_ticks = 0;
 				return;
