@@ -70,6 +70,7 @@ void init(void)
 	OSCCONbits.IRCF0 = 1;
 	OSCCONbits.IRCF1 = 1;
 	OSCCONbits.IRCF2 = 1;
+	OSCTUNEbits.PLLEN = 0;
 
 	// All digital IO's on ports
 	ADCON1 = 0x0F;
