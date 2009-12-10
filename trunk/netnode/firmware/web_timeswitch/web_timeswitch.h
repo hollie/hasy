@@ -37,7 +37,7 @@ void web_php_interface(enum PHP_IF_TYPE);
 char  check_timer_table 	= 0;
 
 // Constants
-#define TMR0_VAL 3043
+#define TMR0_VAL 3044
 #define RX_BUFSIZE 40
 
 #endif //_TIMESWITCH_H_

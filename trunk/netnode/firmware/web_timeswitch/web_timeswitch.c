@@ -52,7 +52,7 @@
 
 #pragma romdata eedata_scn=0xf00000
 // Default switch points:      3 points  , MF on @6.45   , STWTS on @7.45, all off @22.00
-rom char eedata_values[16] = {3, 0, 0, 0, 6, 45, 0x44, 1, 7, 30, 0xB6, 1, 22, 0x00, 0xFE, 0};
+rom char eedata_values[16] = {3, 0, 0, 0, 6, 45, 0x44, 1, 7, 30, 0xBA, 1, 22, 0x00, 0xFE, 0};
 #pragma romdata
 
 enum UART_STATE_TYPE uart_state;
@@ -97,7 +97,7 @@ void main()
 		
 		// Act depending on the UART state
 		if (uart_state == STRING_RECEIVED){
-			uart_state == WAIT_FOR_DISCONNECT;
+			uart_state = WAIT_FOR_DISCONNECT;
 			if (rx_buffer[1] == '-' && rx_buffer[4] == ':') {
 				// We have received a valid string with time information, parse it
 				//uart_state = WAIT_FOR_DISCONNECT;

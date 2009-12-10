@@ -47,7 +47,7 @@ void print_switch_list(){
 	char count = 0;
 
 	printf("Switch point overview:\n\n");
-	printf("Index Time   SMTWTFSx  Activity\n");
+	printf("Idx Time  SMTWTFSx  State\n");
 
 	nr_of_points = eeprom_read(POINT_COUNT_ADDRESS);	
 
