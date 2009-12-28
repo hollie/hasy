@@ -4,7 +4,7 @@
 <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++        -->
 <config>
 
-<hostname>netnode04</hostname>
+<hostname>solarnode</hostname>
 <hostport>10001   </hostport>
 
 <command>S</command>
