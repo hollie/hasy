@@ -4,7 +4,7 @@
 <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++        -->
 <config>
 
-<hostname>oswald05</hostname>
+<hostname>ventinode</hostname>
 <hostport>10001   </hostport>
 
 <onewire>
