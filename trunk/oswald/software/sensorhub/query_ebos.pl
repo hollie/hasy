@@ -43,12 +43,14 @@ $ebos_temp =~ s/M/-/;
 $ebos_dew  =~ s/M/-/;
 #print "temp -$ebos_temp-\n";
 
-print "METAR info for $site_id: $metar\n";
-print "EBOS temp  = $ebos_temp degrees C\n";
-print "EBOS dewpt = $ebos_dew degrees C\n";
+#print "METAR info for $site_id: $metar ";
+print "EBOS temp = $ebos_temp C, ";
+print "dewpt = $ebos_dew C. ";
 
 if (defined $ebos_temp && defined $ebos_dew){
   RRDs::update("ventilatie/ebos.rrd","N:$ebos_temp:$ebos_dew");
     my $err = RRDs::error;
     die "Error while updating temp.rrd: $err\n" if $err;
 }
+
+print "Values stored in database.\n";
