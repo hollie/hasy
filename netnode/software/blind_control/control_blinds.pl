@@ -36,7 +36,7 @@ $SIG{ALRM} = sub { die "timeout" };
 my $gateway_host = 'rfgate';			# Host on the network that has light level values
 my $gateway_port = '10001';				# Port to connect to
 my $state_file   = 'last_command.txt';	# File where the last sent command has been sent to
-my $blinds_host  = 'netnode02';			# Host on the network that controls the blinds
+my $blinds_host  = 'blindnode';			# Host on the network that controls the blinds
 my $blinds_port  = '10001';				# Port to connect to on the blind controller
 my $debug        = '0';                 # Set to not '0' to print debug messages and to send the command to the blind controller
 
@@ -135,6 +135,8 @@ sub command_blinds  {
 		$socket->send($blind_command);
 	
 		print "'$blind_command' sent to host...\n";
+		
+		sleep(1);
 	
 		close($socket);
 
@@ -161,12 +163,14 @@ sub get_last_command {
 	my $last_command = '?';
 	if (open (STATUS, $filename) ){
 		$last_command = <STATUS>;
-		chomp($last_command);
+		chomp($last_command) if defined ($last_command);
 	} else {
 		print "Could not open last command file, creating new one...\n";
 	};
 	
 	close(STATUS);
+	
+	$last_command = '' if (!defined($last_command));
 	
 	return $last_command;
 }
