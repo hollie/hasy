@@ -105,19 +105,24 @@ void init(void)
 
 	WriteTimer0(TMR0_VALUE);		// Load initial timer value
 
-	// Enable interrupt on falling edge of RB0
-	//intcon2.RBPU    = 0; // Enable weak pull ups
-	//intcon2.INTEDG0 = 0; // Falling edge
-	//intcon.INT0IF   = 0; // Reset interrupt
-	//intcon.INT0IE   = 1; // Clear mask bit
-	INTCONbits.PEIE   = 1; // Peripheral interrupt enable for USART RX interrupt
-	INTCONbits.GIE    = 1; // Global interrupt enable
+	// Enable pullups on Portb inputs
+	INTCON2bits.RBPU    = 0; // (bit is active low!)
 
-	// Setup the timer that will be used by the edge detection interrupt 
-	// for counting those interrupts. When an edge is detected, the interrupt is 
-	// disabled for ~ 525 ms to avoid false triggers.
-	// The timer used for this purpose is timer3
-	//tmr3_setup(TMR_IRQ_ON);
+	// Enable interrupt on falling edge of RB0/1/2
+	INTCON2bits.INTEDG0 = 0; // Interrupt on falling edge
+	INTCON2bits.INTEDG1 = 0; // Interrupt on falling edge
+	INTCON2bits.INTEDG2 = 0; // Interrupt on falling edge
+
+	// Reset interrupt flags and enable the interrupts
+	INTCONbits.INT0IF   = 0; // Reset interrupt
+	INTCONbits.INT0IE   = 1; // Clear mask bit
+	INTCON3bits.INT1IF  = 0;
+	INTCON3bits.INT1IE  = 1;
+	INTCON3bits.INT2IF  = 0;
+	INTCON3bits.INT2IE  = 1;
+
+	INTCONbits.PEIE     = 1; // Peripheral interrupt enable for USART RX interrupt
+	INTCONbits.GIE      = 1; // Global interrupt enable
 		
 }
 
@@ -152,7 +157,24 @@ void high_isr(void){
 		xpl_fifo_push_byte(ReadUSART());
 	}
 
-	return;
+	/* RB0 INTERRUPT HANDLING */
+	if (INTCONbits.INT0IF==1){
+		xpl_trig(WATER);
+		INTCONbits.INT0IF = 0;
+	}
+
+	/* RB1 INTERRUPT HANDLING */
+	if (INTCON3bits.INT1IF==1){
+		xpl_trig(GAS);
+		INTCON3bits.INT2IF = 0;
+	}	return;
+
+	/* RB2 INTERRUPT HANDLING */
+	if (INTCON3bits.INT2IF==1){
+		xpl_trig(ELEC_DAY);
+		INTCON3bits.INT2IF = 0;
+	}	return;
+
 }
 
 // Generate low-priority interrupt vector, and put a goto low_isr there

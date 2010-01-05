@@ -24,10 +24,18 @@
 #define XPL_RX_BUFSIZE 40
 #define XPL_RXFIFO_SIZE 44
 
+enum XPL_DEVICE_TYPE      {GAS = 1,     \\
+                           WATER = 2,       \\
+                           ELEC_DAY = 4,    \\
+                           ELEC_NIGTH = 8   \\
+                           };
+
 // public functions called outside xpl lib
 void xpl_init(void);
 void xpl_handler(void);
 void xpl_fifo_push_byte(char);
+void xpl_trig(enum XPL_DEVICE_TYPE sensor);
+
 
 
 // For flow control of the UART

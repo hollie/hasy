@@ -24,7 +24,7 @@
 
 // Define port directions
 #define PortAConfig  	0xEF  //  1=input
-#define PortBConfig  	0x01  //  1=input 
+#define PortBConfig  	0x07  //  1=input 
 #define PortCConfig  	0xDE 	
 
 // Define bit variables attached to pins
