@@ -57,11 +57,7 @@ enum XPL_CMD_MSG_TYPE_RSP {HEARTBEAT_MSG_TYPE = 0,              \\
                            ELEC_NIGTH_DEVICE_CURRENT_MSG_TYPE   \\
                            };
 
-enum XPL_DEVICE_TYPE      {GAS = 1,     \\
-                           WATER = 2,       \\
-                           ELEC_DAY = 4,    \\
-                           ELEC_NIGTH = 8   \\
-                           };
+
 
 enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void);
 
@@ -71,7 +67,7 @@ enum XPL_FLOW_TYPE xpl_flow;
 char xpl_trig_register = 0;   /* bit 0 = GAS                              
                                  bit 1 = WATER
                                  bit 2 = ELEC_DAY
-                                 bit 3 = ELEC_NIGTH */
+                                 bit 3 = ELEC_NIGHT */
 
 // Following variable has to be declared in the main function and should be incremented every second.
 extern volatile int time_ticks;
@@ -139,7 +135,7 @@ void xpl_print_header(enum XPL_MSG_TYPE type){
 //  Send out a normal heartbeat
 void xpl_send_hbeat(void){
 	xpl_print_header(STAT);
-	printf("hbeat.basic\n{\ninterval=5\nversion=1.0d\n}\n");
+	printf("hbeat.basic\n{\ninterval=5\nversion=1.0e\n}\n");
 	return;
 }
 
@@ -359,7 +355,7 @@ void xpl_handler(void) {
 			}
 			
 			// send trig message out once we receice the interrupt
-			if (xpl_trig_register != 0 && time_ticks == 1 /* last && is for test only */) {
+			if (xpl_trig_register != 0 /*&& time_ticks == 1 /* last && is for test only */) {
     			if ((xpl_trig_register & GAS) == 1) {
         		    xpl_send_device_current(TRIG,GAS);
         		    xpl_trig_register &= !GAS;
@@ -382,8 +378,8 @@ void xpl_handler(void) {
 				xpl_send_hbeat();
 				time_ticks = 0;
 // TEST CODE BEGIN 			
-     			xpl_trig_register |= GAS;
-				xpl_count_gas++;				
+     			//xpl_trig_register |= GAS;
+				//xpl_count_gas++;				
 // TEST CODE END BEGIN
 				return;
  			}
@@ -524,3 +520,24 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
     return -1;
 }
 
+// Increment the counter for the sensor and ensure a trig message is sent out.
+// This function should be called from the sensor pin interrupt handler
+void xpl_trig(enum XPL_DEVICE_TYPE sensor){
+	switch (sensor){
+	case WATER:
+		xpl_count_water++;
+		xpl_trig_register |= WATER;
+		break;
+	case GAS:
+		xpl_count_gas++;
+		xpl_trig_register |= GAS;
+		break;
+	case ELEC_DAY:
+		xpl_count_elec_day++;
+		xpl_trig_register |= ELEC_DAY;
+		break;
+	default:
+		printf("Error: invalid sensor");
+		break;
+	}
+}
