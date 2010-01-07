@@ -48,7 +48,7 @@ open_socket($config->{hostname}, $config->{hostport});
 print $socket "?\r\n";
 
 # Read sensor values, with a timeout of 10 seconds
-my $report = read_socket(5);
+my $report = read_socket(10);
 
 # Close the socket
 close_socket();
@@ -82,7 +82,7 @@ sub parse_report {
 	}
 	
 	# Extract SHTxx
-	while ($report =~ /SHTxx T: (\d+.\d) C RH: (\d+.\d) DewPt:\s+(\d+.\d) C/g){
+	while ($report =~ /SHTxx T: (-?\d+.\d) C RH: (-?\d+.\d) DewPt:\s+(-?\d+.\d) C/g){
 		process_sht($1, $2, $3);
 	}
 	 
