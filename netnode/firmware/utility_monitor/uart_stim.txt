@@ -56,46 +56,7 @@ wait 100 ms
 "newconf=test"
 0a
 "}"
-wait 1 s
-"xpl-stat"
-0A
-"{"
-0A
-"eengrotetestomtezienwatdefifodoet"
-wait 50 ms
-"op=1"
-0A
-wait 50 ms
-"xpl-cmnd"
-0A
-wait 1 sec
-"{"
-0A
-wait 1 sec
-"hop=1"
-0A
-wait 1 sec
-"source=xpl-xplhal.myhouse"
-0A
-wait 1 sec
-"target=hollie-utilmon.default"
-0A
-wait 1 sec
-"}"
-0A
-wait 1 sec
-"config.list"
-0A
-wait 1 sec
-"{"
-0A
-wait 1 sec
-"command=request"
-0A
-wait 1 sec
-"}"
-0A
-wait 1 sec
+wait 20 sec
 "xpl-cmnd"
 0A
 "{"

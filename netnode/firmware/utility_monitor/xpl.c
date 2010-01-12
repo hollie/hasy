@@ -5,7 +5,7 @@
 * Authors: Lieven Hollevoet
 *          Dirk Buekenhoudt
 **************************************************************
-* target device   : PIC18F2320
+* target device   : PIC18F2520
 * clockfreq       : 8 MHz (internal oscillator)
 * target hardware : NetNode
 *************************************************************/
@@ -53,8 +53,7 @@ enum XPL_CMD_MSG_TYPE_RSP {HEARTBEAT_MSG_TYPE = 0,              \\
                            CONFIG_STATUS_MSG_TYPE,              \\
                            GAS_DEVICE_CURRENT_MSG_TYPE,         \\
                            WATER_DEVICE_CURRENT_MSG_TYPE,       \\
-                           ELEC_DAY_DEVICE_CURRENT_MSG_TYPE,    \\
-                           ELEC_NIGTH_DEVICE_CURRENT_MSG_TYPE   \\
+                           ELEC_DEVICE_CURRENT_MSG_TYPE,        \\
                            };
 
 
@@ -66,16 +65,14 @@ enum XPL_FLOW_TYPE xpl_flow;
 
 char xpl_trig_register = 0;   /* bit 0 = GAS                              
                                  bit 1 = WATER
-                                 bit 2 = ELEC_DAY
-                                 bit 3 = ELEC_NIGHT */
+                                 bit 2 = ELEC */
 
 // Following variable has to be declared in the main function and should be incremented every second.
 extern volatile int time_ticks;
 
 unsigned short xpl_count_gas;
 unsigned short xpl_count_water;
-unsigned short xpl_count_elec_nigth;
-unsigned short xpl_count_elec_day;
+unsigned short xpl_count_elec;
 
 // We need a FIFO to cover for the latency between sending a XOFF and the XPORT to react on this
 void xpl_fifo_push_byte(char data){
@@ -204,16 +201,11 @@ void xpl_send_device_current(enum XPL_MSG_TYPE msg_type,enum XPL_DEVICE_TYPE typ
             xpl_count_water = xpl_count_water - count; 
             xpl_send_sensor_basic(msg_type,"water",count);              
             break;
-        case ELEC_DAY:
-            count = xpl_count_elec_day;
-            xpl_count_elec_day = xpl_count_elec_day - count; 
-            xpl_send_sensor_basic(msg_type,"elec-day",count);
+        case ELEC:
+            count = xpl_count_elec;
+            xpl_count_elec = xpl_count_elec - count; 
+            xpl_send_sensor_basic(msg_type,"elec",count);
             break;
-        case ELEC_NIGTH:
-            count = xpl_count_elec_nigth;      
-            xpl_count_elec_nigth = xpl_count_elec_nigth - count; 
-            xpl_send_sensor_basic(msg_type,"elec-nigth",count);  
-            break;      
     }    
     return;
 }    
@@ -271,8 +263,7 @@ void xpl_init(void){
     
     xpl_count_gas = 0;
     xpl_count_water = 0;
-    xpl_count_elec_nigth = 0;
-    xpl_count_elec_day = 0;
+    xpl_count_elec = 0;
     
     // Only apply this function after we have read the EEPROM, as we enable serial reception
 	// in this function and when we do that we need to know our ID.
@@ -337,12 +328,9 @@ void xpl_handler(void) {
     		    case WATER_DEVICE_CURRENT_MSG_TYPE:
     		        xpl_send_device_current(STAT,WATER);
     		        break;
-    		     case ELEC_DAY_DEVICE_CURRENT_MSG_TYPE:
-    		        xpl_send_device_current(STAT,ELEC_DAY);
+    		     case ELEC_DEVICE_CURRENT_MSG_TYPE:
+    		        xpl_send_device_current(STAT,ELEC);
     		        break;
-    		    case ELEC_NIGTH_DEVICE_CURRENT_MSG_TYPE:
-    		        xpl_send_device_current(STAT,ELEC_NIGTH);
-    		        break;    
     		}    
 			// Once the message is processed, reset the buffer and return to waiting state.
 		    xpl_state = WAITING;
@@ -356,31 +344,24 @@ void xpl_handler(void) {
 			
 			// send trig message out once we receice the interrupt
 			if (xpl_trig_register != 0 /*&& time_ticks == 1 /* last && is for test only */) {
-    			if ((xpl_trig_register & GAS) == 1) {
+    			if (xpl_trig_register & GAS) {
         		    xpl_send_device_current(TRIG,GAS);
-        		    xpl_trig_register &= !GAS;
-                } else if ((xpl_trig_register & WATER) == 1) {
+        		    xpl_trig_register &= 0xFE; // Need to hardcode this, compiler does not like the !GAS
+                } else if (xpl_trig_register & WATER) {
         		    xpl_send_device_current(TRIG,WATER);
-        		    xpl_trig_register &= !WATER;
-        		} else if ((xpl_trig_register & ELEC_DAY) == 1) {
-        		    xpl_send_device_current(TRIG,ELEC_DAY);	
-        		    xpl_trig_register &= !ELEC_DAY;
-        		} else if ((xpl_trig_register & ELEC_NIGTH) == 1) {
-        		    xpl_send_device_current(TRIG,ELEC_NIGTH);
-        		    xpl_trig_register &= !ELEC_NIGTH;
+        		    xpl_trig_register &= 0xFD;
+        		} else if (xpl_trig_register & ELEC) {
+        		    xpl_send_device_current(TRIG,ELEC);	
+        		    xpl_trig_register &= 0xFC; 
         		} else {
-        		    xpl_trig_register = 0;
-        		} 
-            }
+					xpl_trig_register = 0;
+     	        }
+			}
 
 			// Send hbeat every 5 minutes when configured
 			if (time_ticks > 300 && configured) {
 				xpl_send_hbeat();
 				time_ticks = 0;
-// TEST CODE BEGIN 			
-     			//xpl_trig_register |= GAS;
-				//xpl_count_gas++;				
-// TEST CODE END BEGIN
 				return;
  			}
 			
@@ -471,19 +452,16 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
     		} else if (strcmpram2pgm("device=water", xpl_rx_buffer_shadow) == 0) {
     		    xpl_msg_state = WAITING_CMND;
 		        return WATER_DEVICE_CURRENT_MSG_TYPE;
-    		} else if (strcmpram2pgm("device=elec-day", xpl_rx_buffer_shadow) == 0) {
+    		} else if (strcmpram2pgm("device=elec", xpl_rx_buffer_shadow) == 0) {
     		    xpl_msg_state = WAITING_CMND;
-		        return ELEC_DAY_DEVICE_CURRENT_MSG_TYPE;
-    		} else if (strcmpram2pgm("device=elec-nigth", xpl_rx_buffer_shadow) == 0) {
-    		    xpl_msg_state = WAITING_CMND;
-		        return ELEC_NIGTH_DEVICE_CURRENT_MSG_TYPE;
+		        return ELEC_DEVICE_CURRENT_MSG_TYPE;
     		} else {
     		    xpl_msg_state = WAITING_CMND;		  
     		}   
 		    break;
 		
 		case WAITING_CMND_CONFIG_RESPONSE:
-		    // what we write here depends off the node type, this is not yet generic code :(
+		    // what we write here depends on the node type, this is not yet generic code :(
 		    // maybe we need to implement here a function from the xpl_impl.c file
 			// For now we just parse the instance_id and put it in EEPROM
 		    if (strncmpram2pgm("newconf=", xpl_rx_buffer_shadow, 8) == 0) {
@@ -532,9 +510,9 @@ void xpl_trig(enum XPL_DEVICE_TYPE sensor){
 		xpl_count_gas++;
 		xpl_trig_register |= GAS;
 		break;
-	case ELEC_DAY:
-		xpl_count_elec_day++;
-		xpl_trig_register |= ELEC_DAY;
+	case ELEC:
+		xpl_count_elec++;
+		xpl_trig_register |= ELEC;
 		break;
 	default:
 		printf("Error: invalid sensor");
