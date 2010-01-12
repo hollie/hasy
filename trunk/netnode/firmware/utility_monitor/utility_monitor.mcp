@@ -8,8 +8,8 @@ dir_src=
 dir_bin=
 dir_tmp=
 dir_sin=
-dir_inc=C:\mcc18\h
-dir_lib=C:\mcc18\lib
+dir_inc=D:\dev\tools\Microchip\MCC18\h;C:\mcc18\h
+dir_lib=D:\dev\tools\Microchip\MCC18\lib;C:\mcc18\lib
 dir_lkr=
 [CAT_FILTERS]
 filter_src=*.asm;*.c
@@ -32,7 +32,6 @@ file_004=.
 file_005=.
 file_006=.
 file_007=.
-file_008=.
 [GENERATED_FILES]
 file_000=no
 file_001=no
@@ -42,7 +41,6 @@ file_004=no
 file_005=no
 file_006=no
 file_007=no
-file_008=no
 [OTHER_FILES]
 file_000=no
 file_001=no
@@ -51,8 +49,7 @@ file_003=no
 file_004=no
 file_005=no
 file_006=no
-file_007=no
-file_008=yes
+file_007=yes
 [FILE_INFO]
 file_000=utility_monitor.c
 file_001=xpl.c
@@ -61,8 +58,7 @@ file_003=utility_monitor.h
 file_004=fuses.h
 file_005=xpl.h
 file_006=eeprom.h
-file_007=C:\mcc18\lkr\18f2520.lkr
-file_008=uart_stim.txt
+file_007=uart_stim.txt
 [SUITE_INFO]
 suite_guid={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
 suite_state=

@@ -132,7 +132,7 @@ void xpl_print_header(enum XPL_MSG_TYPE type){
 //  Send out a normal heartbeat
 void xpl_send_hbeat(void){
 	xpl_print_header(STAT);
-	printf("hbeat.basic\n{\ninterval=5\nversion=1.0e\n}\n");
+	printf("hbeat.basic\n{\ninterval=5\nversion=1.0f\n}\n");
 	return;
 }
 
@@ -188,22 +188,29 @@ void xpl_send_sensor_basic(enum XPL_MSG_TYPE msg_type,const rom far char* device
 }    
 
 void xpl_send_device_current(enum XPL_MSG_TYPE msg_type,enum XPL_DEVICE_TYPE type) {
-    unsigned short count; 
+    unsigned short count = 1; 
    
+    
     switch (type) {
         case GAS:
-            count = xpl_count_gas;      
-            xpl_count_gas = xpl_count_gas - count; 
+            if (msg_type == STAT) {
+                count = xpl_count_gas;      
+                xpl_count_gas = xpl_count_gas - count; 
+            }   
             xpl_send_sensor_basic(msg_type,"gas",count);
             break;   
         case WATER:
-            count = xpl_count_water;  
-            xpl_count_water = xpl_count_water - count; 
+            if (msg_type == STAT) {
+                count = xpl_count_water;  
+                xpl_count_water = xpl_count_water - count; 
+            }    
             xpl_send_sensor_basic(msg_type,"water",count);              
             break;
         case ELEC:
-            count = xpl_count_elec;
-            xpl_count_elec = xpl_count_elec - count; 
+            if (msg_type == STAT) {
+                count = xpl_count_elec;
+                xpl_count_elec = xpl_count_elec - count; 
+            }    
             xpl_send_sensor_basic(msg_type,"elec",count);
             break;
     }    
