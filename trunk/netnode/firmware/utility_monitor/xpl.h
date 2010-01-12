@@ -25,9 +25,8 @@
 #define XPL_RXFIFO_SIZE 44
 
 enum XPL_DEVICE_TYPE      {GAS = 1,     \\
-                           WATER = 2,       \\
-                           ELEC_DAY = 4,    \\
-                           ELEC_NIGTH = 8   \\
+                           WATER = 2,   \\
+                           ELEC = 4,    \\
                            };
 
 // public functions called outside xpl lib

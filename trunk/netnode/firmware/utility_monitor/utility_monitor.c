@@ -166,14 +166,16 @@ void high_isr(void){
 	/* RB1 INTERRUPT HANDLING */
 	if (INTCON3bits.INT1IF==1){
 		xpl_trig(GAS);
-		INTCON3bits.INT2IF = 0;
-	}	return;
+		INTCON3bits.INT1IF = 0;
+	}
 
 	/* RB2 INTERRUPT HANDLING */
 	if (INTCON3bits.INT2IF==1){
-		xpl_trig(ELEC_DAY);
+		xpl_trig(ELEC);
 		INTCON3bits.INT2IF = 0;
-	}	return;
+	}
+
+	return;
 
 }
 

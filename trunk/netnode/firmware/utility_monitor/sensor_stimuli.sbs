@@ -5,8 +5,26 @@
 ## DEVICE:  PIC18F2520
 
 ## PINREGACTIONS
-cyc
+h:m:s
 No Repeat
+INT0
+INT1
+INT2
+--
+0
+1
+1
+1
+--
+20
+0
+0
+0
+--
+21
+1
+1
+1
 --
 &
 ## ADVPINREGACTIONS
@@ -54,5 +72,5 @@ Pulse electricity
 &
 ## ADVANCEDSCL
 
-0
+1
 &
