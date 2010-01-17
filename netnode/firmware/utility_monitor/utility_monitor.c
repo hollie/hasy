@@ -12,7 +12,8 @@
 * UART speed      : 38400 bps
 * mpasmwin.exe    : v5.34
 * mplink.exe      : v4.34
-* mcc18.exe       : v3.34*************************************************************/
+* mcc18.exe       : v3.34
+*************************************************************/
 
 #include <p18cxxx.h>
 #include <usart.h>
@@ -155,25 +156,26 @@ void high_isr(void){
 	/* USART RX INTERRUPT HANDLING */
 	if (PIR1bits.RCIF==1){
 		xpl_fifo_push_byte(ReadUSART());
+		PIR1bits.RCIF = 0;
 	}
 
 	/* RB0 INTERRUPT HANDLING */
-	if (INTCONbits.INT0IF==1){
-		xpl_trig(WATER);
-		INTCONbits.INT0IF = 0;
-	}
+// TO SLOW	if (INTCONbits.INT0IF==1){
+// TO SLOW		xpl_trig(WATER);
+// TO SLOW		INTCONbits.INT0IF = 0;
+// TO SLOW	}
 
 	/* RB1 INTERRUPT HANDLING */
-	if (INTCON3bits.INT1IF==1){
-		xpl_trig(GAS);
-		INTCON3bits.INT1IF = 0;
-	}
+// TO SLOW	if (INTCON3bits.INT1IF==1){
+// TO SLOW		xpl_trig(GAS);
+// TO SLOW		INTCON3bits.INT1IF = 0;
+// TO SLOW	}
 
 	/* RB2 INTERRUPT HANDLING */
-	if (INTCON3bits.INT2IF==1){
-		xpl_trig(ELEC);
-		INTCON3bits.INT2IF = 0;
-	}
+// TO SLOW	if (INTCON3bits.INT2IF==1){
+// TO SLOW		xpl_trig(ELEC);
+// TO SLOW INTCON3bits.INT2IF = 0;
+// TO SLOW	}
 
 	return;
 
