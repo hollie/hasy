@@ -82,13 +82,12 @@ void xpl_fifo_push_byte(char data){
     if (xpl_rx_fifo_write_pointer == XPL_RXFIFO_SIZE) {
        	xpl_rx_fifo_write_pointer = 0;
     }
+    
     // the value that we add here may not be lower than 10 otherwise its not working
-    /*if (xpl_rx_fifo_data_count > XPL_RXFIFO_SIZE_THESHOLD) {
-        if (xpl_flow == FLOW_ON) {
-            xpl_flow = FLOW_OFF; 
-            putc(XOFF, _H_USART);
-        }    
-    }*/
+    if (xpl_rx_fifo_data_count > XPL_RXFIFO_SIZE_THESHOLD && xpl_flow == FLOW_ON) {
+        xpl_flow = FLOW_OFF; 
+        putc(XOFF, _H_USART);
+    }
 }
 
 char xpl_fifo_pop_byte(void){
@@ -134,7 +133,7 @@ void xpl_print_header(enum XPL_MSG_TYPE type){
 //  Send out a normal heartbeat
 void xpl_send_hbeat(void){
 	xpl_print_header(STAT);
-	printf("hbeat.basic\n{\ninterval=5\nversion=1.0g\n}\n");
+	printf("hbeat.basic\n{\ninterval=5\nversion=1.0h\n}\n");
 	return;
 }
 
@@ -145,7 +144,7 @@ void xpl_send_hbeat(void){
 //  INSTANCE_ID is found in EEPROM by the xpl_init function.
 void xpl_send_config_hbeat(void){
 	xpl_print_header(STAT);
-	printf("config.basic\n{\ninterval=1\nversion=1.0g\n}\n");
+	printf("config.basic\n{\ninterval=1\nversion=1.0h\n}\n");
 	return;
 }
 
@@ -389,7 +388,7 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
 	char lpcount;
 	char strlength;
     
-    printf("\nmp@st%d@flc%d@fd%d@fwp%d@fwr%d@%s",xpl_msg_state,xpl_flow,xpl_rx_fifo_data_count,xpl_rx_fifo_write_pointer,xpl_rx_fifo_read_pointer,xpl_rx_buffer_shadow);
+    //printf("\nmp@st%d@flc%d@fd%d@fwp%d@fwr%d@%s",xpl_msg_state,xpl_flow,xpl_rx_fifo_data_count,xpl_rx_fifo_write_pointer,xpl_rx_fifo_read_pointer,xpl_rx_buffer_shadow);
         
     switch (xpl_msg_state) {
        	case WAITING_CMND:
