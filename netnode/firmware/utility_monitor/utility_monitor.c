@@ -82,6 +82,7 @@ void init(void)
 	TRISC = PortCConfig;
 		
 	// Serial interface init (38400 @ 8 MHz, BRGH = 1 => 0x0C)
+	// Serial interface init (19200 @ 8 MHz, BRGH = 1 => 0x19)
 	OpenUSART(USART_ASYNCH_MODE & 
 			USART_TX_INT_OFF &
 			USART_RX_INT_ON &
@@ -146,39 +147,41 @@ void high_interrupt(void){
 #pragma interrupt high_isr
 void high_isr(void){
 
-	/* TIMER 0 INTERRUPT HANDLING */
+	/* USART RX INTERRUPT HANDLING */
+	if (PIR1bits.RCIF==1){
+		xpl_fifo_push_byte(ReadUSART());
+		PIR1bits.RCIF = 0;
+		return;
+	}
+
+	/* RB0 INTERRUPT HANDLING */
+	if (INTCONbits.INT0IF==1){
+		xpl_trig(WATER);
+		INTCONbits.INT0IF = 0;
+		return;
+	}
+
+	/* RB1 INTERRUPT HANDLING */
+	if (INTCON3bits.INT1IF==1){
+		xpl_trig(GAS);
+		INTCON3bits.INT1IF = 0;
+		return;
+	}
+
+	/* RB2 INTERRUPT HANDLING */
+	if (INTCON3bits.INT2IF==1){
+		xpl_trig(ELEC);
+        INTCON3bits.INT2IF = 0;
+        return;
+	}
+
+    /* TIMER 0 INTERRUPT HANDLING */
 	if (INTCONbits.TMR0IF==1){
 		WriteTimer0(TMR0_VALUE);		// Reprogram timer
    		INTCONbits.TMR0IF=0;         	// Clear interrupt flag
 		time_ticks++;
  	}
-
-	/* USART RX INTERRUPT HANDLING */
-	if (PIR1bits.RCIF==1){
-		xpl_fifo_push_byte(ReadUSART());
-		PIR1bits.RCIF = 0;
-	}
-
-	/* RB0 INTERRUPT HANDLING */
-// TO SLOW	if (INTCONbits.INT0IF==1){
-// TO SLOW		xpl_trig(WATER);
-// TO SLOW		INTCONbits.INT0IF = 0;
-// TO SLOW	}
-
-	/* RB1 INTERRUPT HANDLING */
-// TO SLOW	if (INTCON3bits.INT1IF==1){
-// TO SLOW		xpl_trig(GAS);
-// TO SLOW		INTCON3bits.INT1IF = 0;
-// TO SLOW	}
-
-	/* RB2 INTERRUPT HANDLING */
-// TO SLOW	if (INTCON3bits.INT2IF==1){
-// TO SLOW		xpl_trig(ELEC);
-// TO SLOW INTCON3bits.INT2IF = 0;
-// TO SLOW	}
-
 	return;
-
 }
 
 // Generate low-priority interrupt vector, and put a goto low_isr there
