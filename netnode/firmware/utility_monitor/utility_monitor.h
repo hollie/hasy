@@ -31,7 +31,8 @@
 #define stat0    (PORTAbits.RA4)
 
 // Timer values
-#define TMR0_VALUE 0xC2F8 // For a second interrupt.
+#define TMR0_VALUE 0x85EE // For a second interrupt.
+#define TMR1_VALUE 0xB1E0 // For 20 ms interrupt.
 
 // Function declarations
 void init(void);

@@ -28,6 +28,9 @@
 
 // Global variables used for message passing between ISR and main code
 volatile int time_ticks = 0;
+volatile char debounce_water;
+volatile char debounce_gas;
+volatile char debounce_elec;
 
 //////////////////////////////////////////////////////////////////
 // Main loop
@@ -71,7 +74,7 @@ void init(void)
 	OSCCONbits.IRCF0 = 1;
 	OSCCONbits.IRCF1 = 1;
 	OSCCONbits.IRCF2 = 1;
-	OSCTUNEbits.PLLEN = 0;
+	OSCTUNEbits.PLLEN = 1;
 
 	// All digital IO's on ports
 	ADCON1 = 0x0F;
@@ -81,15 +84,14 @@ void init(void)
 	TRISB = PortBConfig;
 	TRISC = PortCConfig;
 		
-	// Serial interface init (38400 @ 8 MHz, BRGH = 1 => 0x0C)
-	// Serial interface init (19200 @ 8 MHz, BRGH = 1 => 0x19)
+	// Serial interface init (38400 @ 32 MHz, BRGH = 1 => 51)
 	OpenUSART(USART_ASYNCH_MODE & 
 			USART_TX_INT_OFF &
 			USART_RX_INT_ON &
 			USART_EIGHT_BIT & 
 			USART_CONT_RX & 
 			USART_BRGH_HIGH, 
-			0x0C);
+			51);
 
 	// Do the status LED flicker
 	while (blink_count++ < 5){
@@ -103,9 +105,19 @@ void init(void)
 	OpenTimer0(TIMER_INT_ON & 
 			T0_16BIT & 
 			T0_SOURCE_INT & 
-			T0_PS_1_128);	
+			T0_PS_1_256);	
 
 	WriteTimer0(TMR0_VALUE);		// Load initial timer value
+
+
+	// Prepare the 20 ms debouncing timer for the inputs
+	OpenTimer1(TIMER_INT_ON & 
+			T1_16BIT_RW &
+			T1_SOURCE_INT &
+			T1_PS_1_8 &
+			T1_OSC1EN_OFF);
+
+	WriteTimer1(TMR1_VALUE);
 
 	// Enable pullups on Portb inputs
 	INTCON2bits.RBPU    = 0; // (bit is active low!)
@@ -156,21 +168,21 @@ void high_isr(void){
 
 	/* RB0 INTERRUPT HANDLING */
 	if (INTCONbits.INT0IF==1){
-		xpl_trig(WATER);
+		debounce_water = 2;
 		INTCONbits.INT0IF = 0;
 		return;
 	}
 
 	/* RB1 INTERRUPT HANDLING */
 	if (INTCON3bits.INT1IF==1){
-		xpl_trig(GAS);
+		debounce_gas = 2;
 		INTCON3bits.INT1IF = 0;
 		return;
 	}
 
 	/* RB2 INTERRUPT HANDLING */
 	if (INTCON3bits.INT2IF==1){
-		xpl_trig(ELEC);
+		debounce_elec = 2;
         INTCON3bits.INT2IF = 0;
         return;
 	}
@@ -181,6 +193,29 @@ void high_isr(void){
    		INTCONbits.TMR0IF=0;         	// Clear interrupt flag
 		time_ticks++;
  	}
+
+	/* TIMER 1 INTERRUPT HANDLING */
+	if (PIR1bits.TMR1IF==1){
+		WriteTimer1(TMR1_VALUE);
+		PIR1bits.TMR1IF=0;
+		// Check if we need to handle a debounce
+		if (debounce_water)	{
+			debounce_water--;
+			if (debounce_water == 0 && PORTBbits.RB0 == 0) { xpl_trig(WATER); }
+		}
+		
+		if (debounce_gas) { 
+			debounce_gas--;
+			if (debounce_gas == 0   && PORTBbits.RB1 == 0) { xpl_trig(GAS); }
+		}
+
+		if (debounce_elec) {
+			debounce_elec--;
+			if (debounce_elec == 0  && PORTBbits.RB2 == 0) { xpl_trig(ELEC); }
+		}
+		
+	}
+
 	return;
 }
 

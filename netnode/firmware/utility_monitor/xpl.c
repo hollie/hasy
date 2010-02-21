@@ -184,6 +184,8 @@ void xpl_send_sensor_basic(enum XPL_MSG_TYPE msg_type,const rom far char* device
     printf("sensor.basic\n{\ndevice=");
     printf(device);
     printf("\ntype=count\ncurrent=%u\n}\n",count);
+
+	return;
 }    
 
 void xpl_send_device_current(enum XPL_MSG_TYPE msg_type,enum XPL_DEVICE_TYPE type) {
@@ -349,7 +351,7 @@ void xpl_handler(void) {
 			} 
 			
 			// send trig message out once we receice the interrupt
-			if (xpl_trig_register != 0 /*&& time_ticks == 1 /* last && is for test only */) {
+			if (xpl_trig_register != 0 /*&&  == 1 /* last && is for test only */) {
     			if (xpl_trig_register & GAS) {
         		    xpl_send_device_current(TRIG,GAS);
         		    xpl_trig_register &= 0xFE; // Need to hardcode this, compiler does not like the !GAS
@@ -358,7 +360,7 @@ void xpl_handler(void) {
         		    xpl_trig_register &= 0xFD;
         		} else if (xpl_trig_register & ELEC) {
         		    xpl_send_device_current(TRIG,ELEC);	
-        		    xpl_trig_register &= 0xFC; 
+        		    xpl_trig_register &= 0xFB; 
         		} else {
 					xpl_trig_register = 0;
      	        }
