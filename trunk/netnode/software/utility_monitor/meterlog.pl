@@ -43,6 +43,7 @@ $xpl->main_loop();
 
 # Query the meter device
 sub query_meter {
+	print the_date() . "Sending our query packets\n";
 	query_sensor('water');
 	sleep(1);
 	query_sensor('gas');
@@ -81,7 +82,7 @@ sub publish_reading {
 	my $value  = shift();
 	
 	print (the_date());
-	print ("Sensor $device got $value ticks");
+	print ("Sensor $device got $value ticks\n");
 	
 	#RRDs::update($device . '.rrd', "N:$value");
 	#my $err = RRDs:error;
