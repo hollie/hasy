@@ -170,6 +170,7 @@ void high_isr(void){
 	if (INTCONbits.INT0IF==1){
 		debounce_water = 2;
 		INTCONbits.INT0IF = 0;
+		stat0 = 0;
 		return;
 	}
 
@@ -177,6 +178,7 @@ void high_isr(void){
 	if (INTCON3bits.INT1IF==1){
 		debounce_gas = 2;
 		INTCON3bits.INT1IF = 0;
+		stat0 = 0;
 		return;
 	}
 
@@ -184,6 +186,7 @@ void high_isr(void){
 	if (INTCON3bits.INT2IF==1){
 		debounce_elec = 2;
         INTCON3bits.INT2IF = 0;
+		stat0 = 0;
         return;
 	}
 
@@ -201,17 +204,26 @@ void high_isr(void){
 		// Check if we need to handle a debounce
 		if (debounce_water)	{
 			debounce_water--;
-			if (debounce_water == 0 && PORTBbits.RB0 == 0) { xpl_trig(WATER); }
+			stat0 = 1;
+			if (debounce_water == 0 && PORTBbits.RB0 == 0) { 
+				xpl_trig(WATER); 
+			}
 		}
 		
 		if (debounce_gas) { 
 			debounce_gas--;
-			if (debounce_gas == 0   && PORTBbits.RB1 == 0) { xpl_trig(GAS); }
+			stat0 = 1;
+			if (debounce_gas == 0   && PORTBbits.RB1 == 0) { 
+				xpl_trig(GAS);
+			}
 		}
 
 		if (debounce_elec) {
 			debounce_elec--;
-			if (debounce_elec == 0  && PORTBbits.RB2 == 0) { xpl_trig(ELEC); }
+			stat0 = 1;
+			if (debounce_elec == 0  && PORTBbits.RB2 == 0) { 
+				xpl_trig(ELEC);
+			}
 		}
 		
 	}
