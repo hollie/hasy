@@ -98,9 +98,6 @@ sub parse_and_post() {
 	my $err = RRDs::error;
 	die "Error while updating $rrd_name.rrd: $err\n" if $err;
 
-	# Post to pachube
-    #    system('curl --request PUT --header "X-PachubeApiKey: eaf0e180572f2b76956ba2305f7173892b6bdbe2397e9277abbb80ae9c8aa523" --data "' . $t4 . '" "http://www.pachube.com/api/1536.csv"');
-
 }
 
 ###############################################################
