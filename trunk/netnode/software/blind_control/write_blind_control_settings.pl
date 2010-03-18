@@ -7,7 +7,7 @@
 
 use Astro::Sunrise;
 #use XML::Simple;
-use Net::FTP;
+#use Net::FTP;
 
 # Who is the blind controller in your local network
 my $blind_controller_host = 'netnode02';
@@ -42,11 +42,11 @@ my $ftp_user    = 'username_here';
 my $ftp_password;
 
 # Get the FTP password from the command line
-if (defined($ARGV[0])){
-	$ftp_password = $ARGV[0];	
-} else {
-	die "Please pass the ftp password as command line argument!\n";
-}
+#if (defined($ARGV[0])){
+#	$ftp_password = $ARGV[0];	
+#} else {
+#	die "Please pass the ftp password as command line argument!\n";
+#}
 
 ################# Program start, do not change below this line #######################
 
@@ -95,11 +95,11 @@ close(XML);
 
 # Upload settings to web server where the client can grab them
 # And upload the stuff to the website
-my $ftp = Net::FTP->new($ftp_host, Timeout=>240) or die "Could not create ftp object";
-$ftp->binary;
-$ftp->login($ftp_user, $ftp_password) or die "Could not login :", $ftp->message;
-$ftp->put($command_file);
-$ftp->quit;
+#my $ftp = Net::FTP->new($ftp_host, Timeout=>240) or die "Could not create ftp object";
+#$ftp->binary;
+#$ftp->login($ftp_user, $ftp_password) or die "Could not login :", $ftp->message;
+#$ftp->put($command_file);
+#$ftp->quit;
 
 
 
