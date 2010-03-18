@@ -1,4 +1,4 @@
-#! /usr/bin/perl -w
+#! /usr/bin/env perl -w
 
 # Create a settings file for when to steer the blinds up and down
 # at sunrise/sunset based on your location on earth. 
