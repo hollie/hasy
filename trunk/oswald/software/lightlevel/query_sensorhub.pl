@@ -82,7 +82,7 @@ sub parse_report {
 	}
 	
 	# Extract SHTxx
-	while ($report =~ /SHTxx T: (\d+.\d) C RH: (\d+.\d) DewPt:\s+(\d+.\d) C/g){
+	while ($report =~ /SHTxx T: (-?\d+.\d) C RH: (-?\d+.\d) DewPt:\s+(-?\d+.\d) C/g){
 		process_sht($1, $2, $3);
 	}
 	
