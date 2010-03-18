@@ -1,11 +1,10 @@
-#! /usr/bin/perl -w
+#! /usr/bin/env perl -w
 
 #########################################################################
 # Script to generate the input file for zonnestroomopbrengst.eu
 #
 # Lieven Hollevoet, 2009
 #########################################################################
-use lib qw( /opt/lib/perl );
 
 use strict;
 use POSIX;
@@ -34,7 +33,7 @@ if (defined($ARGV[0])){
 
 
 
-my ($start,$step,$names,$data) = RRDs::fetch ("pv.rrd", "AVERAGE", "-r", "86400", "-s", "01.04.2009,", "-e", "midnight");
+my ($start,$step,$names,$data) = RRDs::fetch ("pv.rrd", "AVERAGE", "-s", "01.04.2009", "-e", "now");
 my $ERR=RRDs::error;
 die "ERROR while fetching: $ERR\n" if $ERR;
 
@@ -56,6 +55,23 @@ for my $line ((@$data)) {
    if (defined $val){
     	#printf "%12.1f ", $val*86400;
     	push_value($start, $val*86400);
+   }
+  }
+  $start += $step;
+
+  #print "\n";
+}
+
+($start,$step,$names,$data) = RRDs::fetch ("pv.rrd", "AVERAGE", "-s", "midnight", "-e", "now");
+ $ERR=RRDs::error;
+die "ERROR while fetching: $ERR\n" if $ERR;
+
+for my $line ((@$data)) {
+  #print "  ", scalar localtime($start), " ($start) ";
+  for my $val (@$line) {
+   if (defined $val){
+    	#printf "%12.1f ", $val*900;
+    	push_value($start+86400, $val*900);
    }
   }
   $start += $step;
@@ -89,7 +105,14 @@ sub push_value {
 	my $day   = strftime("%d", localtime($stamp));
 	
 	#printf "Adding $value Wh for $day-$month-$year\n";
-	
+
+	# Also add the value of the day itself to the hash
+	if (!defined($log->{$year}->{$month}->{$day}->{value})){
+		$log->{$year}->{$month}->{$day}->{value} = $value
+	} else {
+		$log->{$year}->{$month}->{$day}->{value} += $value
+	}
+		
 	# Create or add the value in the log hash
 	if (!defined($log->{$year}->{$month}->{day})){
 		$log->{$year}->{$month}->{value} = $value;
@@ -107,20 +130,28 @@ sub push_value {
 
 sub generate_months_js {
 	# Loop over the months, starting at the latest month and print the status line
-	my ($year, $month);
+	my ($year, $month, $day);
 	my $total=0;
 	
 	open F, "> months.js" or die "Could not open months.js for writing: $!\n";
+	open I, "> days_hist.js" or die "Could not open days_hist.js for writing: $!\n";
 	
 	
 	foreach $year (reverse sort keys %{$log}){
 		foreach $month (reverse sort keys %{$log->{$year}}){
 			print F "mo[mx++]=\"" . $log->{$year}->{$month}->{day} . ".$month.$year|" . floor($log->{$year}->{$month}->{value}) . "\"\n";
 			$total += $log->{$year}->{$month}->{value};
+			
+			foreach $day (reverse sort keys %{$log->{$year}->{$month}}){
+				if ($day =~ /\d+/){
+					print I "da[dx++]=\"$day.$month.$year|" . floor($log->{$year}->{$month}->{$day}->{value}) . ";1234\n";
+				}
+			}
 		}
 	}
 	
 	close F;
+	close I;
 	
 	return floor($total);
 }
