@@ -84,9 +84,9 @@ sub publish_reading {
 	print (the_date());
 	print ("Sensor $device got $value ticks\n");
 	
-	#RRDs::update($device . '.rrd', "N:$value");
-	#my $err = RRDs:error;
-	#die "Error while updating $device rrd: $err\n" if err;
+	RRDs::update($device . '.rrd', "N:$value");
+	my $err = RRDs::error;
+	die "Error while updating $device rrd: $err\n" if $err;
 	
 	return;
 }
