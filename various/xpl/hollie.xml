@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xpl-plugin version="1.0" vendor="Lieven Hollevoet" info_url="http://lika.be/wp/electronics" plugin_url="http://lika.be/micro/xpl_hollie.xml">
+  <device id="hollie-utilmon" version="1.1" description="Utility meter monitor" info_url="http://lika.be/wp/2010/03/xpl-enabled-utility-meter-monitor">
+    <configItem name="newconf" description="Device Instance Name/ID" />
+    <trigger description="Number of ticks received from the electricity meter" msg_schema="sensor.basic" msg_type="stat" name="elec">
+      <element control_type="numeric" default="0" maxval="65536" name="current" />
+      <element default="count" name="type" />
+      <element default="elec" name="device" />
+    </trigger>
+    <trigger description="Number of ticks received from the gas meter" msg_schema="sensor.basic" msg_type="stat" name="gas">
+      <element control_type="numeric" default="0" maxval="65536" name="current" />
+      <element default="count" name="type" />
+      <element default="gas" name="device" />
+    </trigger>
+    <trigger description="Number of ticks received from the water meter" msg_schema="sensor.basic" msg_type="stat" name="water">
+      <element control_type="numeric" default="0" maxval="65536" name="current" />
+      <element default="count" name="type" />
+      <element default="water" name="device" />
+    </trigger>
+    <trigger description="Pulse received from the electricity meter" msg_schema="sensor.basic" msg_type="trig" name="elec">
+      <element default="elec" name="device" />
+      <element default="count" name="type" />
+      <element control_type="numeric" default="1" maxval="1" minval="1" name="current" />
+    </trigger>
+    <trigger description="Pulse received from the gas meter" msg_schema="sensor.basic" msg_type="trig" name="gas">
+      <element default="gas" name="device" />
+      <element default="count" name="type" />
+      <element control_type="numeric" default="1" maxval="1" minval="1" name="current" />
+    </trigger>
+    <trigger description="Pulse received from the water meter" msg_schema="sensor.basic" msg_type="trig" name="water">
+      <element default="water" name="device" />
+      <element default="count" name="type" />
+      <element control_type="numeric" default="1" maxval="1" minval="1" name="current" />
+    </trigger>
+  </device>
+  <device id="hollie-meterlog" description="Script to poll the utilmon xPL node" info_url="none" version="1.0" />
+</xpl-plugin>
+
