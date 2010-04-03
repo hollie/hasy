@@ -1,4 +1,4 @@
-#! /usr/bin/perl -w
+#! /usr/bin/env perl -w
 
 #########################################################################
 # Script to query and parse sensor readings from the sensorhub
@@ -7,7 +7,6 @@
 #
 # Lieven Hollevoet, 2009
 #########################################################################
-use lib qw( /opt/lib/perl );
 
 use strict;
 use POSIX;
@@ -156,6 +155,9 @@ sub process_wireless {
 	my $vcc_adc     = shift();
 	my $temp_adc    = shift();
 	
+	# Cover cases where the sensornode has not received a value for the Vcc yet
+	# If we don't do this, we get a division by zero exception later
+	if ($vcc_adc eq 0) {$vcc_adc = 255};
 	
 	my $db = $config->{wireless}->{node}->{db};
 	
