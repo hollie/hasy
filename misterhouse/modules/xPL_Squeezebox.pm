@@ -18,13 +18,32 @@ Usage:
 
  In your items.mht, add the squeezebox devices like this:
  
-   XPL_SQUEEZEBOX, device_name, , SBs
-
+   XPL_SQUEEZEBOX, xpl_device_id, object_name, SBs
+ 
+ e.g. assuming the xpl name of your SB is 'slimdev-slimserv.kitchen'
+ 
+   XPL_SQUEEZEBOX, kitchen, sb_kitchen, Squeezeboxes
+   
  Then in your code do something like:
    
-   # Request the state of the plugwise devices
+   $sb_kitchen->manage_heartbeat_timeout(360, "speak 'Squeezebox kitchen is offline'", 1); #noloop
+
+   if ($state = state_now $sb_kitchen){
+	 print_log "+++ State event on sb_kitchen, state is " . $state;
+   }
+   
+ Turn on debug=xpl_squeezebox for diagnostic messages
+ 
+Currently supports:
+  * Turning the SB on/off (play/stop command)
+  * Keeping track of the status of the SB when it is controlled by the remote/web interface
 
 Todo:
+  * Add code to control the amplifier based on the state of the SB
+  * Add code to pause the current playlist, play a certain file, and resume so that we can use the 
+     SB to notify incoming calls/doorbell/...
+  * Support displaying messages on the SB screen
+  * Request current player state at startup of MH so that we don't have to wait for the heartbeat
 
 License:
   This free software is licensed under the terms of the GNU public license.
@@ -43,16 +62,14 @@ package xPL_Squeezebox;
 use base qw(xPL_Item);
 
 sub new {
-    my ($class, $source) = @_;
-    my $self = $class->SUPER::new(source);
+    my ($class, $p_source) = @_;
+    my $source = 'slimdev-slimserv.' . $p_source;
+    my $self = $class->SUPER::new($source);
     $self->SUPER::class_name('audio.bas*');
-    $$self{id} = $id;
     $$self{state_monitor} = "audio.basic : status";
-    #$self->SUPER::device_monitor("device=$id") if $id;
-    # remap the state values to on and off
-    $self->tie_value_convertor('level','($section =~ /^audio.basic/ and $status eq "stopped") ? "off" : "on"');
 
-    $self->addStates ('on', 'off');
+	# Ensure we can turn the SB on and off
+	$self->addStates ('on', 'off');
 	
     return $self;
 }
@@ -93,16 +110,16 @@ sub default_setstate
     	   return -1 if $self->state eq $state; # don't propagate state unless it has changed
 	}
     } else {
-    	my $cmnd = ($state =~ /^off/i) ? 'off' : 'on';
+    	my $cmnd = ($state =~ /^off/i) ? 'stop' : 'play';
     	
     	return -1 if ($self->state eq $state); # Don't propagate state unless it has changed.
         &::print_log("[xPL_Squeezebox] Request " . $self->get_object_name
 		     . " turn " . $cmnd 
 	    ) if $main::Debug{xpl_squeezebox};
         my $cmd_block;
-    	#$$cmd_block{'command'} = $cmnd;
-    	#$$cmd_block{'device'} = $self->id;
-    	#$self->SUPER::send_cmnd('plugwise.basic', $cmd_block);
+        
+    	$self->SUPER::send_cmnd('audio.slimserv' => {'command' => $cmnd});
+
     	return;
     }
 	
