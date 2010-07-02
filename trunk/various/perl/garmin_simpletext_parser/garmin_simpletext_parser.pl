@@ -3,7 +3,7 @@
 =head1 NAME
 
 garmin_simpletext_parser - Perl script to convert a Garmin simple text 
-                           logfile into a CVS file for GPS Visualiser
+                           logfile into a CSV file for GPS Visualiser
 
 =head1 SYNOPSIS
 
@@ -30,7 +30,7 @@ If the output file exists, the output of the script is appended to the
 existing files.
 
 Resources:
-  Garmin simple text format: http://www8.garmin.com/support/text_out.html
+  Garmin simple text format: http://www.garmin.com/support/text_out.html
   GPS Visualiser:            http://www.gpsvisualizer.com/
 
 =cut
