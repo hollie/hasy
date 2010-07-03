@@ -43,7 +43,8 @@ $SIG{ALRM} = sub { die "timeout" };
 # Settings
 my $blinds_host  = 'blindnode';			# Host on the network that controls the blinds
 my $blinds_port  = '10001';				# Port to connect to on the blind controller
-my $debug;
+my $debug   = 0;
+my $verbose = 0;
 my $help;
 
 # Global variables
@@ -55,11 +56,12 @@ my $timestamp = date_time();            # For printing purpose, human readible w
 
 # Get paramters from command line
 GetOptions('debug' => \$debug,
+		   'verbose|v' => \$verbose,
 		   'help|?|h' => \$help) or pod2usage(2);
 pod2usage(1) if ($help);
 
 
-command_blinds('up');
+command_blinds($ARGV[0]);
 
 exit(0);
 
@@ -73,56 +75,52 @@ sub command_blinds  {
 	my $blind_command = shift();
 	
 	# First check if we have a supported command
-	my @cmnd_array = qw/up down sunblind/;
+	my @cmnd_array = qw/up down sunblind stop/;
 	my %cmnd_hash;
 	@cmnd_hash{@cmnd_array} = ();
 	
-	if (!exists $cmnd_hash{$blind_command}) { print " Command '$blind_command' is not supported!"; return 0;}
+	if (!exists $cmnd_hash{$blind_command}) { print "Command '$blind_command' is not supported!\n"; return 0;}
 
-	if ($debug) {
-		print "Not actually sending the command since debug mode is active...\n";
-		return 0;
-	}
-	
-	print "$timestamp Connecting to socket $blinds_host... ";
+	print "$timestamp Connecting to socket $blinds_host...\n";
 		
 	# Open the socket to send the command
-	$socket = open_socket($blinds_host, $blinds_port);
+	$socket = open_socket($blinds_host, $blinds_port) unless ($debug);
 
 	# If we got a valid socket
-	if ($socket) {
-	    print " Connected on port $blinds_port... ";
+	if ($socket || $debug) {
+	    print " Connected on port $blinds_port...\n" if ($verbose && !$debug);
 	
-		$socket->send('?');
+		socket_send('?');
 		sleep(1);
 		
 		# Send up, and send it twice to cover for the hardware error
 		# that sometimes pops up
 		if ($blind_command eq 'up') {
-			$socket->send('u');
+			socket_send('u');
+			print "Sleeping 30 seconds before resending 'u'\n" if ($verbose);
 			sleep(30);
-			$socket->send('u');
+			socket_send('u');
 		}
 		
 		# Send down command
 		if ($blind_command eq 'down') {
-			$socket->send('d');
+			socket_send('d');
 		}
 		
 		# Move blind 1 into sunblind position
 		if ($blind_command eq 'sunblind') {
-			$socket->send('b');
-			sleep(1);
-			$socket->send('1');
-			sleep(1);
-			$socket->send('d');
-			sleep(20);
-			$socket->send('s');							
+			socket_send('b1d');
+			print "Sleeping 16 seconds before sending 's'\n" if ($verbose);
+			sleep(16);
+			socket_send('s');							
 		}
 		
+		if ($blind_command eq 'stop') {
+			socket_send('s');
+		}
 		sleep(1);
 	
-		close($socket);
+		close($socket) unless ($debug);
 
 		return 1;						
 	
@@ -155,7 +153,7 @@ sub open_socket {
 	
 	my $cmd_time = get_current_time();
 	
-	print "Opening socket to $client_host" . "[" . "$client_port]\n" if ($debug);
+	print "Opening socket to $client_host" . "[" . "$client_port]\n" if ($verbose);
 	
     while () {
         if ($socket = IO::Socket::INET->new(Proto     => "tcp",
@@ -178,6 +176,36 @@ sub open_socket {
     
     return $socket;
     
+}
+
+=head2 C<socket_send(data)>
+
+Wrapper around the socket->send(data) function that allows us to 
+disable socket actions when running the script in debug mode.
+
+It also chops a string of more than one character into characters that 
+are transmitted with 1-second delays in between. This is a safeguard
+against UART overflow in the receiving hardware.
+/
+=cut
+sub socket_send {
+
+	my $data = shift();
+	
+	my @data_array = split //, $data;
+	my $char;
+	
+	foreach $char (@data_array) {
+
+		sleep(1);
+
+		if ($debug || $verbose) {
+			print "socket_send '$char' - debug: $debug - verbose: $verbose\n";
+			next if ($debug);
+		}
+	
+		$socket->send($char);		
+	}
 }
 
 =head2 C<get_current_time()>
