@@ -4,28 +4,28 @@
 ;;       FILENAME: Memory.inc
 ;;
 ;;    DESCRIPTION: Memory Model and Stack Parameter Definitions for 
-;;                 the 29xxx family of PSoC devices.
+;;                 the CY8C29000 family of PSoC devices.
 ;;
 ;;  LAST MODIFIED: June 17, 2004
 ;;
 ;;-----------------------------------------------------------------------------
-;;  Copyright (c) Cypress MicroSystems 2004. All Rights Reserved.
+;;  Copyright (c) Cypress Semiconductor 2009. All Rights Reserved.
 ;;*****************************************************************************
 ;;*****************************************************************************
 
 
 ;  ******** Define Memory Model and Stack parameters ********
 ;
-IMAGECRAFT: equ 1   
-HITECH: equ 2   
-TOOLCHAIN: equ HITECH   
+SYSTEM_STACK_PAGE: equ 7   
+SYSTEM_STACK_BASE_ADDR: equ 0h   
 SYSTEM_LARGE_MEMORY_MODEL: equ 1   
 SYSTEM_SMALL_MEMORY_MODEL: equ 0   
-SYSTEM_STACK_PAGE: equ 7   
-SYSTEM_STACK_PAGE_OFFSET: equ 0   
-SYSTEM_TOOLS: equ 2   
-SYSTEM_IDXPG_TRACKS_STK_PP: equ 0   
-SYSTEM_IDXPG_TRACKS_IDX_PP: equ 1   
+IMAGECRAFT: equ 1   
+HITECH: equ 2   
+TOOLCHAIN: equ IMAGECRAFT   
+SYSTEM_TOOLS: equ 1   
+SYSTEM_IDXPG_TRACKS_STK_PP: equ 1   
+SYSTEM_IDXPG_TRACKS_IDX_PP: equ 0   
 SYSTEM_MULTIPAGE_STACK: equ 0 
 
 
@@ -34,14 +34,18 @@ SYSTEM_MULTIPAGE_STACK: equ 0
 ;  These definitions are used to describe RAM access patterns. They provide
 ;  documentation and they control prologue and epilogue macros that perform
 ;  the necessary housekeeping functions for large memory model devices like
-;  the CY8C27x66 and CY8C29x66.
+;  the CY8C29000.
 
 RAM_USE_CLASS_1:               equ 1   ; PUSH, POP & I/O access
 RAM_USE_CLASS_2:               equ 2   ; Indexed address mode on stack page
 RAM_USE_CLASS_3:               equ 4   ; Indexed address mode to any page
 RAM_USE_CLASS_4:               equ 8   ; Direct/Indirect address mode access
 
-
+; ******* Hi Tech Specific *******
+; Turn on the expansion of all macros by default
+IF (TOOLCHAIN & HITECH)
+OPT EXPAND
+ENDIF
 ;  ******* Page Pointer Manipulation Macros *******
 ;
 ;  Most of the following macros are conditionally compiled so they only

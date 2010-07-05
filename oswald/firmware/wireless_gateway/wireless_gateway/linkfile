@@ -1,3 +1,6 @@
--H+./output/wireless_gateway.sym -M./output/wireless_gateway.map -O./output/wireless_gateway.obj 
- ./obj/main.p1   
- D:/hollevo/projects/personal/hasy/oswald/firmware/WIRELE~1/WIRELE~1/lib/libpsoc.lib D:/hollevo/projects/personal/hasy/oswald/firmware/WIRELE~1/WIRELE~1/lib/libpsoc.lpp C:\PROGRA~1\HI-TEC~1\HCPSOC\PRO\9.61/lib/psoc-c.lib  
+-F0x30 -g -blit:0x1a0.0x7fff 
+ -bdata:0.0x6ff -bSSCParmBlk:0x00F7.0x00FF -BInterruptRAM:0 -Bvirtual_registers  -llpm8c 
+ -Bwireless_gateway_RAM 
+ -o"output/wireless_gateway" 
+ ./obj/main.o   
+ D:/hollevo/projects/personal/home/oswald/firmware/WIRELE~1/WIRELE~1/lib/libPSoc.a -LC:/PROGRA~1/Cypress/Common/CYPRES~3/tools/lib/LMM/eightpages C:/PROGRA~1/Cypress/Common/CYPRES~3/tools/lib/CY8C29000/cms.a C:/PROGRA~1/Cypress/Common/CYPRES~3/tools/lib/LMM/UASW/MAC/arith.a  

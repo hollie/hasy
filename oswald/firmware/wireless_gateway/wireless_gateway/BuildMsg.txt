@@ -1,79 +1,33 @@
 Starting MAKE...
 creating project.mk 
-
 lib/counter8.asm
-
 lib/counter8_ltrx.asm
-
 lib/counter8_ltrxint.asm
-
 lib/counter8int.asm
-
 lib/led1.asm
-
 lib/ltrx.asm
-
 lib/ltrxint.asm
-
 lib/ltrxplus.asm
-
 lib/psocconfig.asm
-
 lib/psocconfigtbl.asm
-
 lib/ticker.asm
-
 lib/tickerint.asm
-
 lib/uart_in.asm
-
 lib/uart_inint.asm
-
 lib/uart_inplus.asm
-
-module lib/obj/ltrxplus.obj defines no symbols (warning)
-
-module lib/obj/uart_inplus.obj defines no symbols (warning)
-
 ./boot.asm
-
 ./main.c
-
-sed: can't read HTlinkOpts.lkp: No such file or directory
-
-expanded_libs = 
-
 Linking..
-
-HI-TECH C COMPILER (Cypress PSOC) Lite  V9.61PL1
-
-Copyright (C) 1984-2008 HI-TECH SOFTWARE
-
-(1273) Omniscient Code Generation not available in Lite mode (warning)
-
-!W ./main.c(15):(690) interrupt function requires address (warning)
-
-
-
-Memory Summary:
-
-    Program space        used   C2Dh (  3117) of  8000h bytes   (  9.5%)
-
-    Data space           used    40h (    64) of   800h bytes   (  3.1%)
-
-
-
-Comparative memory usage (excludes absolute areas and stack variables)
-
-    ROM used:  2750 bytes
-
-    RAM used:    43 bytes
-
-HI-TECH C PRO compiler averages 40% less code than this Lite mode
-
-PRO may reduce your program size by 288 bytes
-
-To evaluate HI-TECH C PRO please visit http://cypress.htsoft.com/portal/convert
-
+LMM info: area 'InterruptRAM' uses 5 bytes in SRAM bank 0
+LMM info: area 'data' item of 25 bytes allocated in SRAM page 0
+LMM info: area 'UART_IN_RAM' item of 16 bytes allocated in SRAM page 0
+LMM info: area 'LTRX_RAM' item of 16 bytes allocated in SRAM page 0
+LMM info: area 'virtual_registers' uses 15 bytes in SRAM page 0
+LMM info: area 'data' item of 4 bytes allocated in SRAM page 0
+LMM info: area 'LTRX_RAM' item of 1 bytes allocated in SRAM page 0
+LMM info: area 'UART_IN_RAM' item of 1 bytes allocated in SRAM page 0
+  ROM 28% full. 8918 out of 32768 bytes used (does not include absolute areas).
+  RAM 5% full. 83 bytes used (does not include stack usage).
+idata dump at output/wireless_gateway.idata
  
-wireless_gateway - 0 error(s) 1 warning(s) 14:04:37
+wireless_gateway - 0 error(s) 0 warning(s) 14:32:53
