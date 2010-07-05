@@ -3,15 +3,17 @@
 //----------------------------------------------------------------------------
 
 #include <m8c.h>        // part specific constants and macros
+#include <stdio.h>
 #include "PSoCAPI.h"    // PSoC API definitions for all User Modules
 
-#define FIRMWARE_VERSION "1.0"
+#define FIRMWARE_VERSION "1.1"
 
 unsigned char node1[4];
 
 #pragma interrupt_handler Ticker_ISR
 
-void Ticker_ISR()
+// We always need a blinking LED
+void Ticker_ISR(void)
 {
 	LED1_Invert();
 	// Increment counter on the nodes
@@ -22,37 +24,27 @@ void Ticker_ISR()
 	return;
 }
 
-void print_data()
+// Print the most recent data received by the wireless interface
+void print_data(void)
 {
-	LTRX_PutCRLF();
-	LTRX_CPutString("EASYRADIO wireless gateway v");
-	LTRX_CPutString(FIRMWARE_VERSION);
-	LTRX_PutCRLF();
-	LTRX_CPutString("Node 1: ");
-	LTRX_PutSHexByte(node1[0]);
-	LTRX_PutChar(' ');
-	LTRX_PutSHexByte(node1[1]);
-	LTRX_PutChar(' ');
-	LTRX_PutSHexByte(node1[2]);
-	LTRX_PutChar(' ');
-	LTRX_PutSHexByte(node1[3]);
-	LTRX_PutCRLF();
-	LTRX_CPutString("EOT");
-	LTRX_PutCRLF();
-	
+	cprintf("EASYRADIO wireless gateway v");
+	cprintf(FIRMWARE_VERSION);
+	cprintf("\n"); 
+	cprintf("Node 1: %02X %02X %02X %02X\nEOT\n", node1[0], node1[1], node1[2], node1[3]);
 	return;
 }
-void main()
+void main(void)
 {
-	
-    // Insert your main routine code here.
+
+	char * strPtr; // Parameter pointer
+
+	// Init the hardware blocks
 	Counter8_Start();
 	Counter8_ltrx_Start();
 	LED1_Start();
 	
 	Ticker_EnableInt();
 	
-	char * strPtr; // Parameter pointer
 	UART_IN_CmdReset(); // Initialize receiver/cmd buffer
 	UART_IN_EnableInt(); // Enable RX interrupts
 	
@@ -64,12 +56,15 @@ void main()
 	LTRX_Start(UART_PARITY_NONE); // Enable UART
 	
 	M8C_EnableGInt ; // Turn on interrupts
-	//LTRX_CPutString("\r\nOswald EASYRADIO wireless gateway v1.0\r\n");
-	
+
 	Ticker_Start();
+
+	cprintf("EASYRADIO wireless gateway listening\n");
 	
-	node1[3] = 0; // reset timer
+	// Ensure packet validity counter is set to 'very old'	
+	node1[3] = 255; // reset timer
 	
+	// Main loop: wait for sensor data, wait for command
 	while(1) {
 		// Check if data came in from the radio module
 		if(UART_IN_bCmdCheck()) { // Wait for command
@@ -99,7 +94,15 @@ void main()
 			}
 			LTRX_CmdReset(); // Reset command buffer
 		}
+		
 	}
-
 	
 }
+
+// Helper function for the printf function
+int putchar(char c) {
+  // Send characters to the Lantronix interface
+  LTRX_PutChar(c);
+  return 1;
+}
+

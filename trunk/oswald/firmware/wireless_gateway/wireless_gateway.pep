@@ -1,6 +1,11 @@
 <?xml version="1.0"?>
 <PSOC_WND_PERSIST>
   <APP_EDITOR_SETTINGS>
+    <OPEN_FILE PATH="D:\hollevo\projects\personal\home\oswald\firmware\wireless_gateway\wireless_gateway\wireless_gateway.soc" />
+    <OPEN_FILE PATH="D:\hollevo\projects\personal\home\oswald\firmware\wireless_gateway\wireless_gateway.cmx" />
+    <OPEN_FILE PATH="D:\hollevo\projects\personal\home\oswald\firmware\wireless_gateway\wireless_gateway\main.c" ACTIVE="true" />
+    <OPEN_FILE PATH="D:\hollevo\projects\personal\home\oswald\firmware\wireless_gateway\wireless_gateway\xpl.h" />
+    <OPEN_FILE PATH="D:\hollevo\projects\personal\home\oswald\firmware\wireless_gateway\wireless_gateway\xpl.c" />
   </APP_EDITOR_SETTINGS>
   <DEBUGGER_SETTINGS>
     <TRACE_MODE VALUE="PCOnly" />
@@ -69,6 +74,12 @@
     <EVENT NUMBER="62" THREAD8="Disabled" THREAD16="Disabled" LOGIC="Disabled" />
     <EVENT NUMBER="63" THREAD8="Disabled" THREAD16="Disabled" LOGIC="Disabled" />
     <GLOBAL_EVENT_CONTROL THREAD8="8 Bit Thread - Active" THREAD16="16 Bit Thread - Active" LOGIC="State Logic - Active" />
+    <MEMWIN_TABGROUP SPLIT="Horizontal">
+      <VIEW BANK="RAM" TITLE="RAM" COLUMNS="8" />
+      <VIEW BANK="FLASH" TITLE="FLASH" COLUMNS="8" />
+      <VIEW BANK="IO Bank 0" TITLE="IO Bank 0" COLUMNS="1" />
+      <VIEW BANK="IO Bank 1" TITLE="IO Bank 1" COLUMNS="1" />
+    </MEMWIN_TABGROUP>
   </DEBUGGER_SETTINGS>
   <WINDOWPARAMS SCALE_AND_TRANS="0,0,1" />
 </PSOC_WND_PERSIST>

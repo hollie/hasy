@@ -1,6 +1,6 @@
 <PSOC_DEVICE_DB>
 	<PSOC_CONFIG_LIST>
-		<PSOC_CONFIG NAME="wireless_gateway" BASE_DEVICE="CY8C29566" SOURCE_GEN_TIME="1228309461" CONFIG_SAVE_TIME="1228309461" CONFIG_SAVE_DATE="Wed Dec 03 14:04:21 2008
+		<PSOC_CONFIG NAME="wireless_gateway" BASE_DEVICE="CY8C29566" SOURCE_GEN_TIME="1278332713" CONFIG_SAVE_TIME="1278332713" CONFIG_SAVE_DATE="Mon Jul 05 14:25:13 2010
 " VERSION="4.0" DESCRIPTION="" PACKAGE_TYPE="TQFP" PACKAGE_SHAPE="4" LOOP_CONFIG_INIT="Enable" UM_INT_GEN_CONTROL="Enable" CONFIG_NAME_PREPEND="Disable" DESIGN_VERSION="" DOC_FILENAME="" DEVICE_DISPLAY_NAME="CY8C29566-24AXI" PSOC_EXPRESS_PROJECT="FALSE">
 			<DESIGN_FILE_LIST/>
 			<USER_MODULE_LIST>
@@ -23,18 +23,71 @@
 						<RESOURCE_LIST/>
 					</SHAPE>
 					<PARAMETER_LIST>
+						<PARAMETER NAME="Active Distance Threshold X" VALUE=""/>
+						<PARAMETER NAME="Active Distance Threshold Y" VALUE=""/>
+						<PARAMETER NAME="BaselineUpdateThreshold" VALUE=""/>
+						<PARAMETER NAME="Button FingerThreshold" VALUE=""/>
+						<PARAMETER NAME="Centroid" VALUE=""/>
 						<PARAMETER NAME="Clock" VALUE="VC1"/>
 						<PARAMETER NAME="ClockSync" VALUE="Sync to SysClk"/>
 						<PARAMETER NAME="CompareOut" VALUE="None"/>
 						<PARAMETER NAME="CompareType" VALUE="Less Than Or Equal"/>
 						<PARAMETER NAME="CompareValue" VALUE="19"/>
+						<PARAMETER NAME="DeadTime" VALUE=""/>
+						<PARAMETER NAME="Debounce" VALUE=""/>
+						<PARAMETER NAME="Debounce MT Pan Count" VALUE=""/>
+						<PARAMETER NAME="Debounce MT Pan to Zoom Count" VALUE=""/>
+						<PARAMETER NAME="Debounce MT Zoom Count" VALUE=""/>
+						<PARAMETER NAME="Debounce ST Pan Count" VALUE=""/>
 						<PARAMETER NAME="Enable" VALUE="High"/>
+						<PARAMETER NAME="Feedback Resistor Pin" VALUE=""/>
+						<PARAMETER NAME="FingerThreshold" VALUE=""/>
+						<PARAMETER NAME="Gain-Offset Compensation" VALUE=""/>
+						<PARAMETER NAME="Hysteresis" VALUE=""/>
 						<PARAMETER NAME="IntDispatchMode" VALUE="ActiveStatus"/>
+						<PARAMETER NAME="Integration Cycles" VALUE=""/>
 						<PARAMETER NAME="InterruptAPI" VALUE="Enable"/>
 						<PARAMETER NAME="InterruptType" VALUE="Terminal Count"/>
 						<PARAMETER NAME="InvertEnable" VALUE="Normal"/>
+						<PARAMETER NAME="LowBaselineReset" VALUE=""/>
+						<PARAMETER NAME="MT Finger Settling Count" VALUE=""/>
+						<PARAMETER NAME="MT Gesture Timeout Msec" VALUE=""/>
+						<PARAMETER NAME="MT Max Click Timeout Msec" VALUE=""/>
+						<PARAMETER NAME="MT Min Click Timeout Msec" VALUE=""/>
+						<PARAMETER NAME="Maximum Centroid Count" VALUE=""/>
+						<PARAMETER NAME="Modulator Capacitor Pin" VALUE=""/>
+						<PARAMETER NAME="NegativeNoiseThreshold" VALUE=""/>
+						<PARAMETER NAME="NoiseThreshold" VALUE=""/>
+						<PARAMETER NAME="On-Chip Centroid" VALUE=""/>
 						<PARAMETER NAME="Period" VALUE="39"/>
+						<PARAMETER NAME="Prescaler Period" VALUE=""/>
+						<PARAMETER NAME="RawData IIR Filter" VALUE=""/>
+						<PARAMETER NAME="RawData IIR Filter Coeff" VALUE=""/>
+						<PARAMETER NAME="RawData Jitter Filter" VALUE=""/>
+						<PARAMETER NAME="RawData Median Filter" VALUE=""/>
+						<PARAMETER NAME="Ref Value" VALUE=""/>
+						<PARAMETER NAME="Reference" VALUE=""/>
+						<PARAMETER NAME="Resolution" VALUE=""/>
+						<PARAMETER NAME="Rotate Debounce Limit" VALUE=""/>
+						<PARAMETER NAME="ST Click X Radius PX" VALUE=""/>
+						<PARAMETER NAME="ST Click Y Radius PX" VALUE=""/>
+						<PARAMETER NAME="ST Max Click Timeout Msec" VALUE=""/>
+						<PARAMETER NAME="ST Max DblClick Radius PX" VALUE=""/>
+						<PARAMETER NAME="ST Max DblClick Timeout Msec" VALUE=""/>
+						<PARAMETER NAME="ST Min Click Timeout Msec" VALUE=""/>
+						<PARAMETER NAME="ST Min DblClick Timeout Msec" VALUE=""/>
+						<PARAMETER NAME="Scanning Speed" VALUE=""/>
+						<PARAMETER NAME="Sensors Autoreset" VALUE=""/>
+						<PARAMETER NAME="ShieldElectrodeOut" VALUE=""/>
 						<PARAMETER NAME="TerminalCountOut" VALUE="None"/>
+						<PARAMETER NAME="Tuner" VALUE=""/>
+						<PARAMETER NAME="WOT FingerThreshold" VALUE=""/>
+						<PARAMETER NAME="XY IIR Filter" VALUE=""/>
+						<PARAMETER NAME="XY IIR Filter Coeff" VALUE=""/>
+						<PARAMETER NAME="XY Jitter Filter" VALUE=""/>
+						<PARAMETER NAME="Zoom Active Distance Threshold X" VALUE=""/>
+						<PARAMETER NAME="Zoom Active Distance Threshold Y" VALUE=""/>
+						<PARAMETER NAME="iDAC Range" VALUE=""/>
 					</PARAMETER_LIST>
 				</USER_MODULE>
 				<USER_MODULE NAME="Counter8" INSTANCE_NAME="Counter8_ltrx" VERSION="2.5">
@@ -56,18 +109,71 @@
 						<RESOURCE_LIST/>
 					</SHAPE>
 					<PARAMETER_LIST>
+						<PARAMETER NAME="Active Distance Threshold X" VALUE=""/>
+						<PARAMETER NAME="Active Distance Threshold Y" VALUE=""/>
+						<PARAMETER NAME="BaselineUpdateThreshold" VALUE=""/>
+						<PARAMETER NAME="Button FingerThreshold" VALUE=""/>
+						<PARAMETER NAME="Centroid" VALUE=""/>
 						<PARAMETER NAME="Clock" VALUE="VC1"/>
 						<PARAMETER NAME="ClockSync" VALUE="Sync to SysClk"/>
 						<PARAMETER NAME="CompareOut" VALUE="None"/>
 						<PARAMETER NAME="CompareType" VALUE="Less Than Or Equal"/>
 						<PARAMETER NAME="CompareValue" VALUE="19"/>
+						<PARAMETER NAME="DeadTime" VALUE=""/>
+						<PARAMETER NAME="Debounce" VALUE=""/>
+						<PARAMETER NAME="Debounce MT Pan Count" VALUE=""/>
+						<PARAMETER NAME="Debounce MT Pan to Zoom Count" VALUE=""/>
+						<PARAMETER NAME="Debounce MT Zoom Count" VALUE=""/>
+						<PARAMETER NAME="Debounce ST Pan Count" VALUE=""/>
 						<PARAMETER NAME="Enable" VALUE="High"/>
+						<PARAMETER NAME="Feedback Resistor Pin" VALUE=""/>
+						<PARAMETER NAME="FingerThreshold" VALUE=""/>
+						<PARAMETER NAME="Gain-Offset Compensation" VALUE=""/>
+						<PARAMETER NAME="Hysteresis" VALUE=""/>
 						<PARAMETER NAME="IntDispatchMode" VALUE="ActiveStatus"/>
+						<PARAMETER NAME="Integration Cycles" VALUE=""/>
 						<PARAMETER NAME="InterruptAPI" VALUE="Enable"/>
 						<PARAMETER NAME="InterruptType" VALUE="Terminal Count"/>
 						<PARAMETER NAME="InvertEnable" VALUE="Normal"/>
+						<PARAMETER NAME="LowBaselineReset" VALUE=""/>
+						<PARAMETER NAME="MT Finger Settling Count" VALUE=""/>
+						<PARAMETER NAME="MT Gesture Timeout Msec" VALUE=""/>
+						<PARAMETER NAME="MT Max Click Timeout Msec" VALUE=""/>
+						<PARAMETER NAME="MT Min Click Timeout Msec" VALUE=""/>
+						<PARAMETER NAME="Maximum Centroid Count" VALUE=""/>
+						<PARAMETER NAME="Modulator Capacitor Pin" VALUE=""/>
+						<PARAMETER NAME="NegativeNoiseThreshold" VALUE=""/>
+						<PARAMETER NAME="NoiseThreshold" VALUE=""/>
+						<PARAMETER NAME="On-Chip Centroid" VALUE=""/>
 						<PARAMETER NAME="Period" VALUE="39"/>
+						<PARAMETER NAME="Prescaler Period" VALUE=""/>
+						<PARAMETER NAME="RawData IIR Filter" VALUE=""/>
+						<PARAMETER NAME="RawData IIR Filter Coeff" VALUE=""/>
+						<PARAMETER NAME="RawData Jitter Filter" VALUE=""/>
+						<PARAMETER NAME="RawData Median Filter" VALUE=""/>
+						<PARAMETER NAME="Ref Value" VALUE=""/>
+						<PARAMETER NAME="Reference" VALUE=""/>
+						<PARAMETER NAME="Resolution" VALUE=""/>
+						<PARAMETER NAME="Rotate Debounce Limit" VALUE=""/>
+						<PARAMETER NAME="ST Click X Radius PX" VALUE=""/>
+						<PARAMETER NAME="ST Click Y Radius PX" VALUE=""/>
+						<PARAMETER NAME="ST Max Click Timeout Msec" VALUE=""/>
+						<PARAMETER NAME="ST Max DblClick Radius PX" VALUE=""/>
+						<PARAMETER NAME="ST Max DblClick Timeout Msec" VALUE=""/>
+						<PARAMETER NAME="ST Min Click Timeout Msec" VALUE=""/>
+						<PARAMETER NAME="ST Min DblClick Timeout Msec" VALUE=""/>
+						<PARAMETER NAME="Scanning Speed" VALUE=""/>
+						<PARAMETER NAME="Sensors Autoreset" VALUE=""/>
+						<PARAMETER NAME="ShieldElectrodeOut" VALUE=""/>
 						<PARAMETER NAME="TerminalCountOut" VALUE="None"/>
+						<PARAMETER NAME="Tuner" VALUE=""/>
+						<PARAMETER NAME="WOT FingerThreshold" VALUE=""/>
+						<PARAMETER NAME="XY IIR Filter" VALUE=""/>
+						<PARAMETER NAME="XY IIR Filter Coeff" VALUE=""/>
+						<PARAMETER NAME="XY Jitter Filter" VALUE=""/>
+						<PARAMETER NAME="Zoom Active Distance Threshold X" VALUE=""/>
+						<PARAMETER NAME="Zoom Active Distance Threshold Y" VALUE=""/>
+						<PARAMETER NAME="iDAC Range" VALUE=""/>
 					</PARAMETER_LIST>
 				</USER_MODULE>
 				<USER_MODULE NAME="LED" INSTANCE_NAME="LED1" VERSION="1.2">
@@ -113,23 +219,76 @@
 						<RESOURCE_LIST/>
 					</SHAPE>
 					<PARAMETER_LIST>
+						<PARAMETER NAME="Active Distance Threshold X" VALUE=""/>
+						<PARAMETER NAME="Active Distance Threshold Y" VALUE=""/>
+						<PARAMETER NAME="BaselineUpdateThreshold" VALUE=""/>
+						<PARAMETER NAME="Button FingerThreshold" VALUE=""/>
+						<PARAMETER NAME="Centroid" VALUE=""/>
 						<PARAMETER NAME="Clock" VALUE="Row_1_Broadcast"/>
 						<PARAMETER NAME="ClockSync" VALUE="Sync to SysClk"/>
 						<PARAMETER NAME="CommandTerminator" VALUE="13"/>
+						<PARAMETER NAME="DeadTime" VALUE=""/>
+						<PARAMETER NAME="Debounce" VALUE=""/>
+						<PARAMETER NAME="Debounce MT Pan Count" VALUE=""/>
+						<PARAMETER NAME="Debounce MT Pan to Zoom Count" VALUE=""/>
+						<PARAMETER NAME="Debounce MT Zoom Count" VALUE=""/>
+						<PARAMETER NAME="Debounce ST Pan Count" VALUE=""/>
 						<PARAMETER NAME="Enable_BackSpace" VALUE="Disable"/>
+						<PARAMETER NAME="Feedback Resistor Pin" VALUE=""/>
+						<PARAMETER NAME="FingerThreshold" VALUE=""/>
+						<PARAMETER NAME="Gain-Offset Compensation" VALUE=""/>
+						<PARAMETER NAME="Hysteresis" VALUE=""/>
 						<PARAMETER NAME="IgnoreCharsBelow" VALUE="32"/>
 						<PARAMETER NAME="IntDispatchMode" VALUE="ActiveStatus"/>
+						<PARAMETER NAME="Integration Cycles" VALUE=""/>
 						<PARAMETER NAME="InterruptAPI" VALUE="Enable"/>
 						<PARAMETER NAME="InvertRX Input" VALUE="Normal"/>
+						<PARAMETER NAME="LowBaselineReset" VALUE=""/>
+						<PARAMETER NAME="MT Finger Settling Count" VALUE=""/>
+						<PARAMETER NAME="MT Gesture Timeout Msec" VALUE=""/>
+						<PARAMETER NAME="MT Max Click Timeout Msec" VALUE=""/>
+						<PARAMETER NAME="MT Min Click Timeout Msec" VALUE=""/>
+						<PARAMETER NAME="Maximum Centroid Count" VALUE=""/>
+						<PARAMETER NAME="Modulator Capacitor Pin" VALUE=""/>
+						<PARAMETER NAME="NegativeNoiseThreshold" VALUE=""/>
+						<PARAMETER NAME="NoiseThreshold" VALUE=""/>
+						<PARAMETER NAME="On-Chip Centroid" VALUE=""/>
 						<PARAMETER NAME="Param_Delimiter" VALUE="32"/>
+						<PARAMETER NAME="Prescaler Period" VALUE=""/>
 						<PARAMETER NAME="RX Clock Out" VALUE="None"/>
 						<PARAMETER NAME="RX Input" VALUE="Row_1_Input_2"/>
 						<PARAMETER NAME="RX Output" VALUE="None"/>
+						<PARAMETER NAME="RawData IIR Filter" VALUE=""/>
+						<PARAMETER NAME="RawData IIR Filter Coeff" VALUE=""/>
+						<PARAMETER NAME="RawData Jitter Filter" VALUE=""/>
+						<PARAMETER NAME="RawData Median Filter" VALUE=""/>
+						<PARAMETER NAME="Ref Value" VALUE=""/>
+						<PARAMETER NAME="Reference" VALUE=""/>
+						<PARAMETER NAME="Resolution" VALUE=""/>
+						<PARAMETER NAME="Rotate Debounce Limit" VALUE=""/>
 						<PARAMETER NAME="RxBufferSize" VALUE="16"/>
 						<PARAMETER NAME="RxCmdBuffer" VALUE="Enable"/>
+						<PARAMETER NAME="ST Click X Radius PX" VALUE=""/>
+						<PARAMETER NAME="ST Click Y Radius PX" VALUE=""/>
+						<PARAMETER NAME="ST Max Click Timeout Msec" VALUE=""/>
+						<PARAMETER NAME="ST Max DblClick Radius PX" VALUE=""/>
+						<PARAMETER NAME="ST Max DblClick Timeout Msec" VALUE=""/>
+						<PARAMETER NAME="ST Min Click Timeout Msec" VALUE=""/>
+						<PARAMETER NAME="ST Min DblClick Timeout Msec" VALUE=""/>
+						<PARAMETER NAME="Scanning Speed" VALUE=""/>
+						<PARAMETER NAME="Sensors Autoreset" VALUE=""/>
+						<PARAMETER NAME="ShieldElectrodeOut" VALUE=""/>
 						<PARAMETER NAME="TX Clock Out" VALUE="None"/>
 						<PARAMETER NAME="TX Interrupt Mode" VALUE="TXComplete"/>
 						<PARAMETER NAME="TX Output" VALUE="Row_1_Output_2"/>
+						<PARAMETER NAME="Tuner" VALUE=""/>
+						<PARAMETER NAME="WOT FingerThreshold" VALUE=""/>
+						<PARAMETER NAME="XY IIR Filter" VALUE=""/>
+						<PARAMETER NAME="XY IIR Filter Coeff" VALUE=""/>
+						<PARAMETER NAME="XY Jitter Filter" VALUE=""/>
+						<PARAMETER NAME="Zoom Active Distance Threshold X" VALUE=""/>
+						<PARAMETER NAME="Zoom Active Distance Threshold Y" VALUE=""/>
+						<PARAMETER NAME="iDAC Range" VALUE=""/>
 					</PARAMETER_LIST>
 				</USER_MODULE>
 				<USER_MODULE NAME="Counter16" INSTANCE_NAME="Ticker" VERSION="2.5">
@@ -163,18 +322,71 @@
 						<RESOURCE_LIST/>
 					</SHAPE>
 					<PARAMETER_LIST>
+						<PARAMETER NAME="Active Distance Threshold X" VALUE=""/>
+						<PARAMETER NAME="Active Distance Threshold Y" VALUE=""/>
+						<PARAMETER NAME="BaselineUpdateThreshold" VALUE=""/>
+						<PARAMETER NAME="Button FingerThreshold" VALUE=""/>
+						<PARAMETER NAME="Centroid" VALUE=""/>
 						<PARAMETER NAME="Clock" VALUE="CPU_32_KHz"/>
 						<PARAMETER NAME="ClockSync" VALUE="Sync to SysClk"/>
 						<PARAMETER NAME="CompareOut" VALUE="None"/>
 						<PARAMETER NAME="CompareType" VALUE="Less Than Or Equal"/>
 						<PARAMETER NAME="CompareValue" VALUE="1"/>
+						<PARAMETER NAME="DeadTime" VALUE=""/>
+						<PARAMETER NAME="Debounce" VALUE=""/>
+						<PARAMETER NAME="Debounce MT Pan Count" VALUE=""/>
+						<PARAMETER NAME="Debounce MT Pan to Zoom Count" VALUE=""/>
+						<PARAMETER NAME="Debounce MT Zoom Count" VALUE=""/>
+						<PARAMETER NAME="Debounce ST Pan Count" VALUE=""/>
 						<PARAMETER NAME="Enable" VALUE="High"/>
+						<PARAMETER NAME="Feedback Resistor Pin" VALUE=""/>
+						<PARAMETER NAME="FingerThreshold" VALUE=""/>
+						<PARAMETER NAME="Gain-Offset Compensation" VALUE=""/>
+						<PARAMETER NAME="Hysteresis" VALUE=""/>
 						<PARAMETER NAME="IntDispatchMode" VALUE="ActiveStatus"/>
+						<PARAMETER NAME="Integration Cycles" VALUE=""/>
 						<PARAMETER NAME="InterruptAPI" VALUE="Enable"/>
 						<PARAMETER NAME="InterruptType" VALUE="Terminal Count"/>
 						<PARAMETER NAME="InvertEnable" VALUE="Normal"/>
+						<PARAMETER NAME="LowBaselineReset" VALUE=""/>
+						<PARAMETER NAME="MT Finger Settling Count" VALUE=""/>
+						<PARAMETER NAME="MT Gesture Timeout Msec" VALUE=""/>
+						<PARAMETER NAME="MT Max Click Timeout Msec" VALUE=""/>
+						<PARAMETER NAME="MT Min Click Timeout Msec" VALUE=""/>
+						<PARAMETER NAME="Maximum Centroid Count" VALUE=""/>
+						<PARAMETER NAME="Modulator Capacitor Pin" VALUE=""/>
+						<PARAMETER NAME="NegativeNoiseThreshold" VALUE=""/>
+						<PARAMETER NAME="NoiseThreshold" VALUE=""/>
+						<PARAMETER NAME="On-Chip Centroid" VALUE=""/>
 						<PARAMETER NAME="Period" VALUE="65535"/>
+						<PARAMETER NAME="Prescaler Period" VALUE=""/>
+						<PARAMETER NAME="RawData IIR Filter" VALUE=""/>
+						<PARAMETER NAME="RawData IIR Filter Coeff" VALUE=""/>
+						<PARAMETER NAME="RawData Jitter Filter" VALUE=""/>
+						<PARAMETER NAME="RawData Median Filter" VALUE=""/>
+						<PARAMETER NAME="Ref Value" VALUE=""/>
+						<PARAMETER NAME="Reference" VALUE=""/>
+						<PARAMETER NAME="Resolution" VALUE=""/>
+						<PARAMETER NAME="Rotate Debounce Limit" VALUE=""/>
+						<PARAMETER NAME="ST Click X Radius PX" VALUE=""/>
+						<PARAMETER NAME="ST Click Y Radius PX" VALUE=""/>
+						<PARAMETER NAME="ST Max Click Timeout Msec" VALUE=""/>
+						<PARAMETER NAME="ST Max DblClick Radius PX" VALUE=""/>
+						<PARAMETER NAME="ST Max DblClick Timeout Msec" VALUE=""/>
+						<PARAMETER NAME="ST Min Click Timeout Msec" VALUE=""/>
+						<PARAMETER NAME="ST Min DblClick Timeout Msec" VALUE=""/>
+						<PARAMETER NAME="Scanning Speed" VALUE=""/>
+						<PARAMETER NAME="Sensors Autoreset" VALUE=""/>
+						<PARAMETER NAME="ShieldElectrodeOut" VALUE=""/>
 						<PARAMETER NAME="TerminalCountOut" VALUE="None"/>
+						<PARAMETER NAME="Tuner" VALUE=""/>
+						<PARAMETER NAME="WOT FingerThreshold" VALUE=""/>
+						<PARAMETER NAME="XY IIR Filter" VALUE=""/>
+						<PARAMETER NAME="XY IIR Filter Coeff" VALUE=""/>
+						<PARAMETER NAME="XY Jitter Filter" VALUE=""/>
+						<PARAMETER NAME="Zoom Active Distance Threshold X" VALUE=""/>
+						<PARAMETER NAME="Zoom Active Distance Threshold Y" VALUE=""/>
+						<PARAMETER NAME="iDAC Range" VALUE=""/>
 					</PARAMETER_LIST>
 				</USER_MODULE>
 				<USER_MODULE NAME="UART" INSTANCE_NAME="UART_IN" VERSION="5.2">
@@ -210,23 +422,76 @@
 						<RESOURCE_LIST/>
 					</SHAPE>
 					<PARAMETER_LIST>
+						<PARAMETER NAME="Active Distance Threshold X" VALUE=""/>
+						<PARAMETER NAME="Active Distance Threshold Y" VALUE=""/>
+						<PARAMETER NAME="BaselineUpdateThreshold" VALUE=""/>
+						<PARAMETER NAME="Button FingerThreshold" VALUE=""/>
+						<PARAMETER NAME="Centroid" VALUE=""/>
 						<PARAMETER NAME="Clock" VALUE="Row_0_Broadcast"/>
 						<PARAMETER NAME="ClockSync" VALUE="Sync to SysClk"/>
 						<PARAMETER NAME="CommandTerminator" VALUE="42"/>
+						<PARAMETER NAME="DeadTime" VALUE=""/>
+						<PARAMETER NAME="Debounce" VALUE=""/>
+						<PARAMETER NAME="Debounce MT Pan Count" VALUE=""/>
+						<PARAMETER NAME="Debounce MT Pan to Zoom Count" VALUE=""/>
+						<PARAMETER NAME="Debounce MT Zoom Count" VALUE=""/>
+						<PARAMETER NAME="Debounce ST Pan Count" VALUE=""/>
 						<PARAMETER NAME="Enable_BackSpace" VALUE="Disable"/>
+						<PARAMETER NAME="Feedback Resistor Pin" VALUE=""/>
+						<PARAMETER NAME="FingerThreshold" VALUE=""/>
+						<PARAMETER NAME="Gain-Offset Compensation" VALUE=""/>
+						<PARAMETER NAME="Hysteresis" VALUE=""/>
 						<PARAMETER NAME="IgnoreCharsBelow" VALUE="1"/>
 						<PARAMETER NAME="IntDispatchMode" VALUE="ActiveStatus"/>
+						<PARAMETER NAME="Integration Cycles" VALUE=""/>
 						<PARAMETER NAME="InterruptAPI" VALUE="Enable"/>
 						<PARAMETER NAME="InvertRX Input" VALUE="Normal"/>
+						<PARAMETER NAME="LowBaselineReset" VALUE=""/>
+						<PARAMETER NAME="MT Finger Settling Count" VALUE=""/>
+						<PARAMETER NAME="MT Gesture Timeout Msec" VALUE=""/>
+						<PARAMETER NAME="MT Max Click Timeout Msec" VALUE=""/>
+						<PARAMETER NAME="MT Min Click Timeout Msec" VALUE=""/>
+						<PARAMETER NAME="Maximum Centroid Count" VALUE=""/>
+						<PARAMETER NAME="Modulator Capacitor Pin" VALUE=""/>
+						<PARAMETER NAME="NegativeNoiseThreshold" VALUE=""/>
+						<PARAMETER NAME="NoiseThreshold" VALUE=""/>
+						<PARAMETER NAME="On-Chip Centroid" VALUE=""/>
 						<PARAMETER NAME="Param_Delimiter" VALUE="0"/>
+						<PARAMETER NAME="Prescaler Period" VALUE=""/>
 						<PARAMETER NAME="RX Clock Out" VALUE="None"/>
 						<PARAMETER NAME="RX Input" VALUE="Row_0_Input_0"/>
 						<PARAMETER NAME="RX Output" VALUE="None"/>
+						<PARAMETER NAME="RawData IIR Filter" VALUE=""/>
+						<PARAMETER NAME="RawData IIR Filter Coeff" VALUE=""/>
+						<PARAMETER NAME="RawData Jitter Filter" VALUE=""/>
+						<PARAMETER NAME="RawData Median Filter" VALUE=""/>
+						<PARAMETER NAME="Ref Value" VALUE=""/>
+						<PARAMETER NAME="Reference" VALUE=""/>
+						<PARAMETER NAME="Resolution" VALUE=""/>
+						<PARAMETER NAME="Rotate Debounce Limit" VALUE=""/>
 						<PARAMETER NAME="RxBufferSize" VALUE="16"/>
 						<PARAMETER NAME="RxCmdBuffer" VALUE="Enable"/>
+						<PARAMETER NAME="ST Click X Radius PX" VALUE=""/>
+						<PARAMETER NAME="ST Click Y Radius PX" VALUE=""/>
+						<PARAMETER NAME="ST Max Click Timeout Msec" VALUE=""/>
+						<PARAMETER NAME="ST Max DblClick Radius PX" VALUE=""/>
+						<PARAMETER NAME="ST Max DblClick Timeout Msec" VALUE=""/>
+						<PARAMETER NAME="ST Min Click Timeout Msec" VALUE=""/>
+						<PARAMETER NAME="ST Min DblClick Timeout Msec" VALUE=""/>
+						<PARAMETER NAME="Scanning Speed" VALUE=""/>
+						<PARAMETER NAME="Sensors Autoreset" VALUE=""/>
+						<PARAMETER NAME="ShieldElectrodeOut" VALUE=""/>
 						<PARAMETER NAME="TX Clock Out" VALUE="None"/>
 						<PARAMETER NAME="TX Interrupt Mode" VALUE="TXComplete"/>
 						<PARAMETER NAME="TX Output" VALUE="None"/>
+						<PARAMETER NAME="Tuner" VALUE=""/>
+						<PARAMETER NAME="WOT FingerThreshold" VALUE=""/>
+						<PARAMETER NAME="XY IIR Filter" VALUE=""/>
+						<PARAMETER NAME="XY IIR Filter Coeff" VALUE=""/>
+						<PARAMETER NAME="XY Jitter Filter" VALUE=""/>
+						<PARAMETER NAME="Zoom Active Distance Threshold X" VALUE=""/>
+						<PARAMETER NAME="Zoom Active Distance Threshold Y" VALUE=""/>
+						<PARAMETER NAME="iDAC Range" VALUE=""/>
 					</PARAMETER_LIST>
 				</USER_MODULE>
 			</USER_MODULE_LIST>
@@ -240,7 +505,7 @@
 					<RESOURCE NAME="LVDThrottleBack" VALUE="Disable"/>
 					<RESOURCE NAME="Op-Amp Bias" VALUE="Low"/>
 					<RESOURCE NAME="PLL_Mode" VALUE="Disable"/>
-					<RESOURCE NAME="Power Setting [ Vcc / SysClk freq ]" VALUE="3.3V / 24MHz"/>
+					<RESOURCE NAME="Power Setting [ Vcc / SysClk freq ]" VALUE="5.0V / 24MHz"/>
 					<RESOURCE NAME="Ref Mux" VALUE="(Vdd/2)+/-BandGap"/>
 					<RESOURCE NAME="Sleep_Timer" VALUE="512_Hz"/>
 					<RESOURCE NAME="SwitchModePump" VALUE="OFF"/>
@@ -721,10 +986,10 @@
 					<REGISTER NAME="GlobalDigitalInterconnect_Drive_Even_Output" VALUE="0" ADDR="1d3" DATASHEET_NAME="GDI_E_OU"/>
 					<REGISTER NAME="GlobalDigitalInterconnect_Drive_Odd_Input" VALUE="0" ADDR="1d0" DATASHEET_NAME="GDI_O_IN"/>
 					<REGISTER NAME="GlobalDigitalInterconnect_Drive_Odd_Output" VALUE="0" ADDR="1d2" DATASHEET_NAME="GDI_O_OU"/>
-					<REGISTER NAME="I2CConfig" VALUE="0" ADDR="d6" DATASHEET_NAME="I2CCFG"/>
-					<REGISTER NAME="OscillatorControl_1" VALUE="30" ADDR="1e1" DATASHEET_NAME="OSC_CR1"/>
+					<REGISTER NAME="I2CConfig" VALUE="0" ADDR="d6" DATASHEET_NAME="I2C_CFG"/>
+					<REGISTER NAME="OscillatorControl_1" VALUE="130" ADDR="1e1" DATASHEET_NAME="OSC_CR1"/>
 					<REGISTER NAME="OscillatorControl_2" VALUE="0" ADDR="1e2" DATASHEET_NAME="OSC_CR2"/>
-					<REGISTER NAME="OscillatorControl_3" VALUE="0" ADDR="1df" DATASHEET_NAME="OSC_CR3"/>
+					<REGISTER NAME="OscillatorControl_3" VALUE="100" ADDR="1df" DATASHEET_NAME="OSC_CR3"/>
 					<REGISTER NAME="OscillatorControl_4" VALUE="1" ADDR="1de" DATASHEET_NAME="OSC_CR4"/>
 					<REGISTER NAME="OscillatorGlobalBusEnableControl" VALUE="0" ADDR="1dd" DATASHEET_NAME="OSC_GO_EN"/>
 					<REGISTER NAME="Port_0_DriveMode_0" VALUE="0" ADDR="100" DATASHEET_NAME="PRT0DM0"/>
