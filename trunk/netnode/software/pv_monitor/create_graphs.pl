@@ -1,6 +1,6 @@
-#! /usr/bin/perl
+#! /usr/bin/env perl -w
 
-use lib qw( /opt/lib/perl );
+use strict;
 
 use RRDs;
 use Net::FTP;
@@ -30,11 +30,14 @@ RRDs::graph "pv_days.png",
     #"--end", "now",
     "--start", "end-2days",
 	"--title", "Productie PV installatie voorbije dagen", 
-    "--vertical-label", "kWh / uur",
+    "--vertical-label", "W",
     config_string(),
+    "DEF:whly=$pv:watthour:MAX:end=now-1m:start=end-2d",
     "CDEF:whc=wh,3600,*,1000,/",
+    "CDEF:whmaxly=whly",
     "AREA:whc#8F8FFF",
     "LINE:whc#5252FF:Productie elektriciteit",
+    #"LINE:whmaxly#FFFF00:Maximum vorig jaar",
 	;
 	
 if ($err = RRDs::error) {
@@ -63,7 +66,6 @@ if ($err = RRDs::error) {
 
 
 print "Figures created...\n";
-
 
 
 # And upload the stuff to the website
