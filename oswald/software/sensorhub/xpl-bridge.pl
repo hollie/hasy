@@ -10,7 +10,7 @@ use xPL::Client;
 my $vendor_id = 'hollie';                # xPL vendor id of this program
 my $device_id = 'sensrhub';              # xPL device id of this program
 my $target    = 'hollie-utilmon.meter';  					 # Target device name
-my $interval  = 5;                   # Time in seconds between two queries of the database files.
+my $interval  = -5;                   # Time in seconds between two queries of the database files.
 
 
 # Global variables
@@ -19,7 +19,7 @@ my $livedata;
 my $debug = 1;
 
 # Read configuration settings (map of all available sensors)
-# get_config();
+get_config();
 
 # Create xPL object
 my $xpl=xPL::Client->new ( vendor_id => $vendor_id, device_id => $device_id );
