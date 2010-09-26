@@ -2,7 +2,7 @@
 	; HI-TECH C COMPILER (Cypress PSOC) V9.61PL1
 	; Copyright (C) 1984-2008 HI-TECH Software
 
-	; Auto-generated runtime startup code for final link stage.
+	; Auto-generated runtime startup code for prelink stage.
 
 	;
 	; Compiler options:
@@ -117,51 +117,17 @@ CPU_F	equ	247
 	psect	vectors
 reset_vec:
 start:
-	global	__Start
-	ljmp	__Start
+	ljmp	startup
 
 	psect	init
 startup:
 	M8C_ClearWDT
 	or	f, 0x80	;select multiple RAM page mode
 	and	f, 0xBF
-
-;	Clear uninitialized variables in bank 0
-	global	__Lbss0
-	mov	reg[CUR_PP],0
-	mov	a,0
-	mov	[__Lbss0+0],a
-
-;	Copy initialized data into bank 1
-	global	__Lromdata1,__Lramdata1
-	mov	reg[STK_PP],1
-	mov	x,low __Lromdata1
-	mov	a,low __Lramdata1
-	swap	a,sp
-dataloop1:
-	mov	a,high __Lromdata1
-	romx
-	push	a
-	inc	x
-		mov	a,x
-cmp	a,low (__Lromdata1+256)
-	jnz	dataloop1
-
-;	Clear uninitialized variables in bank 2
-	global	__Lbss2
-	mov	reg[STK_PP],2
-	mov	a,low __Lbss2
-	swap	a,sp
-	mov	a,0
-	mov	x,21
-bssloop2:
-	push	a
-	dec	x
-	jnz	bssloop2
 	mov	reg[STK_PP],7
 	mov	a,low __Lstackps
 	swap	a,sp
 
-	ljmp	_main
+	; falls through to _main
 
 	end	start
