@@ -22,62 +22,47 @@
 #define ORCON_PRT_HIGH (ORCON_PRT = ORCON_PRT & 0xDF)
 #define ORCON_RELEASE  (ORCON_PRT = ORCON_PRT | 0x2A)
 
-void orcon_Start(){
+int orcon_count;
+
+void orcon_Start(void){
 	ORCON_RELEASE;
-};
-
-// Delay of 5 us when main clock == 24 MHz and Sysclk = main / 1
-// Actual delay: 5.3 us
-void orcon_delay_5us() {
-
-	asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");
-	asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");
-	asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");
-	asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");
-
-	return;
+	orcon_count = 0;
 }
 
-void orcon_delay(){
-	// Get LED state, wait for change and back before falling through 
-	// this function.
-	int i;
-	
-	for (i=0;i<20000;i++){
-		orcon_delay_5us();
+// This function increments the ticker that is used for timing the 
+// output pin assertion in the orcon_control function.
+void orcon_ticker(void)
+{
+	if (orcon_count < 100) {
+		orcon_count++;
 	}
-	for (i=0;i<20000;i++){
-		orcon_delay_5us();
-	}
-	for (i=0;i<20000;i++){
-		orcon_delay_5us();
-	}
-	for (i=0;i<20000;i++){
-		orcon_delay_5us();
-	}
-	
-	return;
 }
-void orcon_low(){
-	ORCON_PRT_LOW;
-	printf("Switching Orcon ");
-	orcon_delay();
-	printf("to mode LOW\r\n");
+
+// Drive the output pins requested by the function parameter for two timer ticks.
+void orcon_control(enum ORCON_MODE_TYPE mode){
+	cprintf("Switching Orcon to mode");
+	orcon_count = 0;
+	
+	switch (mode) {
+	case LOW:
+		cprintf("LOW\r\n");
+		ORCON_PRT_LOW;
+		break;
+	case MEDIUM:
+		cprintf("MEDIUM\r\n");
+		ORCON_PRT_MED;
+		break;
+	case HIGH:
+		cprintf("HIGH\r\n");
+		ORCON_PRT_HIGH;
+		break;
+	default:
+		cprintf("not possible, unknown mode requested");
+		break;
+	}
+	
+	while (orcon_count < 2){asm("nop");};
+
 	ORCON_RELEASE;
-}
-
-void orcon_med(){
-	ORCON_PRT_MED;
-	printf("Switching Orcon ");
-	orcon_delay();
-	printf("to mode NORMAL\r\n");
-	ORCON_RELEASE;	
-}
-
-void orcon_high(){
-	ORCON_PRT_HIGH;
-	printf("Switching Orcon ");
-	orcon_delay();
-	printf("to mode HIGH\r\n");
-	ORCON_RELEASE;	
+	
 }

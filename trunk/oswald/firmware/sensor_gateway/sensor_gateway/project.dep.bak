@@ -1,24 +1,37 @@
 # DO NOT DELETE
-./obj/main.p1 :  ./lib/COUNTE~1.H ./lib/LED1.h ./lib/LTRX.h\
-   ./lib/OneWire.h ./lib/PSoCAPI.h ./lib/Ticker.h\
-   C:/PROGRA~1/Cypress/Common/CYPRES~2/tools/include/CY8C29~1/m8c.h\
-   D:\hollevo\projects\personal\hasy\oswald\firmware\SENSOR~1\SENSOR~1\oo.h\
-   D:\hollevo\projects\personal\hasy\oswald\firmware\SENSOR~1\SENSOR~1\orcon.h\
-   D:\hollevo\projects\personal\hasy\oswald\firmware\SENSOR~1\SENSOR~1\shtxx.h
-./obj/oo.p1 :  ./lib/COUNTE~1.H ./lib/LED1.h ./lib/LTRX.h\
-   ./lib/OneWire.h ./lib/PSoCAPI.h ./lib/Ticker.h\
-   C:/PROGRA~1/Cypress/Common/CYPRES~2/tools/include/CY8C29~1/m8c.h\
-   D:\hollevo\projects\personal\hasy\oswald\firmware\SENSOR~1\SENSOR~1\oo.h
-./obj/orcon.p1 :  ./lib/COUNTE~1.H ./lib/LED1.h ./lib/LTRX.h\
-   ./lib/OneWire.h ./lib/PSoCAPI.h ./lib/Ticker.h\
-   C:/PROGRA~1/Cypress/Common/CYPRES~2/tools/include/CY8C29~1/m8c.h\
-   D:\hollevo\projects\personal\hasy\oswald\firmware\SENSOR~1\SENSOR~1\orcon.h
-./obj/shtxx.p1 :  ./lib/COUNTE~1.H ./lib/LED1.h ./lib/LTRX.h\
-   ./lib/OneWire.h ./lib/PSoCAPI.h ./lib/Ticker.h\
-   C:/PROGRA~1/Cypress/Common/CYPRES~2/tools/include/CY8C29~1/m8c.h\
-   D:\hollevo\projects\personal\hasy\oswald\firmware\SENSOR~1\SENSOR~1\shtxx.h
-./obj/boot.obj : \
-   C:/PROGRA~1/Cypress/Common/CYPRES~2/tools/include/CY8C29~1/m8c.inc\
-   C:/PROGRA~1/Cypress/Common/CYPRES~2/tools/include/CY8C29~1/m8ssc.inc\
-   D:\hollevo\projects\personal\hasy\oswald\firmware\SENSOR~1\SENSOR~1\lib\GLOBAL~1.INC\
-   D:\hollevo\projects\personal\hasy\oswald\firmware\SENSOR~1\SENSOR~1\memory.inc
+./obj/boot.o : \
+   C:/PROGRA~1/Cypress/Common/CYPRES~3/tools/include/CY8C29~1/m8c.inc\
+   C:/PROGRA~1/Cypress/Common/CYPRES~3/tools/include/CY8C29~1/m8ssc.inc\
+   D:\hollevo\projects\personal\home\oswald\firmware\SENSOR~1\SENSOR~1\lib\GLOBAL~1.INC\
+   D:\hollevo\projects\personal\home\oswald\firmware\SENSOR~1\SENSOR~1\memory.inc
+./obj/main.o :  ./lib/COUNTE~1.H ./lib/LED1.h ./lib/LTRX.h\
+   ./lib/OneWire.h ./lib/PSoCAPI.h ./lib/SPEED_~1.H ./lib/Ticker.h\
+   C:/PROGRA~1/Cypress/Common/CYPRES~3/tools/include/CY8C29~1/m8c.h\
+   C:/PROGRA~1/Cypress/Common/CYPRES~3/tools/include/_const.h\
+   C:/PROGRA~1/Cypress/Common/CYPRES~3/tools/include/limits.h\
+   C:/PROGRA~1/Cypress/Common/CYPRES~3/tools/include/math.h\
+   C:/PROGRA~1/Cypress/Common/CYPRES~3/tools/include/stdarg.h\
+   C:/PROGRA~1/Cypress/Common/CYPRES~3/tools/include/stdio.h\
+   C:/PROGRA~1/Cypress/Common/CYPRES~3/tools/include/stdlib.h\
+   C:/PROGRA~1/Cypress/Common/CYPRES~3/tools/include/string.h\
+   D:\hollevo\projects\personal\home\oswald\firmware\SENSOR~1\SENSOR~1\oo.h\
+   D:\hollevo\projects\personal\home\oswald\firmware\SENSOR~1\SENSOR~1\shtxx.h
+./obj/oo.o :  ./lib/COUNTE~1.H ./lib/LED1.h ./lib/LTRX.h\
+   ./lib/OneWire.h ./lib/PSoCAPI.h ./lib/SPEED_~1.H ./lib/Ticker.h\
+   C:/PROGRA~1/Cypress/Common/CYPRES~3/tools/include/CY8C29~1/m8c.h\
+   D:\hollevo\projects\personal\home\oswald\firmware\SENSOR~1\SENSOR~1\oo.h
+./obj/orcon.o :  ./lib/COUNTE~1.H ./lib/LED1.h ./lib/LTRX.h\
+   ./lib/OneWire.h ./lib/PSoCAPI.h ./lib/SPEED_~1.H ./lib/Ticker.h\
+   C:/PROGRA~1/Cypress/Common/CYPRES~3/tools/include/CY8C29~1/m8c.h\
+   C:/PROGRA~1/Cypress/Common/CYPRES~3/tools/include/_const.h\
+   C:/PROGRA~1/Cypress/Common/CYPRES~3/tools/include/stdarg.h\
+   C:/PROGRA~1/Cypress/Common/CYPRES~3/tools/include/stdio.h\
+   D:\hollevo\projects\personal\home\oswald\firmware\SENSOR~1\SENSOR~1\orcon.h
+./obj/shtxx.o :  ./lib/COUNTE~1.H ./lib/LED1.h ./lib/LTRX.h\
+   ./lib/OneWire.h ./lib/PSoCAPI.h ./lib/SPEED_~1.H ./lib/Ticker.h\
+   C:/PROGRA~1/Cypress/Common/CYPRES~3/tools/include/CY8C29~1/m8c.h\
+   C:/PROGRA~1/Cypress/Common/CYPRES~3/tools/include/_const.h\
+   C:/PROGRA~1/Cypress/Common/CYPRES~3/tools/include/math.h\
+   C:/PROGRA~1/Cypress/Common/CYPRES~3/tools/include/stdarg.h\
+   C:/PROGRA~1/Cypress/Common/CYPRES~3/tools/include/stdio.h\
+   D:\hollevo\projects\personal\home\oswald\firmware\SENSOR~1\SENSOR~1\shtxx.h

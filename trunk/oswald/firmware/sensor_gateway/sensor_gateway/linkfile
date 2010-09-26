@@ -1,3 +1,6 @@
--H+./output/sensor_gateway.sym -M./output/sensor_gateway.map -O./output/sensor_gateway.obj 
- ./obj/main.p1 ./obj/oo.p1 ./obj/orcon.p1 ./obj/shtxx.p1   
- D:/hollevo/projects/personal/hasy/oswald/firmware/SENSOR~1/SENSOR~1/lib/libpsoc.lib D:/hollevo/projects/personal/hasy/oswald/firmware/SENSOR~1/SENSOR~1/lib/libpsoc.lpp C:\PROGRA~1\HI-TEC~1\HCPSOC\PRO\9.61/lib/psoc-c.lib  
+-F0x30 -g -blit:0x1a0.0x7fff 
+ -bdata:0.0x6ff -bSSCParmBlk:0x00F7.0x00FF -BInterruptRAM:0 -Bvirtual_registers  
+ -Bsensor_gateway_RAM 
+ -o"output/sensor_gateway" 
+ ./obj/main.o ./obj/oo.o ./obj/orcon.o ./obj/shtxx.o   
+ D:/hollevo/projects/personal/home/oswald/firmware/SENSOR~1/SENSOR~1/lib/libPSoc.a -LC:/PROGRA~1/Cypress/Common/CYPRES~3/tools/lib/LMM/eightpages C:/PROGRA~1/Cypress/Common/CYPRES~3/tools/lib/CY8C29000/cms.a C:/PROGRA~1/Cypress/Common/CYPRES~3/tools/lib/LMM/UASW/MAC/arith.a  

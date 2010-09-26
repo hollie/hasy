@@ -43,18 +43,18 @@ typedef struct s_oo_data {
 #define        OO_RECALLE2			0xB8
 #define        OO_READSUPPLY		0xB4
 
-char  oo_busreset();
-short oo_get_temp();
+char  oo_busreset(void);
+short oo_get_temp(void);
 char  oo_get_pad_byte(char index);
-char  oo_read_scratchpad();
-char  oo_conversion_busy();
-void  oo_start_conversion();
-char  oo_wait_for_completion();
-char  oo_device_search();
-char  oo_scanbus();
-char  oo_get_next_id();
-char  oo_get_devicecount();
-oo_tdata oo_read_device();
-void oo_report();
+char  oo_read_scratchpad(void);
+char  oo_conversion_busy(void);
+void  oo_start_conversion(void);
+char  oo_wait_for_completion(void);
+char  oo_device_search(void);
+char  oo_scanbus(void);
+char  oo_get_next_id(void);
+char  oo_get_devicecount(void);
+oo_tdata oo_read_device(void);
+void oo_report(void);
 
 #endif // _OO_H_

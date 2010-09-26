@@ -11,8 +11,8 @@ Ported to PSOC C compiler by Lieven Hollevoet.
 #include "shtxx.h"
 
 // Internal function prototypes
-void delay_1us();
-void delay_5us();
+void delay_1us(void);
+void delay_5us(void);
 
 enum {TEMP,HUMI};
 
@@ -44,7 +44,7 @@ typedef union
 #define RESET        0x1e   //000   1111    0
 
 
-void s_Start()
+void s_Start(void)
 {
 	// Release the IO line
 	DATA(1);
@@ -196,13 +196,19 @@ char s_measure(unsigned char *p_value, unsigned char *p_checksum, unsigned char 
     case HUMI	: error+=s_write_byte(MEASURE_HUMI); break;
     default     : break;	 
   }
-  for (i=0;i<65535;i++) {
-  	if(DATA_IN==0) break; //wait until sensor has finished the measurement
+  
+  i=0;
+  while (DATA_IN && i < 65535) {
+  	delay_5us();
+	i++;
+  }
+  /*for (i=0;i<65535;i++) {
+  	if(DATA_IN==0) {i=65535;} //wait until sensor has finished the measurement
 	delay_5us();
 	//delay_5us();
 	//delay_5us();
 	//delay_5us();
-  }
+  }*/
   
   if(DATA_IN) error+=1;                // or timeout (~2 sec.) is reached
   *(p_value)  =s_read_byte(ACK);    //read the first byte (MSB)
@@ -222,11 +228,11 @@ void calc_sth11(float *p_humidity ,float *p_temperature)
 //          temp [Ticks] (14 bit)
 // output:  humi [%RH]
 //          temp [°C]
-{ const float C1=-4.0;              // for 12 Bit
-  const float C2=+0.0405;           // for 12 Bit
-  const float C3=-0.0000028;        // for 12 Bit
-  const float T1=+0.01;             // for 14 Bit @ 5V
-  const float T2=+0.00008;           // for 14 Bit @ 5V	
+{ float C1=-4.0;              // for 12 Bit
+  float C2=+0.0405;           // for 12 Bit
+  float C3=-0.0000028;        // for 12 Bit
+  float T1=+0.01;             // for 14 Bit @ 5V
+  float T2=+0.00008;           // for 14 Bit @ 5V	
 
   float rh=*p_humidity;             // rh:      Humidity [Ticks] 12 Bit 
   float t=*p_temperature;           // t:       Temperature [Ticks] 14 Bit
@@ -257,7 +263,7 @@ float calc_dewpoint(float h,float t)
 }
 
 //----------------------------------------------------------------------------------
-void s_do_measure(){
+void s_do_measure(void){
 //----------------------------------------------------------------------------------
 // sample program that shows how to use SHT11 functions
 // 1. connection reset 
@@ -289,7 +295,7 @@ void s_do_measure(){
     calc_sth11(&humi_val.f,&temp_val.f);            //calculate humidity, temperature
     dew_point=calc_dewpoint(humi_val.f,temp_val.f); //calculate dew point
 	  
-	printf("SHTxx T:%5.1f C RH:%5.1f%\% DewPt:%5.1f C\r\n",temp_val.f,humi_val.f,dew_point);
+	cprintf("SHTxx T:%5.1f C RH:%5.1f% pct DewPt:%5.1f C\r\n",temp_val.f,humi_val.f,dew_point);
   }
  
 } 
@@ -297,13 +303,13 @@ void s_do_measure(){
 // Delay of 1 us when main clock == 24 MHz and Sysclk = main / 1
 // Acctually, calling this function takes 2.3 us, do not use it for 
 // precise timing loops
-void delay_1us() {
+void delay_1us(void) {
 	return;
 }
 
 // Delay of 5 us when main clock == 24 MHz and Sysclk = main / 1
 // Actual delay: 5.3 us
-void delay_5us() {
+void delay_5us(void) {
 
 	asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");
 	asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");

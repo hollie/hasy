@@ -1,79 +1,38 @@
 Starting MAKE...
 creating project.mk 
-
 lib/counter8_ltrx.asm
-
 lib/counter8_ltrxint.asm
-
 lib/led1.asm
-
 lib/ltrx.asm
-
 lib/ltrxint.asm
-
 lib/ltrxplus.asm
-
 lib/onewire.asm
-
 lib/onewireint.asm
-
 lib/psocconfig.asm
-
 lib/psocconfigtbl.asm
-
+lib/speed_pwm.asm
+lib/speed_pwmint.asm
 lib/ticker.asm
-
 lib/tickerint.asm
-
-module lib/obj/ltrxplus.obj defines no symbols (warning)
-
 ./boot.asm
-
 ./main.c
-
 ./oo.c
-
-!W ./oo.c(111):(345) unreachable code (warning)
-
 ./orcon.c
-
 ./shtxx.c
-
-sed: can't read HTlinkOpts.lkp: No such file or directory
-
-expanded_libs = 
-
 Linking..
-
-HI-TECH C COMPILER (Cypress PSOC) Lite  V9.61PL1
-
-Copyright (C) 1984-2008 HI-TECH SOFTWARE
-
-(1273) Omniscient Code Generation not available in Lite mode (warning)
-
-!W ./main.c(30):(690) interrupt function requires address (warning)
-
-
-
-Memory Summary:
-
-    Program space        used  4C3Bh ( 19515) of  8000h bytes   ( 59.6%)
-
-    Data space           used   1C3h (   451) of   800h bytes   ( 22.0%)
-
-
-
-Comparative memory usage (excludes absolute areas and stack variables)
-
-    ROM used: 19124 bytes
-
-    RAM used:   310 bytes
-
-HI-TECH C PRO compiler averages 40% less code than this Lite mode
-
-PRO may reduce your program size by 6403 bytes
-
-To evaluate HI-TECH C PRO please visit http://cypress.htsoft.com/portal/convert
-
+LMM info: area 'InterruptRAM' uses 3 bytes in SRAM bank 0
+LMM info: area 'data' item of 25 bytes allocated in SRAM page 0
+LMM info: area 'LTRX_RAM' item of 16 bytes allocated in SRAM page 0
+LMM info: area 'virtual_registers' uses 15 bytes in SRAM page 0
+LMM info: area 'bss' item of 12 bytes allocated in SRAM page 0
+LMM info: area 'data' item of 9 bytes allocated in SRAM page 0
+LMM info: area 'data' item of 2 bytes allocated in SRAM page 0
+LMM info: area 'data' item of 2 bytes allocated in SRAM page 0
+LMM info: area 'LTRX_RAM' item of 1 bytes allocated in SRAM page 0
+LMM info: area 'data' item of 1 bytes allocated in SRAM page 0
+LMM info: area 'data' item of 256 bytes allocated in SRAM page 1
+  ROM 38% full. 12441 out of 32768 bytes used (does not include absolute areas).
+  RAM 20% full. 342 bytes used (does not include stack usage).
+idata dump at output/sensor_gateway.idata
  
-sensor_gateway - 0 error(s) 2 warning(s) 10:09:54
+sensor_gateway - 0 error(s) 0 warning(s) 11:35:41
