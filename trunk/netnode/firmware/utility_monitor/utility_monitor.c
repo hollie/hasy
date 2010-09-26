@@ -6,8 +6,8 @@
 *
 * (c) 2009, Lieven Hollevoet.
 **************************************************************
-* target device   : PIC18F2320
-* clockfreq       : 8 MHz (internal oscillator)
+* target device   : PIC18F2520
+* clockfreq       : 32 MHz (internal oscillator + PLL)
 * target hardware : NetNode
 * UART speed      : 38400 bps
 * mpasmwin.exe    : v5.34
