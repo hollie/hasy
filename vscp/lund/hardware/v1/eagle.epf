@@ -7,10 +7,12 @@ Desktop="Desktop"
 
 [Globals]
 AutoSaveProject=1
+UsedLibrary="/Applications/EAGLE/lbr/diode.lbr"
 UsedLibrary="/Applications/EAGLE/lbr/led.lbr"
 UsedLibrary="/Applications/EAGLE/lbr/rcl.lbr"
 UsedLibrary="/Applications/EAGLE/lbr/supply1.lbr"
 UsedLibrary="SparkFun.lbr"
+UsedLibrary="v-reg-3.lbr"
 
 [Win_1]
 Type="Control Panel"
