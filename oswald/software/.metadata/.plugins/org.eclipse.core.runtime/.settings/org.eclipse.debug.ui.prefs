@@ -1,5 +1,0 @@
-#Thu Mar 19 09:03:59 CET 2009
-eclipse.preferences.version=1
-preferredDetailPanes=DefaultDetailPane\:DefaultDetailPane|
-org.eclipse.debug.ui.PREF_LAUNCH_PERSPECTIVES=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?>\r\n<launchPerspectives/>\r\n
-org.eclipse.debug.ui.user_view_bindings=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?>\r\n<viewBindings>\r\n<view id\="org.eclipse.ui.console.ConsoleView">\r\n<perspective id\="org.epic.core.Perspective" userAction\="opened"/>\r\n<perspective id\="org.eclipse.ui.resourcePerspective" userAction\="opened"/>\r\n</view>\r\n</viewBindings>\r\n
