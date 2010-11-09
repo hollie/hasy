@@ -1,10 +1,12 @@
 /*************************************************************
 * Utility meter monitor
 *
-* Monitors the inputs TBD and counts pulses on them.
+* Monitors the inputs INT0..2 and counts pulses on them.
 * Performs debouncing before the count is incremented
 *
-* (c) 2009, Lieven Hollevoet.
+* Supports onewire temperature devices connected to RA0
+*
+* (c) 2009-2010, Lieven Hollevoet.
 **************************************************************
 * target device   : PIC18F2520
 * clockfreq       : 32 MHz (internal oscillator + PLL)
@@ -23,6 +25,7 @@
 
 #include "fuses.h"
 #include "utility_monitor.h"
+#include "oo.h"
 #include "xpl.h"
 #include "eeprom.h"
 
@@ -48,6 +51,10 @@ void main()
 
 	// Hardware initialisation
 	init();
+
+	//while(1) {
+		oo_report();
+	//}
 
 	// Init the xPL library
 	xpl_init();
