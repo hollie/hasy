@@ -133,7 +133,7 @@ void xpl_print_header(enum XPL_MSG_TYPE type){
 //  Send out a normal heartbeat
 void xpl_send_hbeat(void){
 	xpl_print_header(STAT);
-	printf("hbeat.basic\n{\ninterval=5\nversion=1.1\n}\n");
+	printf("hbeat.basic\n{\ninterval=5\nversion=1.2\n}\n");
 	return;
 }
 
@@ -144,7 +144,7 @@ void xpl_send_hbeat(void){
 //  INSTANCE_ID is found in EEPROM by the xpl_init function.
 void xpl_send_config_hbeat(void){
 	xpl_print_header(STAT);
-	printf("config.basic\n{\ninterval=1\nversion=1.1\n}\n");
+	printf("config.basic\n{\ninterval=1\nversion=1.2\n}\n");
 	return;
 }
 
