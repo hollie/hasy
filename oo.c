@@ -21,7 +21,6 @@ unsigned char oo_scratchpad[9];
 // 7	Nr of counts per degree
 // 8	CRC of pad contents
 
-#ifdef OO_CRC_CHECKING
 
 // CRC working variable
 unsigned char crc = 0;
@@ -29,10 +28,6 @@ unsigned char crc = 0;
 // CRC lookup table
 rom unsigned char crc_rom[256] = {0, 94, 188, 226, 97, 63, 221, 131, 194, 156, 126, 32, 163, 253, 31, 65, 157, 195, 33, 127, 252, 162, 64, 30, 95, 1, 227, 189, 62, 96, 130, 220, 35, 125, 159, 193, 66, 28, 254, 160, 225, 191, 93, 3, 128, 222, 60, 98, 190, 224, 2, 92, 223, 129, 99, 61, 124, 34, 192, 158, 29, 67, 161, 255, 70, 24, 250, 164, 39, 121, 155, 197, 132, 218, 56, 102, 229, 187, 89, 7, 219, 133, 103, 57, 186, 228, 6, 88, 25, 71, 165, 251, 120, 38, 196, 154, 101, 59, 217, 135, 4, 90, 184, 230, 167, 249, 27, 69, 198, 152, 122, 36, 248, 166, 68, 26, 153, 199, 37, 123, 58, 100, 134, 216, 91, 5, 231, 185, 140, 210, 48, 110, 237, 179, 81, 15, 78, 16, 242, 172, 47, 113, 147, 205, 17, 79, 173, 243, 112, 46, 204, 146, 211, 141, 111, 49, 178, 236, 14, 80, 175, 241, 19, 77, 206, 144, 114, 44, 109, 51, 209, 143, 12, 82, 176, 238, 50, 108, 142, 208, 83, 13, 239, 177, 240, 174, 76, 18, 145, 207, 45, 115, 202, 148, 118, 40, 171, 245, 23, 73, 8, 86, 180, 234, 105, 55, 213, 139, 87, 9, 235, 181, 54, 104, 138, 212, 149, 203, 41, 119, 244, 170, 72, 22, 233, 183, 85, 11, 136, 214, 52, 106, 43, 117, 151, 201, 74, 20, 246, 168, 116, 42, 200, 150, 21, 75, 169, 247, 182, 232, 10, 84, 215, 137, 107, 53};
 
-// CRC function prototypes
-void oo_crc_init();
-void oo_crc_shuffle_byte(unsigned char input);
-#endif
 
 char oo_rx_bit();
 char oo_rx_byte();
@@ -45,7 +40,7 @@ signed char conflict;
 char        new_conflict;
 
 char        nr_of_devices = 0;
-char        id_table[8*SUPPORTED_DEVICE_COUNT];
+oo_tdata    device_table[OO_SUPPORTED_DEVICE_COUNT];
 
 #warning "Assuming clock frequency of 32 MHz, adjust the delays accordingly when using another frequency"	
 
@@ -189,12 +184,49 @@ char oo_rx_byte(){
 		
 	}
 
-#ifdef OO_CRC_CHECKING
 	oo_crc_shuffle_byte(data);
-#endif	
+
 	return data;
 }
 
+////////////////////////////////////////////////////////////
+// oo_crc_init()
+//
+// Initialise the CRC working register to be able to 
+// start a new calculation
+////////////////////////////////////////////////////////////
+void oo_crc_init(){
+	crc = 0;
+}
+
+////////////////////////////////////////////////////////////
+// oo_crc_shuffle_byte()
+//
+// Shuffle the next byte into the CRC
+////////////////////////////////////////////////////////////
+void oo_crc_shuffle_byte(unsigned char input){
+	unsigned char index = crc ^ input;
+	crc = crc_rom[index];
+}
+
+////////////////////////////////////////////////////////////
+// char oo_get_devicecount()
+//
+// Returns the number of detected devices
+////////////////////////////////////////////////////////////
+char oo_get_devicecount(){
+	return nr_of_devices;
+}
+
+////////////////////////////////////////////////////////////
+// void oo_set_devicecount()
+//
+// Sets the number of detected devices, private function
+////////////////////////////////////////////////////////////
+void oo_set_devicecount(unsigned char count){
+	nr_of_devices = count;
+	return;
+}
 
 ////////////////////////////////////////////////////////////
 // char oo_read_scratchpad()
@@ -208,39 +240,21 @@ char oo_read_scratchpad(){
 	// Read the scratchpad
 	oo_tx_byte(OO_READPAD);
 	
-
-#ifdef OO_CRC_CHECKING
 	// Reset the CRC register, CRC is updated in the oo_rx_byte() function.
 	oo_crc_init();
-#endif
 	
 	while (counter < 9){
 		oo_scratchpad[counter] = oo_rx_byte();
 		counter++;
 	}
 
-#ifdef OO_CRC_CHECKING
 	// Verify the CRC
 	return crc;
-#endif
 
 	
 	return 0;
 }
 
-////////////////////////////////////////////////////////////
-// short oo_get_temp()
-// 
-// DS1820 specific
-// Returns the 2-byte value of the temperature register
-////////////////////////////////////////////////////////////
-short oo_get_temp(){
-	short retval;
-	retval = (short)oo_scratchpad[1];
-	retval = retval << 8;
-	retval += (short)oo_scratchpad[0];
-	return retval; 
-}
 
 ////////////////////////////////////////////////////////////
 // oo_conversion_busy()
@@ -302,27 +316,6 @@ char oo_wait_for_completion(){
 	return 0;
 }
 
-#ifdef OO_CRC_CHECKING
-////////////////////////////////////////////////////////////
-// oo_crc_init()
-//
-// Initialise the CRC working register to be able to 
-// start a new calculation
-////////////////////////////////////////////////////////////
-void oo_crc_init(){
-	crc = 0;
-}
-
-////////////////////////////////////////////////////////////
-// oo_crc_shuffle_byte()
-//
-// Shuffle the next byte into the CRC
-////////////////////////////////////////////////////////////
-void oo_crc_shuffle_byte(unsigned char input){
-	unsigned char index = crc ^ input;
-	crc = crc_rom[index];
-}
-#endif
 
 ////////////////////////////////////////////////////////////
 // oo_get_next_id()
@@ -408,27 +401,21 @@ char oo_get_next_id(){
 	//serial_print_lf();
 	
 	// Verify ID CRC
-#ifdef OO_CRC_CHECKING
 	oo_crc_init();
-#endif
 	
-	printf("Found ID: ");
+	//printf("Found ID: ");
 	for (byte_index = 0; byte_index < 8; byte_index++){
 	//	printf("%02X", id[byte_index]);
-#ifdef OO_CRC_CHECKING
 		oo_crc_shuffle_byte(id[byte_index]); 
-#endif
 	}
 	
 	//serial_print_lf();
 	
 	// Bail on CRC errors
-#ifdef OO_CRC_CHECKING
 	if (crc) {
 		printf("CRC error\n");
 		return crc;
 	}
-#endif
 	
 	return 0;
 }
@@ -448,6 +435,8 @@ char oo_scanbus(void){
 	char device_count = 0;
 	char loper;
 	
+	oo_set_devicecount(0);
+
 	conflict = -1;
 	new_conflict = 1;
 	
@@ -463,122 +452,95 @@ char oo_scanbus(void){
 		// Bail in case of errors
 		if (retval) return retval;
 		
-		// Add the device id to EEPROM
+
+		// Add the device id to the device table
 		for (loper=0; loper < 8; loper++){
-			id_table[loper+(device_count<<3)] = id[loper];
+			device_table[device_count].id[loper] = id[loper];
 		}
 		
 		device_count++;
 		
 	}
 	
-	// Write number of devices to the EEPROM
-    nr_of_devices = device_count;
+	// Update the number of devices
+    oo_set_devicecount(device_count);
 	
 	return 0;
 	
 }
 
-////////////////////////////////////////////////////////////
-// char oo_get_devicecount()
-//
-// Returns the number of detected devices
-////////////////////////////////////////////////////////////
-char oo_get_devicecount(){
-	return nr_of_devices;
-}
+
 
 ////////////////////////////////////////////////////////////
 // char oo_read_device()
 //
-// Reads the temperature of the device @ location 'count'
-// in the EEPROM
+// Reads the temperature of the device 'count' and update 
+// the device table
+//
+//  Returns 1 in case the devicecount is too high
+//  Returns 2 in case of a CRC error, in this case the
+//     valid bit of the device is also put to '0' in 
+//     the device hash
 ////////////////////////////////////////////////////////////
-oo_tdata oo_read_device(char count){
+unsigned char oo_read_device(unsigned char count){
 
-	char loper;
-	
-	oo_tdata data;
-	
-	data.valid = 0;
-	
+	unsigned char loper;
+	unsigned char id_byte;
+	short         temperature;
+
+	if (count > oo_get_devicecount()) {
+		return 1;
+	}
+
+	device_table[count].valid = 0;
+		
 	oo_busreset();
 	oo_tx_byte(OO_MATCHROM);
 	//serial_printf("Going for matchrom\n");
 	
 	for (loper=0; loper < 8; loper++){
-		id[loper] = id_table[loper+(count<<3)];
-		oo_tx_byte(id[loper]);
-		data.id[loper] = id[loper];
-		//serial_print_hex(id[loper]);
+		id_byte = device_table[count].id[loper];
+		oo_tx_byte(id_byte);
 	}
-	//serial_print_lf();
 	
-	// Read the scratchpad
+	// Read the scratchpad of the selected device
+	// The scratchpad is defined as a global variable to reduce the amount of data pushed on the heap
 	if (oo_read_scratchpad()){
-		printf("CRC error while reading scratchpad!\n");
-		return data;
+		return 2;
 	}
 	
-/*
-	// Debug print scratchpad:
+	/*
+	// Debug: print the scratchpad contents
 	printf("Scratchpad contents:\r\n");
 	for (loper=0; loper<9; loper++){
-		printf("%i : %02X\r\n", loper, oo_scratchpad[loper]);
+		printf("%i: %02X\r\n", loper, oo_scratchpad[loper]);
 	}
-*/	
+	*/
+
 	// And extract the temperature information
-	data.t_msb    = oo_scratchpad[1];
-	data.t_lsb    = oo_scratchpad[0];
-	data.valid    = 1;
-	return data;
+	temperature = (short)oo_scratchpad[1];
+	temperature = temperature << 8;
+	temperature += (short)oo_scratchpad[0];	
+	device_table[count].temperature = temperature;
+	device_table[count].valid = 1;
+	return 0;
 	
 }
 
-char  oo_get_pad_byte(char index){
-	return oo_scratchpad[index];
-}
-
-/*char  oo_get_id_byte(char index){
-	return oo_current_id[index];
-}*/
 
 // Get a system report from the OneWire bus
 // This means: 
-//  * reset the bus and check devices are present
 //  * start conversion on all devices
 //  * wait for completion
-//  * read the scratchpad of the first device, extract temperature data, print ID + status
+//  * read the scratchpad of the first device, extract temperature data and update the device hash
 //  * continue until the last sensor is read
-void oo_report(void){
+void oo_read_temperatures(void){
 	
 	oo_tdata data;
 	
 	unsigned char id[8];
 	char loper=0;
 	unsigned char index;
-
-/*	while(1) {
-	// Reset the bus, detect device
-	oo_busreset();
-	// Skiprom
-	oo_tx_byte(OO_SKIPROM);
-	// Convert temperature
-	oo_tx_byte(OO_CONVERTT);
- 	// Readout
-	oo_wait_for_completion();
-	oo_busreset();
-	oo_tx_byte(OO_SKIPROM);
-	oo_read_scratchpad();
-	printf("* - %04X\n", oo_get_temp());
-	} */
-
-	
-	// Reset
-	if (oo_scanbus()){
-		printf("No OneWire devices found on the bus!\n");
-		return;
-	}
 
 	
 	// Start conversion
@@ -592,14 +554,55 @@ void oo_report(void){
 	
 	// Find the first device on the bus
 	while (loper < oo_get_devicecount()){
-		data = oo_read_device(loper);
-		for (index=0; index<8; index++){
-			printf("%02X", data.id[index]);
-		}
-		printf(" - %04X - %i\n", oo_get_temp(), data.valid);
-
+		oo_read_device(loper);
 		loper++;
 	}
-	
-	
+		
+}
+
+// Init routine for the onewire bus.
+// This function should be called at startup of the controller
+// It will initialize the bus and scan for devices
+// Returns zero when no errors were detected
+// Returns 1 when there a timeout during temperature conversion
+unsigned char oo_init(void){
+
+	// Set the bus and check if a device is present
+	// If there is one, oo_scanbus will return a '0'. 
+	// On error it reports a non-zero value
+	return oo_scanbus();
+}
+
+// Get the info of a device so that user code can extract the data for 
+// a specific sensor
+oo_tdata oo_get_device_info(unsigned char index){
+
+	if (index>oo_get_devicecount()){
+		index = 0;
+	}
+
+	return device_table[index];
+}
+
+signed short oo_get_device_temp(unsigned char index){
+
+	if (index>oo_get_devicecount()){
+		index = 0;
+	}
+
+	return device_table[index].temperature;
+
+}
+
+// Print a device status line
+// Format IDIDIDID - TTTT - C
+//  ID = 64-bit ID
+//  TT = 16-bit temperature, signed, quantisation depends on device type
+//  C  = CRC valid (1 or 0)
+void oo_print_device_info(unsigned char index){
+	char loper;
+	for (loper=0; loper<8; loper++){
+		printf("%02X", device_table[index].id[loper]);
+	}
+	printf(" - %04X - %X\r\n", device_table[index].temperature, device_table[index].valid);
 }

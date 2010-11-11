@@ -31,6 +31,7 @@
 
 // Global variables used for message passing between ISR and main code
 volatile int time_ticks = 0;
+volatile unsigned char time_ticks_oo = 0;
 volatile char debounce_water;
 volatile char debounce_gas;
 volatile char debounce_elec;
@@ -45,21 +46,25 @@ void main()
 {
 
 	// Test code: set an initial ID in the EEPROM
-	//eeprom_write(0x00, 'A');
-	//eeprom_write(0x01, 'F');
-	//eeprom_write(0x02, '\0');
+	eeprom_write(0x00, 'A');
+	eeprom_write(0x01, 'F');
+	eeprom_write(0x02, '\0');
 
 	// Hardware initialisation
 	init();
-
-	//while(1) {
-		oo_report();
-	//}
 
 	// Init the xPL library
 	xpl_init();
 	// Set time_ticks to 295 so that we send a heartbeat message withing 5 seconds
 	time_ticks = 295;
+
+	// Set time_ticks_oo to 50 so that we measure the temperature 10 seconds after reset.
+	time_ticks_oo = 50;
+
+	printf("Found %i devices\r\n", oo_get_devicecount());
+	oo_read_temperatures();
+	oo_print_device_info(0);
+	
 
 	while (1){
 
@@ -202,6 +207,7 @@ void high_isr(void){
 		WriteTimer0(TMR0_VALUE);		// Reprogram timer
    		INTCONbits.TMR0IF=0;         	// Clear interrupt flag
 		time_ticks++;
+		time_ticks_oo++;
  	}
 
 	/* TIMER 1 INTERRUPT HANDLING */

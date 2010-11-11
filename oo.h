@@ -6,18 +6,13 @@
 #ifndef _OO_H_
 #define _OO_H_
 
-// Comment the following define if CRC checking does not need to be performed.
-// Can be useful on devices with limited program memory available
-#define OO_CRC_CHECKING
-
 #define OO_BUS      PORTAbits.RA0
 #define OO_BUS_TRIS TRISAbits.TRISA0
 
 // Structure for data exchange
 typedef struct s_oo_data {
                  unsigned char  id[8];
-                 unsigned char  t_msb;
-                 unsigned char  t_lsb;
+                 unsigned short temperature;
                  unsigned char  valid;
               } oo_tdata;
 
@@ -38,11 +33,22 @@ typedef struct s_oo_data {
 #define        OO_RECALLE2			0xB8
 #define        OO_READSUPPLY		0xB4
 
-#define        SUPPORTED_DEVICE_COUNT 5
+#define        OO_SUPPORTED_DEVICE_COUNT 5
 
 #define oo_readmode  OO_BUS_TRIS = 1
 #define oo_writemode OO_BUS_TRIS = 0
 
+unsigned char 	oo_init(void);
+void     		oo_read_temperatures();
+oo_tdata 		oo_get_device_info(unsigned char index);
+signed short	oo_get_device_temp(unsigned char index);
+unsigned char 	oo_read_device(unsigned char count);
+void            oo_print_device_info(unsigned char index);
+char     		oo_get_devicecount();
+
+// Internal functions, transfer this to the c-file
+void oo_crc_init();
+void oo_crc_shuffle_byte(unsigned char input);
 char  	 oo_busreset();
 short 	 oo_get_temp();
 char  	 oo_get_pad_byte(char index);
@@ -53,8 +59,5 @@ char  	 oo_wait_for_completion();
 char  	 oo_device_search();
 char  	 oo_scanbus();
 char     oo_get_next_id();
-char     oo_get_devicecount();
-oo_tdata oo_read_device(char count);
-void     oo_report();
 
 #endif // _OO_H_
