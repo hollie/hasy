@@ -21,6 +21,7 @@
 #include <usart.h>
 #include <delays.h>
 #include <timers.h>
+#include <pwm.h>
 #include <stdio.h>
 
 #include "fuses.h"
@@ -45,11 +46,12 @@ volatile char debounce_elec;
 void main()
 {
 
-	// Test code: set an initial ID in the EEPROM
+	/*
+	// Test code: set an initial ID in the EEPROM so that we don't have to configure the node
 	eeprom_write(0x00, 'A');
 	eeprom_write(0x01, 'F');
 	eeprom_write(0x02, '\0');
-
+	*/
 	// Hardware initialisation
 	init();
 
@@ -61,16 +63,19 @@ void main()
 	// Set time_ticks_oo to 50 so that we measure the temperature 10 seconds after reset.
 	time_ticks_oo = 50;
 
-	printf("Found %i devices\r\n", oo_get_devicecount());
-	oo_read_temperatures();
-	oo_print_device_info(0);
-	
+	/* // DEBUG 
+	if (oo_get_devicecount()){
+		printf("Found %i devices\r\n", oo_get_devicecount());
+		oo_read_temperatures();
+		oo_print_device_info(0);
+	}
+	*/
 
 	while (1){
 
 		// Call the xPL message handler
 		xpl_handler();
-	
+
 	}
 	
 }
@@ -130,6 +135,15 @@ void init(void)
 			T1_OSC1EN_OFF);
 
 	WriteTimer1(TMR1_VALUE);
+
+	// Enable the PWM timer
+	OpenTimer2(TIMER_INT_OFF &
+			T2_PS_1_16 &
+			T2_POST_1_1);
+
+	// And enable the PWM
+	OpenPWM1(249);
+	SetDCPWM1(1000);
 
 	// Enable pullups on Portb inputs
 	INTCON2bits.RBPU    = 0; // (bit is active low!)

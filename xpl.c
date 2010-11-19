@@ -12,6 +12,7 @@
 
 #include <stdio.h>
 #include <delays.h>
+#include <pwm.h>
 
 #include "xpl.h"
 #include "oo.h"
@@ -35,6 +36,8 @@ enum XPL_STATE_TYPE xpl_state;
 char configured = 0;
 char onewires_present = 0;
 
+unsigned char pwm_value = 0;
+
 
 enum XPL_PARSE_TYPE {   WAITING_CMND = 0,                   \\
                         CMND_RECEIVED,                      \\
@@ -43,7 +46,9 @@ enum XPL_PARSE_TYPE {   WAITING_CMND = 0,                   \\
                         WAITING_CMND_CONFIG_RESPONSE,       \\
                         WAITING_CMND_HBEAT_REQUEST,         \\
                         WAITING_CMND_CONFIG_CURRENT,        \\
-                        WAITING_CMND_SENSOR_REQUEST_DEVICE  \\
+                        WAITING_CMND_SENSOR_REQUEST_DEVICE, \\
+						WAITING_CMND_CONTROL_BASIC,			\\
+						WAITING_CMND_CONTROL_VALUE 			\\
                         };
                         
 enum XPL_PARSE_TYPE xpl_msg_state;
@@ -57,6 +62,7 @@ enum XPL_CMD_MSG_TYPE_RSP {HEARTBEAT_MSG_TYPE = 0,              \\
                            GAS_DEVICE_CURRENT_MSG_TYPE,         \\
                            WATER_DEVICE_CURRENT_MSG_TYPE,       \\
                            ELEC_DEVICE_CURRENT_MSG_TYPE,        \\
+						   PWM_CURRENT_MSG_TYPE                 \\
                            };
 
 
@@ -240,6 +246,13 @@ void xpl_send_sensor_temperature(enum XPL_MSG_TYPE msg_type, unsigned char index
 	return;
 }
 
+void xpl_send_pwm(enum XPL_MSG_TYPE msg_type) {
+	xpl_print_header(msg_type);
+	printf("sensor.basic\n{\ndevice=pwmout\n");
+	printf("type=variable\nvalue=%i\n}\n", pwm_value);
+	return;
+}
+
 void xpl_send_device_current(enum XPL_MSG_TYPE msg_type,enum XPL_DEVICE_TYPE type) {
     unsigned short count = 1; 
    
@@ -268,6 +281,9 @@ void xpl_send_device_current(enum XPL_MSG_TYPE msg_type,enum XPL_DEVICE_TYPE typ
             break;
 		case TEMP:
 			xpl_send_sensor_temperature(msg_type,xpl_temp_index);
+			break;
+		case PWM:
+			xpl_send_pwm(msg_type);
 			break;
     }    
     return;
@@ -400,9 +416,12 @@ void xpl_handler(void) {
     		    case WATER_DEVICE_CURRENT_MSG_TYPE:
     		        xpl_send_device_current(STAT,WATER);
     		        break;
-    		     case ELEC_DEVICE_CURRENT_MSG_TYPE:
+    		    case ELEC_DEVICE_CURRENT_MSG_TYPE:
     		        xpl_send_device_current(STAT,ELEC);
     		        break;
+				case PWM_CURRENT_MSG_TYPE:
+					xpl_send_device_current(STAT, PWM);
+					break;
     		}    
 			// Once the message is processed, reset the buffer and return to waiting state.
 		    xpl_state = WAITING;
@@ -473,6 +492,7 @@ void xpl_handler(void) {
 enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) { 
 	char lpcount;
 	char strlength;
+    char input_value[8];
     
     //printf("\nmp@st%d@flc%d@fd%d@fwp%d@fwr%d@%s",xpl_msg_state,xpl_flow,xpl_rx_fifo_data_count,xpl_rx_fifo_write_pointer,xpl_rx_fifo_read_pointer,xpl_rx_buffer_shadow);
         
@@ -511,6 +531,8 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
         	    xpl_msg_state = WAITING_CMND_HBEAT_REQUEST;
         	} else if (strcmpram2pgm("config.current", xpl_rx_buffer_shadow) == 0) {
         	    xpl_msg_state = WAITING_CMND_CONFIG_CURRENT;
+			} else if (strcmpram2pgm("control.basic", xpl_rx_buffer_shadow) == 0) {
+				xpl_msg_state = WAITING_CMND_CONTROL_BASIC;
             } else if (strcmpram2pgm("}", xpl_rx_buffer_shadow) == 0) {
                 // just wait for command
             } else {
@@ -553,6 +575,46 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
     		    xpl_msg_state = WAITING_CMND;		  
     		}   
 		    break;
+
+		case WAITING_CMND_CONTROL_BASIC:
+			if (strcmpram2pgm("device=pwmout", xpl_rx_buffer_shadow) == 0)	{
+				xpl_msg_state = WAITING_CMND_CONTROL_VALUE;
+    		} else if (xpl_rx_buffer_shadow[0] == '{') {
+    		    //do nothing
+			} else {
+				xpl_msg_state = WAITING_CMND;
+			}
+			break;
+
+		case WAITING_CMND_CONTROL_VALUE:
+			if (strcmpram2pgm("type=variable", xpl_rx_buffer_shadow) == 0)	{
+				// do nothing
+			} else if (strncmpram2pgm("value=", xpl_rx_buffer_shadow, 6) == 0)	{
+				// Extract the value to set the PWM to
+				strcpy(input_value, xpl_rx_buffer_shadow+6);
+				strlength = strlen(input_value);
+
+				pwm_value = 0;
+				lpcount = 0;
+
+				while (lpcount < strlength) {
+					pwm_value *= 10;
+					pwm_value += (input_value[lpcount]- 0x30);
+					lpcount++;
+				}
+				
+				if (pwm_value == 255) {
+					SetDCPWM1(0x3FF);
+				} else {
+					SetDCPWM1(((short)pwm_value)<<2);
+				}
+
+				xpl_msg_state = WAITING_CMND;
+				return PWM_CURRENT_MSG_TYPE;
+			} else {
+				xpl_msg_state = WAITING_CMND;
+			}
+			break;
 		
 		case WAITING_CMND_CONFIG_RESPONSE:
 		    // what we write here depends on the node type, this is not yet generic code :(
