@@ -31,7 +31,8 @@
 enum XPL_DEVICE_TYPE      {GAS = 1,     \\
                            WATER = 2,   \\
                            ELEC = 4,    \\
-						   TEMP = 8, \\
+						   TEMP = 8,    \\
+						   PWM = 16,    \\
                            };
 
 // public functions called outside xpl lib

@@ -413,7 +413,7 @@ char oo_get_next_id(){
 	
 	// Bail on CRC errors
 	if (crc) {
-		printf("CRC error\n");
+		//printf("CRC error\n");
 		return crc;
 	}
 	
@@ -548,7 +548,7 @@ void oo_read_temperatures(void){
 	
 	// Wait for completion
 	if (oo_wait_for_completion()){
-		printf("Timed out while waiting for conversion!\n");
+		//printf("Timed out while waiting for conversion!\n");
 		return;
 	}
 	
