@@ -12,8 +12,10 @@
 
 #include <stdio.h>
 #include <delays.h>
+#include <pwm.h>
 
 #include "xpl.h"
+#include "oo.h"
 #include "eeprom.h"
 #include "string.h"
 
@@ -32,6 +34,10 @@ char xpl_rx_buffer_shadow[XPL_RX_BUFSIZE];
 enum XPL_STATE_TYPE { WAITING = 0, PROCESS_INCOMMING_MESSAGE_PART};
 enum XPL_STATE_TYPE xpl_state;
 char configured = 0;
+char onewires_present = 0;
+
+unsigned char pwm_value = 0;
+
 
 enum XPL_PARSE_TYPE {   WAITING_CMND = 0,                   \\
                         CMND_RECEIVED,                      \\
@@ -40,7 +46,9 @@ enum XPL_PARSE_TYPE {   WAITING_CMND = 0,                   \\
                         WAITING_CMND_CONFIG_RESPONSE,       \\
                         WAITING_CMND_HBEAT_REQUEST,         \\
                         WAITING_CMND_CONFIG_CURRENT,        \\
-                        WAITING_CMND_SENSOR_REQUEST_DEVICE  \\
+                        WAITING_CMND_SENSOR_REQUEST_DEVICE, \\
+						WAITING_CMND_CONTROL_BASIC,			\\
+						WAITING_CMND_CONTROL_VALUE 			\\
                         };
                         
 enum XPL_PARSE_TYPE xpl_msg_state;
@@ -54,6 +62,7 @@ enum XPL_CMD_MSG_TYPE_RSP {HEARTBEAT_MSG_TYPE = 0,              \\
                            GAS_DEVICE_CURRENT_MSG_TYPE,         \\
                            WATER_DEVICE_CURRENT_MSG_TYPE,       \\
                            ELEC_DEVICE_CURRENT_MSG_TYPE,        \\
+						   PWM_CURRENT_MSG_TYPE                 \\
                            };
 
 
@@ -69,10 +78,16 @@ char xpl_trig_register = 0;   /* bit 0 = GAS
 
 // Following variable has to be declared in the main function and should be incremented every second.
 extern volatile int time_ticks;
+extern volatile unsigned char time_ticks_oo;
 
 unsigned short xpl_count_gas;
 unsigned short xpl_count_water;
 unsigned short xpl_count_elec;
+unsigned char  xpl_temp_index;
+
+// We need to keep track of the temperatures in case an externel request is received,
+// and to know if we need to send an xpl-trig
+signed short   oo_temp_table[OO_SUPPORTED_DEVICE_COUNT];
 
 // We need a FIFO to cover for the latency between sending a XOFF and the XPORT to react on this
 void xpl_fifo_push_byte(char data){
@@ -133,7 +148,11 @@ void xpl_print_header(enum XPL_MSG_TYPE type){
 //  Send out a normal heartbeat
 void xpl_send_hbeat(void){
 	xpl_print_header(STAT);
-	printf("hbeat.basic\n{\ninterval=5\nversion=1.1\n}\n");
+	printf("hbeat.basic\n{\ninterval=5\nversion=%i\n",XPL_VERSION);
+	if (onewires_present){
+		printf("tempsensors=%i\n", oo_get_devicecount());
+	}
+	printf("}\n");
 	return;
 }
 
@@ -144,7 +163,7 @@ void xpl_send_hbeat(void){
 //  INSTANCE_ID is found in EEPROM by the xpl_init function.
 void xpl_send_config_hbeat(void){
 	xpl_print_header(STAT);
-	printf("config.basic\n{\ninterval=1\nversion=1.1\n}\n");
+	printf("config.basic\n{\ninterval=1\nversion=%i\n}\n",XPL_VERSION);
 	return;
 }
 
@@ -188,6 +207,52 @@ void xpl_send_sensor_basic(enum XPL_MSG_TYPE msg_type,const rom far char* device
 	return;
 }    
 
+void xpl_send_sensor_temperature(enum XPL_MSG_TYPE msg_type, unsigned char index) {
+
+	oo_tdata tsens;
+	char loper;
+	float temp_hr = -10;
+	char temp_whole;
+	unsigned char temp_part;
+
+	tsens = oo_get_device_info(index);
+
+	// If CRC is not valid, return here
+	if (tsens.valid == 0){
+		return;
+	}
+
+	// Convert temperature to float
+	// This depends on the family of sensor used
+	switch(tsens.id[0])	{
+		case 0x28: // DS18B20
+			temp_hr = (float)tsens.temperature / 16;
+			break;
+		default:
+			break;
+	}
+
+	// Convert float to two chars, as the printf does not support printing floats
+	temp_whole = (signed char)temp_hr;
+	temp_part  = (unsigned char)(temp_hr*100 - (float)temp_whole*100);
+	xpl_print_header(msg_type);
+
+    printf("sensor.basic\n{\ndevice=");
+	for (loper=0; loper<8; loper++){
+		printf("%02X", tsens.id[loper]);
+	}
+    printf("\ntype=temp\ncurrent=%i.%i\n}\n",temp_whole, temp_part);
+
+	return;
+}
+
+void xpl_send_pwm(enum XPL_MSG_TYPE msg_type) {
+	xpl_print_header(msg_type);
+	printf("sensor.basic\n{\ndevice=pwmout\n");
+	printf("type=variable\nvalue=%i\n}\n", pwm_value);
+	return;
+}
+
 void xpl_send_device_current(enum XPL_MSG_TYPE msg_type,enum XPL_DEVICE_TYPE type) {
     unsigned short count = 1; 
    
@@ -214,6 +279,12 @@ void xpl_send_device_current(enum XPL_MSG_TYPE msg_type,enum XPL_DEVICE_TYPE typ
             }    
             xpl_send_sensor_basic(msg_type,"elec",count);
             break;
+		case TEMP:
+			xpl_send_sensor_temperature(msg_type,xpl_temp_index);
+			break;
+		case PWM:
+			xpl_send_pwm(msg_type);
+			break;
     }    
     return;
 }    
@@ -267,6 +338,12 @@ void xpl_init_instance_id(void) {
 // INSTANCE_ID from EEPROM
 void xpl_init(void){
 
+	// Init the helper libraries do that we know if need to 
+	// library specific code
+	if (!oo_init()){
+		onewires_present = 1;
+	}
+
     xpl_init_instance_id();
     
     xpl_count_gas = 0;
@@ -313,6 +390,9 @@ void xpl_addbyte(char data){
 // file and that is incremented once per second through 
 // a timer interrupt.
 void xpl_handler(void) {
+
+	unsigned char index;
+
     enum XPL_CMD_MSG_TYPE_RSP xpl_cmd_msg_type;
 
 	switch (xpl_state) {
@@ -336,9 +416,12 @@ void xpl_handler(void) {
     		    case WATER_DEVICE_CURRENT_MSG_TYPE:
     		        xpl_send_device_current(STAT,WATER);
     		        break;
-    		     case ELEC_DEVICE_CURRENT_MSG_TYPE:
+    		    case ELEC_DEVICE_CURRENT_MSG_TYPE:
     		        xpl_send_device_current(STAT,ELEC);
     		        break;
+				case PWM_CURRENT_MSG_TYPE:
+					xpl_send_device_current(STAT, PWM);
+					break;
     		}    
 			// Once the message is processed, reset the buffer and return to waiting state.
 		    xpl_state = WAITING;
@@ -373,14 +456,34 @@ void xpl_handler(void) {
 				return;
  			}
 			
+			// When not configured, send out config hbeat every minute
     		if (time_ticks > 60 && !configured) {
 				xpl_send_config_hbeat();
 				time_ticks = 0;
 				return;
 			}
+
+			// Poll the temperature sensors every minute
+			if (time_ticks_oo > 60 && onewires_present && configured) {
+				time_ticks_oo = 0;
+				oo_read_temperatures();				
+			}
+
+			// And check if temp trig messages need to be sent out
+			if (onewires_present && configured) {
+				for (index=0; index < oo_get_devicecount(); index++) {
+					if (oo_temp_table[index] != oo_get_device_temp(index)){
+						oo_temp_table[index] = oo_get_device_temp(index);
+						xpl_temp_index = index;
+						xpl_send_device_current(TRIG,TEMP);
+					}
+				}
+			}
+
+
 			break;
 		default:
-		    printf("xpl_handler:default - state %d - WE MAY NEVER BE HERE ",xpl_state);
+		    printf("xpl_handler:default - state %d - WE SHOULD NEVER BE HERE ",xpl_state);
 		    break;
 	}
 	return;
@@ -389,6 +492,7 @@ void xpl_handler(void) {
 enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) { 
 	char lpcount;
 	char strlength;
+    char input_value[8];
     
     //printf("\nmp@st%d@flc%d@fd%d@fwp%d@fwr%d@%s",xpl_msg_state,xpl_flow,xpl_rx_fifo_data_count,xpl_rx_fifo_write_pointer,xpl_rx_fifo_read_pointer,xpl_rx_buffer_shadow);
         
@@ -427,6 +531,8 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
         	    xpl_msg_state = WAITING_CMND_HBEAT_REQUEST;
         	} else if (strcmpram2pgm("config.current", xpl_rx_buffer_shadow) == 0) {
         	    xpl_msg_state = WAITING_CMND_CONFIG_CURRENT;
+			} else if (strcmpram2pgm("control.basic", xpl_rx_buffer_shadow) == 0) {
+				xpl_msg_state = WAITING_CMND_CONTROL_BASIC;
             } else if (strcmpram2pgm("}", xpl_rx_buffer_shadow) == 0) {
                 // just wait for command
             } else {
@@ -469,6 +575,46 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
     		    xpl_msg_state = WAITING_CMND;		  
     		}   
 		    break;
+
+		case WAITING_CMND_CONTROL_BASIC:
+			if (strcmpram2pgm("device=pwmout", xpl_rx_buffer_shadow) == 0)	{
+				xpl_msg_state = WAITING_CMND_CONTROL_VALUE;
+    		} else if (xpl_rx_buffer_shadow[0] == '{') {
+    		    //do nothing
+			} else {
+				xpl_msg_state = WAITING_CMND;
+			}
+			break;
+
+		case WAITING_CMND_CONTROL_VALUE:
+			if (strcmpram2pgm("type=variable", xpl_rx_buffer_shadow) == 0)	{
+				// do nothing
+			} else if (strncmpram2pgm("value=", xpl_rx_buffer_shadow, 6) == 0)	{
+				// Extract the value to set the PWM to
+				strcpy(input_value, xpl_rx_buffer_shadow+6);
+				strlength = strlen(input_value);
+
+				pwm_value = 0;
+				lpcount = 0;
+
+				while (lpcount < strlength) {
+					pwm_value *= 10;
+					pwm_value += (input_value[lpcount]- 0x30);
+					lpcount++;
+				}
+				
+				if (pwm_value == 255) {
+					SetDCPWM1(0x3FF);
+				} else {
+					SetDCPWM1(((short)pwm_value)<<2);
+				}
+
+				xpl_msg_state = WAITING_CMND;
+				return PWM_CURRENT_MSG_TYPE;
+			} else {
+				xpl_msg_state = WAITING_CMND;
+			}
+			break;
 		
 		case WAITING_CMND_CONFIG_RESPONSE:
 		    // what we write here depends on the node type, this is not yet generic code :(

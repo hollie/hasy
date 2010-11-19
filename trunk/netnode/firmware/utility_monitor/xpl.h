@@ -15,6 +15,9 @@
 // DEVICE_ID must be 8 characters or less !!
 #define XPL_DEVICE_ID "utilmon"
 
+// VERSION number
+#define XPL_VERSION 2
+
 // offset of INSTANCE_ID within target=VENDOR-DEVICEID.
 #define XPL_TARGET_VENDOR_DEVICEID_INSTANCE_ID_OFFSET 22
 
@@ -28,6 +31,8 @@
 enum XPL_DEVICE_TYPE      {GAS = 1,     \\
                            WATER = 2,   \\
                            ELEC = 4,    \\
+						   TEMP = 8,    \\
+						   PWM = 16,    \\
                            };
 
 // public functions called outside xpl lib

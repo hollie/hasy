@@ -1,10 +1,12 @@
 /*************************************************************
 * Utility meter monitor
 *
-* Monitors the inputs TBD and counts pulses on them.
+* Monitors the inputs INT0..2 and counts pulses on them.
 * Performs debouncing before the count is incremented
 *
-* (c) 2009, Lieven Hollevoet.
+* Supports onewire temperature devices connected to RA0
+*
+* (c) 2009-2010, Lieven Hollevoet.
 **************************************************************
 * target device   : PIC18F2520
 * clockfreq       : 32 MHz (internal oscillator + PLL)
@@ -19,15 +21,18 @@
 #include <usart.h>
 #include <delays.h>
 #include <timers.h>
+#include <pwm.h>
 #include <stdio.h>
 
 #include "fuses.h"
 #include "utility_monitor.h"
+#include "oo.h"
 #include "xpl.h"
 #include "eeprom.h"
 
 // Global variables used for message passing between ISR and main code
 volatile int time_ticks = 0;
+volatile unsigned char time_ticks_oo = 0;
 volatile char debounce_water;
 volatile char debounce_gas;
 volatile char debounce_elec;
@@ -41,11 +46,12 @@ volatile char debounce_elec;
 void main()
 {
 
-	// Test code: set an initial ID in the EEPROM
-	//eeprom_write(0x00, 'A');
-	//eeprom_write(0x01, 'F');
-	//eeprom_write(0x02, '\0');
-
+	/*
+	// Test code: set an initial ID in the EEPROM so that we don't have to configure the node
+	eeprom_write(0x00, 'A');
+	eeprom_write(0x01, 'F');
+	eeprom_write(0x02, '\0');
+	*/
 	// Hardware initialisation
 	init();
 
@@ -54,11 +60,22 @@ void main()
 	// Set time_ticks to 295 so that we send a heartbeat message withing 5 seconds
 	time_ticks = 295;
 
+	// Set time_ticks_oo to 50 so that we measure the temperature 10 seconds after reset.
+	time_ticks_oo = 50;
+
+	/* // DEBUG 
+	if (oo_get_devicecount()){
+		printf("Found %i devices\r\n", oo_get_devicecount());
+		oo_read_temperatures();
+		oo_print_device_info(0);
+	}
+	*/
+
 	while (1){
 
 		// Call the xPL message handler
 		xpl_handler();
-	
+
 	}
 	
 }
@@ -118,6 +135,15 @@ void init(void)
 			T1_OSC1EN_OFF);
 
 	WriteTimer1(TMR1_VALUE);
+
+	// Enable the PWM timer
+	OpenTimer2(TIMER_INT_OFF &
+			T2_PS_1_16 &
+			T2_POST_1_1);
+
+	// And enable the PWM
+	OpenPWM1(249);
+	SetDCPWM1(1000);
 
 	// Enable pullups on Portb inputs
 	INTCON2bits.RBPU    = 0; // (bit is active low!)
@@ -195,6 +221,7 @@ void high_isr(void){
 		WriteTimer0(TMR0_VALUE);		// Reprogram timer
    		INTCONbits.TMR0IF=0;         	// Clear interrupt flag
 		time_ticks++;
+		time_ticks_oo++;
  	}
 
 	/* TIMER 1 INTERRUPT HANDLING */
