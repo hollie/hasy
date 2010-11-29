@@ -1,0 +1,21 @@
+Format = A
+
+XPL_SENSOR, hollie-sensehub.mini:unit_int_in , venti_int_in , Weather, temp
+XPL_SENSOR, hollie-sensehub.mini:unit_int_uit, venti_int_uit, Weather, temp
+XPL_SENSOR, hollie-sensehub.mini:unit_ext_in , venti_ext_in , Weather, temp
+XPL_SENSOR, hollie-sensehub.mini:aww_uit     , venti_aww_uit, Weather, temp
+XPL_SENSOR, hollie-utilmon.ventimon:280709F6010000BB, t_kelder, Weather, temp
+XPL_SENSOR, hollie-pvmoni.mini:pv_yield      , pv_yield     ,        , generic
+
+ANALOG_SENSOR, lightlevel, sa_lightlevel
+
+XPL_PLUGWISEGATEWAY, bnz-plugwise.hydra, plugwise_gateway, Gateways
+XPL_PLUGWISE, 469D91, desklight, plugwise_gateway, Lights|Living
+XPL_PLUGWISE, 4EF16E, radio_living, plugwise_gateway, Radios|Living
+XPL_PLUGWISE, 551348, radio_keuken, plugwise_gateway, Radios|Keuken
+XPL_PLUGWISE, 551E4E, kat_lamp,     plugwise_gateway, Lights|Living
+
+XPL_SQUEEZEBOX, keuken, sb_keuken, SBs
+XPL_SQUEEZEBOX, wekker, sb_wekker, SBs
+XPL_SQUEEZEBOX, squeezy, sb_living, SBs
+
