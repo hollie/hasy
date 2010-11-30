@@ -1,4 +1,4 @@
-# Category = Monitoring
+#Category=Monitoring
 #
 #
 #@ Monitor the output of a php script, when it contains less than
@@ -30,8 +30,11 @@ my $allow_email_notification = 1;
 
 # Set up a trigger to get the php output
 if ($Reload) {
-	&trigger_set('$New_Minute and $Minute == 1', '$p_monitor_php_page->start', 'NoExpire', 'Monitor the php script output')
-		unless &trigger_get('Monitor the php script output');
+
+	# Make sure the trigger is installed when the monitor state is on
+	if ($mode_webtmr_moni->state() eq 'on') {
+		&install_monitor_php();
+	}
 }
 
 # And allow to manually override the trigger for immediate action
@@ -45,7 +48,7 @@ if (done_now $p_monitor_php_page or $Reload) {
 	&process_php;
 }
 
-# Be sure to reset the allow_email_notification onc a day
+# Be sure to reset the allow_email_notification once a day
 if ($New_Minute and time_now("07:00")) {
 	$allow_email_notification = 1;
 }
@@ -59,7 +62,7 @@ sub process_php {
 	my $count = scalar @lines;
 
 	if ($count < $php_lc) {
-		net_mail_send(text => "The status of the web timer device only contains only contains $count lines. It should contain $php_lc lines.\n\nPlease restart the web timer device to re-enable connectivity to the net.\n\nRegards,\n MisterHouse.", subject => "Misterhouse PHP monitor");
+		net_mail_send(text => "The status of the web timer device only contains only contains $count lines. It should contain $php_lc lines.\n\nPlease restart the web timer device to re-enable connectivity to the net.\n\nRegards,\n MisterHouse.", subject => "Misterhouse PHP monitor") if ($allow_email_notification);
 		$allow_email_notification = 0;
 	} else {
 		print_log("The php script at $php_url contains $count lines. OK!");
@@ -67,7 +70,31 @@ sub process_php {
 
 }
 
-# Is this required? Don't know for sure...
+# Disable/enable the triggers for the monitoring
 sub uninstall_monitor_php {
 	&trigger_delete('Monitor the php script output');
+	print_log("Trigger removed for monitor_php");
+}
+
+sub install_monitor_php {
+	&trigger_set('$New_Minute and $Minute == 1', '$p_monitor_php_page->start', 'NoExpire', 'Monitor the php script output')
+		unless &trigger_get('Monitor the php script output');
+	print_log("Trigger installed for monitor_php");
+}
+
+# Create a mode so we can disable this check if required
+$mode_webtmr_moni = new Generic_Item;
+$mode_webtmr_moni->set_states('on', 'off');
+
+if (state_changed $mode_webtmr_moni) {
+	my $webtmr_moni_state = state $mode_webtmr_moni;
+	main::print_log "Webtmr monitoring = ", $webtmr_moni_state;
+	
+	if ($webtmr_moni_state eq 'on') {
+		&install_monitor_php();
+	}
+	
+	if ($webtmr_moni_state eq 'off') {
+		&uninstall_monitor_php();
+	}
 }
