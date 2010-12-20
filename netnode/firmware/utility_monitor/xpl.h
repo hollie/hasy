@@ -16,7 +16,7 @@
 #define XPL_DEVICE_ID "utilmon"
 
 // VERSION number
-#define XPL_VERSION 2
+#define XPL_VERSION 3
 
 // offset of INSTANCE_ID within target=VENDOR-DEVICEID.
 #define XPL_TARGET_VENDOR_DEVICEID_INSTANCE_ID_OFFSET 22
@@ -24,8 +24,8 @@
 // INSTANCE_ID must be 16 characters or less !!
 // The offset in EEPROM where the INSTANCE_ID is stored 
 #define XPL_EEPROM_INSTANCE_ID_OFFSET 0x00
-#define XPL_RX_BUFSIZE 45
-#define XPL_RXFIFO_SIZE 100
+#define XPL_RX_BUFSIZE 170
+#define XPL_RXFIFO_SIZE 40
 #define XPL_RXFIFO_SIZE_THESHOLD (XPL_RXFIFO_SIZE - 10)
 
 enum XPL_DEVICE_TYPE      {GAS = 1,     \\

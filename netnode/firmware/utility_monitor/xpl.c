@@ -300,7 +300,7 @@ void xpl_reset_rx_buffer(void) {
 //////////////////////////////////////////////////////////
 // xpl_init_state
 // Initialisation of the xPL states and message buffer
-void xpl_init_state(void) {
+void xpl_init_state(void) {	
     // reset all states
     xpl_state           = WAITING; 
 	xpl_msg_state       = WAITING_CMND;
@@ -368,7 +368,7 @@ void xpl_init(void){
 void xpl_addbyte(char data){
 	if (data != '\n') {
     	if (xpl_rx_pointer >= XPL_RX_BUFSIZE) {
-            printf("RX OVERFLOW: [%s]",xpl_rx_buffer_shadow);
+            printf("RXO");
 	        xpl_init_state();
 			return;
 	    }
