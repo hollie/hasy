@@ -7,8 +7,9 @@
 *
 * Programmnig of the timing schedule is also done via the web.
 * A php script contains the switching schedule and that one is
-* requested by the time switch by telnetting into is and 
-* sending 'u'.
+* requested by the time switch by telnetting into it and 
+* sending 'u'. Then disconnect and the device will request 
+* the new schedule from the web server and store it in EEPROM.
 * 
 * (c) 2009, Lieven Hollevoet
 *     http://electronics.lika.be
@@ -137,8 +138,8 @@ void main()
 		// Check if we need to sync our internal clock to the web server.
 		// This is done one minute after the odd hour mark when the UART is IDLE
 		if ( (uart_state == IDLE) && (clock_get_minutes() == 0x01) && /*(clock_get_hours() & 0x01 == 0) &&*/ new_update) {
-			web_php_interface(REQUEST_TIME);
 			new_update = 0;
+			web_php_interface(REQUEST_TIME);
 		}
 		if (clock_get_minutes() == 0x00) {
 			new_update = 1;      // Set at minute 0 so that we only request time once after the one minute mark
@@ -286,7 +287,7 @@ void process_uart(char data){
 	default: 
 		switch (uart_state){
 		case CONNECTED:
-			// I we get here, we're connected but not to an incoming connection
+			// If we get here, we're connected but not to an incoming connection
 			// wait for string marker
 			uart_state = WAITING_INFO;
 			return;
@@ -310,7 +311,8 @@ void process_uart(char data){
 			}
 		case INCOMING:
 			if (data == 'u') {
-				// TODO add updating of the switchpoint list here.
+				// To update the settings, do a manual connect to the XPORT and send 'u'.
+				// Then disconnect, the PIC will then request the new settings
 				uart_state = WAIT_FOR_DISCONNECT;
 				request_settings = 1;
 			}
@@ -333,9 +335,9 @@ void process_uart(char data){
 void web_connect(void){
 
 	char timeout_minute = clock_get_minutes();
-	timeout_minute++;
+	timeout_minute+=2;
 	if (timeout_minute >= 60) {
-		timeout_minute = 0;
+		timeout_minute = 1;
 	}
 
 	if (uart_state == IDLE){
