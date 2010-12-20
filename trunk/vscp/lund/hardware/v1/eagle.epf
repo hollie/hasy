@@ -7,12 +7,15 @@ Desktop="Desktop"
 
 [Globals]
 AutoSaveProject=1
+UsedLibrary="C:/Program Files/EAGLE-5.10.0/lbr/allegro.lbr"
+UsedLibrary="C:/Program Files/EAGLE-5.10.0/lbr/crystal.lbr"
+UsedLibrary="C:/Program Files/EAGLE-5.10.0/lbr/frames.lbr"
 UsedLibrary="C:/Program Files/EAGLE-5.10.0/lbr/microchip.lbr"
 UsedLibrary="SparkFun.lbr"
 
 [Win_1]
 Type="Control Panel"
-Loc="154 154 753 553"
+Loc="87 25 1185 779"
 State=2
 Number=0
 
