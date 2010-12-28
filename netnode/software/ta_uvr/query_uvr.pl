@@ -18,7 +18,9 @@ use Net::hostent;
 
 
 my $rrd_name = "solar";
-my $host     = "netnode04";
+my $rrd_heating_name = "heating";
+
+my $host     = "solarnode";
 
 # Register ALARM signal
 $SIG{ALRM} = sub { die "timeout" };
@@ -83,20 +85,24 @@ $socket->close();
 sub parse_and_post() {
 	my $data = shift();
 	
-	my ($t1, $t2, $t3, $t4, $pump);
+	my ($t1, $t2, $t3, $t4, $t5, $pump);
 	
 	# Extract temperatures
 	if ($data =~ /T1: (-?\d+.\d)/) { $t1 = $1; }
 	if ($data =~ /T2: (-?\d+.\d)/) { $t2 = $1; }
 	if ($data =~ /T3: (-?\d+.\d)/) { $t3 = $1; }
 	if ($data =~ /T4: (-?\d+.\d)/) { $t4 = $1; }
+	if ($data =~ /T5: (-?\d+.\d)/) { $t5 = $1; }
 	if ($data =~ /Pump: (\d+)/)    { $pump = $1; }
 	
-	print "UVR reads: $t1 -- $t2 -- $t3 -- $t4 -- $pump\n";
+	print "UVR reads: $t1 -- $t2 -- $t3 -- $t4 -- $t5 -- $pump\n";
 	
 	RRDs::update("$rrd_name.rrd","N:$t1:$t2:$t3:$t4:$pump");
 	my $err = RRDs::error;
 	die "Error while updating $rrd_name.rrd: $err\n" if $err;
+	RRDs::update("$rrd_heating_name.rrd","N:$t5");
+	$err = RRDs::error;
+	die "Error while updating $rrd_heating_name.rrd: $err\n" if $err;
 
 }
 
