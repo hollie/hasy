@@ -5,7 +5,7 @@
 // a PWM-based output that is used to generate a 0-10V to control the 
 // speed of a Drexel and Weiss home ventilation unit
 //
-// OneWire bus connects to P25
+// OneWire bus connects to P25/P23. No pullup is required!!
 //
 // Connect a Sensirion SHT11 or SHT15 sensor to 
 //   DATA on P21 with a 10k pullup to VDD

@@ -1,10 +1,10 @@
 Project:      output/sensor_gateway
 Build Number: 0
-Date:         Sun Sep 12 11:35:41 2010
+Date:         Tue Nov  9 13:36:25 2010
 Compiler:     ICCM8C
 Version:      7.02.004
 
-  ROM 38% full. 12441 out of 32768 bytes used (does not include absolute areas).
+  ROM 38% full. 12448 out of 32768 bytes used (does not include absolute areas).
   RAM 20% full. 342 bytes used (does not include stack usage).
 
 Area                               Addr   Size   Decimal Bytes (Attributes)
@@ -223,7 +223,7 @@ Area                               Addr   Size   Decimal Bytes (Attributes)
 
 Area                               Addr   Size   Decimal Bytes (Attributes)
 --------------------------------   ----   ----   ------- ----- ------------
-                            text   0E62   23D7 =   9175. bytes (rel,con,rom)
+                            text   0E62   23DE =   9182. bytes (rel,con,rom)
 
        Addr  Global Symbol
       -----  --------------------------------
@@ -233,79 +233,79 @@ Area                               Addr   Size   Decimal Bytes (Attributes)
        0EF9  _print_help
        0F10  _hardware_init
        0F3E  _main
-       1058  _putchar
-       106C  _oo_busreset
-       1075  _oo_tx_byte
-       1080  _oo_rx_byte
-       10A1  _oo_read_scratchpad
-       10E2  _oo_get_temp
-       110D  _oo_get_count
-       1138  _oo_conversion_busy
-       114B  _oo_start_conversion
-       1158  _delay_10ms
-       1178  _oo_wait_for_completion
-       11A0  _oo_crc_init
-       11A7  _oo_crc_shuffle_byte
-       11D8  _oo_read_device
-       1264  _oo_print_data
-       1305  _oo_report
-       13A7  _orcon_Start
-       13B4  _orcon_ticker
-       13CC  _orcon_control
-       145F  _s_Start
-       1463  _s_write_byte
-       14BD  _s_read_byte
-       151D  _s_transstart
-       1548  _s_connectionreset
-       1576  _s_softreset
-       1591  _s_read_statusreg
-       15DA  _s_write_statusreg
-       1607  _s_measure
-       16E8  _calc_sth11
-       19D7  _calc_dewpoint
-       1B8F  _s_do_measure
-       1E2B  _delay_1us
-       1E2C  _delay_5us
-       1E41  __divmodu_16X16_16
-       1E4C  __divmodu_8X8_8
-       1E64  __F_analysisEject_util
-       1E6F  __F_Round_util
-       1E85  __F_Normal_util
-       1E90  __F_clrReg_util
-       1E9B  __F_NaN_Res_util
-       1EA7  __F_SaveRes_util
-       1EC4  __F_SendToReg_util
-       1ED5  __F_sInf_Res_util
-       1EE2  __F_sZero_Res_util
-       1EEA  __F_Type_Oprnd_util
-       1F09  __F_Unnormal_util
-       1F1F  __fpadd
-       201F  __fpcmp
-       207C  __fpdiv
-       215F  __fpmul
-       2289  __fpsub
-       2292  __i_div16_block_util
-       22CB  __i_div32_not_util
-       22E3  __i_div8_block_util
-       22FC  __i_mulu8_block_util
-       2319  __long2fp
-       2384  _cstrcmpLMM
-       238F  _cstrcmp
-       23BA  __plcall
-       23C6  _atoi
-       2507  _itoa
-       26E0  _utoa
-       2823  _isdigit
-       2844  _islower
-       2865  _isspace
-       2886  _toupper
-       28C4  _frexpf
-       299A  _log10f
-       2A13  _logf
-       2CC2  _cprintf
-       2D03  __cprint
-       334D  __xidata_end
-       3239  __text_end
+       105F  _putchar
+       1073  _oo_busreset
+       107C  _oo_tx_byte
+       1087  _oo_rx_byte
+       10A8  _oo_read_scratchpad
+       10E9  _oo_get_temp
+       1114  _oo_get_count
+       113F  _oo_conversion_busy
+       1152  _delay_10ms
+       1172  _oo_start_conversion
+       117F  _oo_wait_for_completion
+       11A7  _oo_crc_init
+       11AE  _oo_crc_shuffle_byte
+       11DF  _oo_read_device
+       126B  _oo_print_data
+       130C  _oo_report
+       13AE  _orcon_Start
+       13BB  _orcon_ticker
+       13D3  _orcon_control
+       1466  _s_Start
+       146A  _s_write_byte
+       14C4  _s_read_byte
+       1524  _s_transstart
+       154F  _s_connectionreset
+       157D  _s_softreset
+       1598  _s_read_statusreg
+       15E1  _s_write_statusreg
+       160E  _s_measure
+       16EF  _calc_sth11
+       19DE  _calc_dewpoint
+       1B96  _s_do_measure
+       1E32  _delay_1us
+       1E33  _delay_5us
+       1E48  __divmodu_16X16_16
+       1E53  __divmodu_8X8_8
+       1E6B  __F_analysisEject_util
+       1E76  __F_Round_util
+       1E8C  __F_Normal_util
+       1E97  __F_clrReg_util
+       1EA2  __F_NaN_Res_util
+       1EAE  __F_SaveRes_util
+       1ECB  __F_SendToReg_util
+       1EDC  __F_sInf_Res_util
+       1EE9  __F_sZero_Res_util
+       1EF1  __F_Type_Oprnd_util
+       1F10  __F_Unnormal_util
+       1F26  __fpadd
+       2026  __fpcmp
+       2083  __fpdiv
+       2166  __fpmul
+       2290  __fpsub
+       2299  __i_div16_block_util
+       22D2  __i_div32_not_util
+       22EA  __i_div8_block_util
+       2303  __i_mulu8_block_util
+       2320  __long2fp
+       238B  _cstrcmpLMM
+       2396  _cstrcmp
+       23C1  __plcall
+       23CD  _atoi
+       250E  _itoa
+       26E7  _utoa
+       282A  _isdigit
+       284B  _islower
+       286C  _isspace
+       288D  _toupper
+       28CB  _frexpf
+       29A1  _log10f
+       2A1A  _logf
+       2CC9  _cprintf
+       2D0A  __cprint
+       3354  __xidata_end
+       3240  __text_end
 
 Area                               Start  End    Decimal Bytes (Attributes)
 --------------------------------   ----   ----   ------- ----- ------------
