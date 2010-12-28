@@ -169,7 +169,10 @@ sub init_offsets {
 	$log->{'09'}->{'12'}->{value} = -1700;
 	# Dank U Eandis voor de panne!
 	$log->{'10'}->{'07'}->{day} = 0;
-	$log->{'10'}->{'07'}->{value} = 3200;	
+	$log->{'10'}->{'07'}->{value} = 400;	
+	$log->{'10'}->{'09'}->{day} = 0;
+	$log->{'10'}->{'09'}->{value} = 150;
+	
 	
 
 }
