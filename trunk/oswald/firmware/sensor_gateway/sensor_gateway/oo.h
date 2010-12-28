@@ -2,7 +2,7 @@
 * OneWire interface lib for the Dallas DS1820 and alike
 *
 * (c) 2009, Lieven Hollevoet
-* PSoC Designer v5.0 HiTide compiler
+* PSoC Designer v5.0 Imagecraft compiler
 *
 * Expects that a OneWire firmware unit called 'OneWire'
 * is added to the design!

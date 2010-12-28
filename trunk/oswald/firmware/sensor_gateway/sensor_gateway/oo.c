@@ -2,7 +2,7 @@
 * OneWire interface lib for the Dallas DS1820 and alike
 *
 * (c) 2009, Lieven Hollevoet
-* PSoC Designer v5.0 HiTide compiler
+* PSoC Designer v5.0 Imagecraft compiler
 *************************************************************/
 
 #include "PSoCAPI.h"
@@ -150,6 +150,14 @@ char oo_conversion_busy(void){
 	}
 }
 
+void delay_10ms(void){
+	short counter;
+	
+	for (counter = 0; counter<8*430; counter++){
+		asm("nop");
+	}
+}
+
 ////////////////////////////////////////////////////////////
 // oo_start_conversion()
 // 
@@ -167,13 +175,7 @@ void oo_start_conversion(void){
 }
 
 
-void delay_10ms(void){
-	short counter;
-	
-	for (counter = 0; counter<8*430; counter++){
-		asm("nop");
-	}
-}
+
 ////////////////////////////////////////////////////////////
 // char oo_wait_for_completion()
 // 

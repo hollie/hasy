@@ -31,8 +31,8 @@ LMM info: area 'data' item of 2 bytes allocated in SRAM page 0
 LMM info: area 'LTRX_RAM' item of 1 bytes allocated in SRAM page 0
 LMM info: area 'data' item of 1 bytes allocated in SRAM page 0
 LMM info: area 'data' item of 256 bytes allocated in SRAM page 1
-  ROM 38% full. 12441 out of 32768 bytes used (does not include absolute areas).
+  ROM 38% full. 12448 out of 32768 bytes used (does not include absolute areas).
   RAM 20% full. 342 bytes used (does not include stack usage).
 idata dump at output/sensor_gateway.idata
  
-sensor_gateway - 0 error(s) 0 warning(s) 11:35:41
+sensor_gateway - 0 error(s) 0 warning(s) 13:36:25
