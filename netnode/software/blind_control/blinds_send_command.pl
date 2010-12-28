@@ -75,7 +75,7 @@ sub command_blinds  {
 	my $blind_command = shift();
 	
 	# First check if we have a supported command
-	my @cmnd_array = qw/up down sunblind stop/;
+	my @cmnd_array = qw/up down sun1 unsun1 stop sun45/;
 	my %cmnd_hash;
 	@cmnd_hash{@cmnd_array} = ();
 	
@@ -108,13 +108,27 @@ sub command_blinds  {
 		}
 		
 		# Move blind 1 into sunblind position
-		if ($blind_command eq 'sunblind') {
+		if ($blind_command eq 'sun1') {
 			socket_send('b1d');
 			print "Sleeping 16 seconds before sending 's'\n" if ($verbose);
 			sleep(16);
 			socket_send('s');							
 		}
-		
+		# Move blind 1 back up
+		if ($blind_command eq 'unsun1') {
+			socket_send('b1u');
+		}
+
+		# Move blinds 4 and 5 into sunblind position
+		if ($blind_command eq 'sun45') {
+			socket_send('b4d');
+			sleep(14);
+			socket_send('s');
+			socket_send('b5d');
+			sleep(14);
+			socket_send('s');
+		}
+			
 		if ($blind_command eq 'stop') {
 			socket_send('s');
 		}
