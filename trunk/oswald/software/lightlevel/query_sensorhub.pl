@@ -155,9 +155,14 @@ sub process_wireless {
 	my $vcc_adc     = shift();
 	my $temp_adc    = shift();
 	
+	if ($temp_adc eq "00" and $vcc_adc eq "00" and $solar_adc eq "00") {
+		print "Gateway has not received a value yet, returning...\n";
+		return;
+	}
+	
 	# Cover cases where the sensornode has not received a value for the Vcc yet
 	# If we don't do this, we get a division by zero exception later
-	if ($vcc_adc eq 0) {$vcc_adc = 255};
+	if ($vcc_adc eq "00") {$vcc_adc = 255};
 	
 	my $db = $config->{wireless}->{node}->{db};
 	
