@@ -7,6 +7,7 @@ use Net::FTP;
 
 my $db_folder = ".";
 my $db  = "solar.rrd";
+my $dbh = "heating.rrd";
 my $host    ="ftp.lika.be";
 my $ftp_user = "stats\@lika.be";
 my $ftp_password;
@@ -77,11 +78,45 @@ if ($err = RRDs::error) {
     die "ERROR: $err\n";
 };
 
+# Create the weekly temp graph for the heating
+RRDs::graph "heating_week.png",
+    "--end", "now",
+    "--start", "end-1week",
+    "--title", "Verwarming weekoverzicht", 
+    config_string_heating();
+    
 
+
+if ($err = RRDs::error) {
+    die "ERROR: $err\n";
+};
+
+# Create the monthly temp graph
+RRDs::graph "heating_month.png",
+    "--end", "now",
+    "--start", "end-4weeks",
+    "--title", "Verwarming maandoverzicht", 
+    config_string_heating();
+    
+
+
+if ($err = RRDs::error) {
+    die "ERROR: $err\n";
+};
+
+# Create the yearly temp graph
+RRDs::graph "heating_year.png",
+    "--end", "now",
+    "--start", "end-1year",
+    "--title", "Verwarming jaaroverzicht", 
+    config_string_heating();
+    
+
+
+if ($err = RRDs::error) {
+    die "ERROR: $err\n";
+};
 print "Figures created...\n";
-
-#exit(0);
-
 
 # And upload the stuff to the website
 my $ftp = Net::FTP->new($host, Timeout=>240) or die "Could not create ftp object";
@@ -94,7 +129,9 @@ $ftp->login($ftp_user, $ftp_password) or die "Could not login :", $ftp->message;
 &put_graph("solar_week.png");
 &put_graph("solar_month.png");
 &put_graph("solar_year.png");
-
+&put_graph("heating_week.png");
+&put_graph("heating_month.png");
+&put_graph("heating_year.png");
 $ftp->quit;
 
 print "Figures uploaded to website...\n";
@@ -194,5 +231,25 @@ sub config_string_nopanels() {
     "LINE:top#990000",
     "AREA:pump_sc#8F8FFF",
     "LINE:pump_sc#5252FF:pompaansturing (20 == MAX)",
+    
+}
+
+sub config_string_heating() {
+	return "--vertical-label", "graden C",
+    "--imgformat","PNG",
+    "--lazy",
+    #"--slope-mode",
+    "--color","BACK#EEF0F0",
+    "--interlaced",
+    "--watermark","http://www.lika.be/stats",
+    "DEF:retour=$dbh:t_return:AVERAGE",
+    "DEF:retour_min=$dbh:t_return:MIN",
+    "DEF:retour_max=$dbh:t_return:MAX",
+    "COMMENT:Meetpunt                       min            max            gem\\n",
+    "AREA:retour#CCCCFF",
+    "LINE:retour#000099:retourleiding    ",
+    "GPRINT:retour:MIN:\t%5.1lf",
+    "GPRINT:retour:MAX:\t%5.1lf",
+    "GPRINT:retour:AVERAGE:\t%5.1lf\\n",
     
 }
