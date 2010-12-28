@@ -446,7 +446,12 @@ sub determine_calculated_command {
 	}
  
 	# Get the actual command of the last programmed command (up or down)
-	my $lastmatch_command = $config->{command}->{$lastmatch}->{direction};
+	my $lastmatch_command;
+	if (defined($config->{command}->{$lastmatch}->{direction})){
+		$lastmatch_command = $config->{command}->{$lastmatch}->{direction};
+	} else {
+		$lastmatch_command = '';
+	}
 	
 	print "Calculated direction to send: $lastmatch_command\n" if ($debug);
 	return $lastmatch_command;
