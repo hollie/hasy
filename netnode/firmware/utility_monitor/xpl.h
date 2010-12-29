@@ -16,7 +16,7 @@
 #define XPL_DEVICE_ID "utilmon"
 
 // VERSION number
-#define XPL_VERSION 3
+#define XPL_VERSION 4
 
 // offset of INSTANCE_ID within target=VENDOR-DEVICEID.
 #define XPL_TARGET_VENDOR_DEVICEID_INSTANCE_ID_OFFSET 22
