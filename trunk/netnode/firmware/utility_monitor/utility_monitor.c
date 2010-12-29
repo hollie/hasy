@@ -60,8 +60,7 @@ void main()
 	// Set time_ticks to 295 so that we send a heartbeat message withing 5 seconds
 	time_ticks = 295;
 
-	// Set time_ticks_oo to 50 so that we measure the temperature 10 seconds after reset.
-	time_ticks_oo = 50;
+	time_ticks_oo = 0;
 
 	/* // DEBUG 
 	if (oo_get_devicecount()){

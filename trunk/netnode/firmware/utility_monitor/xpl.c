@@ -37,6 +37,7 @@ char configured = 0;
 char onewires_present = 0;
 
 unsigned char pwm_value = 0;
+unsigned char xpl_hbeat_sent = 0;
 
 
 enum XPL_PARSE_TYPE {   WAITING_CMND = 0,                   \\
@@ -84,6 +85,7 @@ unsigned short xpl_count_gas;
 unsigned short xpl_count_water;
 unsigned short xpl_count_elec;
 unsigned char  xpl_temp_index;
+unsigned int   xpl_rate_limiter;
 
 // We need to keep track of the temperatures in case an externel request is received,
 // and to know if we need to send an xpl-trig
@@ -131,6 +133,9 @@ char xpl_fifo_pop_byte(void){
 //  program memory size (reuse this function)
 void xpl_print_header(enum XPL_MSG_TYPE type){
 
+	// Wait here until the next second
+	while (xpl_rate_limiter == time_ticks || xpl_rate_limiter == (time_ticks+1)) {};
+
 	printf("xpl-");
 	if (type == STAT) {
 		printf("stat",xpl_instance_id);
@@ -141,6 +146,9 @@ void xpl_print_header(enum XPL_MSG_TYPE type){
 	printf("\n{\nhop=1\nsource=hollie-");
     printf(XPL_DEVICE_ID);	
 	printf(".%s\ntarget=*\n}\n",xpl_instance_id);
+
+	xpl_rate_limiter = time_ticks;
+
 }
 
 //////////////////////////////////////////////////////////
@@ -153,6 +161,9 @@ void xpl_send_hbeat(void){
 		printf("tempsensors=%i\n", oo_get_devicecount());
 	}
 	printf("}\n");
+
+	xpl_hbeat_sent = 1;
+
 	return;
 }
 
@@ -222,13 +233,18 @@ void xpl_send_sensor_temperature(enum XPL_MSG_TYPE msg_type, unsigned char index
 		return;
 	}
 
-	// Convert temperature to float
+	// Convert temperature to float.
+	// This is the required output format for xpl, so this conversion is done here
 	// This depends on the family of sensor used
 	switch(tsens.id[0])	{
 		case 0x28: // DS18B20
 			temp_hr = (float)tsens.temperature / 16;
 			break;
-		default:
+		case 0x10: // DS1820
+			temp_hr = (float)tsens.temperature / 2;
+			break;
+		default:   // unsupported device -> set temperature to fixed 66 degrees
+			temp_hr = (float)66;
 			break;
 	}
 
@@ -342,6 +358,7 @@ void xpl_init(void){
 	// library specific code
 	if (!oo_init()){
 		onewires_present = 1;
+		oo_read_temperatures();
 	}
 
     xpl_init_instance_id();
@@ -358,6 +375,10 @@ void xpl_init(void){
 	xpl_rx_fifo_read_pointer = 0;
 	xpl_rx_fifo_data_count = 0;
 	
+	xpl_rate_limiter = time_ticks;
+
+	xpl_hbeat_sent = 0;
+
 	xpl_flow = FLOW_ON;
 	putc(XON, _H_USART);
 }
@@ -470,7 +491,7 @@ void xpl_handler(void) {
 			}
 
 			// And check if temp trig messages need to be sent out
-			if (onewires_present && configured) {
+			if (onewires_present && configured && xpl_hbeat_sent) {
 				for (index=0; index < oo_get_devicecount(); index++) {
 					if (oo_temp_table[index] != oo_get_device_temp(index)){
 						oo_temp_table[index] = oo_get_device_temp(index);
