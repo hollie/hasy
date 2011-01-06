@@ -12,6 +12,7 @@
 
 #include <stdio.h>
 #include <delays.h>
+#include <limits.h>
 #include <pwm.h>
 
 #include "xpl.h"
@@ -19,26 +20,42 @@
 #include "eeprom.h"
 #include "string.h"
 
-signed char xpl_rx_fifo_write_pointer;
-signed char xpl_rx_fifo_read_pointer;
-signed char xpl_rx_fifo_data_count;
+signed   char xpl_rx_fifo_write_pointer;
+signed   char xpl_rx_fifo_read_pointer;
+signed   char xpl_rx_fifo_data_count;
+unsigned char xpl_rx_pointer;
 
-char xpl_rx_fifo[XPL_RXFIFO_SIZE];
-
-char xpl_instance_id[17];
-
-char xpl_rx_pointer;
 char xpl_rx_buffer_shadow[XPL_RX_BUFSIZE];
+char xpl_rx_fifo[XPL_RXFIFO_SIZE];
+char xpl_instance_id[17];
 
 // Used by xpl_handler to keep track of the current state
 enum XPL_STATE_TYPE { WAITING = 0, PROCESS_INCOMMING_MESSAGE_PART};
 enum XPL_STATE_TYPE xpl_state;
+
 char configured = 0;
 char onewires_present = 0;
 
 unsigned char pwm_value = 0;
 unsigned char xpl_hbeat_sent = 0;
 
+char xpl_trig_register = 0;   /* bit 0 = GAS                              
+                                 bit 1 = WATER
+                                 bit 2 = ELEC */
+
+// Following variable has to be declared in the main function and should be incremented every second.
+extern volatile int time_ticks;
+extern volatile unsigned char time_ticks_oo;
+
+unsigned int  xpl_count_gas;
+unsigned int  xpl_count_water;
+unsigned int  xpl_count_elec;
+unsigned char xpl_temp_index;
+unsigned int  xpl_rate_limiter;
+
+// We need to keep track of the temperatures in case an external request is received,
+// and to know if we need to send an xpl-trig
+signed short  oo_temp_table[OO_SUPPORTED_DEVICE_COUNT];
 
 enum XPL_PARSE_TYPE {   WAITING_CMND = 0,                   \\
                         CMND_RECEIVED,                      \\
@@ -63,33 +80,15 @@ enum XPL_CMD_MSG_TYPE_RSP {HEARTBEAT_MSG_TYPE = 0,              \\
                            GAS_DEVICE_CURRENT_MSG_TYPE,         \\
                            WATER_DEVICE_CURRENT_MSG_TYPE,       \\
                            ELEC_DEVICE_CURRENT_MSG_TYPE,        \\
-						   PWM_CURRENT_MSG_TYPE                 \\
+						   PWM_CURRENT_MSG_TYPE,                 \\
+						   FLOOD_NETWORK_MSG_TYPE               \\
                            };
-
-
 
 enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void);
 
 enum XPL_FLOW_TYPE {FLOW_OFF = 0, FLOW_ON = 1};
 enum XPL_FLOW_TYPE xpl_flow;
 
-char xpl_trig_register = 0;   /* bit 0 = GAS                              
-                                 bit 1 = WATER
-                                 bit 2 = ELEC */
-
-// Following variable has to be declared in the main function and should be incremented every second.
-extern volatile int time_ticks;
-extern volatile unsigned char time_ticks_oo;
-
-unsigned short xpl_count_gas;
-unsigned short xpl_count_water;
-unsigned short xpl_count_elec;
-unsigned char  xpl_temp_index;
-unsigned int   xpl_rate_limiter;
-
-// We need to keep track of the temperatures in case an externel request is received,
-// and to know if we need to send an xpl-trig
-signed short   oo_temp_table[OO_SUPPORTED_DEVICE_COUNT];
 
 // We need a FIFO to cover for the latency between sending a XOFF and the XPORT to react on this
 void xpl_fifo_push_byte(char data){
@@ -133,8 +132,13 @@ char xpl_fifo_pop_byte(void){
 //  program memory size (reuse this function)
 void xpl_print_header(enum XPL_MSG_TYPE type){
 
-	// Wait here until the next second
-	while (xpl_rate_limiter == time_ticks || xpl_rate_limiter == (time_ticks+1)) {};
+	// We should leave 50ms between two messages
+	// If xpl_rate_limiter == time_ticks, then we have already sent a message recently
+	// so we need to wait a bit.
+	if (xpl_rate_limiter == time_ticks) {
+		// 50 ms @ 32 MHz == 40e4 cycles
+		Delay10KTCYx(40);
+	}
 
 	printf("xpl-");
 	if (type == STAT) {
@@ -156,7 +160,7 @@ void xpl_print_header(enum XPL_MSG_TYPE type){
 //  Send out a normal heartbeat
 void xpl_send_hbeat(void){
 	xpl_print_header(STAT);
-	printf("hbeat.basic\n{\ninterval=5\nversion=%i\n",XPL_VERSION);
+	printf("hbeat.basic\n{\ninterval=5\nversion=%i.%i\n",XPL_VERSION_MAJOR, XPL_VERSION_MINOR);
 	if (onewires_present){
 		printf("tempsensors=%i\n", oo_get_devicecount());
 	}
@@ -174,7 +178,7 @@ void xpl_send_hbeat(void){
 //  INSTANCE_ID is found in EEPROM by the xpl_init function.
 void xpl_send_config_hbeat(void){
 	xpl_print_header(STAT);
-	printf("config.basic\n{\ninterval=1\nversion=%i\n}\n",XPL_VERSION);
+	printf("config.basic\n{\ninterval=1\nversion=%i.%i\n}\n",XPL_VERSION_MAJOR, XPL_VERSION_MINOR);
 	return;
 }
 
@@ -310,7 +314,7 @@ void xpl_send_device_current(enum XPL_MSG_TYPE msg_type,enum XPL_DEVICE_TYPE typ
 // Initialisation of the xPL rx buffer
 void xpl_reset_rx_buffer(void) {
     xpl_rx_pointer = 0;
-    xpl_rx_buffer_shadow[xpl_rx_pointer] = '\0';
+    xpl_rx_buffer_shadow[0] = '\0';
 }    
 
 //////////////////////////////////////////////////////////
@@ -443,6 +447,14 @@ void xpl_handler(void) {
 				case PWM_CURRENT_MSG_TYPE:
 					xpl_send_device_current(STAT, PWM);
 					break;
+				case FLOOD_NETWORK_MSG_TYPE:
+					// This is a debug mode and should not be activated during normal operations
+					for (index = 0; index < 10; index++) {
+						xpl_send_device_current(STAT, PWM);
+ 					}
+					break;
+				default:
+					break;
     		}    
 			// Once the message is processed, reset the buffer and return to waiting state.
 		    xpl_state = WAITING;
@@ -474,14 +486,12 @@ void xpl_handler(void) {
 			if (time_ticks > 300 && configured) {
 				xpl_send_hbeat();
 				time_ticks = 0;
-				return;
  			}
 			
 			// When not configured, send out config hbeat every minute
     		if (time_ticks > 60 && !configured) {
 				xpl_send_config_hbeat();
 				time_ticks = 0;
-				return;
 			}
 
 			// Poll the temperature sensors every minute
@@ -600,6 +610,9 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
 		case WAITING_CMND_CONTROL_BASIC:
 			if (strcmpram2pgm("device=pwmout", xpl_rx_buffer_shadow) == 0)	{
 				xpl_msg_state = WAITING_CMND_CONTROL_VALUE;
+			} else if (strcmpram2pgm("mode=flood", xpl_rx_buffer_shadow) == 0) {
+				xpl_msg_state = WAITING_CMND;
+				return FLOOD_NETWORK_MSG_TYPE;
     		} else if (xpl_rx_buffer_shadow[0] == '{') {
     		    //do nothing
 			} else {
@@ -682,15 +695,21 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
 void xpl_trig(enum XPL_DEVICE_TYPE sensor){
 	switch (sensor){
 	case WATER:
-		xpl_count_water++;
+		if (xpl_count_water < UINT_MAX){ 
+			xpl_count_water++;
+		}
 		xpl_trig_register |= WATER;
 		break;
 	case GAS:
-		xpl_count_gas++;
+		if (xpl_count_gas < UINT_MAX){ 
+			xpl_count_gas++;
+		}
 		xpl_trig_register |= GAS;
 		break;
 	case ELEC:
-		xpl_count_elec++;
+		if (xpl_count_elec < UINT_MAX){ 
+			xpl_count_elec++;
+		}
 		xpl_trig_register |= ELEC;
 		break;
 	default:
