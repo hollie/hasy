@@ -36,6 +36,7 @@ enum XPL_STATE_TYPE xpl_state;
 char configured = 0;
 char onewires_present = 0;
 
+unsigned char pwm_enabled = 0;
 unsigned char pwm_value = 0;
 unsigned char xpl_hbeat_sent = 0;
 
@@ -135,10 +136,13 @@ void xpl_print_header(enum XPL_MSG_TYPE type){
 	// We should leave 50ms between two messages
 	// If xpl_rate_limiter == time_ticks, then we have already sent a message recently
 	// so we need to wait a bit.
-	if (xpl_rate_limiter == time_ticks) {
+	//if (xpl_rate_limiter == time_ticks) {
 		// 50 ms @ 32 MHz == 40e4 cycles
 		Delay10KTCYx(40);
-	}
+	//}
+
+	// Note: for the time being, we wait here 50 ms every time we send a packet. Start with simple code,
+	// improve when required.
 
 	printf("xpl-");
 	if (type == STAT) {
@@ -151,7 +155,7 @@ void xpl_print_header(enum XPL_MSG_TYPE type){
     printf(XPL_DEVICE_ID);	
 	printf(".%s\ntarget=*\n}\n",xpl_instance_id);
 
-	xpl_rate_limiter = time_ticks;
+	//xpl_rate_limiter = time_ticks;
 
 }
 
@@ -163,6 +167,9 @@ void xpl_send_hbeat(void){
 	printf("hbeat.basic\n{\ninterval=5\nversion=%i.%i\n",XPL_VERSION_MAJOR, XPL_VERSION_MINOR);
 	if (onewires_present){
 		printf("tempsensors=%i\n", oo_get_devicecount());
+	}
+	if (pwm_enabled) {
+		printf("pwmout=%i\n", pwm_value);
 	}
 	printf("}\n");
 
@@ -199,7 +206,7 @@ void xpl_send_config_end(void){
 //  send the current configuration possibilities of the node to the config manager
 void xpl_send_stat_configuration_capabilities(void){
 	xpl_print_header(STAT);
-	printf("config.list\n{\nreconf=newconf\n}\n");
+	printf("config.list\n{\nreconf=newconf\noption=pwm_ena\n}\n");
 	return;
 }
 
@@ -675,16 +682,30 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
 				// End with a '\0' in EEPROM
 				eeprom_write(lpcount+XPL_EEPROM_INSTANCE_ID_OFFSET, 0x00);
 
+				// We don't reset here any more, there are more settings to come!
 				// Reset the xpl function to apply the new name
 				// Buffer content gets lost here, but we don't mind as we need to start again
-				xpl_init_instance_id();
+				//xpl_init_instance_id();
 				    		       		    
-    		    xpl_msg_state = WAITING_CMND;
+    		    //xpl_msg_state = WAITING_CMND;
     		    xpl_flow = FLOW_ON;
 				putc(XON, _H_USART);
     		       		  
+				//return HEARTBEAT_MSG_TYPE; // Don't return yet, we need to get the PWM_enable setting from the command
+    		} else if (strncmpram2pgm("pwm_ena=", xpl_rx_buffer_shadow, 8) == 0) {
+				// Do we need to enable the PWM unit?
+				if (xpl_rx_buffer_shadow[8] == '1') {
+					pwm_enabled = 1;
+ 				}
+
+				// Reset the xpl function to apply the new name
+				// Buffer content gets lost here, but we don't mind as we need to start again
+				xpl_init_instance_id();
+
+				xpl_msg_state = WAITING_CMND;
+
 				return HEARTBEAT_MSG_TYPE;
-    		}    
+			}
 		    break;	    
     }   
     return -1;
