@@ -38,7 +38,7 @@ wait 100 ms
 "source=cdp1802-dcm.0000011e2g043"
 0A
 wait 100 ms
-"target=hollie-utilmon.default"
+"target=hollie-utilmon.ventimon"
 0A
 wait 100 ms
 "}"
@@ -53,7 +53,10 @@ wait 100 ms
 "group="
 0a
 wait 100 ms
-"newconf=test"
+"newconf=ventimon"
+0a
+wait 500 ms
+"pwm_ena=1"
 0a
 "}"
 wait 20 sec
