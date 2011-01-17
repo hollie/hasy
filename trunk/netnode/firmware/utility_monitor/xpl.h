@@ -17,7 +17,11 @@
 
 // VERSION number
 #define XPL_VERSION_MAJOR 4
-#define XPL_VERSION_MINOR 2
+#define XPL_VERSION_MINOR 3
+
+// Uncomment the next line to enable PWM output 
+// on PORTC.2
+#define PWM_ENABLED
 
 // offset of INSTANCE_ID within target=VENDOR-DEVICEID.
 #define XPL_TARGET_VENDOR_DEVICEID_INSTANCE_ID_OFFSET 22

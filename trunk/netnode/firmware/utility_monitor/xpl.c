@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include <delays.h>
 #include <limits.h>
+#include <timers.h>
 #include <pwm.h>
 
 #include "xpl.h"
@@ -36,7 +37,6 @@ enum XPL_STATE_TYPE xpl_state;
 char configured = 0;
 char onewires_present = 0;
 
-unsigned char pwm_enabled = 0;
 unsigned char pwm_value = 0;
 unsigned char xpl_hbeat_sent = 0;
 
@@ -168,9 +168,10 @@ void xpl_send_hbeat(void){
 	if (onewires_present){
 		printf("tempsensors=%i\n", oo_get_devicecount());
 	}
-	if (pwm_enabled) {
-		printf("pwmout=%i\n", pwm_value);
-	}
+#ifdef PWM_ENABLED
+	printf("pwmout=%i\n", pwm_value);
+#endif
+
 	printf("}\n");
 
 	xpl_hbeat_sent = 1;
@@ -206,7 +207,7 @@ void xpl_send_config_end(void){
 //  send the current configuration possibilities of the node to the config manager
 void xpl_send_stat_configuration_capabilities(void){
 	xpl_print_header(STAT);
-	printf("config.list\n{\nreconf=newconf\noption=pwm_ena\n}\n");
+	printf("config.list\n{\nreconf=newconf\n}\n");
 	return;
 }
 
@@ -335,6 +336,10 @@ void xpl_init_state(void) {
 	xpl_reset_rx_buffer();
 }	
 
+//////////////////////////////////////////////////////////
+// xpl_init_instance_id
+// Get the instance id from EEPROM, and set to 'default'
+//  if no ID is present in the EEPROM
 void xpl_init_instance_id(void) {
     char count;
 
@@ -364,6 +369,22 @@ void xpl_init_instance_id(void) {
 // Initialisation of the xPL library. Tries to restore the
 // INSTANCE_ID from EEPROM
 void xpl_init(void){
+
+	// Enable the PWM hardware if required
+#ifdef PWM_ENABLED
+#warning "PWM output enabled on PORTC.2"
+	// Enable PORTC.2 output direction 
+	TRISC &= 0xFB;
+
+	// Enable the PWM timer
+	OpenTimer2(TIMER_INT_OFF &
+			T2_PS_1_16 &
+			T2_POST_1_1);
+
+	// And enable the PWM
+	OpenPWM1(249);
+	SetDCPWM1(1000);
+#endif
 
 	// Init the helper libraries do that we know if need to 
 	// library specific code
@@ -586,6 +607,11 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
 		case WAITING_CMND_HBEAT_REQUEST:
 		    if (strcmpram2pgm("command=request", xpl_rx_buffer_shadow) == 0) {
     		    xpl_msg_state = WAITING_CMND;
+				// We need a random backoff here to ensure that we don't flood the
+				// network with all nodes responding at the same time.
+				// We use the time_ticks for that. That variable is never bigger than
+				// 300, so we divide by ten and feed that value into the delay function
+				Delay10KTCYx(time_ticks/10);
     		    return HEARTBEAT_MSG_TYPE;
     		}    
 		    break;   
@@ -685,27 +711,14 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
 				// We don't reset here any more, there are more settings to come!
 				// Reset the xpl function to apply the new name
 				// Buffer content gets lost here, but we don't mind as we need to start again
-				//xpl_init_instance_id();
+				xpl_init_instance_id();
 				    		       		    
-    		    //xpl_msg_state = WAITING_CMND;
+    		    xpl_msg_state = WAITING_CMND;
     		    xpl_flow = FLOW_ON;
 				putc(XON, _H_USART);
     		       		  
-				//return HEARTBEAT_MSG_TYPE; // Don't return yet, we need to get the PWM_enable setting from the command
-    		} else if (strncmpram2pgm("pwm_ena=", xpl_rx_buffer_shadow, 8) == 0) {
-				// Do we need to enable the PWM unit?
-				if (xpl_rx_buffer_shadow[8] == '1') {
-					pwm_enabled = 1;
- 				}
-
-				// Reset the xpl function to apply the new name
-				// Buffer content gets lost here, but we don't mind as we need to start again
-				xpl_init_instance_id();
-
-				xpl_msg_state = WAITING_CMND;
-
-				return HEARTBEAT_MSG_TYPE;
-			}
+				return HEARTBEAT_MSG_TYPE; // Don't return yet, we need to get the PWM_enable setting from the command
+    		} 
 		    break;	    
     }   
     return -1;
