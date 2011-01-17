@@ -135,15 +135,6 @@ void init(void)
 
 	WriteTimer1(TMR1_VALUE);
 
-	// Enable the PWM timer
-	OpenTimer2(TIMER_INT_OFF &
-			T2_PS_1_16 &
-			T2_POST_1_1);
-
-	// And enable the PWM
-	OpenPWM1(249);
-	SetDCPWM1(1000);
-
 	// Enable pullups on Portb inputs
 	INTCON2bits.RBPU    = 0; // (bit is active low!)
 
