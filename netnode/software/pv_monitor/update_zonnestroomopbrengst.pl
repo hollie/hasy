@@ -1,4 +1,4 @@
-#! /usr/bin/env perl -w
+#! /opt/local/bin/perl -w
 
 #########################################################################
 # Script to generate the input file for zonnestroomopbrengst.eu
@@ -31,9 +31,9 @@ if (defined($ARGV[0])){
 	die "Please pass the ftp password as command line argument!\n";
 }
 
+my $db_name = (defined $ARGV[1]) ? $ARGV[1] : "pv.rrd";
 
-
-my ($start,$step,$names,$data) = RRDs::fetch ("pv.rrd", "AVERAGE", "-s", "01.04.2009", "-e", "now");
+my ($start,$step,$names,$data) = RRDs::fetch ($db_name, "AVERAGE", "-s", "01.04.2009", "-e", "now");
 my $ERR=RRDs::error;
 die "ERROR while fetching: $ERR\n" if $ERR;
 
@@ -62,7 +62,7 @@ for my $line ((@$data)) {
   #print "\n";
 }
 
-($start,$step,$names,$data) = RRDs::fetch ("pv.rrd", "AVERAGE", "-s", "midnight", "-e", "now");
+($start,$step,$names,$data) = RRDs::fetch ($db_name, "AVERAGE", "-s", "midnight", "-e", "now");
  $ERR=RRDs::error;
 die "ERROR while fetching: $ERR\n" if $ERR;
 
@@ -132,6 +132,7 @@ sub generate_months_js {
 	# Loop over the months, starting at the latest month and print the status line
 	my ($year, $month, $day);
 	my $total=0;
+	my $last_day = 1;
 	
 	open F, "> months.js" or die "Could not open months.js for writing: $!\n";
 	open I, "> days_hist.js" or die "Could not open days_hist.js for writing: $!\n";
@@ -145,6 +146,8 @@ sub generate_months_js {
 			foreach $day (reverse sort keys %{$log->{$year}->{$month}}){
 				if ($day =~ /\d+/){
 					print I "da[dx++]=\"$day.$month.$year|" . floor($log->{$year}->{$month}->{$day}->{value}) . ";1234\n";
+					print "Production today: " . floor($log->{$year}->{$month}->{$day}->{value}/100)/10 . " kWh\n" if ($last_day and $ftp_password eq "report");
+					$last_day = 0;
 				}
 			}
 		}
@@ -172,6 +175,8 @@ sub init_offsets {
 	$log->{'10'}->{'07'}->{value} = 400;	
 	$log->{'10'}->{'09'}->{day} = 0;
 	$log->{'10'}->{'09'}->{value} = 150;
+	$log->{'11'}->{'04'}->{day} = 0;
+	$log->{'11'}->{'04'}->{value} = 500;
 	
 	
 
