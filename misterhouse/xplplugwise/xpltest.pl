@@ -1,9 +1,25 @@
 #!/usr/bin/perl -w
 
 use strict;
+use Switch;
 use xPL::Client;
 
 my $msg=xPL::Client->new ( vendor_id => 'bnz', device_id => 'test', );
+
+if (!defined($ARGV[1])){
+	die "Please pass node ID and command as parameters";
+}
+
+my $id = $ARGV[0];
+my $command = $ARGV[1];
+
+switch ($command) {
+case 'set_on'  { $msg->send_from_string ("-m xpl-cmnd -c plugwise.basic command=on device=\"$id\"");}
+case 'set_off' { $msg->send_from_string ("-m xpl-cmnd -c plugwise.basic command=off device=\"$id\"");}
+case 'stat'    { $msg->send_from_string ("-m xpl-cmnd -c plugwise.basic command=status device='$id'"); }
+case 'query'   { $msg->send_from_string ("-m xpl-cmnd -c plugwise.basic command=query_connected_circles");}
+else { print "Unknown command!"; die;}
+};
 
 =head2 Switch ON (or OFF) a Circle
 
@@ -14,7 +30,6 @@ my $msg=xPL::Client->new ( vendor_id => 'bnz', device_id => 'test', );
 
 	The resulting xpl-trig message will confirm the status of the Circle
 =cut
-$msg->send_from_string ("-m xpl-cmnd -c plugwise.basic command=off device=\"37b4a7\"");
 
 
 =head2 Power Info
@@ -33,7 +48,7 @@ $msg->send_from_string ("-m xpl-cmnd -c plugwise.basic command=off device=\"37b4
 			unknown=000132C3	(Meaning yet unknown)
 		}
 =cut
-#$msg->send_from_string ("-m xpl-cmnd -c plugwise.basic command=powerinfo device='37b4a7'");
+#$msg->send_from_string ("-m xpl-cmnd -c plugwise.basic command=powerinfo device='469D91'");
 
 =head2 Calibration info
 
@@ -73,7 +88,7 @@ $msg->send_from_string ("-m xpl-cmnd -c plugwise.basic command=off device=\"37b4
 		hwver=000004730007	(Hardware version of a circle)
 	}
 =cut
-#$msg->send_from_string ("-m xpl-cmnd -c plugwise.basic command=status device='37b4a7'");
+#$msg->send_from_string ("-m xpl-cmnd -c plugwise.basic command=status device='469D91'");
 
 
 =head2 Powerbuffer
