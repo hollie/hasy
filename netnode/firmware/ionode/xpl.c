@@ -277,7 +277,7 @@ void xpl_send_sensor_temperature(enum XPL_MSG_TYPE msg_type, unsigned char index
 void xpl_send_pwm(enum XPL_MSG_TYPE msg_type) {
 	xpl_print_header(msg_type);
 	printf("sensor.basic\n{\ndevice=pwmout\n");
-	printf("type=variable\nvalue=%i\n}\n", pwm_value);
+	printf("type=variable\ncurrent=%i\n}\n", pwm_value);
 	return;
 }
 
