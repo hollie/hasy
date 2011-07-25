@@ -20,6 +20,7 @@
 #include "oo.h"
 #include "eeprom.h"
 #include "string.h"
+#include "output.h"
 
 signed   char xpl_rx_fifo_write_pointer;
 signed   char xpl_rx_fifo_read_pointer;
@@ -34,25 +35,35 @@ char xpl_instance_id[17];
 enum XPL_STATE_TYPE { WAITING = 0, PROCESS_INCOMMING_MESSAGE_PART};
 enum XPL_STATE_TYPE xpl_state;
 
-char configured = 0;
-char onewires_present = 0;
+char xpl_node_configuration = 0;            /* mapped with XPL_DEVICE_CONFIGURATION 
+                                            bit 0 = node configured
+                                            bit 1 = one wire present
+                                            bit 2 = outputs configured
+                                            bit 3 = inputs configured */
 
-unsigned char pwm_value = 0;
+unsigned char xpl_pwm_value = 0;
 unsigned char xpl_hbeat_sent = 0;
+unsigned char xpl_output_count = 0;
+unsigned char xpl_input_count = 0;
 
 char xpl_trig_register = 0;   /* bit 0 = GAS                              
                                  bit 1 = WATER
                                  bit 2 = ELEC */
 
 // Following variable has to be declared in the main function and should be incremented every second.
-extern volatile int time_ticks;
+extern volatile unsigned short time_ticks;
 extern volatile unsigned char time_ticks_oo;
+extern volatile unsigned char time_ticks_output;
+extern volatile unsigned char time_ticks_input;
 
-unsigned int  xpl_count_gas;
-unsigned int  xpl_count_water;
-unsigned int  xpl_count_elec;
+unsigned short xpl_count_gas;
+unsigned short xpl_count_water;
+unsigned short xpl_count_elec;
 unsigned char xpl_temp_index;
-unsigned int  xpl_rate_limiter;
+unsigned char xpl_output_id;
+//unsigned int xpl_rate_limiter;
+
+
 
 // We need to keep track of the temperatures in case an external request is received,
 // and to know if we need to send an xpl-trig
@@ -67,7 +78,10 @@ enum XPL_PARSE_TYPE {   WAITING_CMND = 0,                   \\
                         WAITING_CMND_CONFIG_CURRENT,        \\
                         WAITING_CMND_SENSOR_REQUEST_DEVICE, \\
 						WAITING_CMND_CONTROL_BASIC,			\\
-						WAITING_CMND_CONTROL_VALUE 			\\
+						WAITING_CMND_CONTROL_VALUE, 	    \\
+						WAITING_CMND_CONTROL_OUPUT,         \\
+						WAITING_CMND_CONTROL_OUPUT_CURRENT, \\
+						WAITING_CMND_CONTROL_OUPUT_CURRENT_PULSE \\
                         };
                         
 enum XPL_PARSE_TYPE xpl_msg_state;
@@ -81,8 +95,9 @@ enum XPL_CMD_MSG_TYPE_RSP {HEARTBEAT_MSG_TYPE = 0,              \\
                            GAS_DEVICE_CURRENT_MSG_TYPE,         \\
                            WATER_DEVICE_CURRENT_MSG_TYPE,       \\
                            ELEC_DEVICE_CURRENT_MSG_TYPE,        \\
-						   PWM_CURRENT_MSG_TYPE,                 \\
-						   FLOOD_NETWORK_MSG_TYPE               \\
+						   PWM_CURRENT_MSG_TYPE,                \\
+						   FLOOD_NETWORK_MSG_TYPE,              \\
+						   OUTPUT_DEVICE_CURRENT_MSG_TYPE               \\
                            };
 
 enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void);
@@ -165,13 +180,19 @@ void xpl_print_header(enum XPL_MSG_TYPE type){
 void xpl_send_hbeat(void){
 	xpl_print_header(STAT);
 	printf("hbeat.basic\n{\ninterval=5\nversion=%i.%i\n",XPL_VERSION_MAJOR, XPL_VERSION_MINOR);
-	if (onewires_present){
+	if (xpl_node_configuration & ONE_WIRE_PRESENT){
 		printf("tempsensors=%i\n", oo_get_devicecount());
 	}
+
 #ifdef PWM_ENABLED
 	printf("pwmout=%i\n", pwm_value);
 #endif
-
+    if (xpl_node_configuration & OUTPUTS_CONFIGURED){
+	    printf("output=%i\n", xpl_output_count);
+	}
+	if (xpl_node_configuration & INPUTS_CONFIGURED){
+	    printf("input=%i\n", xpl_input_count);
+	}    
 	printf("}\n");
 
 	xpl_hbeat_sent = 1;
@@ -230,7 +251,7 @@ void xpl_send_sensor_basic(enum XPL_MSG_TYPE msg_type,const rom far char* device
 	return;
 }    
 
-void xpl_send_sensor_temperature(enum XPL_MSG_TYPE msg_type, unsigned char index) {
+void xpl_send_sensor_basic_temperature(enum XPL_MSG_TYPE msg_type, unsigned char index) {
 
 	oo_tdata tsens;
 	char loper;
@@ -274,10 +295,17 @@ void xpl_send_sensor_temperature(enum XPL_MSG_TYPE msg_type, unsigned char index
 	return;
 }
 
-void xpl_send_pwm(enum XPL_MSG_TYPE msg_type) {
+void xpl_send_sensor_basic_pwm(enum XPL_MSG_TYPE msg_type) {
 	xpl_print_header(msg_type);
 	printf("sensor.basic\n{\ndevice=pwmout\n");
-	printf("type=variable\ncurrent=%i\n}\n", pwm_value);
+	printf("type=variable\ncurrent=%i\n}\n", xpl_pwm_value);
+	return;
+}
+
+void xpl_send_sensor_basic_output(enum XPL_MSG_TYPE msg_type) {
+	xpl_print_header(msg_type);
+	printf("sensor.basic\n{\ndevice=output%i\n",xpl_output_id);       
+	printf("type=output\ncurrent=%s\n}\n",output_get_state(xpl_output_id));	
 	return;
 }
 
@@ -308,11 +336,14 @@ void xpl_send_device_current(enum XPL_MSG_TYPE msg_type,enum XPL_DEVICE_TYPE typ
             xpl_send_sensor_basic(msg_type,"elec",count);
             break;
 		case TEMP:
-			xpl_send_sensor_temperature(msg_type,xpl_temp_index);
+			xpl_send_sensor_basic_temperature(msg_type,xpl_temp_index);
 			break;
 		case PWM:
-			xpl_send_pwm(msg_type);
+			xpl_send_sensor_basic_pwm(msg_type);
 			break;
+	    case OUTPUT:
+	        xpl_send_sensor_basic_output(msg_type);
+	        break;
     }    
     return;
 }    
@@ -343,7 +374,7 @@ void xpl_init_state(void) {
 void xpl_init_instance_id(void) {
     char count;
 
-	configured = 0;
+	xpl_node_configuration = 0;
 
 	// Get the instance ID from EEPROM
 	// Maximum size = 16 chars + 1 null char
@@ -352,7 +383,7 @@ void xpl_init_instance_id(void) {
 
 		// When we encounter the null, stop reading
 		if (xpl_instance_id[count] == '\0') { 
-			configured = 1;
+			xpl_node_configuration |= NODE_CONFIGURED;
 			break;
 		} 
 
@@ -362,6 +393,9 @@ void xpl_init_instance_id(void) {
 			break;
 		}
 	}
+	
+	xpl_output_count = eeprom_read(XPL_EEPROM_OUPUTS_COUNT);
+	xpl_input_count = eeprom_read(XPL_EEPROM_INPUTS_COUNT);
 }    
 
 //////////////////////////////////////////////////////////
@@ -371,6 +405,7 @@ void xpl_init_instance_id(void) {
 void xpl_init(void){
 
 	// Enable the PWM hardware if required
+	// !!!!!!! Warning enabling means that resistor must be dismanteled from print, if not it will be fried !!!!!!!!!!!!!!!
 #ifdef PWM_ENABLED
 #warning "PWM output enabled on PORTC.2"
 	// Enable PORTC.2 output direction 
@@ -389,7 +424,7 @@ void xpl_init(void){
 	// Init the helper libraries do that we know if need to 
 	// library specific code
 	if (!oo_init()){
-		onewires_present = 1;
+		xpl_node_configuration |= ONE_WIRE_PRESENT;
 		oo_read_temperatures();
 	}
 
@@ -407,9 +442,12 @@ void xpl_init(void){
 	xpl_rx_fifo_read_pointer = 0;
 	xpl_rx_fifo_data_count = 0;
 	
-	xpl_rate_limiter = time_ticks;
+	//xpl_rate_limiter = time_ticks;
 
 	xpl_hbeat_sent = 0;
+	
+	// TODO init output devices
+	
 
 	xpl_flow = FLOW_ON;
 	putc(XON, _H_USART);
@@ -475,6 +513,9 @@ void xpl_handler(void) {
 				case PWM_CURRENT_MSG_TYPE:
 					xpl_send_device_current(STAT, PWM);
 					break;
+			    case OUTPUT_DEVICE_CURRENT_MSG_TYPE:
+					xpl_send_device_current(STAT, OUTPUT);
+					break;
 				case FLOOD_NETWORK_MSG_TYPE:
 					// This is a debug mode and should not be activated during normal operations
 					for (index = 0; index < 10; index++) {
@@ -511,25 +552,25 @@ void xpl_handler(void) {
 			}
 
 			// Send hbeat every 5 minutes when configured
-			if (time_ticks > 300 && configured) {
+			if (time_ticks > 300 && (xpl_node_configuration & NODE_CONFIGURED)) {
 				xpl_send_hbeat();
 				time_ticks = 0;
  			}
 			
 			// When not configured, send out config hbeat every minute
-    		if (time_ticks > 60 && !configured) {
+    		if (time_ticks > 60 && !(xpl_node_configuration & NODE_CONFIGURED)) {
 				xpl_send_config_hbeat();
 				time_ticks = 0;
 			}
 
 			// Poll the temperature sensors every minute
-			if (time_ticks_oo > 60 && onewires_present && configured) {
+			if (time_ticks_oo > 60 && (xpl_node_configuration & ONE_WIRE_PRESENT) && (xpl_node_configuration & NODE_CONFIGURED)) {
 				time_ticks_oo = 0;
 				oo_read_temperatures();				
-			}
+			}			
 
 			// And check if temp trig messages need to be sent out
-			if (onewires_present && configured && xpl_hbeat_sent) {
+			if ((xpl_node_configuration & ONE_WIRE_PRESENT) && (xpl_node_configuration & NODE_CONFIGURED) && xpl_hbeat_sent) {
 				for (index=0; index < oo_get_devicecount(); index++) {
 					if (oo_temp_table[index] != oo_get_device_temp(index)){
 						oo_temp_table[index] = oo_get_device_temp(index);
@@ -548,10 +589,41 @@ void xpl_handler(void) {
 	return;
 }
 
-enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) { 
-	char lpcount;
+unsigned short xpl_convert_2_ushort(char* char_value) {
+    unsigned short value = 0;
+    char lpcount = 0;
 	char strlength;
     char input_value[8];
+    
+    strcpy(input_value, char_value);
+	strlength = strlen(input_value);
+
+	while (lpcount < strlength) {
+	    value *= 10;
+		value += (input_value[lpcount]- 0x30);
+		lpcount++;
+	}
+	return value;
+}
+
+
+
+void xpl_enable_interrupts(void){
+    // Make sure we're not receiving data right now, as interrupts will be disabled during EEPROM write later in this function
+	if (xpl_flow == FLOW_ON) { 
+    	xpl_flow = FLOW_OFF;
+	    putc(XOFF, _H_USART); 
+    }
+}
+
+void xpl_disable_interrupts(void) {
+    xpl_flow = FLOW_ON;
+	putc(XON, _H_USART);   
+}        
+
+enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
+    char strlength;
+    char lpcount = 0;
     
     //printf("\nmp@st%d@flc%d@fd%d@fwp%d@fwr%d@%s",xpl_msg_state,xpl_flow,xpl_rx_fifo_data_count,xpl_rx_fifo_write_pointer,xpl_rx_fifo_read_pointer,xpl_rx_buffer_shadow);
         
@@ -635,6 +707,10 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
     		} else if (strcmpram2pgm("device=elec", xpl_rx_buffer_shadow) == 0) {
     		    xpl_msg_state = WAITING_CMND;
 		        return ELEC_DEVICE_CURRENT_MSG_TYPE;
+    		} else if (strncmpram2pgm("device=output", xpl_rx_buffer_shadow,13) == 0) {
+    		    xpl_output_id = xpl_convert_2_ushort(xpl_rx_buffer_shadow+14);
+    		    xpl_msg_state = WAITING_CMND;
+		        return OUTPUT_DEVICE_CURRENT_MSG_TYPE;
     		} else {
     		    xpl_msg_state = WAITING_CMND;		  
     		}   
@@ -646,6 +722,9 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
 			} else if (strcmpram2pgm("mode=flood", xpl_rx_buffer_shadow) == 0) {
 				xpl_msg_state = WAITING_CMND;
 				return FLOOD_NETWORK_MSG_TYPE;
+    		} else if (strncmpram2pgm("device=output", xpl_rx_buffer_shadow,13) == 0) {    		 
+    		    xpl_output_id = xpl_convert_2_ushort(xpl_rx_buffer_shadow+14);
+				xpl_msg_state = WAITING_CMND_CONTROL_OUPUT;				
     		} else if (xpl_rx_buffer_shadow[0] == '{') {
     		    //do nothing
 			} else {
@@ -657,23 +736,13 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
 			if (strcmpram2pgm("type=variable", xpl_rx_buffer_shadow) == 0)	{
 				// do nothing
 			} else if (strncmpram2pgm("value=", xpl_rx_buffer_shadow, 6) == 0)	{
-				// Extract the value to set the PWM to
-				strcpy(input_value, xpl_rx_buffer_shadow+6);
-				strlength = strlen(input_value);
-
-				pwm_value = 0;
-				lpcount = 0;
-
-				while (lpcount < strlength) {
-					pwm_value *= 10;
-					pwm_value += (input_value[lpcount]- 0x30);
-					lpcount++;
-				}
-				
-				if (pwm_value == 255) {
+				// Extract the value to set the PWM to				
+				xpl_pwm_value = xpl_convert_2_ushort(xpl_rx_buffer_shadow+6);
+								
+				if (xpl_pwm_value == 255) {
 					SetDCPWM1(0x3FF);
 				} else {
-					SetDCPWM1(((short)pwm_value)<<2);
+					SetDCPWM1(((short)xpl_pwm_value)<<2);
 				}
 
 				xpl_msg_state = WAITING_CMND;
@@ -682,18 +751,42 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
 				xpl_msg_state = WAITING_CMND;
 			}
 			break;
+			
+		case WAITING_CMND_CONTROL_OUPUT:
+		    if (strcmpram2pgm("type=output", xpl_rx_buffer_shadow) == 0)	{
+    		    xpl_msg_state = WAITING_CMND_CONTROL_OUPUT_CURRENT;   
+    		} else {
+    		    xpl_msg_state = WAITING_CMND;    
+    		}    		   
+		    break;
 		
+		case WAITING_CMND_CONTROL_OUPUT_CURRENT:
+		    if (strcmpram2pgm("current=enable", xpl_rx_buffer_shadow) == 0 || strcmpram2pgm("current=high", xpl_rx_buffer_shadow) == 0)	{
+    		    output_state_enable(xpl_output_id);
+    		} else if (strcmpram2pgm("current=disable", xpl_rx_buffer_shadow) == 0 || strcmpram2pgm("current=low", xpl_rx_buffer_shadow) == 0)	{
+                output_state_disable(xpl_output_id);
+    		} else if (strcmpram2pgm("current=pulse", xpl_rx_buffer_shadow) == 0) {
+    		    xpl_msg_state = WAITING_CMND_CONTROL_OUPUT_CURRENT_PULSE;
+    		} else if (strcmpram2pgm("current=toggle", xpl_rx_buffer_shadow) == 0) {
+                output_state_toggle(xpl_output_id);
+    		} else {
+    		    xpl_msg_state = WAITING_CMND;    
+    		}    
+		    break;
+		    
+		case WAITING_CMND_CONTROL_OUPUT_CURRENT_PULSE:
+		    if (strncmpram2pgm("data1=", xpl_rx_buffer_shadow,6) == 0) {
+    		    output_state_pulse(xpl_output_id,xpl_convert_2_ushort(xpl_rx_buffer_shadow+6));
+    		} else {
+    		    xpl_msg_state = WAITING_CMND;
+    		} 
+		    break;
+		    
 		case WAITING_CMND_CONFIG_RESPONSE:
 		    // what we write here depends on the node type, this is not yet generic code :(
 		    // maybe we need to implement here a function from the xpl_impl.c file
 			// For now we just parse the instance_id and put it in EEPROM
-		    if (strncmpram2pgm("newconf=", xpl_rx_buffer_shadow, 8) == 0) {
-    		    // Make sure we're not receiving data right now, as interrupts will be disabled during EEPROM write later in this function
-				if (xpl_flow == FLOW_ON) { 
-    				xpl_flow = FLOW_OFF;
-				    putc(XOFF, _H_USART); 
-				}
-				
+		    if (strncmpram2pgm("newconf=", xpl_rx_buffer_shadow, 8) == 0) {    		    				
 				// We are about to change our ID here, so send an end message to notify the network
 				xpl_send_config_end();
 
@@ -701,47 +794,67 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
     		    strcpy(xpl_instance_id,xpl_rx_buffer_shadow + 8);
 				// Put the new instance id name in EEPROM so that it retains value after a power cycle
 				strlength = strlen(xpl_instance_id); // We put this in a local variable because else it it re-calculated every loop cycle
-				for (lpcount=0; lpcount < strlength; lpcount++){
+				
+    			xpl_disable_interrupts();
+        		
+            	for (lpcount=0; lpcount < strlength; lpcount++){
 					eeprom_write(lpcount+XPL_EEPROM_INSTANCE_ID_OFFSET, xpl_instance_id[lpcount]);
 				}
-
 				// End with a '\0' in EEPROM
 				eeprom_write(lpcount+XPL_EEPROM_INSTANCE_ID_OFFSET, 0x00);
-
-				// We don't reset here any more, there are more settings to come!
+								    		       		        		    
+			    xpl_enable_interrupts();    		       		  
+    		} else if (strncmpram2pgm("newoutput=", xpl_rx_buffer_shadow, 10) == 0) {
+    		    xpl_disable_interrupts();
+    		    
+    		    xpl_output_count = xpl_convert_2_ushort(xpl_rx_buffer_shadow+10);    		    
+                eeprom_write(XPL_EEPROM_OUPUTS_COUNT, (char)xpl_output_count);
+			    
+			    xpl_enable_interrupts();				
+    		} else if (strncmpram2pgm("newinput=", xpl_rx_buffer_shadow, 9) == 0) {
+    		    xpl_disable_interrupts();
+    		    
+    		    xpl_input_count = xpl_convert_2_ushort(xpl_rx_buffer_shadow+9);
+    		    eeprom_write(XPL_EEPROM_INPUTS_COUNT, (char)xpl_input_count);
+		        
+		        xpl_enable_interrupts();
+		    } else {
+    		    xpl_msg_state = WAITING_CMND;
+    		    
+    		    // We don't reset here any more, there are more settings to come!
 				// Reset the xpl function to apply the new name
 				// Buffer content gets lost here, but we don't mind as we need to start again
 				xpl_init_instance_id();
-				    		       		    
-    		    xpl_msg_state = WAITING_CMND;
-    		    xpl_flow = FLOW_ON;
-				putc(XON, _H_USART);
-    		       		  
-				return HEARTBEAT_MSG_TYPE; // Don't return yet, we need to get the PWM_enable setting from the command
-    		} 
+    		    
+    		    return HEARTBEAT_MSG_TYPE;
+    		}
+    		
 		    break;	    
     }   
     return -1;
 }
+
+
+    
 
 // Increment the counter for the sensor and ensure a trig message is sent out.
 // This function should be called from the sensor pin interrupt handler
 void xpl_trig(enum XPL_DEVICE_TYPE sensor){
 	switch (sensor){
 	case WATER:
-		if (xpl_count_water < UINT_MAX){ 
+		if (xpl_count_water < USHRT_MAX){ 
 			xpl_count_water++;
 		}
 		xpl_trig_register |= WATER;
 		break;
 	case GAS:
-		if (xpl_count_gas < UINT_MAX){ 
+		if (xpl_count_gas < USHRT_MAX){ 
 			xpl_count_gas++;
 		}
 		xpl_trig_register |= GAS;
 		break;
 	case ELEC:
-		if (xpl_count_elec < UINT_MAX){ 
+		if (xpl_count_elec < USHRT_MAX){ 
 			xpl_count_elec++;
 		}
 		xpl_trig_register |= ELEC;
