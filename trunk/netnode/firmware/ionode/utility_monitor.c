@@ -31,11 +31,14 @@
 #include "eeprom.h"
 
 // Global variables used for message passing between ISR and main code
-volatile int time_ticks = 0;
+// Set time_ticks to 295 so that we send a heartbeat message withing 5 seconds
+volatile unsigned short time_ticks = 295;
 volatile unsigned char time_ticks_oo = 0;
-volatile char debounce_water;
-volatile char debounce_gas;
-volatile char debounce_elec;
+
+
+volatile unsigned char debounce_water;
+volatile unsigned char debounce_gas;
+volatile unsigned char debounce_elec;
 
 //////////////////////////////////////////////////////////////////
 // Main loop
@@ -45,22 +48,19 @@ volatile char debounce_elec;
 // * monitor port pins for falling edges, debounce them and increment counter if required
 void main()
 {
-
 	/*
 	// Test code: set an initial ID in the EEPROM so that we don't have to configure the node
 	eeprom_write(0x00, 'A');
 	eeprom_write(0x01, 'F');
 	eeprom_write(0x02, '\0');
 	*/
+	
 	// Hardware initialisation
 	init();
 
 	// Init the xPL library
 	xpl_init();
-	// Set time_ticks to 295 so that we send a heartbeat message withing 5 seconds
-	time_ticks = 295;
 
-	time_ticks_oo = 0;
 
 	/* // DEBUG 
 	if (oo_get_devicecount()){
@@ -71,12 +71,9 @@ void main()
 	*/
 
 	while (1){
-
 		// Call the xPL message handler
 		xpl_handler();
-
 	}
-	
 }
 
 //////////////////////////////////////////////////////////////////
@@ -241,8 +238,7 @@ void high_isr(void){
 			if (debounce_elec == 0  && PORTBbits.RB2 == 0) { 
 				xpl_trig(ELEC);
 			}
-		}
-		
+		}		
 	}
 
 	return;

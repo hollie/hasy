@@ -39,12 +39,12 @@ typedef struct s_oo_data {
 #define oo_writemode OO_BUS_TRIS = 0
 
 unsigned char 	oo_init(void);
-void     		oo_read_temperatures();
+void     		oo_read_temperatures(void);
 oo_tdata 		oo_get_device_info(unsigned char index);
 signed short	oo_get_device_temp(unsigned char index);
 unsigned char 	oo_read_device(unsigned char count);
 void            oo_print_device_info(unsigned char index);
-char     		oo_get_devicecount();
+char     		oo_get_devicecount(void);
 
 // Internal functions, transfer this to the c-file
 void oo_crc_init();
