@@ -277,7 +277,7 @@ void xpl_send_sensor_temperature(enum XPL_MSG_TYPE msg_type, unsigned char index
 void xpl_send_pwm(enum XPL_MSG_TYPE msg_type) {
 	xpl_print_header(msg_type);
 	printf("sensor.basic\n{\ndevice=pwmout\n");
-	printf("type=variable\nvalue=%i\n}\n", pwm_value);
+	printf("type=variable\ncurrent=%i\n}\n", pwm_value);
 	return;
 }
 
@@ -642,7 +642,11 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
 
 		case WAITING_CMND_CONTROL_BASIC:
 			if (strcmpram2pgm("device=pwmout", xpl_rx_buffer_shadow) == 0)	{
+#ifdef PWM_ENABLED
 				xpl_msg_state = WAITING_CMND_CONTROL_VALUE;
+#else
+				xpl_msg_state=WAITING_CMND;
+#endif
 			} else if (strcmpram2pgm("mode=flood", xpl_rx_buffer_shadow) == 0) {
 				xpl_msg_state = WAITING_CMND;
 				return FLOOD_NETWORK_MSG_TYPE;
@@ -656,9 +660,9 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
 		case WAITING_CMND_CONTROL_VALUE:
 			if (strcmpram2pgm("type=variable", xpl_rx_buffer_shadow) == 0)	{
 				// do nothing
-			} else if (strncmpram2pgm("value=", xpl_rx_buffer_shadow, 6) == 0)	{
+			} else if (strncmpram2pgm("current=", xpl_rx_buffer_shadow, 8) == 0)	{
 				// Extract the value to set the PWM to
-				strcpy(input_value, xpl_rx_buffer_shadow+6);
+				strcpy(input_value, xpl_rx_buffer_shadow+8);
 				strlength = strlen(input_value);
 
 				pwm_value = 0;
