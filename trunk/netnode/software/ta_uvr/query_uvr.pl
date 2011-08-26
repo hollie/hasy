@@ -20,7 +20,7 @@ use Net::hostent;
 my $rrd_name = "solar";
 my $rrd_heating_name = "heating";
 
-my $host     = "solarnode";
+my $host     = "192.168.1.23";
 
 # Register ALARM signal
 $SIG{ALRM} = sub { die "timeout" };
