@@ -4,7 +4,7 @@
 <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++        -->
 <config>
 
-<hostname>rfgate</hostname>
+<hostname>192.168.1.24</hostname>
 <hostport>10001   </hostport>
 
 <onewire>

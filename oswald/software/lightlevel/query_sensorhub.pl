@@ -28,13 +28,6 @@ my $config;
 my $socket;
 
 
-
-
-
-
-
-
-
 ########################## MAIN PROGRAM ##########################
 
 # Read the config file
