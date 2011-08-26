@@ -33,10 +33,12 @@ use Net::hostent;
 $SIG{ALRM} = sub { die "timeout" };
 
 # Settings
-my $gateway_host = 'rfgate';			# Host on the network that has light level values
+#my $gateway_host = 'rfgate';			# Host on the network that has light level values
+my $gateway_host = '192.168.1.24';			# Host on the network that has light level values
 my $gateway_port = '10001';				# Port to connect to
 my $state_file   = 'last_command.txt';	# File where the last sent command has been sent to
-my $blinds_host  = 'blindnode';			# Host on the network that controls the blinds
+#my $blinds_host  = 'blindnode';			# Host on the network that controls the blinds
+my $blinds_host  = '192.168.1.21';			# Host on the network that controls the blinds
 my $blinds_port  = '10001';				# Port to connect to on the blind controller
 my $debug        = '0';                 # Set to not '0' to print debug messages and to send the command to the blind controller
 
