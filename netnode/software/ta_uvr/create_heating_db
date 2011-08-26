@@ -1,0 +1,16 @@
+#! /bin/sh
+
+rrdtool create heating.rrd    \
+ --step 60                           \
+ DS:t_return:GAUGE:1800:0:100       \
+ RRA:AVERAGE:0.5:1:20160             \
+ RRA:AVERAGE:0.5:12:3600             \
+ RRA:AVERAGE:0.5:288:1825            \
+ RRA:AVERAGE:0.5:2016:7800           \
+ RRA:MIN:0.5:24:10080                \
+ RRA:MIN:0.5:576:1800                \
+ RRA:MIN:0.5:4032:3900               \
+ RRA:MAX:0.5:24:10080 \
+ RRA:MAX:0.5:576:1800 \
+ RRA:MAX:0.5:4032:3900
+
