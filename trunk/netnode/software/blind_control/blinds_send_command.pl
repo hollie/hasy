@@ -41,7 +41,7 @@ use Pod::Usage;
 $SIG{ALRM} = sub { die "timeout" };
 
 # Settings
-my $blinds_host  = 'blindnode';			# Host on the network that controls the blinds
+my $blinds_host  = '192.168.1.21';			# Host on the network that controls the blinds
 my $blinds_port  = '10001';				# Port to connect to on the blind controller
 my $debug   = 0;
 my $verbose = 0;
