@@ -80,13 +80,16 @@ for my $line ((@$data)) {
 }
 
 
-my $production = generate_months_js();
+my ($production, $today) = generate_months_js();
 
 # Convert prodction to kWh
 $production = floor($production/100)/10;
 
 if ($ftp_password eq "report" ) {
 	print "Total energy produced: $production kWh\n";
+} elsif ($ftp_password eq "pvoutput" ){
+	# Generate the report for the pvoutput update
+	print $today;
 } else {
 	upload_file();
 }
@@ -133,6 +136,7 @@ sub generate_months_js {
 	my ($year, $month, $day);
 	my $total=0;
 	my $last_day = 1;
+	my $production_today = 0;
 	
 	open F, "> months.js" or die "Could not open months.js for writing: $!\n";
 	open I, "> days_hist.js" or die "Could not open days_hist.js for writing: $!\n";
@@ -145,9 +149,13 @@ sub generate_months_js {
 			
 			foreach $day (reverse sort keys %{$log->{$year}->{$month}}){
 				if ($day =~ /\d+/){
-					print I "da[dx++]=\"$day.$month.$year|" . floor($log->{$year}->{$month}->{$day}->{value}) . ";1234\n";
-					print "Production today: " . floor($log->{$year}->{$month}->{$day}->{value}/100)/10 . " kWh\n" if ($last_day and $ftp_password eq "report");
-					$last_day = 0;
+					#print I "da[dx++]=\"$day.$month.$year|" . floor($log->{$year}->{$month}->{$day}->{value}) . ";1234\n";
+					print I "$day/$month/$year," . int($log->{$year}->{$month}->{$day}->{value}) . "\n";
+					if ($last_day) {
+						$production_today = floor($log->{$year}->{$month}->{$day}->{value});
+						print "Production today: " . floor($production_today/100)/10 . " kWh\n" if ($ftp_password eq "report");
+						$last_day = 0;
+					}
 				}
 			}
 		}
@@ -156,7 +164,7 @@ sub generate_months_js {
 	close F;
 	close I;
 	
-	return floor($total);
+	return floor($total), $production_today;
 }
 
 sub init_offsets {
