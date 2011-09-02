@@ -9,6 +9,10 @@
 use strict;
 use POSIX;
 
+# PVOutput Settings
+$system_id = '2358';
+$api_key   = '90834250489189201734971078964523479120875';
+ 
 # Get the production of today
 my $production = `./update_zonnestroomopbrengst.pl pvoutput`;
 
@@ -26,7 +30,7 @@ my $year = 1900 + $yearOffset;
 my $hm  = sprintf("%02i:%02i", $hour, $minute);
 my $ymd  = sprintf("%04i%02i%02i", $year, $month+1, $dayOfMonth);
 
-my $command = "curl -s -d \"d=$ymd\" -d \"t=$hm\" -d\"v1=$production\" -H \"X-Pvoutput-Apikey: 73e6b828203d7d07987d23f89768e08b0e619\" -H \"X-Pvoutput-SystemId: 2358\" http://pvoutput.org/service/r2/addstatus.jsp\n";
+my $command = "curl -s -d \"d=$ymd\" -d \"t=$hm\" -d\"v1=$production\" -H \"X-Pvoutput-Apikey: $api_key\" -H \"X-Pvoutput-SystemId: $system_id\" http://pvoutput.org/service/r2/addstatus.jsp\n";
 #print "Sending: $command\n";
 
 my $post_result = `$command`;
