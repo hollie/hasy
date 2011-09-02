@@ -23,7 +23,7 @@ use Data::Dumper;
 my $vendor_id = 'hollie';                # xPL vendor id of this program
 my $device_id = 'meterlog';              # xPL device id of this program
 my $target    = 'hollie-utilmon.meter';  # Target device name
-my $interval  = 1*60;                   # Time in seconds between two queries.
+my $interval  = 15*60;                   # Time in seconds between two queries.
 
 # Create xPL object
 my $xpl=xPL::Client->new ( vendor_id => $vendor_id, device_id => $device_id );
