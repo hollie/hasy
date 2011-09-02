@@ -23,14 +23,14 @@ use Data::Dumper;
 my $vendor_id = 'hollie';                # xPL vendor id of this program
 my $device_id = 'meterlog';              # xPL device id of this program
 my $target    = 'hollie-utilmon.meter';  # Target device name
-my $interval  = 15*60;                   # Time in seconds between two queries.
+my $interval  = 1*60;                   # Time in seconds between two queries.
 
 # Create xPL object
 my $xpl=xPL::Client->new ( vendor_id => $vendor_id, device_id => $device_id );
 
 # When a message is received, this function will be called
 $xpl->add_xpl_callback(id => "xpl",
-                       self_skip => 1, targetted => 0,
+                       self_skip => 1, targeted => 0,
                        callback => \&parse_response);
                        
 # Query the meter every $interval seconds
@@ -68,9 +68,9 @@ sub parse_response {
 	#print Dumper($msg);
 	
 	if ($msg->message_type eq "xpl-stat" && $msg->class eq "sensor" && $msg->class_type eq "basic" &&
-    	$msg->device && $msg->type eq "count") {
+    	$msg->field('device') && $msg->field('type') eq "count") {
       	#print "Received count for " . $msg->device . " : " . $msg->current . "\n";
-      	publish_reading($msg->device, $msg->current);
+      	publish_reading($msg->field('device'), $msg->field('current'));
 	}	
 
 }
