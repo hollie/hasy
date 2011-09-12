@@ -1,0 +1,10 @@
+#!/bin/bash 
+
+if [ -n "$1" ]
+then
+   echo "Switching circle $1 off..."
+   xpl-sender -c plugwise.basic -m xpl-cmnd command=off device=$1 -w 3
+else
+   echo "Please pass the cicrle id to turn off";
+fi
+
