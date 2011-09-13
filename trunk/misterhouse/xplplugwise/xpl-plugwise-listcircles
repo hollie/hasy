@@ -2,6 +2,6 @@
 #
 # Query the circle+ for known circles
 
-xpl-sender -c plugwise.basic -m xpl-cmnd command=listcircles -w 3
+xpl-sender -c plugwise.basic -m xpl-cmnd command=listcircles -w 10
 
 

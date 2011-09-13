@@ -1,0 +1,10 @@
+#!/bin/bash 
+
+if [ -n "$1" ]
+then
+   echo "Requesting live power info for circle $1..."
+   xpl-sender -c plugwise.basic -m xpl-cmnd command=livepower device=$1 -w 3
+else
+   echo "Please pass the cicrle id to set on";
+fi
+
