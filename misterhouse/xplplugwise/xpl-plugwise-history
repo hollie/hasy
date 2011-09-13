@@ -1,0 +1,10 @@
+#!/bin/bash 
+
+if [ -n "$2" ]
+then
+   echo "Requesting historic power info for circle $1 on address $2..."
+   xpl-sender -c plugwise.basic -m xpl-cmnd command=history device=$1 address=$2 -w 3
+else
+   echo "Please pass the cicrle id to set on";
+fi
+
