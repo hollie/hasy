@@ -22,10 +22,11 @@
 #define FIRMWARE_MAJOR  0x00
 #define FIRMWARE_MINOR  0x00
 
-// Define port directions
-#define PortAConfig  	0xEF  //  1=input
-#define PortBConfig  	0x07  //  1=input 
-#define PortCConfig  	0xDE 	
+// Define port directions 1=input
+#define PortAConfig  	0xEF  //  11101111
+#define PortBConfig  	0x07  //  00000111
+#define PortCConfig  	0xC5  //  11000101 
+ 	
 
 // Define bit variables attached to pins
 #define stat0    (PORTAbits.RA4)
