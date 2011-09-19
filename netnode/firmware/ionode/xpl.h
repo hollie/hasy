@@ -16,8 +16,8 @@
 #define XPL_DEVICE_ID "utilmon"
 
 // VERSION number
-#define XPL_VERSION_MAJOR 4
-#define XPL_VERSION_MINOR 4
+#define XPL_VERSION_MAJOR 5
+#define XPL_VERSION_MINOR 0
 
 // Uncomment the next line to enable PWM output 
 // on PORTC.2

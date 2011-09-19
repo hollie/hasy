@@ -43,8 +43,11 @@ char xpl_node_configuration = 0;            /* mapped with XPL_DEVICE_CONFIGURAT
 
 unsigned char xpl_pwm_value = 0;
 unsigned char xpl_hbeat_sent = 0;
-unsigned char xpl_output_count = 0;
-unsigned char xpl_input_count = 0;
+
+
+
+extern unsigned char output_count;
+unsigned char input_count = 0;
 
 char xpl_trig_register = 0;   /* bit 0 = GAS                              
                                  bit 1 = WATER
@@ -188,10 +191,10 @@ void xpl_send_hbeat(void){
 	printf("pwmout=%i\n", pwm_value);
 #endif
     if (xpl_node_configuration & OUTPUTS_CONFIGURED){
-	    printf("output=%i\n", xpl_output_count);
+	    printf("output=%i\n", output_count);
 	}
 	if (xpl_node_configuration & INPUTS_CONFIGURED){
-	    printf("input=%i\n", xpl_input_count);
+	    printf("input=%i\n", input_count);
 	}    
 	printf("}\n");
 
@@ -303,16 +306,20 @@ void xpl_send_sensor_basic_pwm(enum XPL_MSG_TYPE msg_type) {
 }
 
 void xpl_send_sensor_basic_output(enum XPL_MSG_TYPE msg_type) {
+    char result[4];
+    
 	xpl_print_header(msg_type);
-	printf("sensor.basic\n{\ndevice=output%i\n",xpl_output_id);       
-	printf("type=output\ncurrent=%s\n}\n",output_get_state(xpl_output_id));	
+	printf("sensor.basic\n{\ndevice=output%i\n",xpl_output_id+1);       
+   
+    strcpypgm2ram(result,output_get_state(xpl_output_id));  
+    	
+	printf("type=output\ncurrent=%s\n}\n",result);	
 	return;
 }
 
 void xpl_send_device_current(enum XPL_MSG_TYPE msg_type,enum XPL_DEVICE_TYPE type) {
     unsigned short count = 1; 
    
-    
     switch (type) {
         case GAS:
             if (msg_type == STAT) {
@@ -394,8 +401,8 @@ void xpl_init_instance_id(void) {
 		}
 	}
 	
-	xpl_output_count = eeprom_read(XPL_EEPROM_OUPUTS_COUNT);
-	xpl_input_count = eeprom_read(XPL_EEPROM_INPUTS_COUNT);
+	output_count = eeprom_read(XPL_EEPROM_OUPUTS_COUNT);
+	input_count = eeprom_read(XPL_EEPROM_INPUTS_COUNT);
 }    
 
 //////////////////////////////////////////////////////////
@@ -708,7 +715,7 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
     		    xpl_msg_state = WAITING_CMND;
 		        return ELEC_DEVICE_CURRENT_MSG_TYPE;
     		} else if (strncmpram2pgm("device=output", xpl_rx_buffer_shadow,13) == 0) {
-    		    xpl_output_id = xpl_convert_2_ushort(xpl_rx_buffer_shadow+14);
+    		    xpl_output_id = xpl_convert_2_ushort(xpl_rx_buffer_shadow+13) - 1;
     		    xpl_msg_state = WAITING_CMND;
 		        return OUTPUT_DEVICE_CURRENT_MSG_TYPE;
     		} else {
@@ -723,7 +730,7 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
 				xpl_msg_state = WAITING_CMND;
 				return FLOOD_NETWORK_MSG_TYPE;
     		} else if (strncmpram2pgm("device=output", xpl_rx_buffer_shadow,13) == 0) {    		 
-    		    xpl_output_id = xpl_convert_2_ushort(xpl_rx_buffer_shadow+14);
+    		    xpl_output_id = xpl_convert_2_ushort(xpl_rx_buffer_shadow+13) - 1;
 				xpl_msg_state = WAITING_CMND_CONTROL_OUPUT;				
     		} else if (xpl_rx_buffer_shadow[0] == '{') {
     		    //do nothing
@@ -761,9 +768,9 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
 		    break;
 		
 		case WAITING_CMND_CONTROL_OUPUT_CURRENT:
-		    if (strcmpram2pgm("current=enable", xpl_rx_buffer_shadow) == 0 || strcmpram2pgm("current=high", xpl_rx_buffer_shadow) == 0)	{
+		    if (strcmpram2pgm("current=enable", xpl_rx_buffer_shadow) == 0 || strcmpram2pgm("current=high", xpl_rx_buffer_shadow) == 0 || strcmpram2pgm("current=on", xpl_rx_buffer_shadow) == 0)	{
     		    output_state_enable(xpl_output_id);
-    		} else if (strcmpram2pgm("current=disable", xpl_rx_buffer_shadow) == 0 || strcmpram2pgm("current=low", xpl_rx_buffer_shadow) == 0)	{
+    		} else if (strcmpram2pgm("current=disable", xpl_rx_buffer_shadow) == 0 || strcmpram2pgm("current=low", xpl_rx_buffer_shadow) == 0 || strcmpram2pgm("current=off", xpl_rx_buffer_shadow) == 0)	{
                 output_state_disable(xpl_output_id);
     		} else if (strcmpram2pgm("current=pulse", xpl_rx_buffer_shadow) == 0) {
     		    xpl_msg_state = WAITING_CMND_CONTROL_OUPUT_CURRENT_PULSE;
@@ -807,18 +814,20 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
     		} else if (strncmpram2pgm("newoutput=", xpl_rx_buffer_shadow, 10) == 0) {
     		    xpl_disable_interrupts();
     		    
-    		    xpl_output_count = xpl_convert_2_ushort(xpl_rx_buffer_shadow+10);    		    
-                eeprom_write(XPL_EEPROM_OUPUTS_COUNT, (char)xpl_output_count);
+    		    output_count = xpl_convert_2_ushort(xpl_rx_buffer_shadow+10);    		    
+                eeprom_write(XPL_EEPROM_OUPUTS_COUNT, (char)output_count);
 			    
 			    xpl_enable_interrupts();				
     		} else if (strncmpram2pgm("newinput=", xpl_rx_buffer_shadow, 9) == 0) {
     		    xpl_disable_interrupts();
     		    
-    		    xpl_input_count = xpl_convert_2_ushort(xpl_rx_buffer_shadow+9);
-    		    eeprom_write(XPL_EEPROM_INPUTS_COUNT, (char)xpl_input_count);
+    		    input_count = xpl_convert_2_ushort(xpl_rx_buffer_shadow+9);
+    		    eeprom_write(XPL_EEPROM_INPUTS_COUNT, (char)input_count);
 		        
 		        xpl_enable_interrupts();
-		    } else {
+		    } else if (xpl_rx_buffer_shadow[0] == '{') {
+    		    //do nothing
+            } else {
     		    xpl_msg_state = WAITING_CMND;
     		    
     		    // We don't reset here any more, there are more settings to come!

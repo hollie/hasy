@@ -29,6 +29,7 @@
 #include "oo.h"
 #include "xpl.h"
 #include "eeprom.h"
+#include "output.h"
 
 // Global variables used for message passing between ISR and main code
 // Set time_ticks to 295 so that we send a heartbeat message withing 5 seconds
@@ -60,6 +61,10 @@ void main()
 
 	// Init the xPL library
 	xpl_init();
+	
+
+    // initialise the output board
+	output_init();	
 
 
 	/* // DEBUG 
@@ -150,7 +155,6 @@ void init(void)
 
 	INTCONbits.PEIE     = 1; // Peripheral interrupt enable for USART RX interrupt
 	INTCONbits.GIE      = 1; // Global interrupt enable
-		
 }
 
 
@@ -238,9 +242,11 @@ void high_isr(void){
 			if (debounce_elec == 0  && PORTBbits.RB2 == 0) { 
 				xpl_trig(ELEC);
 			}
-		}		
+		}
+		
+		// check if we do need to change outputs
+		output_handler_timer();
 	}
-
 	return;
 }
 
