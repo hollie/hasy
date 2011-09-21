@@ -231,7 +231,7 @@ void xpl_send_config_end(void){
 //  send the current configuration possibilities of the node to the config manager
 void xpl_send_stat_configuration_capabilities(void){
 	xpl_print_header(STAT);
-	printf("config.list\n{\nreconf=newconf\n}\n");
+	printf("config.list\n{\nreconf=newconf\nreconf=newoutputs\nreconf=newinputs\n}\n");
 	return;
 }
 
@@ -241,7 +241,7 @@ void xpl_send_stat_configuration_capabilities(void){
 //  send the current configuration of the node to the config manager
 void xpl_send_stat_config(void){
 	xpl_print_header(STAT);
-	printf("config.current\n{\nnewconf=%s\n}\n",xpl_instance_id);
+	printf("config.current\n{\nnewconf=%s\nnewoutputs=%i\nnewinputs=%i\n}\n",xpl_instance_id,output_count,input_count);
 	return;
 }
 
@@ -596,6 +596,7 @@ void xpl_handler(void) {
 	return;
 }
 
+
 unsigned short xpl_convert_2_ushort(char* char_value) {
     unsigned short value = 0;
     char lpcount = 0;
@@ -604,7 +605,7 @@ unsigned short xpl_convert_2_ushort(char* char_value) {
     
     strcpy(input_value, char_value);
 	strlength = strlen(input_value);
-
+	
 	while (lpcount < strlength) {
 	    value *= 10;
 		value += (input_value[lpcount]- 0x30);
@@ -616,21 +617,22 @@ unsigned short xpl_convert_2_ushort(char* char_value) {
 
 
 void xpl_enable_interrupts(void){
+    xpl_flow = FLOW_ON;
+	putc(XON, _H_USART);  
+}
+
+void xpl_disable_interrupts(void) {
     // Make sure we're not receiving data right now, as interrupts will be disabled during EEPROM write later in this function
 	if (xpl_flow == FLOW_ON) { 
     	xpl_flow = FLOW_OFF;
 	    putc(XOFF, _H_USART); 
     }
-}
-
-void xpl_disable_interrupts(void) {
-    xpl_flow = FLOW_ON;
-	putc(XON, _H_USART);   
 }        
 
 enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
     char strlength;
     char lpcount = 0;
+    char temp[10];
     
     //printf("\nmp@st%d@flc%d@fd%d@fwp%d@fwr%d@%s",xpl_msg_state,xpl_flow,xpl_rx_fifo_data_count,xpl_rx_fifo_write_pointer,xpl_rx_fifo_read_pointer,xpl_rx_buffer_shadow);
         
@@ -790,13 +792,11 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
 		    break;
 		    
 		case WAITING_CMND_CONFIG_RESPONSE:
+		    		   		  		    	   		    		    
 		    // what we write here depends on the node type, this is not yet generic code :(
 		    // maybe we need to implement here a function from the xpl_impl.c file
 			// For now we just parse the instance_id and put it in EEPROM
-		    if (strncmpram2pgm("newconf=", xpl_rx_buffer_shadow, 8) == 0) {    		    				
-				// We are about to change our ID here, so send an end message to notify the network
-				xpl_send_config_end();
-
+		    if (strncmpram2pgm("newconf=", xpl_rx_buffer_shadow, 8) == 0) {      		    								
     		    // Copy the new instance id to the correct variable
     		    strcpy(xpl_instance_id,xpl_rx_buffer_shadow + 8);
 				// Put the new instance id name in EEPROM so that it retains value after a power cycle
@@ -810,31 +810,40 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
 				// End with a '\0' in EEPROM
 				eeprom_write(lpcount+XPL_EEPROM_INSTANCE_ID_OFFSET, 0x00);
 								    		       		        		    
-			    xpl_enable_interrupts();    		       		  
-    		} else if (strncmpram2pgm("newoutput=", xpl_rx_buffer_shadow, 10) == 0) {
-    		    xpl_disable_interrupts();
-    		    
-    		    output_count = xpl_convert_2_ushort(xpl_rx_buffer_shadow+10);    		    
-                eeprom_write(XPL_EEPROM_OUPUTS_COUNT, (char)output_count);
-			    
+			    xpl_enable_interrupts(); 
+			       		       		  
+    		} else if (strncmpram2pgm("newoutputs=", xpl_rx_buffer_shadow, 11) == 0) {
+    	    		        		    
+    		    // we have maybe an issue here short to char conversion    		    
+    		    output_count = xpl_convert_2_ushort(xpl_rx_buffer_shadow+11);    		    
+                
+                xpl_disable_interrupts();
+                eeprom_write(XPL_EEPROM_OUPUTS_COUNT, output_count);			    
 			    xpl_enable_interrupts();				
-    		} else if (strncmpram2pgm("newinput=", xpl_rx_buffer_shadow, 9) == 0) {
-    		    xpl_disable_interrupts();
+    		} else if (strncmpram2pgm("newinputs=", xpl_rx_buffer_shadow, 10) == 0) {    	    		    
     		    
-    		    input_count = xpl_convert_2_ushort(xpl_rx_buffer_shadow+9);
-    		    eeprom_write(XPL_EEPROM_INPUTS_COUNT, (char)input_count);
-		        
-		        xpl_enable_interrupts();
-		    } else if (xpl_rx_buffer_shadow[0] == '{') {
-    		    //do nothing
-            } else {
+    		    input_count = xpl_convert_2_ushort(xpl_rx_buffer_shadow+10);
+    		    
+    		    xpl_disable_interrupts();
+    		    eeprom_write(XPL_EEPROM_INPUTS_COUNT, input_count);		        
+		        xpl_enable_interrupts();		    
+            } else if (xpl_rx_buffer_shadow[0] == '}'){
     		    xpl_msg_state = WAITING_CMND;
     		    
+    		    //for some reason we are not reaching this code, if you disable eeprom writing it works
+    		    // problem seems to be that interupts are not disabled during eeprom writing
+    		    // need to check with lieven
+    		    
+    		    // We are about to change our ID here, so send an end message to notify the network
+				xpl_send_config_end();
+				
     		    // We don't reset here any more, there are more settings to come!
 				// Reset the xpl function to apply the new name
 				// Buffer content gets lost here, but we don't mind as we need to start again
 				xpl_init_instance_id();
-    		    
+				
+				PORTAbits.RA4 = 0;  
+                   							
     		    return HEARTBEAT_MSG_TYPE;
     		}
     		
