@@ -15,12 +15,15 @@ wait 1000 ms
 0A
 "{"
 0A
-"newconf=stimulis.dbu.ok"
+"newconf=s.dbu.ok"
 0A
-"newoutput=64"
+wait 100 ms
+"newoutputs=64"
 0A
-"newinput=8"
+wait 100 ms
+"newinputs=8"
 0A
+wait 100 ms
 "}"
 0A
 wait 500 ms

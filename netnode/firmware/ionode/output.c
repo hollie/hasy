@@ -102,7 +102,10 @@ void output_state_toggle(unsigned char id) {
 void output_handler_timer(void) {
     char i = 0;
     
+    // flash the green led when output is enabled
+    PORTAbits.RA4 = 1;
     if (output_up_state_count > 0) {
+        PORTAbits.RA4 = 0;  
         for (i=output_up_state_count-1; i>=0; i--) {
             if (output_up_state[i].counter == 1) {
                 output_state_disable(output_up_state[i].id);              
@@ -122,8 +125,10 @@ void output_handler_timer(void) {
 // return should be bit type
 const char* output_get_state(unsigned char id) {
     unsigned char i=0;
-      
+    
+    
     for (i=0;i<output_up_state_count;i++) {
+         
         if (output_up_state[i].id == id && output_up_state[i].counter > 0) {
             request_busy = 0;
             return "on";
