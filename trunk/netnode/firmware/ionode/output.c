@@ -126,14 +126,11 @@ void output_handler_timer(void) {
 const char* output_get_state(unsigned char id) {
     unsigned char i=0;
     
-    
-    for (i=0;i<output_up_state_count;i++) {
-         
+    for (i=0;i<output_up_state_count;i++) {         
         if (output_up_state[i].id == id && output_up_state[i].counter > 0) {
             request_busy = 0;
             return "on";
         }           
-    }       
-        
+    }               
     return "off";
 }    

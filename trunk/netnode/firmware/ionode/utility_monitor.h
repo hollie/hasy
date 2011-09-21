@@ -12,8 +12,6 @@
 #ifndef _UTILMONI_H_
 #define _UTILMONI_H_
 
-//#include <system.h>
-
 // Define oscillator frequency
 //#pragma CLOCK_FREQ 8000000
 
