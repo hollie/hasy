@@ -15,11 +15,11 @@
 #include <limits.h>
 #include <timers.h>
 #include <pwm.h>
+#include <string.h>
 
 #include "xpl.h"
 #include "oo.h"
 #include "eeprom.h"
-#include "string.h"
 #include "output.h"
 
 signed   char xpl_rx_fifo_write_pointer;
@@ -172,9 +172,6 @@ void xpl_print_header(enum XPL_MSG_TYPE type){
 	printf("\n{\nhop=1\nsource=hollie-");
     printf(XPL_DEVICE_ID);	
 	printf(".%s\ntarget=*\n}\n",xpl_instance_id);
-
-	//xpl_rate_limiter = time_ticks;
-
 }
 
 //////////////////////////////////////////////////////////
@@ -616,9 +613,12 @@ unsigned short xpl_convert_2_ushort(char* char_value) {
 
 
 
-void xpl_enable_interrupts(void){
+void xpl_enable_interrupts(void){    
     xpl_flow = FLOW_ON;
 	putc(XON, _H_USART);  
+	
+	// enable interrups this was added but is not helping
+    //INTCONbits.GIE = 1;
 }
 
 void xpl_disable_interrupts(void) {
@@ -626,14 +626,27 @@ void xpl_disable_interrupts(void) {
 	if (xpl_flow == FLOW_ON) { 
     	xpl_flow = FLOW_OFF;
 	    putc(XOFF, _H_USART); 
+	    
+	    // enable interrups this was added but is not helping
+        //INTCONbits.GIE = 0;
     }
 }        
 
 enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
     char strlength;
     char lpcount = 0;
-    char temp[10];
+    /*char temp[15];
     
+    // TEST CODE
+    if (xpl_msg_state > 2) { 
+        strncpy(temp,xpl_rx_buffer_shadow,14);
+        temp[14] = '\0';
+    
+        xpl_print_header(TRIG);
+                    printf("sensor.basic\n{\ndevice=tst");
+                    printf("\ntype=count\ncurrent=%s\n}\n",temp);
+    }*/
+	        
     //printf("\nmp@st%d@flc%d@fd%d@fwp%d@fwr%d@%s",xpl_msg_state,xpl_flow,xpl_rx_fifo_data_count,xpl_rx_fifo_write_pointer,xpl_rx_fifo_read_pointer,xpl_rx_buffer_shadow);
         
     switch (xpl_msg_state) {
@@ -651,7 +664,7 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
 			} else if (strncmpram2pgm("target=hollie-utilmon.", xpl_rx_buffer_shadow, XPL_TARGET_VENDOR_DEVICEID_INSTANCE_ID_OFFSET)==0){
 				if (strcmp(xpl_instance_id, xpl_rx_buffer_shadow + XPL_TARGET_VENDOR_DEVICEID_INSTANCE_ID_OFFSET) == 0){
 					// bingo message if for us
-				    xpl_msg_state = WAITING_CMND_TYPE;
+				    xpl_msg_state = WAITING_CMND_TYPE;				    				    				    				  				    
 				} else {
 					// Too bad, message is not for us. Wait for the next one
 					xpl_msg_state = WAITING_CMND;
@@ -786,6 +799,9 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
 		case WAITING_CMND_CONTROL_OUPUT_CURRENT_PULSE:
 		    if (strncmpram2pgm("data1=", xpl_rx_buffer_shadow,6) == 0) {
     		    output_state_pulse(xpl_output_id,xpl_convert_2_ushort(xpl_rx_buffer_shadow+6));
+    		    
+    		    // end of command, blink lite for debugging
+    		    PORTAbits.RA4 = 0;
     		} else {
     		    xpl_msg_state = WAITING_CMND;
     		} 
@@ -842,6 +858,7 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
 				// Buffer content gets lost here, but we don't mind as we need to start again
 				xpl_init_instance_id();
 				
+			    // end of command, blink lite for debugging
 				PORTAbits.RA4 = 0;  
                    							
     		    return HEARTBEAT_MSG_TYPE;
