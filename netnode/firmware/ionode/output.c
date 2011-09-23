@@ -133,7 +133,7 @@ void output_state_pulse(unsigned char id, unsigned short duration) {  // duratio
     output_state_enable(id);    
     // Timer will set output back to 0 see output_handler_timer function
  
-    if (output_up_state_count < OUTPUT_MAX_PARALLEL_IDS) {
+    if (output_up_state_count < OUTPUT_MAX_PARALLEL_IDS && id <= output_count) {
         output_up_state[output_up_state_count].id = id;
         output_up_state[output_up_state_count].counter = duration/20 + 1;  // timer to disable is set to 20ms
         
