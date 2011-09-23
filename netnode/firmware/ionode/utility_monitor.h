@@ -5,7 +5,7 @@
 **************************************************************
 * boostc compiler : v 6.81
 * target device   : PIC18F2320
-* clockfreq       : 8 MHz (internal oscillator)
+* clockfreq       : 32 MHz (internal oscillator)
 * target hardware : NetNode
 * UART speed      : 38400 bps
 *************************************************************/
@@ -27,7 +27,11 @@
  	
 
 // Define bit variables attached to pins
-#define stat0    (PORTAbits.RA4)
+#define green_led    (PORTAbits.RA4)
+
+#define LED_ON 0
+#define LED_OFF 1
+
 
 // Timer values
 #define TMR0_VALUE 0x85EE // For a second interrupt.

@@ -730,7 +730,7 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
     		    xpl_msg_state = WAITING_CMND;
 		        return ELEC_DEVICE_CURRENT_MSG_TYPE;
     		} else if (strncmpram2pgm("device=output", xpl_rx_buffer_shadow,13) == 0) {
-    		    xpl_output_id = xpl_convert_2_ushort(xpl_rx_buffer_shadow+13) - 1;
+    		    xpl_output_id = xpl_convert_2_ushort(xpl_rx_buffer_shadow+13);
     		    xpl_msg_state = WAITING_CMND;
 		        return OUTPUT_DEVICE_CURRENT_MSG_TYPE;
     		} else {
@@ -745,7 +745,7 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
 				xpl_msg_state = WAITING_CMND;
 				return FLOOD_NETWORK_MSG_TYPE;
     		} else if (strncmpram2pgm("device=output", xpl_rx_buffer_shadow,13) == 0) {    		 
-    		    xpl_output_id = xpl_convert_2_ushort(xpl_rx_buffer_shadow+13) - 1;
+    		    xpl_output_id = xpl_convert_2_ushort(xpl_rx_buffer_shadow+13);
 				xpl_msg_state = WAITING_CMND_CONTROL_OUPUT;				
     		} else if (xpl_rx_buffer_shadow[0] == '{') {
     		    //do nothing

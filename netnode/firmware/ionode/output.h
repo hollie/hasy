@@ -15,7 +15,7 @@ void output_handler_timer(void);
 const  char* output_get_state(unsigned char id);
 
 
-#define OUTPUT_MAX_PARALLEL_IDS 10
+#define OUTPUT_MAX_PARALLEL_IDS 65
 
 #define output_data PORTCbits.RC1
 #define output_clk  PORTCbits.RC3
@@ -26,6 +26,7 @@ const  char* output_get_state(unsigned char id);
 #define input_clk  PORTCbits.RC3
 #define input_ps   PORTCbits.RC4
 
-
+#define OUTPUT_ON 1
+#define OUTPUT_OFF 0
 
 #endif // _OUTPUT_H_
