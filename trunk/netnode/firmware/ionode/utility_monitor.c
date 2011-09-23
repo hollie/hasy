@@ -49,6 +49,8 @@ volatile unsigned char debounce_elec;
 // * monitor port pins for falling edges, debounce them and increment counter if required
 void main()
 {
+    char blink_count = 0;
+    
 	/*
 	// Test code: set an initial ID in the EEPROM so that we don't have to configure the node
 	eeprom_write(0x00, 'A');
@@ -66,6 +68,13 @@ void main()
     // initialise the output board
 	output_init();	
 
+    // Do the status LED flicker
+	/*while (blink_count++ < 5){
+		Delay10KTCYx(50);
+		green_led = LED_ON;
+		Delay10KTCYx(50);
+		green_led = LED_OFF;
+	}*/
 
 	/* // DEBUG 
 	if (oo_get_devicecount()){
@@ -85,9 +94,6 @@ void main()
 // Hardware initialisation routine
 void init(void) 
 {
-	
-	char blink_count = 0;
-
 	// Oscillator selection
 	OSCCONbits.IRCF0 = 1;
 	OSCCONbits.IRCF1 = 1;
@@ -110,14 +116,6 @@ void init(void)
 			USART_CONT_RX & 
 			USART_BRGH_HIGH, 
 			51);
-
-	// Do the status LED flicker
-	while (blink_count++ < 5){
-		Delay10KTCYx(50);
-		stat0 = 0;
-		Delay10KTCYx(50);
-		stat0 = 1;
-	}
 	
 	// Enable the main 1-sec timer that will interrupt every second
 	OpenTimer0(TIMER_INT_ON & 
@@ -187,7 +185,7 @@ void high_isr(void){
 	if (INTCONbits.INT0IF==1){
 		debounce_water = 2;
 		INTCONbits.INT0IF = 0;
-		stat0 = 0;
+		green_led = LED_ON;
 		return;
 	}
 
@@ -195,7 +193,7 @@ void high_isr(void){
 	if (INTCON3bits.INT1IF==1){
 		debounce_gas = 2;
 		INTCON3bits.INT1IF = 0;
-		stat0 = 0;
+		green_led = LED_ON;
 		return;
 	}
 
@@ -203,7 +201,7 @@ void high_isr(void){
 	if (INTCON3bits.INT2IF==1){
 		debounce_elec = 2;
         INTCON3bits.INT2IF = 0;
-		stat0 = 0;
+		green_led = LED_ON;
         return;
 	}
 
@@ -222,7 +220,7 @@ void high_isr(void){
 		// Check if we need to handle a debounce
 		if (debounce_water)	{
 			debounce_water--;
-			stat0 = 1;
+			green_led = LED_OFF;
 			if (debounce_water == 0 && PORTBbits.RB0 == 0) { 
 				xpl_trig(WATER); 
 			}
@@ -230,7 +228,7 @@ void high_isr(void){
 		
 		if (debounce_gas) { 
 			debounce_gas--;
-			stat0 = 1;
+			green_led = LED_OFF;
 			if (debounce_gas == 0   && PORTBbits.RB1 == 0) { 
 				xpl_trig(GAS);
 			}
@@ -238,7 +236,7 @@ void high_isr(void){
 
 		if (debounce_elec) {
 			debounce_elec--;
-			stat0 = 1;
+			green_led = LED_OFF;
 			if (debounce_elec == 0  && PORTBbits.RB2 == 0) { 
 				xpl_trig(ELEC);
 			}

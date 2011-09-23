@@ -14,6 +14,8 @@
 #include <usart.h>
 #include <delays.h>
 
+#include "utility_monitor.h"
+
 volatile unsigned char request_busy=0;
 
 unsigned char output_count = 0;   // number outputs on the extension board - value initialised by eeprom value
@@ -31,49 +33,93 @@ void write(unsigned char id, unsigned char enabled) {
     char o = 0; // number of output up states
     unsigned char cal_output_data=0;
     
-    if (id < output_count && request_busy == 0) { 
+    if (id <= output_count && request_busy == 0) { 
         request_busy = 1;       
-        output_clk = 0;        
-        output_str = 0;     
-        Delay10TCYx(4);   // delay 1.25탎
-        
-        for (i=0; i<output_count; i++) {
+        output_clk = OUTPUT_OFF;        
+                      
+        for (i=output_count; i>0; i--) {
             if (i == id) {
                 output_data = enabled;
             } else {
                 if (output_up_state_count > 0) {
-                    cal_output_data=0;
+                    cal_output_data = OUTPUT_OFF;
                     for (o=0;o<output_up_state_count;o++) {
                         if (output_up_state[o].id == i && output_up_state[o].counter > 0) {
-                            cal_output_data=1;   
+                            cal_output_data = OUTPUT_ON;   
                             break;
                         }           
                     }
                     output_data = cal_output_data;
                 } else {
-                    output_data = 0;
+                    output_data = OUTPUT_OFF;
                 }                            
-            }   
-            Delay10TCYx(4);   // delay 1.25탎            
-            output_clk = 1; 
-            Delay10TCYx(4);   // delay 1.25탎
-            output_clk = 0;
+            }                     
+            Delay10TCYx(1);   // delay 312ns      
+            output_clk = OUTPUT_ON; 
+            Delay10TCYx(1);   // delay 312ns
+            //Delay1KTCYx(32);   // delay 1ms
+            output_clk = OUTPUT_OFF;
+            Delay10TCYx(1);   // delay 312ns      
         }    
-        output_data = 0;         
-        output_str = 1;
-        Delay10TCYx(4);   // delay 1.25탎
-        output_str = 0;      
-        request_busy = 0; 
+        output_data = OUTPUT_OFF;                                 
+        request_busy = 0;        
     }
+    output_str = OUTPUT_ON;      
+    Delay10TCYx(1);   // delay 312ns
+    //Delay1KTCYx(32);   // delay 1ms
+    output_str = OUTPUT_OFF;
+}  
+void write_all_enabled() {
+    char i = 0; // output_bits
+    char o = 0; // number of output up states
+    
+    
+        request_busy = 1;       
+        output_clk = OUTPUT_OFF;        
+                      
+        for (i=output_count; i>0; i--) {
+            output_data = 1;
+            
+            Delay10TCYx(1);   // delay 312ns      
+            output_clk = OUTPUT_ON; 
+            Delay10TCYx(1);   // delay 312ns
+            //Delay1KTCYx(32);   // delay 1ms
+            output_clk = OUTPUT_OFF;
+            Delay10TCYx(1);   // delay 312ns
+            //Delay1KTCYx(32);   // delay 
+        }    
+        output_data = OUTPUT_OFF;                                 
+        request_busy = 0;        
+    
+    output_str = OUTPUT_ON;      
+    Delay10TCYx(1);   // delay 312ns
+    //Delay1KTCYx(32);   // delay 1ms
+    output_str = OUTPUT_OFF;
 }  
 
 void output_init(void) {
-    // get the number of IC on the board
-    unsigned char nr_ics = output_count/8;
-    
-    output_str = 0;
+    char count = 0;
+    output_str = OUTPUT_OFF;  
+    output_data = OUTPUT_OFF;  
+    output_clk = OUTPUT_OFF;  
     
     output_state_disable(0);
+    
+    while (count++ < output_count/8){		
+		green_led = LED_ON;
+		Delay10KTCYx(250);
+		green_led = LED_OFF;
+		Delay10KTCYx(250);
+	}    
+	
+	// DEBUG set all outputs enabled	
+	//write_all_enabled();
+    
+
+	green_led = LED_ON;
+	Delay10KTCYx(250); 		
+	Delay10KTCYx(250); 		
+	green_led = LED_OFF;
 }    
 
 void output_state_enable(unsigned char id) {  
@@ -103,9 +149,9 @@ void output_handler_timer(void) {
     char i = 0;
     
     // flash the green led when output is enabled
-    PORTAbits.RA4 = 1;
+    green_led = LED_OFF;
     if (output_up_state_count > 0) {
-        PORTAbits.RA4 = 0;  
+        green_led = LED_ON;
         for (i=output_up_state_count-1; i>=0; i--) {
             if (output_up_state[i].counter == 1) {
                 output_state_disable(output_up_state[i].id);              
@@ -127,8 +173,7 @@ const char* output_get_state(unsigned char id) {
     unsigned char i=0;
     
     for (i=0;i<output_up_state_count;i++) {         
-        if (output_up_state[i].id == id && output_up_state[i].counter > 0) {
-            request_busy = 0;
+        if (output_up_state[i].id == id && output_up_state[i].counter > 0) {           
             return "on";
         }           
     }               
