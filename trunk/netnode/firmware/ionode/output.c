@@ -129,15 +129,29 @@ void output_state_disable(unsigned char id) {
     write(id,0);
 }   
 void output_state_pulse(unsigned char id, unsigned short duration) {  // duration comes in msec
-        
+    unsigned char i = 0;
+    unsigned char found = 0;
+    
     output_state_enable(id);    
     // Timer will set output back to 0 see output_handler_timer function
  
     if (output_up_state_count < OUTPUT_MAX_PARALLEL_IDS && id <= output_count) {
-        output_up_state[output_up_state_count].id = id;
-        output_up_state[output_up_state_count].counter = duration/20 + 1;  // timer to disable is set to 20ms
         
-        output_up_state_count++;
+        // look if ths one is already enabled
+        for (i=0; i < output_up_state_count; i++) {
+            if (output_up_state[output_up_state_count].id == id) {
+                // reset timing
+                output_up_state[output_up_state_count].counter = duration/20 + 1;  // timer to disable is set to 20ms
+                found = 1;
+                break;
+            }    
+        }    
+        if (found == 0) {
+            output_up_state[output_up_state_count].id = id;
+            output_up_state[output_up_state_count].counter = duration/20 + 1;  // timer to disable is set to 20ms
+        
+            output_up_state_count++;
+        }    
     }
 }   
 void output_state_toggle(unsigned char id) {
