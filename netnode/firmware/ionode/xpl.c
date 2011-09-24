@@ -100,7 +100,8 @@ enum XPL_CMD_MSG_TYPE_RSP {HEARTBEAT_MSG_TYPE = 0,              \\
                            ELEC_DEVICE_CURRENT_MSG_TYPE,        \\
 						   PWM_CURRENT_MSG_TYPE,                \\
 						   FLOOD_NETWORK_MSG_TYPE,              \\
-						   OUTPUT_DEVICE_CURRENT_MSG_TYPE               \\
+						   OUTPUT_DEVICE_CURRENT_MSG_TYPE,      \\
+						   OUTPUT_ACK_MSG_TYPE                  \\
                            };
 
 enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void);
@@ -294,6 +295,12 @@ void xpl_send_sensor_basic_temperature(enum XPL_MSG_TYPE msg_type, unsigned char
 
 	return;
 }
+
+void xpl_send_output_ack(void) {
+    xpl_print_header(STAT);
+	printf("control.basic\n{\ncurrent=ack\n}\n");	
+	return;
+}    
 
 void xpl_send_sensor_basic_pwm(enum XPL_MSG_TYPE msg_type) {
 	xpl_print_header(msg_type);
@@ -526,6 +533,9 @@ void xpl_handler(void) {
 						xpl_send_device_current(STAT, PWM);
  					}
 					break;
+			    case OUTPUT_ACK_MSG_TYPE:
+			        xpl_send_output_ack();
+			        break;
 				default:
 					break;
     		}    
@@ -785,12 +795,15 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
 		case WAITING_CMND_CONTROL_OUPUT_CURRENT:
 		    if (strcmpram2pgm("current=enable", xpl_rx_buffer_shadow) == 0 || strcmpram2pgm("current=high", xpl_rx_buffer_shadow) == 0 || strcmpram2pgm("current=on", xpl_rx_buffer_shadow) == 0)	{
     		    output_state_enable(xpl_output_id);
+    		    return OUTPUT_ACK_MSG_TYPE;
     		} else if (strcmpram2pgm("current=disable", xpl_rx_buffer_shadow) == 0 || strcmpram2pgm("current=low", xpl_rx_buffer_shadow) == 0 || strcmpram2pgm("current=off", xpl_rx_buffer_shadow) == 0)	{
                 output_state_disable(xpl_output_id);
+                return OUTPUT_ACK_MSG_TYPE;
     		} else if (strcmpram2pgm("current=pulse", xpl_rx_buffer_shadow) == 0) {
     		    xpl_msg_state = WAITING_CMND_CONTROL_OUPUT_CURRENT_PULSE;
     		} else if (strcmpram2pgm("current=toggle", xpl_rx_buffer_shadow) == 0) {
                 output_state_toggle(xpl_output_id);
+                return OUTPUT_ACK_MSG_TYPE;
     		} else {
     		    xpl_msg_state = WAITING_CMND;    
     		}    
@@ -798,10 +811,8 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
 		    
 		case WAITING_CMND_CONTROL_OUPUT_CURRENT_PULSE:
 		    if (strncmpram2pgm("data1=", xpl_rx_buffer_shadow,6) == 0) {
-    		    output_state_pulse(xpl_output_id,xpl_convert_2_ushort(xpl_rx_buffer_shadow+6));
-    		    
-    		    // end of command, blink lite for debugging
-    		    PORTAbits.RA4 = 0;
+    		    output_state_pulse(xpl_output_id,xpl_convert_2_ushort(xpl_rx_buffer_shadow+6));    		    
+    		    return OUTPUT_ACK_MSG_TYPE;    		    
     		} else {
     		    xpl_msg_state = WAITING_CMND;
     		} 
