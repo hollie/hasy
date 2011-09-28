@@ -111,10 +111,6 @@ void output_init(void) {
 		green_led = LED_OFF;
 		Delay10KTCYx(250);
 	}    
-	
-	// DEBUG set all outputs enabled	
-	//write_all_enabled();
-    
 
 	green_led = LED_ON;
 	Delay10KTCYx(250); 		

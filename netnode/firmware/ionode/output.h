@@ -21,11 +21,6 @@ const  char* output_get_state(unsigned char id);
 #define output_clk  PORTCbits.RC3
 #define output_str  PORTCbits.RC5
 
-// move to input
-#define input_data PORTCbits.RC0
-#define input_clk  PORTCbits.RC3
-#define input_ps   PORTCbits.RC4
-
 #define OUTPUT_ON 1
 #define OUTPUT_OFF 0
 

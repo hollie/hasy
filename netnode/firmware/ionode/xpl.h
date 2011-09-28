@@ -1,12 +1,11 @@
 /*************************************************************
 * xPL library
 *
-* (c) 2009
-* Authors: Lieven Hollevoet
-*          Dirk Buekenhoudt
+* (c) 2011
+* Authors: Dirk Buekenhoudt
 **************************************************************
 * target device   : PIC18F2320
-* clockfreq       : 8 MHz (internal oscillator)
+* clockfreq       : 32 MHz (internal oscillator)
 * target hardware : NetNode
 *************************************************************/
 #ifndef _XPL_H_
@@ -42,7 +41,8 @@ enum XPL_DEVICE_TYPE      {GAS = 1,     \\
 						   TEMP = 8,    \\
 						   PWM = 16,    \\
 						   OUTPUT = 32, \\
-						   INPUT = 64   \\
+						   INPUT = 64,   \\
+						   WRITE_EEPROM = 128   \\
                            };
 
 enum XPL_DEVICE_CONFIGURATION     {NODE_CONFIGURED = 1,     \\

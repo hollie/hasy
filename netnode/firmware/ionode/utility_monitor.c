@@ -30,6 +30,7 @@
 #include "xpl.h"
 #include "eeprom.h"
 #include "output.h"
+#include "input.h"
 
 // Global variables used for message passing between ISR and main code
 // Set time_ticks to 295 so that we send a heartbeat message withing 5 seconds
@@ -41,6 +42,10 @@ volatile unsigned char debounce_water;
 volatile unsigned char debounce_gas;
 volatile unsigned char debounce_elec;
 
+extern unsigned char xpl_trig_register;
+extern unsigned char output_count;
+extern unsigned char input_count;
+
 //////////////////////////////////////////////////////////////////
 // Main loop
 // Program strategy:
@@ -51,13 +56,6 @@ void main()
 {
     char blink_count = 0;
     
-	/*
-	// Test code: set an initial ID in the EEPROM so that we don't have to configure the node
-	eeprom_write(0x00, 'A');
-	eeprom_write(0x01, 'F');
-	eeprom_write(0x02, '\0');
-	*/
-	
 	// Hardware initialisation
 	init();
 
@@ -69,12 +67,12 @@ void main()
 	output_init();	
 
     // Do the status LED flicker
-	/*while (blink_count++ < 5){
+	while (blink_count++ < (output_count/8 + input_count/8)){
 		Delay10KTCYx(50);
 		green_led = LED_ON;
 		Delay10KTCYx(50);
 		green_led = LED_OFF;
-	}*/
+	}
 
 	/* // DEBUG 
 	if (oo_get_devicecount()){
@@ -86,7 +84,7 @@ void main()
 
 	while (1){
 		// Call the xPL message handler
-		xpl_handler();
+		xpl_handler();			
 	}
 }
 
@@ -180,6 +178,8 @@ void high_isr(void){
 		PIR1bits.RCIF = 0;
 		return;
 	}
+	
+	// TODO: calculate depending on the USART speed how much assembler instruction may be executed after this point to not loose any data
 
 	/* RB0 INTERRUPT HANDLING */
 	if (INTCONbits.INT0IF==1){
@@ -210,7 +210,7 @@ void high_isr(void){
 		WriteTimer0(TMR0_VALUE);		// Reprogram timer
    		INTCONbits.TMR0IF=0;         	// Clear interrupt flag
 		time_ticks++;
-		time_ticks_oo++;
+		time_ticks_oo++;				
  	}
 
 	/* TIMER 1 INTERRUPT HANDLING */
@@ -219,31 +219,30 @@ void high_isr(void){
 		PIR1bits.TMR1IF=0;
 		// Check if we need to handle a debounce
 		if (debounce_water)	{
-			debounce_water--;
-			green_led = LED_OFF;
-			if (debounce_water == 0 && PORTBbits.RB0 == 0) { 
-				xpl_trig(WATER); 
+			debounce_water--;			
+			if (debounce_water == 0 && PORTBbits.RB0 == 0) {
+				xpl_trig_register |= WATER;
+				green_led = LED_OFF;
 			}
 		}
 		
 		if (debounce_gas) { 
-			debounce_gas--;
-			green_led = LED_OFF;
+			debounce_gas--;			
 			if (debounce_gas == 0   && PORTBbits.RB1 == 0) { 
-				xpl_trig(GAS);
+				xpl_trig_register |= GAS;
+				green_led = LED_OFF;
 			}
 		}
 
 		if (debounce_elec) {
 			debounce_elec--;
-			green_led = LED_OFF;
-			if (debounce_elec == 0  && PORTBbits.RB2 == 0) { 
-				xpl_trig(ELEC);
+			if (debounce_elec == 0  && PORTBbits.RB2 == 0) { 								
+				xpl_trig_register |= ELEC;
+				green_led = LED_OFF;
 			}
-		}
-		
-		// check if we do need to change outputs
-		output_handler_timer();
+		}		
+		xpl_trig_register |= OUTPUT;
+		xpl_trig_register |= INPUT;		
 	}
 	return;
 }
