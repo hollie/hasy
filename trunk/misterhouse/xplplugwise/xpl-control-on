@@ -1,0 +1,10 @@
+#!/bin/bash 
+
+if [ -n "$1" ]
+then
+   echo "Switching circle $1 on using control.basic..."
+   xpl-sender -c control.basic -m xpl-cmnd current=enable device=$1 type=output -w 3
+else
+   echo "Please pass the cicrle id to turn on";
+fi
+

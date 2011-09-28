@@ -1,0 +1,10 @@
+#!/bin/bash 
+
+if [ -n "$1" ]
+then
+   echo "Switching circle $1 off using control.basic..."
+   xpl-sender -c control.basic -m xpl-cmnd current=disable device=$1 type=output -w 3
+else
+   echo "Please pass the cicrle id to turn off";
+fi
+
