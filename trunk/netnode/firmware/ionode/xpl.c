@@ -571,6 +571,8 @@ void xpl_handler(void) {
  					}
 					break;
 			    case OUTPUT_ACK_MSG_TYPE:
+			        // This send ack has been implemented to make sure each request to the node is acked back to the requestor
+			        // Note: this message is not in line with XPL_PROJECT definitions			        
 			        xpl_send_output_ack();
 			        break;
 				default:
