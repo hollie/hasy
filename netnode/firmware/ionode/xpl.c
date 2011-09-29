@@ -85,9 +85,6 @@ enum XPL_PARSE_TYPE {   WAITING_CMND = 0,                   \\
                         
 enum XPL_PARSE_TYPE xpl_msg_state;
 
-// Used by the print_header function.
-enum XPL_MSG_TYPE {STAT, TRIG};
-
 enum XPL_CMD_MSG_TYPE_RSP {HEARTBEAT_MSG_TYPE = 0,              \\
                            CONFIGURATION_CAPABILITIES_MSG_TYPE, \\
                            CONFIG_STATUS_MSG_TYPE,              \\
@@ -239,6 +236,20 @@ void xpl_send_stat_config(void){
 	return;
 }
 
+void xpl_send_sensor_basic_input(enum XPL_MSG_TYPE msg_type,const rom far char* device, unsigned char id, unsigned short count) {
+    xpl_print_header(msg_type);
+    printf("sensor.basic\n{\ndevice=");
+    printf(device);
+    printf("%i",id);
+    if (count == 1) {
+        printf("\ntype=input\ncurrent=HIGH\n}\n");
+    } else {
+        printf("\ntype=input\ncurrent=LOW\n}\n");
+    }    
+
+	return;
+}
+
 void xpl_send_sensor_basic(enum XPL_MSG_TYPE msg_type,const rom far char* device, unsigned short count) {
     xpl_print_header(msg_type);
     printf("sensor.basic\n{\ndevice=");
@@ -246,7 +257,7 @@ void xpl_send_sensor_basic(enum XPL_MSG_TYPE msg_type,const rom far char* device
     printf("\ntype=count\ncurrent=%u\n}\n",count);
 
 	return;
-}    
+}
 
 void xpl_send_sensor_basic_temperature(enum XPL_MSG_TYPE msg_type, unsigned char index) {
 
@@ -598,27 +609,30 @@ void xpl_handler(void) {
 			if (xpl_trig_register != 0 /*&&  == 1 /* last && is for test only */) {
     			if (xpl_trig_register & GAS) {        			        			
         		    xpl_send_device_current(TRIG,GAS);
-        		    xpl_trig_register &= !GAS;
-                } else if (xpl_trig_register & WATER) {
+        		    xpl_trig_register ^= GAS;
+                } 
+                if (xpl_trig_register & WATER) {
         		    xpl_send_device_current(TRIG,WATER);
-        		    xpl_trig_register &= !WATER;
-        		} else if (xpl_trig_register & ELEC) {
+        		    xpl_trig_register ^= WATER;
+        		} 
+        		if (xpl_trig_register & ELEC) {
         		    xpl_send_device_current(TRIG,ELEC);	
-        		    xpl_trig_register &= !ELEC; 
-        		} else if (xpl_trig_register & OUTPUT) {
+        		    xpl_trig_register ^= ELEC; 
+        		} 
+        		if (xpl_trig_register & OUTPUT) {
         		    output_handler_timer();
-        		    xpl_trig_register &= !OUTPUT; 
-        		} else if (xpl_trig_register & INPUT) {
+        		    xpl_trig_register ^= OUTPUT; 
+        		} 
+        		if (xpl_trig_register & INPUT) {
         		    input_handler_timer();
-        		    xpl_trig_register &= !INPUT;        		    
-        		} else if (xpl_trig_register & WRITE_EEPROM) {
+        		    xpl_trig_register ^= INPUT;        		    
+        		} 
+        		if (xpl_trig_register & WRITE_EEPROM) {
                     // need to write the eeprom when we are not busy handling the message
                     // interrupts will be disabled just before writing to the eeprom        		
         		    xpl_handle_write_eeprom();
-        		    xpl_trig_register &= !WRITE_EEPROM;
-        		} else {
-					xpl_trig_register = 0;
-     	        }
+        		    xpl_trig_register ^= WRITE_EEPROM;
+        		}     	       
 			}
 
 			// Send hbeat every 5 minutes when configured

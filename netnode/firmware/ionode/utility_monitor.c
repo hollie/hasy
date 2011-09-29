@@ -65,6 +65,9 @@ void main()
 
     // initialise the output board
 	output_init();	
+	
+	// initialise the input board
+	input_init();
 
     // Do the status LED flicker
 	while (blink_count++ < (output_count/8 + input_count/8)){

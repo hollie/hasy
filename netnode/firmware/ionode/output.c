@@ -9,11 +9,10 @@
 * target hardware : NetNode
 *************************************************************/
 
-#include "output.h"
-
 #include <usart.h>
 #include <delays.h>
 
+#include "output.h"
 #include "utility_monitor.h"
 
 volatile unsigned char request_busy=0;
@@ -29,8 +28,8 @@ struct output_identification output_up_state[OUTPUT_MAX_PARALLEL_IDS];
 unsigned char output_up_state_count = 0;
 
 void write(unsigned char id, unsigned char enabled) {
-    char i = 0; // output_bits
-    char o = 0; // number of output up states
+    unsigned char i = 0; // output_bits
+    unsigned char o = 0; // number of output up states
     unsigned char cal_output_data=0;
     
     if (id <= output_count && request_busy == 0) { 
@@ -56,8 +55,7 @@ void write(unsigned char id, unsigned char enabled) {
             }                     
             Delay10TCYx(1);   // delay 312ns      
             output_clk = OUTPUT_ON; 
-            Delay10TCYx(1);   // delay 312ns
-            //Delay1KTCYx(32);   // delay 1ms
+            Delay10TCYx(1);   // delay 312ns     
             output_clk = OUTPUT_OFF;
             Delay10TCYx(1);   // delay 312ns      
         }    
@@ -66,39 +64,11 @@ void write(unsigned char id, unsigned char enabled) {
     }
     output_str = OUTPUT_ON;      
     Delay10TCYx(1);   // delay 312ns
-    //Delay1KTCYx(32);   // delay 1ms
-    output_str = OUTPUT_OFF;
-}  
-void write_all_enabled() {
-    char i = 0; // output_bits
-    char o = 0; // number of output up states
-    
-    
-        request_busy = 1;       
-        output_clk = OUTPUT_OFF;        
-                      
-        for (i=output_count; i>0; i--) {
-            output_data = 1;
-            
-            Delay10TCYx(1);   // delay 312ns      
-            output_clk = OUTPUT_ON; 
-            Delay10TCYx(1);   // delay 312ns
-            //Delay1KTCYx(32);   // delay 1ms
-            output_clk = OUTPUT_OFF;
-            Delay10TCYx(1);   // delay 312ns
-            //Delay1KTCYx(32);   // delay 
-        }    
-        output_data = OUTPUT_OFF;                                 
-        request_busy = 0;        
-    
-    output_str = OUTPUT_ON;      
-    Delay10TCYx(1);   // delay 312ns
-    //Delay1KTCYx(32);   // delay 1ms
     output_str = OUTPUT_OFF;
 }  
 
 void output_init(void) {
-    char count = 0;
+    unsigned char count = 0;
     output_str = OUTPUT_OFF;  
     output_data = OUTPUT_OFF;  
     output_clk = OUTPUT_OFF;  

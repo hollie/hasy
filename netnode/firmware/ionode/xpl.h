@@ -51,13 +51,15 @@ enum XPL_DEVICE_CONFIGURATION     {NODE_CONFIGURED = 1,     \\
 						            INPUTS_CONFIGURED = 8   \\
                                    };
 
+// Used by the print_header function.
+enum XPL_MSG_TYPE {STAT, TRIG};
 
 // public functions called outside xpl lib
 void xpl_init(void);
 void xpl_handler(void);
 void xpl_fifo_push_byte(char);
 void xpl_trig(enum XPL_DEVICE_TYPE sensor);
-
+void xpl_send_sensor_basic_input(enum XPL_MSG_TYPE msg_type,const rom far char* device, unsigned char id, unsigned short count);
 
 
 // For flow control of the UART
