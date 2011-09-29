@@ -598,24 +598,24 @@ void xpl_handler(void) {
 			if (xpl_trig_register != 0 /*&&  == 1 /* last && is for test only */) {
     			if (xpl_trig_register & GAS) {        			        			
         		    xpl_send_device_current(TRIG,GAS);
-        		    xpl_trig_register &= GAS;
+        		    xpl_trig_register &= !GAS;
                 } else if (xpl_trig_register & WATER) {
         		    xpl_send_device_current(TRIG,WATER);
-        		    xpl_trig_register &= WATER;
+        		    xpl_trig_register &= !WATER;
         		} else if (xpl_trig_register & ELEC) {
         		    xpl_send_device_current(TRIG,ELEC);	
-        		    xpl_trig_register &= ELEC; 
+        		    xpl_trig_register &= !ELEC; 
         		} else if (xpl_trig_register & OUTPUT) {
         		    output_handler_timer();
-        		    xpl_trig_register &= OUTPUT; 
+        		    xpl_trig_register &= !OUTPUT; 
         		} else if (xpl_trig_register & INPUT) {
         		    input_handler_timer();
-        		    xpl_trig_register &= INPUT;        		    
+        		    xpl_trig_register &= !INPUT;        		    
         		} else if (xpl_trig_register & WRITE_EEPROM) {
                     // need to write the eeprom when we are not busy handling the message
                     // interrupts will be disabled just before writing to the eeprom        		
         		    xpl_handle_write_eeprom();
-        		    xpl_trig_register &= WRITE_EEPROM;
+        		    xpl_trig_register &= !WRITE_EEPROM;
         		} else {
 					xpl_trig_register = 0;
      	        }
