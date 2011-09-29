@@ -1,0 +1,16 @@
+#!/bin/bash 
+
+# Perform a readout of the historic power consumption 
+# It will start a read at address 0 and it will step through
+# all log addresses up to the address specified at the command line.
+if [ -n "$3" ]
+then
+    for i in `seq 0 $3`
+    do
+	echo "Requesting historic power info for circle $1 on address $i..."
+	xpl-sender -t $1 -c plugwise.basic -m xpl-cmnd command=history device=$2 address=$i -w 1
+     done
+else
+   echo "Please pass the target xpl device, the cicrle id and the end address to read!";
+fi
+
