@@ -22,7 +22,7 @@
 
 // Define port directions 1=input
 #define PortAConfig  	0xEF  //  11101111
-#define PortBConfig  	0x07  //  00000111
+#define PortBConfig  	0x17  //  00010111
 #define PortCConfig  	0xC5  //  11000101 
  	
 
