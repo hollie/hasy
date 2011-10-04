@@ -11,8 +11,8 @@ void input_handler_timer(void);
 #define MAX_BOARD_INPUTS 5
 
 // move to input
-#define input_data PORTCbits.RC0
-#define input_clk  PORTCbits.RC3
-#define input_ps   PORTCbits.RC4
+#define input_data PORTBbits.RB4
+#define input_clk  PORTBbits.RB3
+#define input_ps   PORTBbits.RB5
 
 #endif // _INPUT_H_

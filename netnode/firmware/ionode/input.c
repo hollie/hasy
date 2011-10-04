@@ -40,7 +40,7 @@ void read(void) {
         input_clk = 1;        
         Delay10TCYx(1); // delay 312ns
         
-        input_state[array_count] |= input_data << int_count;
+        input_state[array_count] |= (input_data << int_count);
         
         input_clk = 0;
         Delay10TCYx(1); // delay 312ns
@@ -67,22 +67,22 @@ void input_init() {
     
     // read current inputs
     read();
-      
+            
     //send sensor current states    
     for (i = 0; i<input_count;i++) {
         if (int_count == 16) {
             array_count++;
             int_count = 0;
-            mask = 1;
         }      
         
-        result = input_state[array_count] & mask;
+        result = input_state[array_count] >> int_count;
+        
+        result &= mask;
                                                    
         xpl_send_sensor_basic_input(STAT,"input",((int_count+1) + (16 * array_count)), result);
                         
         int_count++; 
-        mask = mask << 1;
-        
+             
         Delay1KTCYx(32);   // delay 1ms
     }    
 }    
@@ -103,7 +103,7 @@ void input_handler_timer(void) {
         // read current state
         read();
                         
-        result = input_state_shadow[array_count] ^ input_state[array_count];
+        result = (input_state_shadow[array_count] ^ input_state[array_count] ) >> int_count;
         
         //check delta
         for (i = 0; i<input_count;i++) {
@@ -111,17 +111,17 @@ void input_handler_timer(void) {
                 array_count++;
                 int_count = 0;
                 mask = 1;
-                result = input_state_shadow[array_count] ^ input_state[array_count];
+                result = (input_state_shadow[array_count] ^ input_state[array_count]) >> int_count;
             }      
             
             if (result & mask) {
                 // detected a difference, need to send message
                 xpl_send_sensor_basic_input(STAT,"input",((int_count+1) + (16 * array_count)), (input_state[array_count] & mask) >> int_count);        
+                
+                Delay1KTCYx(32);   // delay 1ms
             }                                   
             int_count++; 
-            mask = mask << 1;
-            
-            Delay1KTCYx(32);   // delay 1ms
+            mask = mask << int_count;                        
         }                    
     }    
 }    
