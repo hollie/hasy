@@ -8,7 +8,7 @@
 
 void input_handler_timer(void);    
 
-#define MAX_BOARD_INPUTS 5
+#define MAX_BOARD_INPUTS 10
 
 // move to input
 #define input_data PORTBbits.RB4
