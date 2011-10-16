@@ -23,6 +23,19 @@ unsigned char input_count = 0;   // number inputs on the extension board - value
 
 volatile unsigned char run_timer = 1;
 
+unsigned char swap_byte(unsigned char c)
+{	
+    unsigned char result=0;
+    char i;
+    for(i=0;i<8;++i)
+    {	
+        result=result<<1;
+        result|=(c&1);
+        c=c>>1;
+    }
+    return result;
+}
+
 void read(void) {
     unsigned char i = 0; // input_bits
     unsigned char int_count = 0;
@@ -41,7 +54,7 @@ void read(void) {
      
     input_states[array_count] = 0;
     for (i=0; i<input_count; i++) {
-        if (int_count == 8) {
+        if (int_count == 8) {            
             array_count++;
             int_count = 0;       
             input_states[array_count] = 0; 
@@ -63,6 +76,14 @@ void read(void) {
                                 
         int_count++; 
     }           
+    
+    if (array_count < MAX_BOARD_INPUTS - 2) {
+        array_count++;           
+    }       
+    for (i=0;i<array_count;i++) {
+        input_states[i] = swap_byte(input_states[i]);   
+    }    
+    
     run_timer = 1;
 }    
 
