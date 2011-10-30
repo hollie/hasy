@@ -236,15 +236,13 @@ void xpl_send_stat_config(void){
 	return;
 }
 
-void xpl_send_sensor_basic_input(enum XPL_MSG_TYPE msg_type,const rom far char* device, unsigned char id, unsigned int count) {
+void xpl_send_sensor_basic_input(enum XPL_MSG_TYPE msg_type,unsigned char id, unsigned int count) {
     xpl_print_header(msg_type);
-    printf("sensor.basic\n{\ndevice=");
-    printf(device);
-    printf("%i",id);
+    printf("sensor.basic\n{\ndevice=%i",id);
     if (count == 0) {
-        printf("\ntype=input\ncurrent=LOW\n}\n");
+        printf("\ntype=input\ncurrent=DOWN\n}\n");
     } else {
-        printf("\ntype=input\ncurrent=HIGH\n}\n");        
+        printf("\ntype=input\ncurrent=UP\n}\n");        
     }    
 	return;
 }

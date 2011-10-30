@@ -116,7 +116,7 @@ void input_init() {
         
         result &= mask;
                                                    
-        xpl_send_sensor_basic_input(STAT,"input",((int_count+1) + (8 * array_count)), result);
+        xpl_send_sensor_basic_input(STAT,((int_count+1) + (8 * array_count)), result);
                         
         int_count++; 
              
@@ -158,7 +158,7 @@ void input_handler_timer(void) {
                                                 
             if ((result & mask) > 0) {                
                 // detected a difference, need to send message
-                xpl_send_sensor_basic_input(STAT,"input",((int_count+1) + (8 * array_count)), ((input_states[array_count] & mask) >> int_count));        
+                xpl_send_sensor_basic_input(STAT,((int_count+1) + (8 * array_count)), ((input_states[array_count] & mask) >> int_count));        
                 
                 Delay1KTCYx(32);   // delay 1ms
             }                                   
