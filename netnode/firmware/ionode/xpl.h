@@ -59,7 +59,7 @@ void xpl_init(void);
 void xpl_handler(void);
 void xpl_fifo_push_byte(char);
 void xpl_trig(enum XPL_DEVICE_TYPE sensor);
-void xpl_send_sensor_basic_input(enum XPL_MSG_TYPE msg_type,const rom far char* device, unsigned char id, unsigned int count);
+void xpl_send_sensor_basic_input(enum XPL_MSG_TYPE msg_type,unsigned char id, unsigned int count);
 
 
 // For flow control of the UART
