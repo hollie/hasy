@@ -177,6 +177,9 @@ void xpl_send_hbeat(void){
 	if (xpl_node_configuration & ONE_WIRE_PRESENT){
 		printf("tempsensors=%i\n", oo_get_devicecount());
 	}
+	
+	printf("inputs=%i\n",input_count);
+	printf("outputs=%i\n",output_count);
 
 #ifdef PWM_ENABLED
 	printf("pwmout=%i\n", pwm_value);
@@ -238,7 +241,7 @@ void xpl_send_stat_config(void){
 
 void xpl_send_sensor_basic_input(enum XPL_MSG_TYPE msg_type,unsigned char id, unsigned int count) {
     xpl_print_header(msg_type);
-    printf("sensor.basic\n{\ndevice=%i",id);
+    printf("sensor.basic\n{\ndevice=input%i",id);
     if (count == 0) {
         printf("\ntype=input\ncurrent=DOWN\n}\n");
     } else {
@@ -411,10 +414,11 @@ void xpl_init_instance_id(void) {
 		// When the first char is 0xFF, flash is uninitialised
 		if (count == 0 && xpl_instance_id[0] == 0xFF) {
 			sprintf(xpl_instance_id, "default");
+			eeprom_write(XPL_EEPROM_OUPUTS_COUNT,'0');
+            eeprom_write(XPL_EEPROM_INPUTS_COUNT,'0');
 			break;
 		}
 	}
-	
 	output_count = eeprom_read(XPL_EEPROM_OUPUTS_COUNT);
 	input_count = eeprom_read(XPL_EEPROM_INPUTS_COUNT);
 }    
