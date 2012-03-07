@@ -31,11 +31,12 @@
 #include "eeprom.h"
 
 // Global variables used for message passing between ISR and main code
-volatile int time_ticks = 0;
+// Set time_ticks to 295 so that we send a heartbeat message withing 5 seconds after reset
+volatile unsigned short time_ticks   = 295;
 volatile unsigned char time_ticks_oo = 0;
-volatile char debounce_water;
-volatile char debounce_gas;
-volatile char debounce_elec;
+volatile unsigned char debounce_water;
+volatile unsigned char debounce_gas;
+volatile unsigned char debounce_elec;
 
 //////////////////////////////////////////////////////////////////
 // Main loop
@@ -57,10 +58,6 @@ void main()
 
 	// Init the xPL library
 	xpl_init();
-	// Set time_ticks to 295 so that we send a heartbeat message withing 5 seconds
-	time_ticks = 295;
-
-	time_ticks_oo = 0;
 
 	/* // DEBUG 
 	if (oo_get_devicecount()){
