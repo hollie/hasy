@@ -36,9 +36,13 @@
 enum XPL_DEVICE_TYPE      {GAS = 1,     \\
                            WATER = 2,   \\
                            ELEC = 4,    \\
-						   TEMP = 8,    \\
-						   PWM = 16,    \\
+                           TEMP = 8,    \\
+                           PWM = 16,    \\
                            };
+
+enum XPL_DEVICE_CONFIGURATION     {NODE_CONFIGURED = 1,     \\
+                                   ONE_WIRE_PRESENT = 2,    \\
+                                   };
 
 // public functions called outside xpl lib
 void xpl_init(void);
