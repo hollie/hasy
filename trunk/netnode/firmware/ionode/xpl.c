@@ -93,8 +93,7 @@ enum XPL_CMD_MSG_TYPE_RSP {HEARTBEAT_MSG_TYPE = 0,              \\
                            ELEC_DEVICE_CURRENT_MSG_TYPE,        \\
 						   PWM_CURRENT_MSG_TYPE,                \\
 						   FLOOD_NETWORK_MSG_TYPE,              \\
-						   OUTPUT_DEVICE_CURRENT_MSG_TYPE,      \\
-						   OUTPUT_ACK_MSG_TYPE                  \\
+						   OUTPUT_DEVICE_CURRENT_MSG_TYPE      \\						   
                            };
 
 enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void);
@@ -302,13 +301,6 @@ void xpl_send_sensor_basic_temperature(enum XPL_MSG_TYPE msg_type, unsigned char
 
 	return;
 }
-
-void xpl_send_output_ack(void) {
-    xpl_print_header(STAT);
-	printf("control.basic\n{\ncurrent=ack\n}\n");	
-	return;
-}    
-
 void xpl_send_sensor_basic_pwm(enum XPL_MSG_TYPE msg_type) {
 	xpl_print_header(msg_type);
 	printf("sensor.basic\n{\ndevice=pwmout\n");
@@ -336,27 +328,21 @@ void xpl_send_device_current(enum XPL_MSG_TYPE msg_type,enum XPL_DEVICE_TYPE typ
             if (msg_type == STAT) {
                 count = xpl_count_gas;      
                 xpl_count_gas = xpl_count_gas - count; 
-            } else if (xpl_count_gas < USHRT_MAX){ 
-			    xpl_count_gas++;		       
-            }  
+            } 
             xpl_send_sensor_basic(msg_type,"gas",count);
             break;   
         case WATER:
             if (msg_type == STAT) {
                 count = xpl_count_water;  
                 xpl_count_water = xpl_count_water - count; 
-            } else if (xpl_count_water < USHRT_MAX){ 
-			    xpl_count_water++;		    
-            }   
+            } 
             xpl_send_sensor_basic(msg_type,"water",count);              
             break;
         case ELEC:
             if (msg_type == STAT) {
                 count = xpl_count_elec;
                 xpl_count_elec = xpl_count_elec - count; 
-            } else if (xpl_count_elec < USHRT_MAX){ 
-			    xpl_count_elec++;
-		    }    
+            }  
             xpl_send_sensor_basic(msg_type,"elec",count);
             break;
 		case TEMP:
@@ -581,12 +567,7 @@ void xpl_handler(void) {
 					for (index = 0; index < 10; index++) {
 						xpl_send_device_current(STAT, PWM);
  					}
-					break;
-			    case OUTPUT_ACK_MSG_TYPE:
-			        // This send ack has been implemented to make sure each request to the node is acked back to the requestor
-			        // Note: this message is not in line with XPL_PROJECT definitions			        
-			        xpl_send_output_ack();
-			        break;
+					break;			    
 				default:
 					break;
     		}    
@@ -607,7 +588,7 @@ void xpl_handler(void) {
 			} 
 			
 			// send trig message out once we receice the interrupt
-			if (xpl_trig_register != 0 /*&&  == 1 /* last && is for test only */) {
+			if (xpl_trig_register != 0) {
     			if (xpl_trig_register & GAS) {        			        			
         		    xpl_send_device_current(TRIG,GAS);
         		    xpl_trig_register ^= GAS;
@@ -837,15 +818,15 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
 		case WAITING_CMND_CONTROL_OUPUT_CURRENT:
 		    if (strcmpram2pgm("current=enable", xpl_rx_buffer_shadow) == 0 || strcmpram2pgm("current=high", xpl_rx_buffer_shadow) == 0 || strcmpram2pgm("current=on", xpl_rx_buffer_shadow) == 0)	{
     		    output_state_enable(xpl_output_id);
-    		    return OUTPUT_ACK_MSG_TYPE;
+    		    return OUTPUT_DEVICE_CURRENT_MSG_TYPE;
     		} else if (strcmpram2pgm("current=disable", xpl_rx_buffer_shadow) == 0 || strcmpram2pgm("current=low", xpl_rx_buffer_shadow) == 0 || strcmpram2pgm("current=off", xpl_rx_buffer_shadow) == 0)	{
                 output_state_disable(xpl_output_id);
-                return OUTPUT_ACK_MSG_TYPE;
+                return OUTPUT_DEVICE_CURRENT_MSG_TYPE;
     		} else if (strcmpram2pgm("current=pulse", xpl_rx_buffer_shadow) == 0) {
     		    xpl_msg_state = WAITING_CMND_CONTROL_OUPUT_CURRENT_PULSE;
     		} else if (strcmpram2pgm("current=toggle", xpl_rx_buffer_shadow) == 0) {
                 output_state_toggle(xpl_output_id);
-                return OUTPUT_ACK_MSG_TYPE;
+                return OUTPUT_DEVICE_CURRENT_MSG_TYPE;
     		} else {
     		    xpl_msg_state = WAITING_CMND;    
     		}    
@@ -854,7 +835,7 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
 		case WAITING_CMND_CONTROL_OUPUT_CURRENT_PULSE:
 		    if (strncmpram2pgm("data1=", xpl_rx_buffer_shadow,6) == 0) {
     		    output_state_pulse(xpl_output_id,xpl_convert_2_ushort(xpl_rx_buffer_shadow+6));    		    
-    		    return OUTPUT_ACK_MSG_TYPE;    		    
+    		    return OUTPUT_DEVICE_CURRENT_MSG_TYPE;    		    
     		} else {
     		    xpl_msg_state = WAITING_CMND;
     		} 
@@ -881,6 +862,40 @@ enum XPL_CMD_MSG_TYPE_RSP xpl_handle_message_part(void) {
 		    break;	    
     }   
     return -1;
+}
+
+// Increment the counter for the sensor and ensure a trig message is sent out.
+// This function should be called from the sensor pin interrupt handler
+void xpl_trig(enum XPL_DEVICE_TYPE sensor){
+	switch (sensor){
+	case WATER:
+		if (xpl_count_water < UINT_MAX){ 
+			xpl_count_water++;
+		}
+		xpl_trig_register |= WATER;
+		break;
+	case GAS:
+		if (xpl_count_gas < UINT_MAX){ 
+			xpl_count_gas++;
+		}
+		xpl_trig_register |= GAS;
+		break;
+	case ELEC:
+		if (xpl_count_elec < UINT_MAX){ 
+			xpl_count_elec++;
+		}
+		xpl_trig_register |= ELEC;
+		break;
+	case INPUT:	    
+		xpl_trig_register |= INPUT;		
+	    break;
+	case OUTPUT:
+	    xpl_trig_register |= OUTPUT;
+	    break;
+	default:
+		printf("Error: invalid sensor");
+		break;
+	}
 }
 
 		

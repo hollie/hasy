@@ -2,7 +2,8 @@
 * xPL library
 *
 * (c) 2011
-* Authors: Dirk Buekenhoudt
+* Authors: Lieven Hollevoet
+*          Dirk Buekenhoudt
 **************************************************************
 * target device   : PIC18F2320
 * clockfreq       : 32 MHz (internal oscillator)
@@ -15,7 +16,7 @@
 #define XPL_DEVICE_ID "utilmon"
 
 // VERSION number
-#define XPL_VERSION_MAJOR 5
+#define XPL_VERSION_MAJOR 1
 #define XPL_VERSION_MINOR 0
 
 // Uncomment the next line to enable PWM output 
