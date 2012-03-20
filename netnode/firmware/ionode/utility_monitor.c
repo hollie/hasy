@@ -42,7 +42,6 @@ volatile unsigned char debounce_water;
 volatile unsigned char debounce_gas;
 volatile unsigned char debounce_elec;
 
-extern unsigned char xpl_trig_register;
 extern unsigned char output_count;
 extern unsigned char input_count;
 
@@ -224,7 +223,7 @@ void high_isr(void){
 		if (debounce_water)	{
 			debounce_water--;			
 			if (debounce_water == 0 && PORTBbits.RB0 == 0) {
-				xpl_trig_register |= WATER;
+				xpl_trig(WATER);				
 				green_led = LED_OFF;
 			}
 		}
@@ -232,7 +231,7 @@ void high_isr(void){
 		if (debounce_gas) { 
 			debounce_gas--;			
 			if (debounce_gas == 0   && PORTBbits.RB1 == 0) { 
-				xpl_trig_register |= GAS;
+				xpl_trig(GAS);				
 				green_led = LED_OFF;
 			}
 		}
@@ -240,12 +239,12 @@ void high_isr(void){
 		if (debounce_elec) {
 			debounce_elec--;
 			if (debounce_elec == 0  && PORTBbits.RB2 == 0) { 								
-				xpl_trig_register |= ELEC;
+    			xpl_trig(ELEC);				
 				green_led = LED_OFF;
 			}
 		}		
-		xpl_trig_register |= OUTPUT;
-		xpl_trig_register |= INPUT;		
+		xpl_trig(INPUT);
+		xpl_trig(OUTPUT);		
 	}
 	return;
 }
