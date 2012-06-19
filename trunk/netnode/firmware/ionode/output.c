@@ -11,11 +11,10 @@
 
 #include <usart.h>
 #include <delays.h>
+#include <string.h>
 
 #include "output.h"
 #include "utility_monitor.h"
-
-volatile unsigned char request_busy=0;
 
 unsigned char output_count = 0;   // number outputs on the extension board - value initialised by eeprom value
 
@@ -32,8 +31,7 @@ void write(unsigned char id, unsigned char enabled) {
     unsigned char o = 0; // number of output up states
     unsigned char cal_output_data=0;
     
-    if (id <= output_count && request_busy == 0) { 
-        request_busy = 1;       
+    if (id <= output_count) {       
         output_clk = OUTPUT_OFF;        
                       
         for (i=output_count; i>0; i--) {
@@ -59,21 +57,24 @@ void write(unsigned char id, unsigned char enabled) {
             output_clk = OUTPUT_OFF;
             Delay10TCYx(1);   // delay 312ns      
         }    
-        output_data = OUTPUT_OFF;                                 
-        request_busy = 0;        
-    }
-    output_str = OUTPUT_ON;      
-    Delay10TCYx(1);   // delay 312ns
-    output_str = OUTPUT_OFF;
+        output_data = OUTPUT_OFF; 
+        
+        output_str = OUTPUT_ON;      
+        Delay10TCYx(1);   // delay 312ns
+        output_str = OUTPUT_OFF;   
+    }    
 }  
 
 void output_init(void) {
     unsigned char count = 0;
+    char i = 0;
     output_str = OUTPUT_OFF;  
     output_data = OUTPUT_OFF;  
     output_clk = OUTPUT_OFF;  
     
-    output_state_disable(0);
+    for (i=1;i<=output_count;i++) {
+        output_state_disable(i);        
+    }
     
     while (count++ < output_count/8){		
 		green_led = LED_ON;
@@ -98,19 +99,20 @@ void output_state_pulse(unsigned char id, unsigned short duration) {  // duratio
     unsigned char i = 0;
     unsigned char found = 0;
     
-    output_state_enable(id);    
-    // Timer will set output back to 0 see output_handler_timer function
- 
+    // Only enable if we still have some room, pulse will be ignored if max is reached
     if (output_up_state_count < OUTPUT_MAX_PARALLEL_IDS && id <= output_count) {
+    
+        output_state_enable(id);    
+        // Timer will set output back to 0 see output_handler_timer function
         
-        // look if ths one is already enabled
+        // look if the one is already enabled
         for (i=0; i < output_up_state_count; i++) {
-            if (output_up_state[output_up_state_count].id == id) {
+            if (output_up_state[i].id == id) {
                 // reset timing
-                output_up_state[output_up_state_count].counter = duration/20 + 1;  // timer to disable is set to 20ms
+                output_up_state[i].counter = duration/20 + 1;  // timer to disable is set to 20ms
                 found = 1;
                 break;
-            }    
+            }               
         }    
         if (found == 0) {
             output_up_state[output_up_state_count].id = id;
@@ -125,11 +127,19 @@ void output_state_toggle(unsigned char id) {
     // TODO implementation      
 }   
 
+void remove_output_state_at(char position) {
+    char i = 0;
+    
+    for (i=position+1;i<output_up_state_count;i++) {
+       output_up_state[i-1].counter = output_up_state[i].counter;
+       output_up_state[i-1].id = output_up_state[i].id;
+    }    
+}    
+
 void output_handler_timer(void) {
     char i = 0;
     
-    // flash the green led when output is enabled
-    green_led = LED_OFF;
+    // flash the green led when output is enabled    
     if (output_up_state_count > 0) {
         green_led = LED_ON;
         for (i=output_up_state_count-1; i>=0; i--) {
@@ -137,18 +147,19 @@ void output_handler_timer(void) {
                 output_state_disable(output_up_state[i].id);              
                 output_up_state[i].counter = 0;
                 
-                // make sure to decrement only if we are treating the latest one
-                if (i == output_up_state_count-1) {
-                    output_up_state_count--;
-                }                
-            } else if (output_up_state[i].counter > 0) {
+                if (output_up_state_count > 1) {
+                    remove_output_state_at(i);
+                }                                                   
+                output_up_state_count--;                                
+            } else if (output_up_state[i].counter > 1) {
                 output_up_state[i].counter--;
             }    
         }                
-    }    
+    } else {
+        green_led = LED_OFF;
+    }
 }    
 
-// return should be bit type
 const char* output_get_state(unsigned char id) {
     unsigned char i=0;
     

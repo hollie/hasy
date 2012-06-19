@@ -312,7 +312,7 @@ void xpl_send_sensor_basic_output(enum XPL_MSG_TYPE msg_type) {
     char result[4];
     
 	xpl_print_header(msg_type);
-	printf("sensor.basic\n{\ndevice=output%i\n",xpl_output_id+1);       
+	printf("sensor.basic\n{\ndevice=output%i\n",xpl_output_id);       
    
     strcpypgm2ram(result,output_get_state(xpl_output_id));  
     	
